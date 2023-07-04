@@ -4,8 +4,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shop_app/app/core/utils/components/app_components.dart';
 
-Future<File?> pickImageFromGallery(BuildContext context) async {
+Future<File?> pickImageFromGallery() async {
   File? image;
   try {
     final pickedImage =
@@ -14,12 +15,12 @@ Future<File?> pickImageFromGallery(BuildContext context) async {
       image = File(pickedImage.path);
     }
   } catch (e) {
-    Get.snackbar('', e.toString());
+    AppComponents.showCustomSnackBar(e.toString());
   }
   return image;
 }
 
-Future<File?> pickImageFromCamera(BuildContext context) async {
+Future<File?> pickImageFromCamera() async {
   File? image;
   try {
     final pickedImage =
@@ -28,12 +29,12 @@ Future<File?> pickImageFromCamera(BuildContext context) async {
       image = File(pickedImage.path);
     }
   } catch (e) {
-    Get.snackbar('', e.toString());
+    AppComponents.showCustomSnackBar(e.toString());
   }
   return image;
 }
 
-Future<File?> pickVideoFromGallery(BuildContext context) async {
+Future<File?> pickVideoFromGallery() async {
   File? video;
   try {
     final pickedVideo =
@@ -42,12 +43,12 @@ Future<File?> pickVideoFromGallery(BuildContext context) async {
       video = File(pickedVideo.path);
     }
   } catch (e) {
-    Get.snackbar('', e.toString());
+    AppComponents.showCustomSnackBar(e.toString());
   }
   return video;
 }
 
-Future<File?> pickVideoFromCamera(BuildContext context) async {
+Future<File?> pickVideoFromCamera() async {
   File? video;
   try {
     final pickedVideo =
@@ -56,7 +57,7 @@ Future<File?> pickVideoFromCamera(BuildContext context) async {
       video = File(pickedVideo.path);
     }
   } catch (e) {
-    Get.snackbar('', e.toString());
+    AppComponents.showCustomSnackBar(e.toString());
   }
   return video;
 }

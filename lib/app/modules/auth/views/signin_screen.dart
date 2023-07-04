@@ -1,6 +1,6 @@
 import 'package:shop_app/app/modules/auth/controllers/auth_controller.dart';
 
-import '../../../core/utils/components/components.dart';
+import '../../../core/utils/components/app_components.dart';
 import '../../../core/widgets/app_text_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -26,22 +26,22 @@ class SignInView extends GetView<AuthController> {
       String password = controller.passwordIC.text.trim();
 
       if (email.isEmpty) {
-        Components.showCustomSnackBar(
+        AppComponents.showCustomSnackBar(
           'Type in your email address',
           title: 'Email address',
         );
       } else if (!GetUtils.isEmail(email)) {
-        Components.showCustomSnackBar(
+        AppComponents.showCustomSnackBar(
           'Type in a valid email address',
           title: 'Valid email address',
         );
       } else if (password.isEmpty) {
-        Components.showCustomSnackBar(
+        AppComponents.showCustomSnackBar(
           'Type in your password',
           title: 'password',
         );
       } else if (password.length < 6) {
-        Components.showCustomSnackBar(
+        AppComponents.showCustomSnackBar(
           'Password can not less than six characters',
           title: 'password',
         );
@@ -113,7 +113,7 @@ class SignInView extends GetView<AuthController> {
                     AppTextField(
                       keyboardType: TextInputType.emailAddress,
                       textController: controller.emailIC,
-                      hintText: 'Email',
+                      hintText: 'email',
                       icon: Icons.email,
                     ),
                     ),
@@ -126,7 +126,7 @@ class SignInView extends GetView<AuthController> {
                       child: GetBuilder<AuthController>(builder: (authCtrl) {
                         return AppTextField(
                           textController: controller.passwordIC,
-                          hintText: 'Password',
+                          hintText: 'password',
                           icon: Icons.password,
                           isObscure: authCtrl.isObscure,
                           suffixIcon: InkWell(
@@ -137,7 +137,7 @@ class SignInView extends GetView<AuthController> {
                               authCtrl.isObscure
                                   ? Icons.visibility_outlined
                                   : Icons.visibility_off_outlined,
-                              color: AppColors.yellowColor,
+                              color: AppColors.originColor,
                             ),
                           ),
                         );

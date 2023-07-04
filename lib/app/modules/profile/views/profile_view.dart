@@ -103,7 +103,7 @@ class ProfileView extends GetView<UserController> {
                                             onTap: () {},
                                             icon: Icons.phone,
                                             backgroundColor:
-                                                AppColors.yellowColor,
+                                                AppColors.originColor,
                                             iconColor: Colors.white,
                                             iconSize:
                                                 Dimensions.height10 * 5 / 2,
@@ -123,7 +123,7 @@ class ProfileView extends GetView<UserController> {
                                             onTap: () {},
                                             icon: Icons.email,
                                             backgroundColor:
-                                                AppColors.yellowColor,
+                                                AppColors.originColor,
                                             iconColor: Colors.white,
                                             iconSize:
                                                 Dimensions.height10 * 5 / 2,
@@ -145,7 +145,7 @@ class ProfileView extends GetView<UserController> {
                                             onTap: () {},
                                             icon: Icons.location_on,
                                             backgroundColor:
-                                                AppColors.yellowColor,
+                                                AppColors.originColor,
                                             iconColor: Colors.white,
                                             iconSize:
                                                 Dimensions.height10 * 5 / 2,
@@ -183,7 +183,7 @@ class ProfileView extends GetView<UserController> {
                                               Get.find<AuthController>().clearSharedData();
                                               Get.find<CartController>().clear();
                                               Get.find<CartController>().clearCartHistory();
-                                              Get.offNamed(Routes.SIGN_IN);
+                                              Get.toNamed(Routes.SIGN_IN);
                                             }
                                           },
                                           appIcon: AppIcon(

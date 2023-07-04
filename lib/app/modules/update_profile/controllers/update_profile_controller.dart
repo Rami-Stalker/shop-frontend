@@ -5,7 +5,7 @@ import 'package:shop_app/app/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/app/modules/update_profile/repositories/update_profile_repository.dart';
 
-import '../../../core/utils/components/components.dart';
+import '../../../core/utils/components/app_components.dart';
 import '../../../controller/user_controller.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
@@ -94,7 +94,7 @@ class UpdateProfileController extends GetxController implements GetxService {
             phone: jsonDecode(res.body)['phone'],
           );
           userCtrl.setUserFromModel(user);
-          Components.showCustomSnackBar(
+          AppComponents.showCustomSnackBar(
             "Update your Data Successfully",
             title: 'Update information',
             color: AppColors.mainColor,
@@ -103,7 +103,7 @@ class UpdateProfileController extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 }

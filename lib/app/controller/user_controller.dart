@@ -5,6 +5,7 @@ import '../models/user_model.dart';
 class UserController extends GetxController{
   UserModel _user = UserModel(
     id: '',
+    photo: '',
     name: '',
     email: '',
     password: '',

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:shop_app/app/core/utils/app_colors.dart';
-import 'package:shop_app/app/core/utils/components/components.dart';
+import 'package:shop_app/app/core/utils/components/app_components.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -89,7 +89,7 @@ class AdminController extends GetxController implements GetxService {
       httpErrorHandle(
         res: res,
         onSuccess: () {
-          Components.showCustomSnackBar(
+          AppComponents.showCustomSnackBar(
             "Product Added Successfully!",
             title: "Product",
             color: AppColors.mainColor,
@@ -99,7 +99,7 @@ class AdminController extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 
@@ -126,7 +126,7 @@ class AdminController extends GetxController implements GetxService {
       _isLoading = false;
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 
@@ -173,7 +173,7 @@ class AdminController extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 
@@ -196,7 +196,7 @@ class AdminController extends GetxController implements GetxService {
       httpErrorHandle(
         res: res,
         onSuccess: () {
-          Components.showCustomSnackBar(
+          AppComponents.showCustomSnackBar(
             'Update Seccessfully',
             title: 'Update',
             color: AppColors.mainColor,
@@ -206,7 +206,7 @@ class AdminController extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 
@@ -228,7 +228,7 @@ class AdminController extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 
@@ -246,7 +246,7 @@ class AdminController extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 
@@ -272,7 +272,7 @@ class AdminController extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
     return {
       'sales': sales,

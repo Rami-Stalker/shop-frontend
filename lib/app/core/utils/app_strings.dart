@@ -8,6 +8,7 @@ class AppString {
 
   //assets
   static const String IMG_PATH = 'assets/images';
+  static const String ASSETS_PERSON = '$IMG_PATH/person.jpg';
   static const String ASSETS_MOBILES = '$IMG_PATH/mobiles.png';
   static const String ASSETS_ESSENTIALS = '$IMG_PATH/essentials.jpg';
   static const String ASSETS_APPLIANCES = '$IMG_PATH/appliances.jpg';

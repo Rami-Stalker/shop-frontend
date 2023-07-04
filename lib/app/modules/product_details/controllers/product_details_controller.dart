@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:shop_app/app/modules/cart/controllers/cart_controller.dart';
 import 'package:shop_app/app/modules/product_details/repositories/product_detailes_controller.dart';
 
-
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/constants/error_handling.dart';
 import '../../../models/product_model.dart';
@@ -23,14 +22,9 @@ class ProductDetailsController extends GetxController implements GetxService {
     required int ord,
   }) async {
     try {
-      http.Response res = await productDetailsRepository.addToCart(
+      await productDetailsRepository.addToCart(
         product: product,
         ord: ord,
-      );
-
-      httpErrorHandle(
-        res: res,
-        onSuccess: () {},
       );
       update();
     } catch (e) {
@@ -43,13 +37,9 @@ class ProductDetailsController extends GetxController implements GetxService {
     required double rating,
   }) async {
     try {
-      http.Response res = await productDetailsRepository.rateProduct(
+      await productDetailsRepository.rateProduct(
           product: product, rating: rating);
 
-      httpErrorHandle(
-        res: res,
-        onSuccess: () {},
-      );
       update();
     } catch (e) {
       Get.snackbar('', e.toString());

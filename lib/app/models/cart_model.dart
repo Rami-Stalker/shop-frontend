@@ -8,7 +8,7 @@ class CartModel {
   int? price;
   String? image;
   String? name;
-  int? quantity;
+  int? userQuant;
   bool? isExist;
   String? time;
   ProductModel? product;
@@ -19,7 +19,7 @@ class CartModel {
     this.price,
     this.image,
     this.name,
-    this.quantity,
+    this.userQuant,
     this.isExist,
     this.time,
     this.product,
@@ -62,7 +62,7 @@ class CartModel {
       'price': price,
       'image': image,
       'name': name,
-      'quantity': quantity,
+      'quantity': userQuant,
       'isExist': isExist,
       'time': time,
       'product': product?.toMap(),
@@ -76,7 +76,7 @@ class CartModel {
       price: map['price'],
       image: map['image'],
       name: map['name'],
-      quantity: map['quantity']?.toInt(),
+      userQuant: map['quantity']?.toInt(),
       isExist: map['isExist'],
       time: map['time'],
       product: map['product'] != null ? ProductModel.fromMap(map['product']) : null,

@@ -84,7 +84,7 @@ class CartHistoryView extends GetView<CartController> {
                 AppIcon(
                   onTap: () => Get.toNamed(Routes.CART),
                   icon: Icons.shopping_cart_outlined,
-                  backgroundColor: AppColors.yellowColor,
+                  backgroundColor: AppColors.originColor,
                 ),
               ],
             ),

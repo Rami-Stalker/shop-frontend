@@ -1,6 +1,6 @@
 class ApiConstance {
   // base
-  static const String baseUrl = "http://192.168.13.79:3000";
+  static const String baseUrl = "http://192.168.93.79:3000";
   // admin
   static const String addProduct = "$baseUrl/admin/add-product";
   static const String getProducts = "$baseUrl/admin/get-products";
@@ -8,6 +8,8 @@ class ApiConstance {
   static const String updateProduct = "$baseUrl/admin/update-product";
   static const String getEarnings = "$baseUrl/admin/analytics";
   // auth
+  static const String sendOTP = "$baseUrl/twilio-sms/send-otp";
+  static const String verifyOTP = "$baseUrl/twilio-sms/verify-otp";
   static const String signUp = "$baseUrl/api/signup";
   static const String signIn = "$baseUrl/api/signin";
   static const String isTokenValid = "$baseUrl/tokenIsValid";

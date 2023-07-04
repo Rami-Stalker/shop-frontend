@@ -1,6 +1,6 @@
 import 'package:shop_app/app/controller/user_controller.dart';
 import 'package:shop_app/app/core/utils/app_colors.dart';
-import 'package:shop_app/app/core/utils/components/components.dart';
+import 'package:shop_app/app/core/utils/components/app_components.dart';
 import 'package:shop_app/app/core/utils/dimensions.dart';
 import 'package:shop_app/app/core/utils/hex_color.dart';
 import 'package:shop_app/app/core/widgets/custom_button.dart';
@@ -35,16 +35,15 @@ class _CheckoutViewState extends State<CheckoutView> {
 
   @override
   Widget build(BuildContext context) {
-    UserController userCtrl = Get.find<UserController>();
-    CartController cartCtrl = Get.find<CartController>();
-    List<CartModel> getItems = cartCtrl.getItems;
+    UserController userController = Get.find<UserController>();
+    CartController cartController = Get.find<CartController>();
+    List<CartModel> getItems = cartController.getItems;
 
     List<int> userQuants = [];
     List<String> productsId = [];
 
-
     for (var i = 0; i < getItems.length; i++) {
-      userQuants.add(getItems[i].quantity!);
+      userQuants.add(getItems[i].userQuant!);
       productsId.add(getItems[i].id!);
     }
 
@@ -67,7 +66,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                 AppIcon(
                   onTap: () => Get.back(),
                   icon: Icons.arrow_back_ios,
-                  backgroundColor: AppColors.yellowColor,
+                  backgroundColor: AppColors.originColor,
                 ),
                 BigText(
                   text: 'Checkout',
@@ -116,7 +115,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                                 radius: Dimensions.radius20 + 5,
                                 backgroundColor: HexColor('#FCF3CF'),
                                 child: AppIcon(
-                                  backgroundColor: AppColors.yellowColor,
+                                  backgroundColor: AppColors.originColor,
                                   iconColor: Colors.white,
                                   onTap: () {},
                                   icon: Icons.location_on,
@@ -142,11 +141,11 @@ class _CheckoutViewState extends State<CheckoutView> {
                                       children: [
                                         SmallText(
                                           overflow: TextOverflow.ellipsis,
-                                          text: userCtrl.user.phone,
+                                          text: userController.user.phone,
                                         ),
                                         SmallText(
                                           overflow: TextOverflow.ellipsis,
-                                          text: userCtrl.user.address,
+                                          text: userController.user.address,
                                         ),
                                       ],
                                     ),
@@ -169,7 +168,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         image: 'assets/images/visa1.webp',
                         title: 'Visa Card',
                         radio: Radio<Ordered>(
-                          activeColor: AppColors.yellowColor,
+                          activeColor: AppColors.originColor,
                           value: Ordered.visa,
                           groupValue: _order,
                           onChanged: (Ordered? val) {
@@ -183,7 +182,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         image: 'assets/images/google.png',
                         title: 'Google Pay',
                         radio: Radio<Ordered>(
-                          activeColor: AppColors.yellowColor,
+                          activeColor: AppColors.originColor,
                           value: Ordered.googlePay,
                           groupValue: _order,
                           onChanged: (Ordered? val) {
@@ -197,7 +196,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         image: 'assets/images/apple.png',
                         title: 'Apple Pay',
                         radio: Radio<Ordered>(
-                          activeColor: AppColors.yellowColor,
+                          activeColor: AppColors.originColor,
                           value: Ordered.applePay,
                           groupValue: _order,
                           onChanged: (Ordered? val) {
@@ -211,7 +210,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                         image: 'assets/images/cash-delivery.webp',
                         title: 'Cash on delivery',
                         radio: Radio<Ordered>(
-                          activeColor: AppColors.yellowColor,
+                          activeColor: AppColors.originColor,
                           value: Ordered.cashOnDelivery,
                           groupValue: _order,
                           onChanged: (Ordered? val) {
@@ -224,16 +223,16 @@ class _CheckoutViewState extends State<CheckoutView> {
                       SizedBox(height: Dimensions.height20),
                       ItemsWidget(
                         txt: '${getItems.length.toString()} Items',
-                        account: '\$ ${cartCtrl.totalAmount.toString()}',
+                        account: '\$ ${cartController.totalAmount.toString()}',
                       ),
                       const ItemsWidget(
                         txt: 'ShippingFee',
                         account: '\$ 100',
                       ),
-                      cartCtrl.totalOldAmount != 0 ?
+                      cartController.totalOldAmount != 0 ?
                       ItemsWidget(
                         txt: 'Discount',
-                        account: '\$ ${cartCtrl.totalOldAmount - cartCtrl.totalAmount}',
+                        account: '\$ ${cartController.totalOldAmount - cartController.totalAmount}',
                       ) : Container(),
                       const Divider(),
                       Row(
@@ -241,8 +240,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                         children: [
                           BigText(text: "Total"),
                           BigText(
-                            text: '\$ ${cartCtrl.totalAmount + 100}',
-                            color: AppColors.yellowColor,
+                            text: '\$ ${cartController.totalAmount + 100}',
+                            color: AppColors.originColor,
                             size: 22,
                           ),
                         ],
@@ -266,22 +265,22 @@ class _CheckoutViewState extends State<CheckoutView> {
                           ],
                         ),
                         child:
-                            GetBuilder<CheckoutController>(builder: (checkoutCtrl) {
+                            GetBuilder<CheckoutController>(builder: (checkoutController) {
                           return CustomButton(
                             buttomText: 'Apply',
                             onPressed: () {
-                              if (userCtrl.user.address.isNotEmpty ||
-                                  userCtrl.user.phone.isNotEmpty) {
+                              if (userController.user.address.isNotEmpty ||
+                                  userController.user.phone.isNotEmpty) {
                                 if (_order == Ordered.cashOnDelivery) {
-                                  checkoutCtrl.checkout(
+                                  checkoutController.checkout(
                                     productsId: productsId,
                                     userQuants: userQuants,
-                                    totalPrice: cartCtrl.totalAmount,
-                                    address: userCtrl.user.address,
+                                    totalPrice: cartController.totalAmount,
+                                    address: userController.user.address,
                                   );
                                 }
                               } else {
-                                Components.showCustomSnackBar(
+                                AppComponents.showCustomSnackBar(
                                   'Your Data is not completed',
                                 );
                               }

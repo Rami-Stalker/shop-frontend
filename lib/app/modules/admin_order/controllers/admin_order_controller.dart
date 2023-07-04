@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../core/utils/components/components.dart';
+import '../../../core/utils/components/app_components.dart';
 import '../../../core/utils/constants/error_handling.dart';
 import '../../../models/order_model.dart';
 import '../../../routes/app_pages.dart';
@@ -43,7 +43,7 @@ class AdminOrderController extends GetxController {
       _isLoading = false;
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 
@@ -65,7 +65,7 @@ class AdminOrderController extends GetxController {
       );
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 
@@ -83,7 +83,7 @@ class AdminOrderController extends GetxController {
       );
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 

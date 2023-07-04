@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-import '../components/components.dart';
+import '../components/app_components.dart';
 
 void httpErrorHandle({
   required http.Response res,
@@ -14,13 +14,13 @@ void httpErrorHandle({
       onSuccess();
       break;
     case 400:
-    Components.showCustomSnackBar(jsonDecode(res.body)['msg']);
+    AppComponents.showCustomSnackBar(jsonDecode(res.body)['msg']);
     break;
     case 500:
-    Components.showCustomSnackBar(jsonDecode(res.body)['error']);
+    AppComponents.showCustomSnackBar(jsonDecode(res.body)['error']);
     break;
     default:
-    Components.showCustomSnackBar(title: 'successfull',jsonDecode(res.body)['error']);
+    AppComponents.showCustomSnackBar(title: 'successfull',jsonDecode(res.body)['error']);
   }
 }
 

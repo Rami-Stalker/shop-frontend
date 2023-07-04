@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:shop_app/app/modules/auth/controllers/auth_controller.dart';
 import 'package:shop_app/app/modules/update_profile/controllers/update_profile_controller.dart';
 
-import '../../../core/utils/components/components.dart';
+import '../../../core/utils/components/app_components.dart';
 import '../../../controller/user_controller.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_text_button.dart';
@@ -43,7 +43,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
     services = await Geolocator.isLocationServiceEnabled();
 
     if (services == false) {
-      Components.showCustomSnackBar("Services Not Enabled");
+      AppComponents.showCustomSnackBar("Services Not Enabled");
     }
 
     per = await Geolocator.checkPermission();
@@ -98,7 +98,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                 AppIcon(
                   onTap: () => Get.back(),
                   icon: Icons.arrow_back_ios,
-                  backgroundColor: AppColors.yellowColor,
+                  backgroundColor: AppColors.originColor,
                 ),
                 BigText(
                   text: 'Modify profile',

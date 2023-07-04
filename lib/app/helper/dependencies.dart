@@ -1,6 +1,8 @@
 import 'package:shop_app/app/controller/user_controller.dart';
 import 'package:shop_app/app/modules/admin/controllers/admin_controller.dart';
 import 'package:shop_app/app/modules/admin/repositories/admin_repository.dart';
+import 'package:shop_app/app/modules/admin_order/controllers/admin_order_controller.dart';
+import 'package:shop_app/app/modules/admin_order/repositories/admin_order_repository.dart';
 import 'package:shop_app/app/modules/auth/controllers/auth_controller.dart';
 import 'package:shop_app/app/modules/auth/repositories/auth_repository.dart';
 
@@ -46,6 +48,8 @@ Future<void> init() async {
   Get.lazyPut(() => SearchRepository(apiClient: Get.find()));
   Get.lazyPut(() => CheckoutRepository(apiClient: Get.find()));
   Get.lazyPut(() => UserOrderRepository(apiClient: Get.find()));
+  Get.lazyPut(() => AdminOrderRepository(apiClient: Get.find()));
+  Get.lazyPut(() => UserOrderRepository(apiClient: Get.find()));
 
   //controllers
   Get.lazyPut(() => UserController());
@@ -61,4 +65,6 @@ Future<void> init() async {
   Get.lazyPut(() => CheckoutController(orderRepository: Get.find()));
   Get.lazyPut(() => UserOrderController(userOrderRepository: Get.find()));
   Get.lazyPut(() => ProfileController(sharedPreferences: Get.find()));
+  Get.lazyPut(() => AdminOrderController(adminOrderRepository: Get.find()));
+  Get.lazyPut(() => UserOrderController(userOrderRepository: Get.find()));
 }

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app/app/modules/user_order/repositories/user_order_repository.dart';
 
-import '../../../core/utils/components/components.dart';
+import '../../../core/utils/components/app_components.dart';
 import '../../../core/utils/constants/error_handling.dart';
 import '../../../models/order_model.dart';
 
@@ -15,7 +15,7 @@ class UserOrderController extends GetxController implements GetxService {
     required this.userOrderRepository,
   });
 
-  List<OrderModel> myOrder = [];
+  List<OrderModel> userOrders = [];
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -29,7 +29,7 @@ class UserOrderController extends GetxController implements GetxService {
         res: res,
         onSuccess: () {
           for (var i = 0; i < jsonDecode(res.body).length; i++) {
-            myOrder.add(
+            userOrders.add(
               OrderModel.fromJson(
                 jsonEncode(
                   jsonDecode(
@@ -44,7 +44,7 @@ class UserOrderController extends GetxController implements GetxService {
       _isLoading = false;
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 

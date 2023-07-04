@@ -1,4 +1,4 @@
-import 'package:shop_app/app/core/utils/components/components.dart';
+import 'package:shop_app/app/core/utils/components/app_components.dart';
 import 'package:shop_app/app/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_google_places/flutter_google_places.dart';
@@ -106,7 +106,7 @@ class _AddressViewState extends State<AddressView> {
                           Icon(
                             Icons.location_on,
                             size: 25,
-                            color: AppColors.yellowColor,
+                            color: AppColors.originColor,
                           ),
                           SizedBox(
                             width: Dimensions.width20,
@@ -123,7 +123,7 @@ class _AddressViewState extends State<AddressView> {
                           ),
                           SizedBox(width: Dimensions.width10),
                           Icon(Icons.search,
-                              size: 25, color: AppColors.yellowColor),
+                              size: 25, color: AppColors.originColor),
                         ],
                       );
                     }),
@@ -153,7 +153,7 @@ class _AddressViewState extends State<AddressView> {
   }
 
   void onError(PlacesAutocompleteResponse response) {
-    Components.showCustomSnackBar(response.errorMessage!);
+    AppComponents.showCustomSnackBar(response.errorMessage!);
   }
 
   // Future<void> _handlePressButton() async {

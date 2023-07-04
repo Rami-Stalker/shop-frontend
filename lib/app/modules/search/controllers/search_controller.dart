@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app/app/modules/search/repositories/search_repository.dart';
 
-import '../../../core/utils/components/components.dart';
+import '../../../core/utils/components/app_components.dart';
 import '../../../core/utils/constants/error_handling.dart';
 import '../../../models/product_model.dart';
 
@@ -51,7 +51,7 @@ class SearchController extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
     return products;
   }

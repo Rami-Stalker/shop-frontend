@@ -58,7 +58,7 @@ class AdminCategories extends GetView<AdminController> {
                       height: double.infinity,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: AppColors.yellowColor.withOpacity(0.2),
+                        color: AppColors.originColor.withOpacity(0.2),
                         borderRadius:
                             BorderRadius.circular(Dimensions.radius15),
                       ),

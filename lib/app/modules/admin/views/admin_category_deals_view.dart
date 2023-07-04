@@ -43,7 +43,7 @@ class AdminCategoryDealsView extends GetView<AdminController> {
                 AppIcon(
                   onTap: () => Get.back(),
                   icon: Icons.arrow_back_ios,
-                  backgroundColor: AppColors.yellowColor,
+                  backgroundColor: AppColors.originColor,
                 ),
                 BigText(
                   text: Get.arguments,

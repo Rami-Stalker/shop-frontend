@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
 
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -7,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/app/core/utils/app_colors.dart';
 import 'package:shop_app/app/modules/auth/repositories/auth_repository.dart';
 
-import '../../../core/utils/components/components.dart';
+import '../../../core/utils/components/app_components.dart';
 
 import '../../../core/api/api_client.dart';
 import '../../../core/utils/app_strings.dart';
@@ -36,6 +39,7 @@ class AuthController extends GetxController implements GetxService {
   TextEditingController passwordUC = TextEditingController();
   TextEditingController nameUC = TextEditingController();
   TextEditingController phoneUC = TextEditingController();
+  TextEditingController codeOtpUC = TextEditingController();
 
   @override
   void dispose() {
@@ -47,42 +51,82 @@ class AuthController extends GetxController implements GetxService {
     passwordUC.dispose();
     nameUC.dispose();
     phoneUC.dispose();
+    codeOtpUC.dispose();
+  }
+
+  void sendOtP({
+    required String phoneCode,
+    required String phoneNumber,
+  }) async {
+    try {
+      await authRepository.sendOtP(phoneCode, phoneNumber);
+      update();
+    } catch (e) {
+      AppComponents.showCustomSnackBar(e.toString());
+    }
   }
 
   void signUpUser({
+    required File? photo,
     required String name,
     required String email,
     required String password,
-    required String phone,
+    required String phoneCode,
+    required String phoneNumber,
+    required String codeOTP,
   }) async {
     try {
       _isLoading = true;
       update();
-      http.Response res = await authRepository.signUpUser(
-        name: name,
-        email: email,
-        password: password,
-        phone: phone,
-      );
+
+      http.Response verifyRes =
+          await authRepository.verifyOTP(phoneCode, phoneNumber, codeOTP);
 
       httpErrorHandle(
-        res: res,
-        onSuccess: () {
-          Components.showCustomSnackBar(
-            title: 'Sign Up',
-            "Account created! Login with the same credentials!",
-            color: AppColors.mainColor,
-          );
-          emailUC.text = '';
-          passwordUC.text = '';
-          nameUC.text = '';
-          phoneUC.text = '';
-          Get.toNamed(Routes.SIGN_IN);
-          
-        },
-      );
+          res: verifyRes,
+          onSuccess: () async {
+            String photoCloud = '';
+            if (photo != null) {
+              final cloudinary = CloudinaryPublic('dvn9z2jmy', 'qle4ipae');
+              int random = Random().nextInt(1000);
+
+              CloudinaryResponse res = await cloudinary.uploadFile(
+                CloudinaryFile.fromFile(
+                  photo.path,
+                  folder: "$name $random",
+                ),
+              );
+              photoCloud = res.secureUrl;
+            } else {
+              photoCloud = "https://asota.umobile.edu/wp-content/uploads/2021/08/Person-icon.jpeg";
+            }
+
+            http.Response res = await authRepository.signUpUser(
+              photo: photoCloud,
+              name: name,
+              email: email,
+              password: password,
+              phone: phoneNumber,
+            );
+
+            httpErrorHandle(
+              res: res,
+              onSuccess: () {
+                AppComponents.showCustomSnackBar(
+                  title: 'Sign Up',
+                  "Account created! Login with the same credentials!",
+                  color: AppColors.mainColor,
+                );
+                emailUC.text = '';
+                passwordUC.text = '';
+                nameUC.text = '';
+                phoneUC.text = '';
+                Get.toNamed(Routes.SIGN_IN);
+              },
+            );
+          });
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
     _isLoading = false;
     update();
@@ -105,7 +149,7 @@ class AuthController extends GetxController implements GetxService {
           Get.find<UserController>().setUserFromJson(res.body);
           sharedPreferences.setString(
               AppString.TYPE_KEY, jsonDecode(res.body)['type']);
-              emailIC.text = '';
+          emailIC.text = '';
           passwordIC.text = '';
           if (Get.find<UserController>().user.type == 'user') {
             Get.put(UserController());
@@ -117,7 +161,7 @@ class AuthController extends GetxController implements GetxService {
         },
       );
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
     _isLoading = false;
     update();
@@ -144,7 +188,7 @@ class AuthController extends GetxController implements GetxService {
         userController.setUserFromJson(userRes.body);
       }
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
     _isLoading = false;
     update();

@@ -28,9 +28,9 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
   @override
   Widget build(BuildContext context) {
     UserController userCtrl = Get.find<UserController>();
-    OrderModel myOrder = Get.arguments;
+    OrderModel userOrder = Get.arguments;
     AdminController adminController = Get.find<AdminController>();
-    adminController.currentStep = myOrder.status;
+    adminController.currentStep = userOrder.status;
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -50,7 +50,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                 AppIcon(
                   onTap: () => Get.back(),
                   icon: Icons.arrow_back_ios,
-                  backgroundColor: AppColors.yellowColor,
+                  backgroundColor: AppColors.originColor,
                 ),
                 BigText(
                   text: 'Order Details',
@@ -110,7 +110,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                     Text(
                                         DateFormat("MM/dd/yyyy hh:mm a").format(
                                       DateTime.fromMillisecondsSinceEpoch(
-                                          myOrder.orderedAt),
+                                          userOrder.orderedAt),
                                     )),
                                   ],
                                 ),
@@ -119,7 +119,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     const Text('Order Id:'),
-                                    Text(myOrder.id),
+                                    Text(userOrder.id),
                                   ],
                                 ),
                                 Row(
@@ -127,7 +127,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     const Text('Order Total:'),
-                                    Text(myOrder.totalPrice.toString()),
+                                    Text('\$${userOrder.totalPrice.toString()}'),
                                   ],
                                 ),
                               ],
@@ -163,7 +163,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 for (int i = 0;
-                                    i < myOrder.products.length;
+                                    i < userOrder.products.length;
                                     i++)
                                   Column(
                                     children: [
@@ -181,7 +181,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                               image: DecorationImage(
                                                 fit: BoxFit.cover,
                                                 image: NetworkImage(
-                                                  myOrder.products[i].images[0],
+                                                  userOrder.products[i].images[0],
                                                 ),
                                               ),
                                             ),
@@ -193,7 +193,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  myOrder.products[i].name,
+                                                  userOrder.products[i].name,
                                                   style: TextStyle(
                                                     fontSize:
                                                         Dimensions.iconSize16 +
@@ -205,7 +205,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                                       TextOverflow.ellipsis,
                                                 ),
                                                 Text(
-                                                  'Qty: ${myOrder.quantity[i]}',
+                                                  'Qty: ${userOrder.quantity[i]}',
                                                   style: TextStyle(
                                                       fontSize: Dimensions
                                                               .iconSize16 +
@@ -267,7 +267,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                             buttomText: 'Delete',
                                             onPressed: () {
                                               adminController.deleteOrder(
-                                                  order: myOrder);
+                                                  order: userOrder);
                                             },
                                           );
                                   }

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shop_app/app/modules/search/controllers/search_controller.dart';
 
+import '../../../controller/user_controller.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/dimensions.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/material.dart';
 
 import '../../../models/product_model.dart';
 import '../../../routes/app_pages.dart';
-
 
 class SearchWidget extends GetView<SearchController> {
   final ProductModel product;
@@ -21,10 +21,10 @@ class SearchWidget extends GetView<SearchController> {
   @override
   Widget build(BuildContext context) {
     double totalRating = 0;
+    double avgRating = 0;
     for (int i = 0; i < product.rating!.length; i++) {
       totalRating += product.rating![i].rating;
     }
-    double avgRating = 0;
     if (totalRating != 0) {
       avgRating = totalRating / product.rating!.length;
     }
@@ -34,13 +34,23 @@ class SearchWidget extends GetView<SearchController> {
       child: GetBuilder<SearchController>(
           builder: (cont) => GestureDetector(
                 onTap: () {
-                  Get.toNamed(
-                    Routes.EDIT_PRODUCT,
-                    arguments: {
-                      AppString.ARGUMENT_PRODUCT: product,
-                      AppString.ARGUMENT_RATINGS: product.rating,
-                    },
-                  );
+                  if (Get.find<UserController>().user.type == 'user') {
+                    Get.toNamed(
+                      Routes.PRODUCT_DETAILS_RATING,
+                      arguments: {
+                        AppString.ARGUMENT_PRODUCT: product,
+                        AppString.ARGUMENT_RATINGS: product.rating,
+                      },
+                    );
+                  } else {
+                    Get.toNamed(
+                      Routes.EDIT_PRODUCT,
+                      arguments: {
+                        AppString.ARGUMENT_PRODUCT: product,
+                        AppString.ARGUMENT_RATINGS: product.rating,
+                      },
+                    );
+                  }
                 },
                 child: Card(
                   child: Row(
@@ -98,26 +108,30 @@ class SearchWidget extends GetView<SearchController> {
                               ],
                             ),
                             SizedBox(height: Dimensions.height10),
-                            const Text('Eligible for FREE Shipping', style: TextStyle(
-                                fontSize: 15
+                            const Text(
+                              'Eligible for FREE Shipping',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ],
+                        ),
+                      ),
+                      avgRating != 0.0
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    color: AppColors.starColor,
+                                    size: 20,
+                                  ),
+                                  Text(
+                                    avgRating.toString(),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: AppColors.starColor,
-                              size: 20,
-                            ),
-                            Text(avgRating.toString()),
-                          ],
-                        ),
-                      ),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),

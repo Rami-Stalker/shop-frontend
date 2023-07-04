@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
-import '../../../core/utils/components/components.dart';
+import '../../../core/utils/components/app_components.dart';
 import '../../../core/utils/dimensions.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/big_text.dart';
@@ -51,7 +51,7 @@ class _CartScreenState extends State<CartView> {
                 AppIcon(
                   onTap: () => Get.back(),
                   icon: Icons.arrow_back_ios,
-                  backgroundColor: AppColors.yellowColor,
+                  backgroundColor: AppColors.originColor,
                 ),
                 BigText(
                   text: 'Cart',
@@ -77,7 +77,7 @@ class _CartScreenState extends State<CartView> {
                           itemCount: cartController.getItems.length,
                           itemBuilder: (_, index) {
                             var product = cartController.getItems[index];
-                            cartController.quantity.value = product.quantity!;
+                            cartController.quantity.value = product.userQuant!;
                             return GestureDetector(
                               onTap: () {
                                 Get.toNamed(
@@ -165,7 +165,7 @@ class _CartScreenState extends State<CartView> {
                                                           cartController.addItem(
                                                             product.id,
                                                             product.product!,
-                                                            product.quantity! -
+                                                            product.userQuant! -
                                                                 1,
                                                           );
                                                         }
@@ -203,7 +203,7 @@ class _CartScreenState extends State<CartView> {
                                                           cartController.addItem(
                                                             product.id,
                                                             product.product!,
-                                                            product.quantity! +
+                                                            product.userQuant! +
                                                                 1,
                                                           );
                                                         }
@@ -301,7 +301,7 @@ class _CartScreenState extends State<CartView> {
                               Get.toNamed(Routes.CHECKOUT);
                             }
                           } else {
-                            Components.showCustomDialog(
+                            AppComponents.showCustomDialog(
                               context: context,
                               msg:
                                   'You should Sign in to complete \n do you want Sign in ?',

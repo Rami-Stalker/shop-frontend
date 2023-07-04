@@ -19,7 +19,6 @@ class HomeController extends GetxController implements GetxService {
   List<ProductModel>? productCategory = [];
   List<ProductModel> productNew = [];
   List<ProductModel> productRating = [];
-  // List<ProductModel>? productList;
 
   void fetchCategoryProduct({
     required String category,

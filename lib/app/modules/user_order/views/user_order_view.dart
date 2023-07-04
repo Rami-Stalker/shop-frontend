@@ -18,181 +18,186 @@ class UserOrderView extends GetView<UserOrderController> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          color: AppColors.mainColor,
-          width: double.maxFinite,
-          height: Dimensions.height10 * 10,
-          padding: EdgeInsets.only(top: Dimensions.height45),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              BigText(
-                text: 'Your Order',
-                color: Colors.white,
+    return GetBuilder<UserOrderController>(
+      builder: (userOrderController) {
+        return Column(
+          children: [
+            Container(
+              color: AppColors.mainColor,
+              width: double.maxFinite,
+              height: Dimensions.height10 * 10,
+              padding: EdgeInsets.only(top: Dimensions.height45),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  BigText(
+                    text: 'Your Order',
+                    color: Colors.white,
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        controller.myOrder.isNotEmpty
-            ? controller.isLoading != true
-                ? MediaQuery.removePadding(
-                    removeTop: true,
-                    context: context,
-                    child: Expanded(
-                      child: ListView(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                              top: Dimensions.height10,
-                              left: Dimensions.width20,
-                              right: Dimensions.width20,
-                            ),
-                            child: ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: controller.myOrder.length,
-                              itemBuilder: (context, index) {
-                                OrderModel myOrder = controller.myOrder[index];
-                                return Container(
-                                  height: Dimensions.height30 * 4,
-                                  margin: EdgeInsets.only(
-                                      bottom: Dimensions.height20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      BigText(
-                                        text: DateFormat("MM/dd/yyyy hh:mm a")
-                                            .format(
-                                          DateTime.fromMillisecondsSinceEpoch(
-                                              myOrder.orderedAt),
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+            ),
+            userOrderController.userOrders.isNotEmpty
+                ? userOrderController.isLoading != true
+                    ? MediaQuery.removePadding(
+                        removeTop: true,
+                        context: context,
+                        child: Expanded(
+                          child: ListView(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                  top: Dimensions.height10,
+                                  left: Dimensions.width20,
+                                  right: Dimensions.width20,
+                                ),
+                                child: ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  reverse: true,
+                                  itemCount: userOrderController.userOrders.length,
+                                  itemBuilder: (context, index) {
+                                    OrderModel userOrder = userOrderController.userOrders[index];
+                                    return Container(
+                                      height: Dimensions.height30 * 4,
+                                      margin: EdgeInsets.only(
+                                          bottom: Dimensions.height20),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Wrap(
-                                            direction: Axis.horizontal,
-                                            children: List.generate(
-                                              myOrder.products.length,
-                                              (indes) => indes < 3
-                                                  ? Container(
-                                                      height:
-                                                          Dimensions.height20 *
-                                                              4,
-                                                      width:
-                                                          Dimensions.height20 *
-                                                              4,
-                                                      margin: EdgeInsets.only(
-                                                          right: Dimensions
-                                                                  .width10 /
-                                                              2),
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius
-                                                            .circular(Dimensions
-                                                                    .radius15 /
-                                                                2),
-                                                        image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image: NetworkImage(
-                                                            myOrder
-                                                                .products[indes]
-                                                                .images[0],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : Container(),
+                                          BigText(
+                                            text: DateFormat("MM/dd/yyyy hh:mm a")
+                                                .format(
+                                              DateTime.fromMillisecondsSinceEpoch(
+                                                  userOrder.orderedAt),
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: Dimensions.height20 * 4,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Row(
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Wrap(
+                                                direction: Axis.horizontal,
+                                                children: List.generate(
+                                                  userOrder.products.length,
+                                                  (indes) => indes < 3
+                                                      ? Container(
+                                                          height:
+                                                              Dimensions.height20 *
+                                                                  4,
+                                                          width:
+                                                              Dimensions.height20 *
+                                                                  4,
+                                                          margin: EdgeInsets.only(
+                                                              right: Dimensions
+                                                                      .width10 /
+                                                                  2),
+                                                          decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius
+                                                                .circular(Dimensions
+                                                                        .radius15 /
+                                                                    2),
+                                                            image: DecorationImage(
+                                                              fit: BoxFit.cover,
+                                                              image: NetworkImage(
+                                                                userOrder
+                                                                    .products[indes]
+                                                                    .images[0],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Container(),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: Dimensions.height20 * 4,
+                                                child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.end,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.spaceEvenly,
                                                   children: [
-                                                    BigText(
-                                                      text: 'total:',
-                                                      size: 16,
-                                                      color:
-                                                          AppColors.titleColor,
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment.end,
+                                                      children: [
+                                                        BigText(
+                                                          text: 'total:',
+                                                          size: 16,
+                                                          color:
+                                                              AppColors.titleColor,
+                                                        ),
+                                                        SizedBox(
+                                                            width:
+                                                                Dimensions.width10),
+                                                        BigText(
+                                                          text:
+                                                              '\$${userOrder.totalPrice.toString()}',
+                                                          size: 16,
+                                                          color:
+                                                              AppColors.titleColor,
+                                                        ),
+                                                      ],
                                                     ),
-                                                    SizedBox(
-                                                        width:
-                                                            Dimensions.width10),
-                                                    BigText(
-                                                      text:
-                                                          '\$${myOrder.totalPrice.toString()}',
-                                                      size: 16,
-                                                      color:
-                                                          AppColors.titleColor,
+                                                    GestureDetector(
+                                                      onTap: () => Get.toNamed(
+                                                        Routes.ORDER_DETAILS,
+                                                        arguments: userOrder,
+                                                      ),
+                                                      child: Container(
+                                                        padding:
+                                                            EdgeInsets.symmetric(
+                                                          horizontal:
+                                                              Dimensions.width10,
+                                                          vertical:
+                                                              Dimensions.height10 /
+                                                                  2,
+                                                        ),
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius
+                                                              .circular(Dimensions
+                                                                      .radius15 /
+                                                                  3),
+                                                          border: Border.all(
+                                                            width: 1,
+                                                            color:
+                                                                AppColors.mainColor,
+                                                          ),
+                                                        ),
+                                                        child: SmallText(
+                                                          text: 'Details',
+                                                          color:
+                                                              AppColors.mainColor,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
-                                                GestureDetector(
-                                                  onTap: () => Get.toNamed(
-                                                    Routes.ORDER_DETAILS,
-                                                    arguments: myOrder,
-                                                  ),
-                                                  child: Container(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                      horizontal:
-                                                          Dimensions.width10,
-                                                      vertical:
-                                                          Dimensions.height10 /
-                                                              2,
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius
-                                                          .circular(Dimensions
-                                                                  .radius15 /
-                                                              3),
-                                                      border: Border.all(
-                                                        width: 1,
-                                                        color:
-                                                            AppColors.mainColor,
-                                                      ),
-                                                    ),
-                                                    child: SmallText(
-                                                      text: 'Details',
-                                                      color:
-                                                          AppColors.mainColor,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      )
+                    : const Expanded(child: CustomLoader())
+                : const Expanded(
+                    child: NoDataPage(
+                      text: "Your cart history is empty",
+                      imgPath: AppString.ASSETS_EMPTY,
                     ),
-                  )
-                : const Expanded(child: CustomLoader())
-            : const Expanded(
-                child: NoDataPage(
-                  text: "Your cart history is empty",
-                  imgPath: AppString.ASSETS_EMPTY,
-                ),
-              ),
-      ],
+                  ),
+          ],
+        );
+      }
     );
   }
 }

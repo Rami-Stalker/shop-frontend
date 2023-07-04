@@ -2,7 +2,7 @@ import 'package:shop_app/app/modules/admin/controllers/admin_controller.dart';
 import 'package:shop_app/app/modules/product_details/controllers/product_details_controller.dart';
 import 'package:shop_app/app/routes/app_pages.dart';
 
-import '../../../core/utils/components/components.dart';
+import '../../../core/utils/components/app_components.dart';
 import '../../../core/widgets/app_text_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +50,7 @@ class EditProductView extends GetView<AdminController> {
             title: AppIcon(
               onTap: () => Get.back(),
               icon: Icons.clear,
-              backgroundColor: AppColors.yellowColor,
+              backgroundColor: AppColors.originColor,
             ),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(20),
@@ -85,7 +85,7 @@ class EditProductView extends GetView<AdminController> {
               ),
             ),
             pinned: true, // expanded حتى يبقى الابار ظاهر حتى بعد ال
-            backgroundColor: AppColors.yellowColor,
+            backgroundColor: AppColors.originColor,
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
               background: Image.network(
@@ -184,7 +184,7 @@ class EditProductView extends GetView<AdminController> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Components.showCustomDialog(
+                      AppComponents.showCustomDialog(
                         context: context,
                         msg: 'Are you sure to delete the product ?',
                         ok: () {

@@ -1,5 +1,5 @@
 import 'package:shop_app/app/core/utils/app_colors.dart';
-import 'package:shop_app/app/core/utils/components/components.dart';
+import 'package:shop_app/app/core/utils/components/app_components.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
@@ -25,21 +25,17 @@ class CheckoutController extends GetxController implements GetxService {
     required String address,
   }) async {
     try {
-      _isLoading = true;
-      update();
       http.Response res = await orderRepository.checkout(
         productsId: productsId,
         userQuants: userQuants,
         totalPrice: totalPrice,
         address: address,
       );
-      
-
       httpErrorHandle(
         res: res,
         onSuccess: () {
           Get.find<CartRepository>().removeCart();
-          Components.showCustomSnackBar(
+          AppComponents.showCustomSnackBar(
             'add Order Successed',
             title: 'Order',
             color: AppColors.mainColor,
@@ -47,10 +43,9 @@ class CheckoutController extends GetxController implements GetxService {
           Get.toNamed(Routes.USER_NAVIGATOR);
         },
       );
-      _isLoading = false;
       update();
     } catch (e) {
-      Components.showCustomSnackBar(e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 }

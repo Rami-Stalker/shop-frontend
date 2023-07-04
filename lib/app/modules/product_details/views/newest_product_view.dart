@@ -117,7 +117,7 @@ class _NewestProductViewState extends State<NewestProductView> {
               ],
             ),
             pinned: true, // expanded حتى يبقى الابار ظاهر حتى بعد ال
-            backgroundColor: AppColors.yellowColor,
+            backgroundColor: AppColors.originColor,
             expandedHeight: 315,
             flexibleSpace: FlexibleSpaceBar(
               background: product.images.length > 1

@@ -2,14 +2,12 @@ import 'package:shop_app/app/modules/search/controllers/search_controller.dart';
 import 'package:shop_app/app/modules/search/widgets/search_widget.dart';
 
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/app_strings.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/utils/dimensions.dart';
 import '../../../core/widgets/app_icon.dart';
-import '../../../routes/app_pages.dart';
 
 
 class SearchView extends GetView<SearchController> {
@@ -60,7 +58,7 @@ class SearchView extends GetView<SearchController> {
                         hintText: "Search Products ...",
                         prefixIcon: Icon(
                           Icons.search,
-                          color: AppColors.yellowColor,
+                          color: AppColors.originColor,
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius:

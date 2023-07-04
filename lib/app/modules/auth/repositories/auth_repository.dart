@@ -16,8 +16,33 @@ class AuthRepository {
     required this.apiClient,
     required this.sharedPreferences,
   });
+  
+  // send OTP
+  Future<http.Response> sendOtP(String phoneCode, String phoneNumber) async {
+    return await apiClient.postData(
+      ApiConstance.sendOTP,
+      jsonEncode({
+        'phoneCode': phoneCode,
+        'phoneNumber': phoneNumber,
+      }),
+    );
+  }
+
+  // verify OTP
+  Future<http.Response> verifyOTP(String phoneCode, String phoneNumber, String codeOTP) async {
+    return await apiClient.postData(
+      ApiConstance.verifyOTP,
+      jsonEncode({
+        'phoneCode': phoneCode,
+        'phoneNumber': phoneNumber,
+        'codeOTP': codeOTP,
+      }),
+    );
+  }
+
   // sign up user
   Future<http.Response> signUpUser({
+    required String photo,
     required String name,
     required String email,
     required String password,
@@ -25,6 +50,7 @@ class AuthRepository {
   }) async {
     UserModel user = UserModel(
       id: '',
+      photo: photo,
       name: name,
       email: email,
       password: password,

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:shop_app/app/core/utils/components/components.dart';
+import 'package:shop_app/app/core/utils/components/app_components.dart';
 import 'package:shop_app/app/modules/cart/repositories/cart_repository.dart';
 
 import '../../../core/utils/app_colors.dart';
@@ -33,7 +33,7 @@ class CartController extends GetxController implements GetxService {
               price: value.price,
               image: value.image,
               isExist: true,
-              quantity: quantity,
+              userQuant: quantity,
               time: DateTime.now().toString(),
               rating: value.rating,
               product: product,
@@ -52,7 +52,7 @@ class CartController extends GetxController implements GetxService {
             name: product.name,
             price: product.price,
             isExist: true,
-            quantity: quantity,
+            userQuant: quantity,
             time: DateTime.now().toString(),
             rating: product.rating,
             product: product,
@@ -71,7 +71,7 @@ class CartController extends GetxController implements GetxService {
     if (_items.containsKey(product.id)) {
       _items.forEach((key, value) {
         if (key == product.id) {
-          quantity = value.quantity!;
+          quantity = value.userQuant!;
         }
       });
     }
@@ -81,7 +81,7 @@ class CartController extends GetxController implements GetxService {
   int get totalItems {
     Rx<int> totalQuantity = 0.obs;
     _items.forEach((key, value) {
-      totalQuantity.value += value.quantity!;
+      totalQuantity.value += value.userQuant!;
     });
     return totalQuantity.value;
   }
@@ -95,7 +95,7 @@ class CartController extends GetxController implements GetxService {
   int get totalAmount {
     int total = 0;
     _items.forEach((key, value) {
-      total += value.quantity! * value.price!;
+      total += value.userQuant! * value.price!;
     });
     return total;
   }
@@ -103,7 +103,7 @@ class CartController extends GetxController implements GetxService {
   int get totalOldAmount {
     int totalOld = 0;
     _items.forEach((key, value) {
-      totalOld += value.quantity! * value.product!.oldPrice;
+      totalOld += value.userQuant! * value.product!.oldPrice;
     });
     return totalOld;
   }
@@ -162,10 +162,10 @@ class CartController extends GetxController implements GetxService {
 
   int checkQuantity(int quantity, int productQuantity) {
     if (quantity > productQuantity) {
-      Components.showCustomSnackBar(
+      AppComponents.showCustomSnackBar(
         "You ordered more than the available quantity \n available quantity is $productQuantity !",
         title: "Item count",
-        color: AppColors.mainColor,
+        color: AppColors.originColor,
       );
       _isValid.value = false;
       return productQuantity;

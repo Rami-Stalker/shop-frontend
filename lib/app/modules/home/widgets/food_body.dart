@@ -51,9 +51,10 @@ class _FoodBodyState extends State<FoodBody> {
         const HomeCategories(),
         SizedBox(height: Dimensions.height20),
         Padding(
-          padding: EdgeInsets.only(left: Dimensions.width30, bottom: Dimensions.height15),
+          padding: EdgeInsets.only(
+              left: Dimensions.width30, bottom: Dimensions.height15),
           child: BigText(
-              text: 'Highest Rated',
+            text: 'Highest Rated',
           ),
         ),
         // slider section
@@ -79,9 +80,7 @@ class _FoodBodyState extends State<FoodBody> {
           children: [
             GetBuilder<HomeController>(builder: (popularProducts) {
               return DotsIndicator(
-                dotsCount: homeController.productRating.isEmpty
-                    ? 1
-                    : 7,
+                dotsCount: homeController.productRating.isEmpty ? 1 : 7,
                 position: _currPageValue.toInt(),
                 decorator: DotsDecorator(
                   activeColor: Colors.blue,
@@ -100,8 +99,7 @@ class _FoodBodyState extends State<FoodBody> {
         Padding(
           padding: EdgeInsets.only(left: Dimensions.width30),
           child: BigText(
-              text: 'Newest Products',
-            
+            text: 'Newest Products',
           ),
         ),
         Padding(
@@ -125,7 +123,7 @@ class _FoodBodyState extends State<FoodBody> {
               if (totalRating != 0) {
                 avgRating = totalRating / product.rating!.length;
               }
-              
+
               double docs = product.price / product.oldPrice * 100;
               return product.quantity == 0
                   ? Container()
@@ -171,7 +169,7 @@ class _FoodBodyState extends State<FoodBody> {
                                       child: Container(
                                         padding: const EdgeInsets.all(3),
                                         decoration: BoxDecoration(
-                                          color: AppColors.yellowColor,
+                                          color: AppColors.originColor,
                                           borderRadius: BorderRadius.only(
                                             bottomRight: Radius.circular(
                                               Dimensions.radius15 - 5,
@@ -226,9 +224,6 @@ class _FoodBodyState extends State<FoodBody> {
                                             ),
                                             Text(
                                               avgRating.toString(),
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                              ),
                                             )
                                           ],
                                         ),
@@ -401,86 +396,88 @@ class _FoodBodyState extends State<FoodBody> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    avgRating != 0.0
-                    ? Padding(
-                      padding: EdgeInsets.only(right: Dimensions.width20, bottom: Dimensions.height10 - 2),
-                      child: Container(
-                        padding: EdgeInsets.all(
-                          Dimensions.width10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.starColor,
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.radius15),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 1,
-                              offset: const Offset(0, 2),
-                              color: Colors.grey.withOpacity(0.2),
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  avgRating != 0.0
+                      ? Padding(
+                          padding: EdgeInsets.only(
+                              right: Dimensions.width20,
+                              bottom: Dimensions.height10 - 2),
+                          child: Container(
+                            padding: EdgeInsets.all(
+                              Dimensions.width10,
                             ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              color: Colors.black,
-                              size: 20,
+                            decoration: BoxDecoration(
+                              color: AppColors.starColor,
+                              borderRadius:
+                                  BorderRadius.circular(Dimensions.radius15),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 1,
+                                  offset: const Offset(0, 2),
+                                  color: Colors.grey.withOpacity(0.2),
+                                ),
+                              ],
                             ),
-                            Text(
-                              avgRating.toString(),
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                    : Container(),
-                    Container(
-                      margin: EdgeInsets.only(
-                        left: Dimensions.width30,
-                        right: Dimensions.width30,
-                        bottom: Dimensions.height30,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Dimensions.radius20),
-                        color: Colors.white,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0xFFe8e8e8),
-                            blurRadius: 5.0,
-                            offset: Offset(0, 5),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.star,
+                                  color: Colors.black,
+                                  size: 20,
+                                ),
+                                Text(
+                                  avgRating.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                          BoxShadow(
-                            color: Colors.white,
-                            offset: Offset(-5, 0),
-                          ),
-                          BoxShadow(
-                            color: Colors.white,
-                            offset: Offset(5, 0),
-                          ),
-                        ],
+                        )
+                      : Container(),
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: Dimensions.width30,
+                      right: Dimensions.width30,
+                      bottom: Dimensions.height30,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0xFFe8e8e8),
+                          blurRadius: 5.0,
+                          offset: Offset(0, 5),
+                        ),
+                        BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-5, 0),
+                        ),
+                        BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(5, 0),
+                        ),
+                      ],
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.only(
+                        right: Dimensions.width15,
+                        left: Dimensions.width15,
                       ),
-                      child: Container(
-                        padding: EdgeInsets.only(
-                          right: Dimensions.width15,
-                          left: Dimensions.width15,
-                        ),
-                        child: AppColumn(
-                          text: product.name,
-                          category: product.category,
-                          price: product.price,
-                          oldPrice: product.oldPrice,
-                        ),
+                      child: AppColumn(
+                        text: product.name,
+                        category: product.category,
+                        price: product.price,
+                        oldPrice: product.oldPrice,
                       ),
                     ),
-                  ],
+                  ),
+                ],
               ),
             ),
           ],

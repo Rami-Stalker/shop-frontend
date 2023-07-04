@@ -4,7 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:shop_app/app/modules/admin/controllers/admin_controller.dart';
 
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/components/components.dart';
+import '../../../core/utils/components/app_components.dart';
 import '../../../core/utils/dimensions.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_text_field.dart';
@@ -47,27 +47,27 @@ class _AddProductViewState extends State<AddProductView> {
     List<File> imageFile = images;
 
     if (imageFile.isEmpty) {
-      Components.showCustomSnackBar(
+      AppComponents.showCustomSnackBar(
         'Type in product image',
         title: 'Image',
       );
     } else if (productName.isEmpty) {
-      Components.showCustomSnackBar(
+      AppComponents.showCustomSnackBar(
         'Type in product name',
         title: 'Name',
       );
     } else if (description.isEmpty) {
-      Components.showCustomSnackBar(
+      AppComponents.showCustomSnackBar(
         'Type in product description',
         title: 'Description',
       );
     } else if (price.isEmpty) {
-      Components.showCustomSnackBar(
+      AppComponents.showCustomSnackBar(
         'Type in product price',
         title: 'Price',
       );
     } else if (quantity.isEmpty) {
-      Components.showCustomSnackBar(
+      AppComponents.showCustomSnackBar(
         'Type in product quantity',
         title: 'Quantity',
       );
@@ -110,7 +110,7 @@ class _AddProductViewState extends State<AddProductView> {
                   AppIcon(
                     onTap: () => Get.back(),
                     icon: Icons.arrow_back_ios,
-                    backgroundColor: AppColors.yellowColor,
+                    backgroundColor: AppColors.originColor,
                   ),
                   BigText(
                     text: 'Add Product',

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shop_app/app/core/utils/dimensions.dart';
+import 'package:shop_app/app/core/widgets/text_custom.dart';
 
 import '../../widgets/big_text.dart';
 import '../app_colors.dart';
 
-class Components{
+class AppComponents {
   static Padding customBtn({
     Function? onPressed,
     BuildContext? context,
@@ -74,7 +76,7 @@ class Components{
         ),
       );
 
-      static void showCustomDialog({
+  static void showCustomDialog({
     required BuildContext context,
     required String msg,
     required Function()? ok,
@@ -84,7 +86,6 @@ class Components{
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          
               title: Text(
                 msg,
                 style: const TextStyle(
@@ -93,44 +94,68 @@ class Components{
                 ),
               ),
               actions: <Widget>[
-            TextButton(
-              onPressed: () => Get.back(),
-              child: const Text('Cancel'),
-              
-            ),
-            TextButton(
-              onPressed: ok,
-              child: Text('OK', style: TextStyle(color: okColor)),
-            ),
-          ],
-              
+                TextButton(
+                  onPressed: () => Get.back(),
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: ok,
+                  child: Text('OK', style: TextStyle(color: okColor)),
+                ),
+              ],
             ));
   }
 
   static void showCustomSnackBar(
-  String message, {
-  bool isError = true,
-  String title = 'Error',
-  Color color = Colors.redAccent,
-}) {
-  Get.snackbar(
-    title,
-    message,
-    titleText: BigText(
-      text: title,
-      color: Colors.white,
-    ),
-    messageText: Text(
+    String message, {
+    bool isError = true,
+    String title = 'Error',
+    Color color = Colors.redAccent,
+  }) {
+    Get.snackbar(
+      title,
       message,
-      style: const TextStyle(
+      titleText: BigText(
+        text: title,
         color: Colors.white,
       ),
-    ),
-    colorText: Colors.white,
-    snackPosition: SnackPosition.TOP,
-    backgroundColor: color,
-  );
-}
+      messageText: Text(
+        message,
+        style: const TextStyle(
+          color: Colors.white,
+        ),
+      ),
+      colorText: Colors.white,
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: color,
+    );
+  }
+
+  static InkWell buildbottomsheet({
+    required Icon icon,
+    required String label,
+    required Function() ontap,
+  }) {
+    return InkWell(
+      onTap: ontap,
+      child: Container(
+        padding: EdgeInsets.all(Dimensions.height10),
+        height: Dimensions.height45,
+        //Get.isDarkMode ? AppColors.backgroundDark : AppColors.backgroundLight,
+        child: Row(
+          children: [
+            icon,
+            SizedBox(width: Dimensions.width10),
+            TextCustom(
+              text: label,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   // static void navigateTo(context, routes, arguments) =>
   //     Navigator.pushNamed(context, routes, arguments: arguments);
