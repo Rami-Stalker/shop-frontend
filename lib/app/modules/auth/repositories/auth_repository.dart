@@ -16,7 +16,7 @@ class AuthRepository {
     required this.apiClient,
     required this.sharedPreferences,
   });
-  
+
   // send OTP
   Future<http.Response> sendOtP(String phoneCode, String phoneNumber) async {
     return await apiClient.postData(
@@ -29,7 +29,8 @@ class AuthRepository {
   }
 
   // verify OTP
-  Future<http.Response> verifyOTP(String phoneCode, String phoneNumber, String codeOTP) async {
+  Future<http.Response> verifyOTP(
+      String phoneCode, String phoneNumber, String codeOTP) async {
     return await apiClient.postData(
       ApiConstance.verifyOTP,
       jsonEncode({
@@ -58,6 +59,7 @@ class AuthRepository {
       address: '',
       type: '',
       token: '',
+      tokenFCM: '',
     );
 
     return await apiClient.postData(ApiConstance.signUp, user.toJson());
@@ -84,6 +86,16 @@ class AuthRepository {
     return await apiClient.getData(ApiConstance.getUserData);
   }
 
+  // save user token fCM
+  Future<http.Response> saveUserTokenFCM(String tokenFCM) async {
+    return await apiClient.postData(
+      ApiConstance.saveUserTokenFCM,
+      jsonEncode({
+        'tokenFCM': tokenFCM,
+      }),
+    );
+  }
+
   // save user token
   Future<bool> saveUserToken(String tokenKey) async {
     apiClient.tokenKey = tokenKey;
@@ -93,6 +105,12 @@ class AuthRepository {
 
   String getUserToken() {
     return sharedPreferences.getString(AppString.TOKEN_KEY) ?? '';
+  }
+
+
+  // save user token
+  Future<bool> saveUserType(String type) async {
+    return await sharedPreferences.setString(AppString.TYPE_KEY, type);
   }
 
   String getUserType() {

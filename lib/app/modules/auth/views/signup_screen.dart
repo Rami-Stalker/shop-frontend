@@ -185,9 +185,10 @@ class _SignUpViewState extends State<SignUpView> {
                             CircleAvatar(
                               radius: 80,
                               child: Container(
-                                decoration: const BoxDecoration(
-                                    color: Colors.green,
-                                    shape: BoxShape.circle),
+                                decoration: BoxDecoration(
+                                  color: AppColors.mainColor,
+                                  shape: BoxShape.circle,
+                                ),
                                 child: image != null
                                     ? CircleAvatar(
                                         radius: 80,
@@ -270,7 +271,7 @@ class _SignUpViewState extends State<SignUpView> {
                                 },
                                 child: CircleAvatar(
                                   radius: 20,
-                                  backgroundColor: Colors.grey,
+                                  backgroundColor: AppColors.originColor,
                                   child: Icon(Icons.camera_alt_outlined,
                                       size: Dimensions.iconSize24 + 10),
                                 ),
@@ -424,69 +425,181 @@ class _SignUpViewState extends State<SignUpView> {
                             height: Dimensions.height20,
                           ),
                           //verify phone number
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(
-                                Dimensions.radius15,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 3,
-                                  spreadRadius: 1,
-                                  offset: const Offset(1, 1),
-                                  color: Colors.grey.withOpacity(0.2),
-                                ),
-                              ],
-                            ),
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              controller: authController.codeOtpUC,
-                              decoration: InputDecoration(
-                                hintText: "code OTP",
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    width: 1.0,
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 5,
+                                child: Container(
+                                  decoration: BoxDecoration(
                                     color: Colors.white,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    width: 1.0,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.privacy_tip,
-                                  color: AppColors.originColor,
-                                ),
-                                suffix: GestureDetector(
-                                  onTap: () => _sendCode(authController),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        "send code",
-                                        style: TextStyle(
-                                          color: isOnData
-                                              ? Colors.grey
-                                              : Colors.red,
-                                        ),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft:
+                                          Radius.circular(Dimensions.radius15),
+                                      bottomLeft:
+                                          Radius.circular(Dimensions.radius15),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 3,
+                                        spreadRadius: 1,
+                                        offset: const Offset(1, 1),
+                                        color: Colors.grey.withOpacity(0.2),
                                       ),
-                                      SizedBox(width: Dimensions.width10),
-                                      isOnData
-                                          ? Text(
-                                              "$_current",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                              ),
-                                            )
-                                          : Container(),
                                     ],
                                   ),
+                                  child: TextField(
+                                    keyboardType: TextInputType.number,
+                                    controller: authController.codeOtpUC,
+                                    decoration: InputDecoration(
+                                      hintText: "verification code",
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          width: 1.0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          width: 1.0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      prefixIcon: Icon(
+                                        Icons.timer_sharp,
+                                        color: AppColors.originColor,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      topRight:
+                                          Radius.circular(Dimensions.radius15),
+                                      bottomRight:
+                                          Radius.circular(Dimensions.radius15),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 3,
+                                        spreadRadius: 1,
+                                        offset: const Offset(1, 1),
+                                        color: Colors.grey.withOpacity(0.2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: TextField(
+                                    keyboardType: TextInputType.number,
+                                    controller: authController.codeOtpUC,
+                                    readOnly: true,
+                                    onTap: () => _sendCode(authController),
+                                    decoration: InputDecoration(
+                                      prefixIcon: Padding(
+                                        padding: EdgeInsets.only(left: Dimensions.width30),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              "send code",
+                                              style: TextStyle(
+                                                color: isOnData
+                                                    ? Colors.grey
+                                                    : Colors.red,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: isOnData
+                                                    ? 13 : Dimensions.font16,
+                                              ),
+                                            ),
+                                            SizedBox(width: Dimensions.width10),
+                                            isOnData
+                                                ? Text(
+                                                    "$_current",
+                                                    style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 13,
+                                                    ),
+                                                  )
+                                                : Container(),
+                                          ],
+                                        ),
+                                      ),
+                                      // hintText: "send code",
+                                      // hintStyle: TextStyle(
+                                      //   color:
+                                      //       isOnData ? Colors.grey : Colors.red,
+                                      //   fontWeight: FontWeight.bold,
+                                      //   fontSize: Dimensions.font16,
+                                      // ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          width: 1.0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          width: 1.0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // child: Container(
+                                //   height: 70,
+                                //   alignment: Alignment.center,
+                                //   decoration: BoxDecoration(
+                                //     color: Colors.white,
+                                //     // color: Colors.grey[300],
+                                //     borderRadius: BorderRadius.only(
+                                //           topRight:
+                                //               Radius.circular(Dimensions.radius15),
+                                //           bottomRight:
+                                //               Radius.circular(Dimensions.radius15),
+                                //         ),
+                                //     boxShadow: [
+                                //       BoxShadow(
+                                //         blurRadius: 3,
+                                //         spreadRadius: 1,
+                                //         offset: const Offset(1, 1),
+                                //         color: Colors.grey.withOpacity(0.2),
+                                //       ),
+                                //     ],
+                                //   ),
+                                //   child: GestureDetector(
+                                //         onTap: () => _sendCode(authController),
+                                //         child: Row(
+                                //           mainAxisSize: MainAxisSize.min,
+                                //           children: [
+                                //             Text(
+                                //               "send code",
+                                //               style: TextStyle(
+                                //                 color: isOnData
+                                //                     ? Colors.grey
+                                //                     : Colors.red,
+                                //                     fontWeight: FontWeight.bold,
+                                //                     fontSize: Dimensions.font16,
+                                //               ),
+                                //             ),
+                                //             SizedBox(width: Dimensions.width10),
+                                //             isOnData
+                                //                 ? Text(
+                                //                     "$_current",
+                                //                     style: TextStyle(
+                                //                       color: Colors.grey,
+                                //                     ),
+                                //                   )
+                                //                 : Container(),
+                                //           ],
+                                //         ),
+                                //       ),
+                                // ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

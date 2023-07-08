@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:shop_app/app/modules/cart/controllers/cart_controller.dart';
 import 'package:shop_app/app/modules/product_details/repositories/product_detailes_controller.dart';
 
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/constants/error_handling.dart';
 import '../../../models/product_model.dart';
 
 class ProductDetailsController extends GetxController implements GetxService {

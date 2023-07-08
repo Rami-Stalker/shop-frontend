@@ -29,6 +29,7 @@ class AppString {
   //keys sharedPreference
   static const String CART_KEY = 'cashe-cart';
   static const String CART_HISTORY_KEY = 'cashe-cart-history';
+  static const String TOKEN_FCM = 'token-fcm';
   static const String TOKEN_KEY = 'token-key';
   static const String TYPE_KEY = 'type-key';
 }

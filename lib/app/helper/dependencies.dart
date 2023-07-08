@@ -1,3 +1,4 @@
+import 'package:shop_app/app/controller/notification_controller.dart';
 import 'package:shop_app/app/controller/user_controller.dart';
 import 'package:shop_app/app/modules/admin/controllers/admin_controller.dart';
 import 'package:shop_app/app/modules/admin/repositories/admin_repository.dart';
@@ -53,6 +54,7 @@ Future<void> init() async {
 
   //controllers
   Get.lazyPut(() => UserController());
+  Get.lazyPut(() => NotificationController(apiClient: Get.find()));
   Get.lazyPut(() => HomeController(homeRepository: Get.find()));
   Get.lazyPut(() => AuthController(apiClient: Get.find(), authRepository: Get.find(), sharedPreferences: sharedPreferences));
   Get.lazyPut(() => NavigatorUserController());
@@ -61,7 +63,7 @@ Future<void> init() async {
   Get.lazyPut(() => AdminController(adminRepository: Get.find()));
   Get.lazyPut(() => CartController(cartRepository: Get.find()));
   Get.lazyPut(() => ProductDetailsController(productDetailsRepository: Get.find()));
-  Get.lazyPut(() => SearchController(searchRepository: Get.find()));
+  Get.lazyPut(() => SearchControlle(searchRepository: Get.find()));
   Get.lazyPut(() => CheckoutController(orderRepository: Get.find()));
   Get.lazyPut(() => UserOrderController(userOrderRepository: Get.find()));
   Get.lazyPut(() => ProfileController(sharedPreferences: Get.find()));

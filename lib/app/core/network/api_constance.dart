@@ -1,6 +1,10 @@
+
+//13f6cdf8-f3ba-4772-b067-43a8bfb00201
 class ApiConstance {
   // base
-  static const String baseUrl = "http://192.168.93.79:3000";
+  static const String baseUrl = "http://192.168.218.79:3000";
+  // notification url
+  static const String notificationUrl = "https://fcm.googleapis.com//v1/projects/shop-app-1e566/messages:send";
   // admin
   static const String addProduct = "$baseUrl/admin/add-product";
   static const String getProducts = "$baseUrl/admin/get-products";
@@ -13,6 +17,7 @@ class ApiConstance {
   static const String signUp = "$baseUrl/api/signup";
   static const String signIn = "$baseUrl/api/signin";
   static const String isTokenValid = "$baseUrl/tokenIsValid";
+  static const String saveUserTokenFCM = "$baseUrl/save-user-token-fcm";
   // get user data
   static const String getUserData = "$baseUrl/get-user-data";
   // cart

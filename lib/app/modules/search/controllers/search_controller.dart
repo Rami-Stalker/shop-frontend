@@ -8,9 +8,9 @@ import '../../../core/utils/components/app_components.dart';
 import '../../../core/utils/constants/error_handling.dart';
 import '../../../models/product_model.dart';
 
-class SearchController extends GetxController implements GetxService {
+class SearchControlle extends GetxController implements GetxService {
   final SearchRepository searchRepository;
-  SearchController({
+  SearchControlle({
     required this.searchRepository,
   });
 

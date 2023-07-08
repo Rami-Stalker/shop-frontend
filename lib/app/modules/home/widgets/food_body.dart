@@ -1,6 +1,8 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shop_app/app/api/firebase_api.dart';
+import 'package:shop_app/app/controller/notification_controller.dart';
 import 'package:shop_app/app/modules/home/controllers/home_controller.dart';
 import 'package:shop_app/app/modules/home/widgets/home_categories.dart';
 
@@ -50,6 +52,16 @@ class _FoodBodyState extends State<FoodBody> {
       children: [
         const HomeCategories(),
         SizedBox(height: Dimensions.height20),
+        ElevatedButton(
+          onPressed: () {
+            Get.find<NotificationController>().sendPushMessage(
+              token: mtoken!,
+              title: "title",
+              body: "body",
+            );
+          },
+          child: Text('dd'),
+        ),
         Padding(
           padding: EdgeInsets.only(
               left: Dimensions.width30, bottom: Dimensions.height15),

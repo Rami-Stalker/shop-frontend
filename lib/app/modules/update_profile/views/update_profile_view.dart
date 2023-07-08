@@ -26,14 +26,11 @@ class UpdateProfileView extends StatefulWidget {
 }
 
 class _UpdateProfileViewState extends State<UpdateProfileView> {
-  AuthController authCtrl = Get.find<AuthController>();
-  UserController userCtrl = Get.find<UserController>();
-  UpdateProfileController addressCtrl = Get.find<UpdateProfileController>();
+  AuthController authController = Get.find<AuthController>();
+  UserController userController = Get.find<UserController>();
+  UpdateProfileController addressController = Get.find<UpdateProfileController>();
 
-  late bool _isLogged; // للتأكد من تسجيل الدخول
-
-  // late LatLng _initPosition = const LatLng(43.896236,
-  //     -16.937405); // احداثيات الموقع توضع بدل الثوابت في المتغير اعلاه
+  late bool _isLogged;
 
   bool _isPosition = false;
   Future getPosition() async {
@@ -56,7 +53,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
       var position = await Geolocator.getCurrentPosition();
 
       setState(() {
-        addressCtrl.initPosition =
+        addressController.initPosition =
             LatLng(position.latitude, position.longitude);
         _isPosition = true;
       });
@@ -66,15 +63,15 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
   @override
   void initState() {
     getPosition();
-    _isLogged = authCtrl.userLoggedIn();
-    if (_isLogged && userCtrl.user == null) {
-      authCtrl.getUserData();
+    _isLogged = authController.userLoggedIn();
+    if (_isLogged && userController.user.phone == "" || userController.user.phone.isEmpty) {
+      authController.getUserData();
     }
-    if (userCtrl.user.name.isNotEmpty) {
-      addressCtrl.nameC.text = userCtrl.user.name;
+    if (userController.user.name.isNotEmpty) {
+      addressController.nameC.text = userController.user.name;
     }
-    if (userCtrl.user.phone.isNotEmpty) {
-      addressCtrl.phoneC.text = userCtrl.user.phone;
+    if (userController.user.phone.isNotEmpty) {
+      addressController.phoneC.text = userController.user.phone;
     }
     super.initState();
   }
@@ -110,10 +107,11 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
               ],
             ),
           ),
+          
           GetBuilder<UpdateProfileController>(
-            builder: (addressCtrl) {
-              addressCtrl.addressC.text =
-                  '${addressCtrl.placemark.value.administrativeArea ?? ''}${addressCtrl.placemark.value.locality ?? ''}${addressCtrl.placemark.value.street ?? ''}${addressCtrl.placemark.value.postalCode ?? ''}';
+            builder: (addressController) {
+              addressController.addressC.text =
+                  '${addressController.placemark.value.administrativeArea ?? ''}${addressController.placemark.value.locality ?? ''}${addressController.placemark.value.street ?? ''}${addressController.placemark.value.postalCode ?? ''}';
               return MediaQuery.removePadding(
                 context: context,
                 removeTop: true,
@@ -135,7 +133,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                             ? GoogleMap(
                                 mapType: MapType.hybrid,
                                 initialCameraPosition: CameraPosition(
-                                  target: addressCtrl.initPosition,
+                                  target: addressController.initPosition,
                                   zoom: 17.0,
                                 ),
                                 onTap: (latLng) {
@@ -145,19 +143,19 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                                 },
                                 myLocationEnabled: true,
                                 onMapCreated: (GoogleMapController controller) =>
-                                    addressCtrl.setMapController(controller),
+                                    addressController.setMapController(controller),
                                 zoomControlsEnabled: false,
                                 compassEnabled: false,
                                 indoorViewEnabled: true,
                                 mapToolbarEnabled: false,
                                 onCameraMove: ((position) {
-                                  addressCtrl.initPosition = LatLng(
+                                  addressController.initPosition = LatLng(
                                     position.target.latitude,
                                     position.target.longitude,
                                   );
                                 }),
                                 onCameraIdle: () {
-                                  addressCtrl.updatePosition(addressCtrl.initPosition);
+                                  addressController.updatePosition(addressController.initPosition);
                                 },
                               )
                             : Container(),
@@ -181,11 +179,11 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                                   child: ListView.builder(
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: addressCtrl.addressTypeList.length,
+                                      itemCount: addressController.addressTypeList.length,
                                       itemBuilder: (context, index) {
                                         return InkWell(
                                           onTap: () {
-                                            addressCtrl.setAddressTypeIndex(index);
+                                            addressController.setAddressTypeIndex(index);
                                           },
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
@@ -212,7 +210,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                                                       ? Icons.work
                                                       : Icons.location_on,
                                               color:
-                                                  addressCtrl.addressTypeIndex == index
+                                                  addressController.addressTypeIndex == index
                                                       ? AppColors.mainColor
                                                       : Theme.of(context).disabledColor,
                                             ),
@@ -228,7 +226,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                                   height: Dimensions.height10,
                                 ),
                                 AppTextField(
-                                  textController: addressCtrl.addressC,
+                                  textController: addressController.addressC,
                                   hintText: 'Your address',
                                   icon: Icons.map,
                                 ),
@@ -240,7 +238,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                                   height: Dimensions.height10,
                                 ),
                                 AppTextField(
-                                  textController: addressCtrl.nameC,
+                                  textController: addressController.nameC,
                                   hintText: 'Your name',
                                   icon: Icons.person,
                                 ),
@@ -253,7 +251,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                                 ),
                                 AppTextField(
                                   keyboardType: TextInputType.phone,
-                                  textController: addressCtrl.phoneC,
+                                  textController: addressController.phoneC,
                                   hintText: 'Your Phone',
                                   icon: Icons.phone,
                                 ),

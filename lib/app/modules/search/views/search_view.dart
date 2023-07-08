@@ -10,7 +10,7 @@ import '../../../core/utils/dimensions.dart';
 import '../../../core/widgets/app_icon.dart';
 
 
-class SearchView extends GetView<SearchController> {
+class SearchView extends GetView<SearchControlle> {
   const SearchView({
     Key? key,
   }) : super(key: key);
@@ -34,7 +34,7 @@ class SearchView extends GetView<SearchController> {
               children: [
                 AppIcon(onTap: () => Get.back(), icon: Icons.arrow_back_ios, ),
                 SizedBox(width: Dimensions.width15),
-                GetBuilder<SearchController>(builder: (searchCtrl) {
+                GetBuilder<SearchControlle>(builder: (searchCtrl) {
                   return Container(
                     width: 330,
                     decoration: BoxDecoration(
@@ -83,7 +83,7 @@ class SearchView extends GetView<SearchController> {
               ],
             ),
           ),
-          GetBuilder<SearchController>(
+          GetBuilder<SearchControlle>(
             builder: (controller) => controller.products.isEmpty
                 ? Container()
                 : MediaQuery.removePadding(

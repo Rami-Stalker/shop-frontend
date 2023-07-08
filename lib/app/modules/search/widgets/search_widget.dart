@@ -31,7 +31,7 @@ class SearchWidget extends GetView<SearchController> {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
-      child: GetBuilder<SearchController>(
+      child: GetBuilder<SearchControlle>(
           builder: (cont) => GestureDetector(
                 onTap: () {
                   if (Get.find<UserController>().user.type == 'user') {

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shop_app/app/controller/user_controller.dart';
 import 'package:shop_app/app/modules/auth/controllers/auth_controller.dart';
 import 'package:shop_app/app/modules/cart/controllers/cart_controller.dart';
@@ -26,12 +27,12 @@ class _CartScreenState extends State<CartView> {
   final bool _isLogged = Get.find<AuthController>().userLoggedIn();
   CartController cartController = Get.find<CartController>();
   UserController userController = Get.find<UserController>();
-
   //double heightNav = Dimensions.bottomHeightBar + 130;
 
   @override
   Widget build(BuildContext context) {
     cartController.getCartList();
+    final argument = Get.arguments as RemoteMessage?;
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: Column(
@@ -62,6 +63,11 @@ class _CartScreenState extends State<CartView> {
                 ),
               ],
             ),
+          ),
+          Column(
+            children: [
+              Text('title: ${argument?.notification?.title}'),
+            ],
           ),
           cartController.getItems.isNotEmpty
               ? MediaQuery.removePadding(

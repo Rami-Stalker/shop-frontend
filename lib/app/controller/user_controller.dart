@@ -13,6 +13,7 @@ class UserController extends GetxController{
     address: '',
     type: '',
     token: '',
+    tokenFCM: '',
   );
 
   UserModel get user => _user;

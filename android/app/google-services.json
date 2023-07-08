@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "774350209960",
+    "project_id": "shop-app-1e566",
+    "storage_bucket": "shop-app-1e566.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774350209960:android:320d36cafdb5c21dddd39d",
+        "android_client_info": {
+          "package_name": "com.mohammedrdaly.shop_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "774350209960-hh5p95fnqq2cqnj7s2usti1rl583p13o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIm6EBars-KWGJf6NFYfJp6JRZoVg-U1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "774350209960-hh5p95fnqq2cqnj7s2usti1rl583p13o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "774350209960-5h29ueqkihbaapkfahpjg8e9qdgk2l5l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mohammedrdaly.shopApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

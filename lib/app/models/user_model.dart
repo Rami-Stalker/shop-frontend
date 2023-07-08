@@ -9,6 +9,7 @@ class UserModel {
   final String password;
   final String address;
   final String type;
+  final String tokenFCM;
   final String token;
 
   UserModel({
@@ -20,6 +21,7 @@ class UserModel {
     required this.password,
     required this.address,
     required this.type,
+    required this.tokenFCM,
     required this.token,
   });
 
@@ -33,6 +35,7 @@ class UserModel {
       'password': password,
       'address': address,
       'type': type,
+      'tokenFCM': tokenFCM,
       'token': token,
     };
   }
@@ -47,6 +50,7 @@ class UserModel {
       password: map['password'] ?? '',
       address: map['address'] ?? '',
       type: map['type'] ?? '',
+      tokenFCM: map['tokenFCM'] ?? '',
       token: map['token'] ?? '',
     );
   }
@@ -64,6 +68,7 @@ class UserModel {
     String? password,
     String? address,
     String? type,
+    String? tokenFCM,
     String? token,
   }) {
     return UserModel(
@@ -75,6 +80,7 @@ class UserModel {
       password: password ?? this.password,
       address: address ?? this.address,
       type: type ?? this.type,
+      tokenFCM: tokenFCM ?? this.tokenFCM,
       token: token ?? this.token,
     );
   }

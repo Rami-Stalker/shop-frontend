@@ -269,7 +269,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                           return CustomButton(
                             buttomText: 'Apply',
                             onPressed: () {
-                              if (userController.user.address.isNotEmpty ||
+                              if (userController.user.address != "" ||
                                   userController.user.phone.isNotEmpty) {
                                 if (_order == Ordered.cashOnDelivery) {
                                   checkoutController.checkout(
