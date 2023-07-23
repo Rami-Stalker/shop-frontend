@@ -1,4 +1,3 @@
-import 'package:shop_app/app/core/widgets/custom_loader.dart';
 import 'package:shop_app/app/core/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,12 +7,13 @@ import 'package:shop_app/app/modules/user_order/controllers/user_order_controlle
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/dimensions.dart';
-import '../../../core/widgets/app_shimmer.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/no_data_page.dart';
 import '../../../models/order_model.dart';
 import '../../../routes/app_pages.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../widgets/build_shimmer_order.dart';
 
 class UserOrderView extends GetView<UserOrderController> {
   const UserOrderView({super.key});
@@ -202,105 +202,13 @@ class UserOrderView extends GetView<UserOrderController> {
                   child: ListView.builder(
                     itemCount: 5,
                     itemBuilder: (context, index) {
-                      return _buildShimmerItem();
+                      return BuildShimmerOrder();
                     },
                   ),
                 ),
               );
             }),
       ],
-    );
-  }
-
-  Widget _buildShimmerItem() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-      child: Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 100,
-                  height: 20.0,
-                  color: Colors.white,
-                ),
-                SizedBox(height: Dimensions.height10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          height: Dimensions.height20 * 4,
-                          width: Dimensions.height20 * 4,
-                          margin:
-                              EdgeInsets.only(right: Dimensions.width10 / 2),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                                Dimensions.radius15 / 2),
-                            color: Colors.white,
-                          ),
-                        ),
-                        Container(
-                          height: Dimensions.height20 * 4,
-                          width: Dimensions.height20 * 4,
-                          margin:
-                              EdgeInsets.only(right: Dimensions.width10 / 2),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                                Dimensions.radius15 / 2),
-                            color: Colors.white,
-                          ),
-                        ),
-                        Container(
-                          height: Dimensions.height20 * 4,
-                          width: Dimensions.height20 * 4,
-                          margin:
-                              EdgeInsets.only(right: Dimensions.width10 / 2),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                                Dimensions.radius15 / 2),
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: Dimensions.height20 * 4,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            width: 60,
-                            height: 20.0,
-                            color: Colors.white,
-                          ),
-                          SizedBox(height: Dimensions.height10),
-                          Container(
-                            width: 40,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                  Dimensions.radius15 / 3),
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
