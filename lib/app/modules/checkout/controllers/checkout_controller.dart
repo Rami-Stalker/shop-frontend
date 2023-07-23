@@ -1,5 +1,3 @@
-import 'package:shop_app/app/api/firebase_api.dart';
-import 'package:shop_app/app/controller/notification_controller.dart';
 import 'package:shop_app/app/core/utils/app_colors.dart';
 import 'package:shop_app/app/core/utils/components/app_components.dart';
 import 'package:get/get.dart';
@@ -9,7 +7,6 @@ import 'package:shop_app/app/modules/cart/repositories/cart_repository.dart';
 import 'package:shop_app/app/modules/checkout/repositories/checkout_repository.dart';
 
 import '../../../core/utils/constants/error_handling.dart';
-import '../../../routes/app_pages.dart';
 
 class CheckoutController extends GetxController implements GetxService {
   final CheckoutRepository orderRepository;
@@ -42,7 +39,6 @@ class CheckoutController extends GetxController implements GetxService {
             title: 'Order',
             color: AppColors.mainColor,
           );
-          Get.toNamed(Routes.USER_NAVIGATOR);
         },
       );
       update();

@@ -3,7 +3,7 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   Routes._();
-  // static const HOME = _Paths.HOME;
+  static const NOTIFICATION = _Paths.NOTIFICATION;
   static const HOME_CATEGORY_DEALS = _Paths.HOME_CATEGORY_DEALS;
   static const ADMIN_CATEGORY_DEALS = _Paths.ADMIN_CATEGORY_DEALS;
   // static const ADMIN_PRODUCTS = _Paths.ADMIN_PRODUCTS;
@@ -28,10 +28,9 @@ abstract class Routes {
 
 abstract class _Paths {
   _Paths._();
-  // static const HOME = '/home';
+  static const NOTIFICATION = '/notification';
   static const HOME_CATEGORY_DEALS = '/category-deals';
   static const ADMIN_CATEGORY_DEALS = '/admin-category-deals';
-  // static const ADMIN_PRODUCTS = '/admin-product';
   static const ADMIN_ADD_PRODUCT = '/admin-add-product';
   static const EDIT_PRODUCT = '/admin-product-details';
   static const SIGN_UP = '/sign-up';
@@ -40,12 +39,9 @@ abstract class _Paths {
   static const CHECKOUT = '/checkout';
   static const USER_NAVIGATOR = '/user-navigator';
   static const ADMIN_NAVIGATOR = '/admin-navigator';
-  // static const USER_ORDER = '/user-order';
-  // static const ADMIN_ORDER = '/admin-order';
   static const ORDER_DETAILS = '/order-details';
   static const PRODUCT_DETAILS_NEWEST = '/product-details-newest';
   static const PRODUCT_DETAILS_RATING = '/product-details-rating';
-  // static const PROFILE = '/profile';
   static const SEARCH = '/search';
   static const UPDATE_PROFILE = '/update-profile';
   static const ADDRESS = '/address';

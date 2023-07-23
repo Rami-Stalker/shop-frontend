@@ -1,3 +1,4 @@
+import 'package:shop_app/app/controller/notification_controller.dart';
 import 'package:shop_app/app/controller/user_controller.dart';
 import 'package:shop_app/app/core/widgets/app_icon.dart';
 import 'package:shop_app/app/core/widgets/big_text.dart';
@@ -14,7 +15,6 @@ import 'package:intl/intl.dart';
 
 import '../../../models/order_model.dart';
 import '../../../routes/app_pages.dart';
-
 
 class OrderDetailsView extends GetView<OrderDetailsController> {
   const OrderDetailsView({
@@ -127,7 +127,8 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     const Text('Order Total:'),
-                                    Text('\$${userOrder.totalPrice.toString()}'),
+                                    Text(
+                                        '\$${userOrder.totalPrice.toString()}'),
                                   ],
                                 ),
                               ],
@@ -181,7 +182,8 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                               image: DecorationImage(
                                                 fit: BoxFit.cover,
                                                 image: NetworkImage(
-                                                  userOrder.products[i].images[0],
+                                                  userOrder
+                                                      .products[i].images[0],
                                                 ),
                                               ),
                                             ),
@@ -248,7 +250,8 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                 ),
                               ],
                             ),
-                            child: GetBuilder<AdminController>(builder: (adminController) {
+                            child: GetBuilder<AdminController>(
+                                builder: (adminController) {
                               return Stepper(
                                 currentStep: adminController.currentStep,
                                 controlsBuilder: (context, details) {
@@ -266,8 +269,19 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                         : CustomButton(
                                             buttomText: 'Delete',
                                             onPressed: () {
+                                              Get.find<NotificationController>()
+                                                  .pushNotofication(
+                                                userId: userOrder.userId,
+                                                title: "Order",
+                                                body: "Your order ${userOrder.id} \n is ready",
+                                              );
+                                              // controller.box.write("fcm", {
+                                              //   "userId": userOrder.userId,
+                                              //   "body": "Your order ${userOrder.id} \n is ready",
+                                              // });
                                               adminController.deleteOrder(
-                                                  order: userOrder);
+                                                order: userOrder,
+                                              );
                                             },
                                           );
                                   }
@@ -277,9 +291,9 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                   Step(
                                     title: const Text('Pending'),
                                     content: Text(
-                                      userCtrl.user.type == 'admin'?
-                                      'Order is yet to be delivered'
-                                      :'Your order is yet to be delivered',
+                                      userCtrl.user.type == 'admin'
+                                          ? 'Order is yet to be delivered'
+                                          : 'Your order is yet to be delivered',
                                     ),
                                     isActive: adminController.currentStep > 0,
                                     state: adminController.currentStep > 0

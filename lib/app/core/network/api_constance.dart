@@ -2,9 +2,19 @@
 //13f6cdf8-f3ba-4772-b067-43a8bfb00201
 class ApiConstance {
   // base
-  static const String baseUrl = "http://192.168.218.79:3000";
+  static const String baseUrl = "http://192.168.157.79:3000";
   // notification url
   static const String notificationUrl = "https://fcm.googleapis.com//v1/projects/shop-app-1e566/messages:send";
+  static const String sendNotification = "$baseUrl/notification/send-notification";
+  static const String saveNotification = "$baseUrl/notification/save-notification";
+  static const String getNotifications = "$baseUrl/notification/get-notifications";
+  static const String seenNotification = "$baseUrl/notification/seen-notification";
+
+
+
+  // soket
+  static const String socketUrl = "$baseUrl/api/get-user-orders";
+
   // admin
   static const String addProduct = "$baseUrl/admin/add-product";
   static const String getProducts = "$baseUrl/admin/get-products";
@@ -32,7 +42,7 @@ class ApiConstance {
   // product details
   static const String updateProductQuantity =
       "$baseUrl/api/update-product-quantity";
-  static const String rateProduct = "$baseUrl/api/rate-product";
+  static const String rateProduct = "$baseUrl/api/get-rate-product";
   // search
   static const String productsSearch = "$baseUrl/api/products/search/";
   // update profile

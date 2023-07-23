@@ -1,7 +1,6 @@
 import 'package:shop_app/app/core/utils/app_strings.dart';
 import 'package:shop_app/app/core/widgets/no_data_page.dart';
 import 'package:intl/intl.dart';
-import 'package:shop_app/app/modules/admin/controllers/admin_controller.dart';
 import 'package:shop_app/app/modules/admin_order/controllers/admin_order_controller.dart';
 import 'package:shop_app/app/routes/app_pages.dart';
 
@@ -52,6 +51,7 @@ class AdminOrderView extends GetView<AdminOrderController> {
                                   ),
                                   child: ListView.builder(
                                     physics: const NeverScrollableScrollPhysics(),
+                                    reverse: true,
                                     shrinkWrap: true,
                                     itemCount: adminOrderController.orders.length,
                                     itemBuilder: (context, index) {

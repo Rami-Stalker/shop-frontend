@@ -30,8 +30,6 @@ class HomeCategories extends GetView<HomeController> {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                controller.fetchCategoryProduct(
-                    category: GlobalVariables.categoryImages[index]['title']!);
                 navigateToCategoryView(
                   context,
                   GlobalVariables.categoryImages[index]['title']!,

@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 class OrderDetailsController extends GetxController {
-
   final count = 0.obs;
   @override
   void onInit() {

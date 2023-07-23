@@ -50,6 +50,7 @@ class SearchView extends GetView<SearchControlle> {
                       ],
                     ),
                     child: TextField(
+                      autofocus: true,
                       onChanged: (val) {
                         searchCtrl.changeSearchStatus(val);
                       },

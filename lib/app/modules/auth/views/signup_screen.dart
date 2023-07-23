@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:intl_phone_field/phone_number.dart';
-import 'package:shop_app/app/controller/user_controller.dart';
 import 'package:shop_app/app/core/picker/picker.dart';
 import 'package:shop_app/app/modules/auth/controllers/auth_controller.dart';
 
@@ -14,7 +12,6 @@ import 'package:get/get.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/dimensions.dart';
-import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/custom_loader.dart';
 import '../../../routes/app_pages.dart';
@@ -271,7 +268,7 @@ class _SignUpViewState extends State<SignUpView> {
                                 },
                                 child: CircleAvatar(
                                   radius: 20,
-                                  backgroundColor: AppColors.originColor,
+                                  backgroundColor: AppColors.mainColor,
                                   child: Icon(Icons.camera_alt_outlined,
                                       size: Dimensions.iconSize24 + 10),
                                 ),
@@ -503,6 +500,7 @@ class _SignUpViewState extends State<SignUpView> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
+                                            !isOnData ?
                                             Text(
                                               "send code",
                                               style: TextStyle(
@@ -513,13 +511,13 @@ class _SignUpViewState extends State<SignUpView> {
                                                 fontSize: isOnData
                                                     ? 13 : Dimensions.font16,
                                               ),
-                                            ),
+                                            ) : Container(),
                                             SizedBox(width: Dimensions.width10),
                                             isOnData
                                                 ? Text(
-                                                    "$_current",
+                                                    "$_current s",
                                                     style: TextStyle(
-                                                      color: Colors.grey,
+                                                      color: Colors.red,
                                                       fontSize: 13,
                                                     ),
                                                   )

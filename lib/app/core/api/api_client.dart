@@ -27,7 +27,8 @@ class ApiClient extends GetConnect implements GetxService {
     };
   }
 
-  Future<http.Response> getData(String uri,
+  Future<http.Response> getData(
+    String uri,
       {Map<String, String>? headers}) async {
     http.Response response = await http.get(
       Uri.parse(uri),

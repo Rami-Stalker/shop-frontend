@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../utils/hex_color.dart';
-
 class AppIcon extends StatelessWidget {
   final IconData icon;
   final Color backgroundColor;

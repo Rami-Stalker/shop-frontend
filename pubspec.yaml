@@ -35,12 +35,22 @@ dependencies:
   firebase_core: ^2.14.0
   firebase_messaging: ^14.6.4
   flutter_local_notifications: ^15.0.1
-  onesignal_flutter: ^3.5.1
+  shimmer: ^2.0.0
+  get_storage: ^2.1.1
+  
 
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test: 
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/images/logo_foreground.png"
 
 flutter: 
   uses-material-design: true

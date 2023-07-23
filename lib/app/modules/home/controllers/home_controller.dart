@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop_app/app/core/utils/components/app_components.dart';
 import 'package:shop_app/app/modules/home/repositories/home_repository.dart';
 
 import '../../../core/utils/constants/error_handling.dart';
@@ -17,37 +18,30 @@ class HomeController extends GetxController implements GetxService {
   bool get isLoading => _isLoading;
 
   List<ProductModel>? productCategory = [];
-  List<ProductModel> productNew = [];
+  List<ProductModel> productNewest = [];
   List<ProductModel> productRating = [];
 
-  void fetchCategoryProduct({
+  Future<List<ProductModel>?> fetchCategoryProduct({
     required String category,
   }) async {
-    try {
-      _isLoading = true;
-      update();
-      http.Response res =
-          await homeRepository.fetchCategoryProduct(category: category);
+    http.Response res =
+        await homeRepository.fetchCategoryProduct(category: category);
 
-      httpErrorHandle(
-        res: res,
-        onSuccess: () {
-          for (var i = 0; i < jsonDecode(res.body).length; i++) {
-            productCategory!.add(
-              ProductModel.fromJson(
-                jsonEncode(
-                  jsonDecode(res.body)[i],
-                ),
+    httpErrorHandle(
+      res: res,
+      onSuccess: () {
+        for (var i = 0; i < jsonDecode(res.body).length; i++) {
+          productCategory!.add(
+            ProductModel.fromJson(
+              jsonEncode(
+                jsonDecode(res.body)[i],
               ),
-            );
-          }
-        },
-      );
-      _isLoading = false;
-      update();
-    } catch (e) {
-      Get.snackbar('', e.toString());
-    }
+            ),
+          );
+        }
+      },
+    );
+    return productCategory;
   }
 
   Future<void> fetchRatingProduct() async {
@@ -75,21 +69,21 @@ class HomeController extends GetxController implements GetxService {
       _isLoading = false;
       update();
     } catch (e) {
-      Get.snackbar('', e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 
-  Future<void> fetchAllProduct() async {
+  Future<void> fetchNewestProduct() async {
     try {
       _isLoading = true;
       update();
-      http.Response res = await homeRepository.fetchAllProduct();
+      http.Response res = await homeRepository.fetchNewestProduct();
 
       httpErrorHandle(
         res: res,
         onSuccess: () {
           for (var i = 0; i < jsonDecode(res.body).length; i++) {
-            productNew.add(
+            productNewest.add(
               ProductModel.fromJson(
                 jsonEncode(
                   jsonDecode(
@@ -104,13 +98,13 @@ class HomeController extends GetxController implements GetxService {
       _isLoading = false;
       update();
     } catch (e) {
-      Get.snackbar('', e.toString());
+      AppComponents.showCustomSnackBar(e.toString());
     }
   }
 
   @override
   void onInit() {
-    fetchAllProduct();
+    fetchNewestProduct();
     fetchRatingProduct();
     super.onInit();
   }

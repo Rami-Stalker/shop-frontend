@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shop_app/app/controller/user_controller.dart';
 import 'package:shop_app/app/modules/auth/controllers/auth_controller.dart';
 import 'package:shop_app/app/modules/cart/controllers/cart_controller.dart';
@@ -11,7 +10,6 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/components/app_components.dart';
 import '../../../core/utils/dimensions.dart';
-import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/no_data_page.dart';
 import '../../../routes/app_pages.dart';
@@ -32,221 +30,260 @@ class _CartScreenState extends State<CartView> {
   @override
   Widget build(BuildContext context) {
     cartController.getCartList();
-    final argument = Get.arguments as RemoteMessage?;
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            color: AppColors.mainColor,
-            width: double.maxFinite,
-            height: Dimensions.height10 * 10,
-            padding: EdgeInsets.only(
-              top: Dimensions.height45,
-              left: Dimensions.width20,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppIcon(
-                  onTap: () => Get.back(),
-                  icon: Icons.arrow_back_ios,
-                  backgroundColor: AppColors.originColor,
-                ),
-                BigText(
-                  text: 'Cart',
-                  color: Colors.white,
-                ),
-                Container(
-                  width: Dimensions.height45,
-                ),
-              ],
-            ),
-          ),
-          Column(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: Dimensions.width30 - 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('title: ${argument?.notification?.title}'),
-            ],
-          ),
-          cartController.getItems.isNotEmpty
-              ? MediaQuery.removePadding(
-                  removeTop: true,
-                  context: context,
-                  child: Expanded(
-                    child: ListView(
-                      physics: const BouncingScrollPhysics(),
+              Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(top: Dimensions.height15),
+                height: 100,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: cartController.getItems.length,
-                          itemBuilder: (_, index) {
-                            var product = cartController.getItems[index];
-                            cartController.quantity.value = product.userQuant!;
-                            return GestureDetector(
-                              onTap: () {
-                                Get.toNamed(
-                                  Routes.PRODUCT_DETAILS_RATING,
-                                  arguments: {
-                                    AppString.ARGUMENT_PRODUCT: product.product,
-                                    AppString.ARGUMENT_RATINGS: product.rating,
-                                  },
-                                );
-                              },
-                              child: Card(
-                                child: Row(
-                                  children: [
-                                    //image
-                                    Container(
-                                      width: Dimensions.height20 * 5,
-                                      height: Dimensions.height20 * 5,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                            product.image!,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: Dimensions.width10,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          BigText(
-                                            text: product.name!,
-                                            color: Colors.black54,
-                                            overflow: TextOverflow.clip,
-                                          ),
-                                          // SmallText(
-                                          //   text: listData.price.toString(),
-                                          // ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              BigText(
-                                                text:
-                                                    '\$ ${product.price.toString()}',
-                                                color: Colors.redAccent,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    right: Dimensions.width10),
-                                                padding: EdgeInsets.only(
-                                                  top: Dimensions.height10,
-                                                  bottom: Dimensions.height10,
-                                                  left: Dimensions.width10,
-                                                  right: Dimensions.width10,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          Dimensions.radius20),
-                                                  color: Colors.grey[100],
-                                                ),
-                                                child:
-                                                    // GetBuilder<CartCtrl>(
-                                                    //     builder: (controller) {
-                                                    //   return
-                                                    Row(
-                                                  children: [
-                                                    InkWell(
-                                                      onTap: () {
-                                                        cartController.setQuantity(
-                                                          false,
-                                                          product.product!
-                                                              .quantity,
-                                                        );
-                                                        if (cartController
-                                                            .isValid.value) {
-                                                          cartController.addItem(
-                                                            product.id,
-                                                            product.product!,
-                                                            product.userQuant! -
-                                                                1,
-                                                          );
-                                                        }
-                                                        setState(() {});
-                                                      },
-                                                      child: Icon(
-                                                        Icons.remove,
-                                                        color:
-                                                            AppColors.signColor,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width:
-                                                          Dimensions.width10 /
-                                                              2,
-                                                    ),
-                                                    BigText(
-                                                      text: cartController.quantity
-                                                          .toString(),
-                                                    ),
-                                                    SizedBox(
-                                                      width:
-                                                          Dimensions.width10 /
-                                                              2,
-                                                    ),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        cartController.setQuantity(
-                                                          true,
-                                                          product.product!
-                                                              .quantity,
-                                                        );
-                                                        if (cartController
-                                                            .isValid.value) {
-                                                          cartController.addItem(
-                                                            product.id,
-                                                            product.product!,
-                                                            product.userQuant! +
-                                                                1,
-                                                          );
-                                                        }
-                                                        setState(() {});
-                                                      },
-                                                      child: Icon(
-                                                        Icons.add,
-                                                        color:
-                                                            AppColors.signColor,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                // }),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                        InkWell(
+                          onTap: () => Get.back(),
+                          child: Container(
+                            padding: EdgeInsets.all(Dimensions.height10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 1,
+                                  offset: const Offset(0, 2),
+                                  color: Colors.grey.withOpacity(0.2),
                                 ),
-                              ),
-                            );
-                          },
+                              ],
+                              borderRadius: BorderRadius.circular(
+                                  Dimensions.radius15 - 10),
+                            ),
+                            child: Icon(Icons.arrow_back_ios,
+                                size: Dimensions.iconSize16 - 2),
+                          ),
+                        ),
+                        Text(
+                          "Cart",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: Dimensions.font16 + 2,
+                          ),
+                        ),
+                        Container(
+                          width: Dimensions.height45 - 5,
                         ),
                       ],
                     ),
-                  ),
-                )
-              : const Expanded(
-                  child: NoDataPage(
-                    text: 'Your cart is empty',
-                    imgPath: AppString.ASSETS_EMPTY,
-                  ),
+                    SizedBox(
+                      height: Dimensions.height10 - 2,
+                    ),
+                    Divider(),
+                  ],
                 ),
-        ],
+              ),
+              cartController.getItems.isNotEmpty
+                  ? MediaQuery.removePadding(
+                      removeTop: true,
+                      context: context,
+                      child: Expanded(
+                        child: ListView(
+                          physics: const BouncingScrollPhysics(),
+                          children: [
+                            ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: cartController.getItems.length,
+                              itemBuilder: (_, index) {
+                                var product = cartController.getItems[index];
+                                cartController.quantity.value =
+                                    product.userQuant!;
+                                return GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(
+                                      Routes.PRODUCT_DETAILS_RATING,
+                                      arguments: {
+                                        AppString.ARGUMENT_PRODUCT:
+                                            product.product,
+                                        AppString.ARGUMENT_RATINGS:
+                                            product.rating,
+                                      },
+                                    );
+                                  },
+                                  child: Card(
+                                    child: Row(
+                                      children: [
+                                        //image
+                                        Container(
+                                          width: Dimensions.height20 * 5,
+                                          height: Dimensions.height20 * 5,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(
+                                                Dimensions.radius15 - 5,
+                                              ),
+                                              bottomLeft: Radius.circular(
+                                                Dimensions.radius15 - 5,
+                                              ),
+                                            ),
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                product.image!,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: Dimensions.width10,
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              BigText(
+                                                text: product.name!,
+                                                color: Colors.black54,
+                                                overflow: TextOverflow.clip,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  BigText(
+                                                    text:
+                                                        '\$ ${product.price.toString()}',
+                                                    color: Colors.redAccent,
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        right:
+                                                            Dimensions.width10),
+                                                    padding: EdgeInsets.only(
+                                                      top: Dimensions.height10,
+                                                      bottom:
+                                                          Dimensions.height10,
+                                                      left: Dimensions.width10,
+                                                      right: Dimensions.width10,
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              Dimensions
+                                                                  .radius20),
+                                                      color: Colors.grey[100],
+                                                    ),
+                                                    child:
+                                                        Row(
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            cartController
+                                                                .setQuantity(
+                                                              false,
+                                                              product.product!
+                                                                  .quantity,
+                                                            );
+                                                            if (cartController
+                                                                .isValid
+                                                                .value) {
+                                                              cartController
+                                                                  .addItem(
+                                                                product.id,
+                                                                product
+                                                                    .product!,
+                                                                product.userQuant! -
+                                                                    1,
+                                                              );
+                                                            }
+                                                            setState(() {});
+                                                          },
+                                                          child: Icon(
+                                                            Icons.remove,
+                                                            color: AppColors
+                                                                .signColor,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: Dimensions
+                                                                  .width10 /
+                                                              2,
+                                                        ),
+                                                        BigText(
+                                                          text: cartController
+                                                              .quantity
+                                                              .toString(),
+                                                        ),
+                                                        SizedBox(
+                                                          width: Dimensions
+                                                                  .width10 /
+                                                              2,
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            cartController
+                                                                .setQuantity(
+                                                              true,
+                                                              product.product!
+                                                                  .quantity,
+                                                            );
+                                                            if (cartController
+                                                                .isValid
+                                                                .value) {
+                                                              cartController
+                                                                  .addItem(
+                                                                product.id,
+                                                                product
+                                                                    .product!,
+                                                                product.userQuant! +
+                                                                    1,
+                                                              );
+                                                            }
+                                                            setState(() {});
+                                                          },
+                                                          child: Icon(
+                                                            Icons.add,
+                                                            color: AppColors
+                                                                .signColor,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : const Expanded(
+                      child: NoDataPage(
+                        text: 'Your cart is empty',
+                        imgPath: AppString.ASSETS_EMPTY,
+                      ),
+                    ),
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: cartController.getItems.isNotEmpty
           ? Container(
@@ -275,8 +312,8 @@ class _CartScreenState extends State<CartView> {
                           BorderRadius.circular(Dimensions.radius15 - 5),
                       color: Colors.white,
                     ),
-                    child:
-                        BigText(text: '\$ ${cartController.totalAmount.toString()}'),
+                    child: BigText(
+                        text: '\$ ${cartController.totalAmount.toString()}'),
                   ),
                   SizedBox(height: Dimensions.height15),
                   Row(
@@ -300,7 +337,7 @@ class _CartScreenState extends State<CartView> {
                         txt: 'Check Out',
                         onTap: () {
                           if (_isLogged) {
-                            if (userController.user.address.isEmpty &&
+                            if (userController.user.address == "" &&
                                 userController.user.phone.isEmpty) {
                               Get.toNamed(Routes.UPDATE_PROFILE);
                             } else {

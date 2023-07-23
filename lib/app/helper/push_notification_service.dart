@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/app/modules/auth/controllers/auth_controller.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
   print('Title: ${message.notification?.title}');
@@ -9,35 +9,35 @@ Future<void> handleBackgroundMessage(RemoteMessage message) async {
   print('Payload: ${message.data}');
 }
 
-String? mtoken;
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print('Received background notification: ${message.notification?.title}');
+}
 
-class FirebaseApi {
+class PushNotificationService {
+  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  //third step
-  // app in foreground
   initInfo() {
+    // Configure callback for handling notifications when the app is in the opened
     var androidInitialize =
-        const AndroidInitializationSettings('@drawable/ic_launcher');
+        const AndroidInitializationSettings('@drawable/logo');
     var iOSInitialize = const DarwinInitializationSettings();
     var initializationSettings =
         InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse: (payload) async {
       try {
-        if (payload == 200) {
-          // move to notification page
-        }
+        if (payload == 200) {}
       } catch (e) {}
       return;
     });
 
-    // to show info in notification's message when the app was in foreground
+    // Configure callback for handling notifications when the app is in the foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       print("------------onMessage------------");
       print(
           "onMessage: ${message.notification?.title}/${message.notification?.body}");
-
+      
       BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
         message.notification!.body.toString(),
         htmlFormatBigText: true,
@@ -67,30 +67,32 @@ class FirebaseApi {
         payload: message.data['body'],
       );
     });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      try {
+        if (message.notification?.titleLocKey != null) {
+          
+        }
+      } catch (e) {
+        
+      }
+    });
+    // Configure callback for handling notifications when the app is in the background or terminated
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
-  //soccend step
   void getToken() async {
-    await FirebaseMessaging.instance.getToken().then((token) {
+    await _fcm.getToken().then((token) {
       print('My token is $token');
-      mtoken = token!;
-      Get.find<AuthController>().saveUserTokenFCM(token);
+      Get.find<AuthController>().saveUserTokenFCM(token!);
     });
   }
 
-  // first step
+  // Request permission for receiving notifications
   void requestPermission() async {
-    final messaging = FirebaseMessaging.instance;
+    // final messaging = FirebaseMessaging.instance;
 
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+    NotificationSettings settings = await _fcm.requestPermission();
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
@@ -102,7 +104,7 @@ class FirebaseApi {
     }
   }
 
-  Future<void> initNotifications() async {
+  Future<void> initialise() async {
     requestPermission();
     getToken();
     initInfo();

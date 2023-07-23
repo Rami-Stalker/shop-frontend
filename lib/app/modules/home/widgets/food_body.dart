@@ -1,11 +1,10 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_app/app/api/firebase_api.dart';
-import 'package:shop_app/app/controller/notification_controller.dart';
+import 'package:shop_app/app/controller/user_controller.dart';
 import 'package:shop_app/app/modules/home/controllers/home_controller.dart';
 import 'package:shop_app/app/modules/home/widgets/home_categories.dart';
-
+import '../../../controller/notification_controller.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/dimensions.dart';
@@ -26,12 +25,12 @@ class _FoodBodyState extends State<FoodBody> {
   var _currPageValue = 0.0;
   final double _scaleFactor = 0.8;
   final double _height = Dimensions.pageViewContainer;
-
   HomeController homeController = Get.find<HomeController>();
 
   @override
   void initState() {
     super.initState();
+    
     pageController.addListener(() {
       setState(() {
         _currPageValue = pageController.page!;
@@ -51,17 +50,17 @@ class _FoodBodyState extends State<FoodBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const HomeCategories(),
-        SizedBox(height: Dimensions.height20),
         ElevatedButton(
           onPressed: () {
-            Get.find<NotificationController>().sendPushMessage(
-              token: mtoken!,
-              title: "title",
+            Get.find<NotificationController>().pushNotofication(
+              userId: Get.find<UserController>().user.id,
+              title: 'title',
               body: "body",
             );
           },
-          child: Text('dd'),
+          child: Text('kkk'),
         ),
+        SizedBox(height: Dimensions.height20),
         Padding(
           padding: EdgeInsets.only(
               left: Dimensions.width30, bottom: Dimensions.height15),
@@ -124,9 +123,9 @@ class _FoodBodyState extends State<FoodBody> {
               childAspectRatio: 1 / 1.6,
               crossAxisSpacing: Dimensions.height10,
             ),
-            itemCount: homeController.productNew.length,
+            itemCount: homeController.productNewest.length,
             itemBuilder: (context, index) {
-              var product = homeController.productNew[index];
+              var product = homeController.productNewest[index];
               double totalRating = 0;
               double avgRating = 0;
               for (int i = 0; i < product.rating!.length; i++) {

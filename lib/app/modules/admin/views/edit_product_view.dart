@@ -1,5 +1,4 @@
 import 'package:shop_app/app/modules/admin/controllers/admin_controller.dart';
-import 'package:shop_app/app/modules/product_details/controllers/product_details_controller.dart';
 import 'package:shop_app/app/routes/app_pages.dart';
 
 import '../../../core/utils/components/app_components.dart';
@@ -13,7 +12,6 @@ import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/dimensions.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/big_text.dart';
-import '../../../controller/user_controller.dart';
 import '../../../models/product_model.dart';
 
 class EditProductView extends GetView<AdminController> {

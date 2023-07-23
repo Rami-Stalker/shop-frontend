@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/app/core/utils/dimensions.dart';
-import 'package:shop_app/app/core/widgets/text_custom.dart';
 
 import '../../widgets/big_text.dart';
 import '../app_colors.dart';
@@ -146,11 +145,7 @@ class AppComponents {
           children: [
             icon,
             SizedBox(width: Dimensions.width10),
-            TextCustom(
-              text: label,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
+            BigText(text: label),
           ],
         ),
       ),

@@ -13,6 +13,7 @@ import '../../../core/widgets/icon_text_widget.dart';
 import '../../../core/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/product_model.dart';
 import '../../../routes/app_pages.dart';
 
 class HomeCategoryDealsView extends GetView<HomeController> {
@@ -54,10 +55,11 @@ class HomeCategoryDealsView extends GetView<HomeController> {
               ],
             ),
           ),
-          GetBuilder<HomeController>(builder: (homeCtrl) {
-            return controller.productCategory!.isNotEmpty
-                ? controller.isLoading != true
-                    ? MediaQuery.removePadding(
+          FutureBuilder<List<ProductModel>?>(
+            future: controller.fetchCategoryProduct(category: Get.arguments),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return MediaQuery.removePadding(
                         removeTop: true,
                         context: context,
                         child: Expanded(
@@ -213,14 +215,16 @@ class HomeCategoryDealsView extends GetView<HomeController> {
                             ],
                           ),
                         ),
-                      )
-                    : const Expanded(child: CustomLoader())
-                : const Expanded(
-                    child: NoDataPage(
-                      text: "That's Category is Empty",
-                      imgPath: AppString.ASSETS_EMPTY,
-                    ),
-                  );
+                      );
+                      } if (snapshot.connectionState == ConnectionState.none) {
+                return const Expanded(
+                  child: NoDataPage(
+                    text: "Your cart history is empty",
+                    imgPath: AppString.ASSETS_EMPTY,
+                  ),
+                );
+              }
+              return const Expanded(child: CustomLoader());
           }),
         ],
       ),

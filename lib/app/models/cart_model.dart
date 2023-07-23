@@ -26,36 +26,6 @@ class CartModel {
     this.rating,
   });
 
-  // CartModel.fromJson(Map<String, dynamic> json) {
-  //   id = json['id'];
-  //   price = json['price'];
-  //   image = json['image'];
-  //   name = json['name'];
-  //   quantity = json['quantity'];
-  //   isExist = json['isExist'];
-  //   time = json['time'];
-  //   product = ProductModel.fromJson(json['product']);
-  //   rating = json['ratings'] != null
-  //           ? List<RatingModel>.from(
-  //               json['ratings']?.map(
-  //                 (x) => RatingModel.fromMap(x),
-  //               ),
-  //             )
-  //           : null;
-  // }
-  
-  // Map<String, dynamic> toJson() => {
-  //       "id": id,
-  //       "name": name,
-  //       "price": price,
-  //       "image": image,
-  //       "quantity": quantity,
-  //       "isExist": isExist,
-  //       "time": time,
-  //       "product": product!.toJson(),
-  //       "ratings": rating,
-  //     };
-
   Map<String, dynamic> toMap() {
     return {
       'id': id,

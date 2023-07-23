@@ -20,7 +20,7 @@ class HomeRepository {
     return await apiClient.getData(ApiConstance.getRatingProducts);
   }
 
-  Future<http.Response> fetchAllProduct() async {
+  Future<http.Response> fetchNewestProduct() async {
     return await apiClient.getData(ApiConstance.getNewestProducts);
   }
 }

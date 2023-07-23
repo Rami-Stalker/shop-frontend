@@ -68,5 +68,4 @@ Future<void> init() async {
   Get.lazyPut(() => UserOrderController(userOrderRepository: Get.find()));
   Get.lazyPut(() => ProfileController(sharedPreferences: Get.find()));
   Get.lazyPut(() => AdminOrderController(adminOrderRepository: Get.find()));
-  Get.lazyPut(() => UserOrderController(userOrderRepository: Get.find()));
 }

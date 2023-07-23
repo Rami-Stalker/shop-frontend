@@ -1,14 +1,11 @@
 
-import 'package:shop_app/app/core/utils/app_colors.dart';
 import 'package:shop_app/app/core/utils/dimensions.dart';
 import 'package:shop_app/app/core/widgets/custom_loader.dart';
-import 'package:syncfusion_flutter_charts/charts.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/app/modules/admin/controllers/admin_controller.dart';
 
 import '../../../models/admin_model.dart';
-import '../widgets/category_products_chart.dart';
 
 class AnalyticsView extends StatefulWidget {
   const AnalyticsView({Key? key}) : super(key: key);

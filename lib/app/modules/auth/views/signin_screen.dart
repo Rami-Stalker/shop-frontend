@@ -67,15 +67,17 @@ class SignInView extends GetView<AuthController> {
                       child: Center(
                         child: CircleAvatar(
                           backgroundColor: Colors.white,
-                          radius: 80,
-                          child: AppIcon(
-                            onTap: () {},
-                            icon: Icons.person,
-                            backgroundColor: AppColors.mainColor,
-                            iconColor: Colors.white,
-                            iconSize: Dimensions.height45 + Dimensions.height30,
-                            size: Dimensions.height15 * 10,
-                          ),
+                          radius: 100,
+                          backgroundImage: AssetImage("assets/images/logo.png"),
+
+                          // child: AppIcon(
+                          //   onTap: () {},
+                          //   icon: Icons.person,
+                          //   backgroundColor: AppColors.mainColor,
+                          //   iconColor: Colors.white,
+                          //   iconSize: Dimensions.height45 + Dimensions.height30,
+                          //   size: Dimensions.height15 * 10,
+                          // ),
                         ),
                       ),
                     ),
@@ -137,7 +139,7 @@ class SignInView extends GetView<AuthController> {
                               authCtrl.isObscure
                                   ? Icons.visibility_outlined
                                   : Icons.visibility_off_outlined,
-                              color: AppColors.originColor,
+                              color: AppColors.mainColor,
                             ),
                           ),
                         );

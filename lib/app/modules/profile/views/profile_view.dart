@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:shop_app/app/core/picker/picker.dart';
 import 'package:shop_app/app/modules/auth/controllers/auth_controller.dart';
 import 'package:shop_app/app/modules/cart/controllers/cart_controller.dart';
+import 'package:shop_app/app/modules/navigator/controllers/navigator_user_controller.dart';
 
 import '../../../controller/user_controller.dart';
 import 'package:flutter/material.dart';
@@ -104,6 +105,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                       )
                                                     : CircleAvatar(
                                                         radius: 80,
+                                                        backgroundColor:
+                                                            AppColors.mainColor,
                                                         backgroundImage:
                                                             NetworkImage(
                                                           userController
@@ -204,12 +207,15 @@ class _ProfileViewState extends State<ProfileView> {
                                                 },
                                                 child: CircleAvatar(
                                                   radius: 20,
-                                                  backgroundColor: Colors.grey,
+                                                  backgroundColor:
+                                                      Colors.transparent,
                                                   child: Icon(
-                                                      Icons.camera_alt_outlined,
-                                                      size: Dimensions
-                                                              .iconSize24 +
-                                                          10),
+                                                    Icons.camera_alt,
+                                                    size:
+                                                        Dimensions.iconSize24 +
+                                                            10,
+                                                            color: AppColors.mainColor,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -326,7 +332,10 @@ class _ProfileViewState extends State<ProfileView> {
                                           Get.find<CartController>().clear();
                                           Get.find<CartController>()
                                               .clearCartHistory();
-                                          Get.toNamed(Routes.SIGN_IN);
+                                          // Get.toNamed(Routes.USER_NAVIGATOR);
+                                          Get.find<NavigatorUserController>()
+                                              .currentIndex
+                                              .value = 0;
                                         }
                                       },
                                       appIcon: AppIcon(

@@ -16,6 +16,8 @@ class AppString {
   static const String ASSETS_FASHION = '$IMG_PATH/fashion.webp';
   static const String ASSETS_EMPTY = '$IMG_PATH/empty-box.png';
   static const String ASSETS_FOOD = '$IMG_PATH/food.png';
+  static const String ASSETS_CART_EMPTY = '$IMG_PATH/cart_empty.png';
+
 
   //get argument
   static const String ARGUMENT_PRODUCT = 'product';

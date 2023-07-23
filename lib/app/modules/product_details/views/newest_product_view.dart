@@ -121,39 +121,31 @@ class _NewestProductViewState extends State<NewestProductView> {
             expandedHeight: 315,
             flexibleSpace: FlexibleSpaceBar(
               background: product.images.length > 1
-                  ? Positioned(
-                      left: 0.0,
-                      right: 0.0,
-                      child: Container(
-                        height: Dimensions.pageView,
-                        color: Colors.grey[100],
-                        child: PageView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          controller: pageController,
-                          itemCount: product.images.length,
-                          itemBuilder: (context, position) {
-                            return _buildPageItem(
-                              position,
-                              product.images[position],
-                            );
-                          },
-                        ),
-                      ),
-                    )
-                  : Positioned(
-                      left: 0.0,
-                      right: 0.0,
-                      child: Container(
-                        width: double.maxFinite,
-                        height: Dimensions.ratingProductImgSize,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(product.images[0]),
-                          ),
-                        ),
+                  ? Container(
+                    height: Dimensions.pageView,
+                    color: Colors.grey[100],
+                    child: PageView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      controller: pageController,
+                      itemCount: product.images.length,
+                      itemBuilder: (context, position) {
+                        return _buildPageItem(
+                          position,
+                          product.images[position],
+                        );
+                      },
+                    ),
+                  )
+                  : Container(
+                    width: double.maxFinite,
+                    height: Dimensions.ratingProductImgSize,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(product.images[0]),
                       ),
                     ),
+                  ),
             ),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(20),

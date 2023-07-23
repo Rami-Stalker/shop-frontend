@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:shop_app/app/core/api/api_client.dart';
-import 'package:http/http.dart' as http;
+import 'package:shop_app/app/core/network/api_constance.dart';
 import 'package:shop_app/app/core/utils/components/app_components.dart';
+import 'package:http/http.dart' as http;
+import 'package:shop_app/app/core/utils/constants/error_handling.dart';
+import 'package:shop_app/app/models/notification_model.dart';
 
 class NotificationController extends GetxController implements GetxService {
   final ApiClient apiClient;
@@ -12,36 +15,61 @@ class NotificationController extends GetxController implements GetxService {
     required this.apiClient,
   });
 
-  void sendPushMessage({
-    required String token,
+  void pushNotofication({
+    required String userId,
     required String title,
     required String body,
   }) async {
     try {
-      await http.post(
-        Uri.parse('https://fcm.googleapis.com/fcm/send'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization':
-              'key=AAAAtEreg6g:APA91bEulzSGCR8gTQPCRX6NeDCcjkGmNd9EOgQKKZmoT8Rz6us4t-O_EWrMefitD1EKExVaeV-0FBG5GGWeusJmceOf_mxCDdoilAUeRVw7FeGBldgJUT8HJgVS2sKyYzJCTmmcsGvr',
-        },
-        body: jsonEncode(
-          <String, dynamic>{
-          'priority': 'high',
-          'data': <String, dynamic>{
-            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-            'status': 'done',
-            'body': body,
-            'title': title,
-          },
-          "notification": <String, dynamic>{
+      http.Response res = await apiClient.postData(
+        ApiConstance.sendNotification,
+        jsonEncode(
+          {
+            "userId": userId,
             "title": title,
             "body": body,
-            "android_channel_id": "dbfood",
           },
-          "to": token,
-        }),
+        ),
       );
+
+      httpErrorHandle(res: res, onSuccess: () async {});
+    } catch (e) {
+      AppComponents.showCustomSnackBar(e.toString());
+    }
+  }
+
+  Future<List<NotificationModel>> getNotofication() async {
+    List<NotificationModel> notifications = [];
+    http.Response res = await apiClient.getData(
+      ApiConstance.getNotifications,
+    );
+
+    httpErrorHandle(
+        res: res,
+        onSuccess: () async {
+          for (var i = 0; i < jsonDecode(res.body).length; i++) {
+            notifications.add(
+              NotificationModel.fromJson(
+                jsonEncode(
+                  jsonDecode(
+                    res.body,
+                  )[i],
+                ),
+              ),
+            );
+          }
+        });
+    return notifications;
+  }
+
+  void seenNotofication() async {
+    try {
+      http.Response res = await apiClient.postData(
+        ApiConstance.seenNotification,
+        jsonEncode({}),
+      );
+
+      httpErrorHandle(res: res, onSuccess: () async {});
     } catch (e) {
       AppComponents.showCustomSnackBar(e.toString());
     }
