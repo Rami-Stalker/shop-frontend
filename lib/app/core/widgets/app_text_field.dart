@@ -10,16 +10,16 @@ class AppTextField extends StatelessWidget {
   final Widget suffixIcon;
   final TextInputType keyboardType;
   final int maxLines;
-  bool isObscure;
-  AppTextField({
+  final bool isObscure;
+  const AppTextField({
     Key? key,
     required this.textController,
     required this.hintText,
     required this.icon,
-    this.isObscure = false,
     this.suffixIcon = const SizedBox(),
     this.keyboardType = TextInputType.name,
     this.maxLines = 1,
+    this.isObscure = false,
   }) : super(key: key);
 
   @override

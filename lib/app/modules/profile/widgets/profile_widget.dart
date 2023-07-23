@@ -4,10 +4,10 @@ import '../../../core/utils/dimensions.dart';
 import '../../../core/widgets/big_text.dart';
 
 class AccountWidget extends StatelessWidget {
-  Widget appIcon;
-  BigText bigText;
-  Function() onTap;
-  AccountWidget({
+  final Widget appIcon;
+  final BigText bigText;
+  final Function() onTap;
+  const AccountWidget({
     Key? key,
     required this.appIcon,
     required this.bigText,

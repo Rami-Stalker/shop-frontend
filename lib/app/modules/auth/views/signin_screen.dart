@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_strings.dart';
 import '../../../core/utils/dimensions.dart';
-import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/custom_loader.dart';
 import '../../../routes/app_pages.dart';
@@ -69,15 +68,6 @@ class SignInView extends GetView<AuthController> {
                           backgroundColor: Colors.white,
                           radius: 100,
                           backgroundImage: AssetImage("assets/images/logo.png"),
-
-                          // child: AppIcon(
-                          //   onTap: () {},
-                          //   icon: Icons.person,
-                          //   backgroundColor: AppColors.mainColor,
-                          //   iconColor: Colors.white,
-                          //   iconSize: Dimensions.height45 + Dimensions.height30,
-                          //   size: Dimensions.height15 * 10,
-                          // ),
                         ),
                       ),
                     ),

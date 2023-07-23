@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../utils/dimensions.dart';
 
 class BigText extends StatelessWidget {
-  Color? color;
+  final Color? color;
   final String text;
-  double size;
-  TextOverflow overflow;
-  BigText({
+  final double size;
+  final TextOverflow overflow;
+  const BigText({
     Key? key,
     this.color = Colors.black,
     required this.text,

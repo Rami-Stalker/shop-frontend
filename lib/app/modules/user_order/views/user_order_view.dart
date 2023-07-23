@@ -11,7 +11,6 @@ import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/no_data_page.dart';
 import '../../../models/order_model.dart';
 import '../../../routes/app_pages.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../widgets/build_shimmer_order.dart';
 
