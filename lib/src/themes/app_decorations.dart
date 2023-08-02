@@ -4,16 +4,21 @@ import 'package:shop_app/src/themes/app_colors.dart';
 class AppDecoration {
   final BoxDecoration decoration;
   AppDecoration({required this.decoration});
-  factory AppDecoration.containerOnlyShadowTop(context) {
+  factory AppDecoration.appbarIcon(context, radius) {
     if (Theme.of(context).brightness == Brightness.dark) {
       return AppDecoration(
         decoration: BoxDecoration(
-          color: colorPrimaryBlack,
+          color: fCD,
+          borderRadius: BorderRadius.circular(radius),
+          gradient: LinearGradient(colors: [
+            mCL,
+            fCD,
+          ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
           boxShadow: [
             BoxShadow(
-              color: colorBlack.withOpacity(.65),
-              offset: Offset(-2, -2),
-              blurRadius: 10,
+              blurRadius: 1,
+              offset: const Offset(0, 2),
+              color: colorBlack.withOpacity(.4),
             ),
           ],
         ),
@@ -21,35 +26,43 @@ class AppDecoration {
     } else {
       return AppDecoration(
         decoration: BoxDecoration(
-          color: mC,
+          color: mCL,
+          gradient: LinearGradient(colors: [
+            mCL,
+            fCD,
+          ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
           boxShadow: [
             BoxShadow(
-              color: mCL,
-              offset: Offset(-2, -2),
-              blurRadius: 10,
+              blurRadius: 1,
+              offset: const Offset(0, 2),
+              color: mCH,
             ),
           ],
+          borderRadius: BorderRadius.circular(radius),
         ),
       );
     }
   }
 
-  factory AppDecoration.buttonActionCircle(context) {
+  factory AppDecoration.dots(context, radius) {
     if (Theme.of(context).brightness == Brightness.dark) {
       return AppDecoration(
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: colorPrimaryBlack,
+          color: fCD,
+          borderRadius: BorderRadius.circular(radius),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(.8),
-              offset: Offset(1, 1),
-              blurRadius: 1,
+              color: colorBlack.withOpacity(.4),
+              blurRadius: 5.0,
+              offset: Offset(0, 5),
+            ),
+            BoxShadow(
+              color: colorBlack.withOpacity(.8),
+              offset: Offset(-5, 0),
             ),
             BoxShadow(
               color: colorBlack.withOpacity(.35),
-              offset: Offset(-1, -1),
-              blurRadius: 1,
+              offset: Offset(5, 0),
             ),
           ],
         ),
@@ -57,18 +70,21 @@ class AppDecoration {
     } else {
       return AppDecoration(
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: mC,
+          color: mCL,
+          borderRadius: BorderRadius.circular(radius),
           boxShadow: [
             BoxShadow(
-              color: mCD,
-              offset: Offset(1, 1),
-              blurRadius: 1,
+              color: mCL,
+              blurRadius: 5.0,
+              offset: Offset(0, 5),
             ),
             BoxShadow(
-              color: mCL,
-              offset: Offset(-1, -1),
-              blurRadius: 1,
+              color: mCM,
+              offset: Offset(-5, 0),
+            ),
+            BoxShadow(
+              color: mCH,
+              offset: Offset(5, 0),
             ),
           ],
         ),
@@ -76,18 +92,28 @@ class AppDecoration {
     }
   }
 
-  factory AppDecoration.buttonActionCircleActive(context) {
+  factory AppDecoration.product(context, radius) {
     if (Theme.of(context).brightness == Brightness.dark) {
       return AppDecoration(
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.black.withOpacity(.4),
+          color: fCD,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(radius),
+            bottomRight: Radius.circular(radius),
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.shade900,
-              offset: Offset(2, 2),
-              blurRadius: 2,
-              spreadRadius: -2,
+              color: colorBlack.withOpacity(.4),
+              blurRadius: 5.0,
+              offset: Offset(0, 5),
+            ),
+            BoxShadow(
+              color: colorBlack.withOpacity(.8),
+              offset: Offset(-5, 0),
+            ),
+            BoxShadow(
+              color: colorBlack.withOpacity(.35),
+              offset: Offset(5, 0),
             ),
           ],
         ),
@@ -95,14 +121,24 @@ class AppDecoration {
     } else {
       return AppDecoration(
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: mCD,
+          color: mCL,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(radius),
+            bottomRight: Radius.circular(radius),
+          ),
           boxShadow: [
             BoxShadow(
               color: mCL,
-              offset: Offset(2, 2),
-              blurRadius: 2,
-              spreadRadius: -2,
+              blurRadius: 5.0,
+              offset: Offset(0, 5),
+            ),
+            BoxShadow(
+              color: mCM,
+              offset: Offset(-5, 0),
+            ),
+            BoxShadow(
+              color: mCH,
+              offset: Offset(5, 0),
             ),
           ],
         ),
@@ -110,36 +146,36 @@ class AppDecoration {
     }
   }
 
-  factory AppDecoration.buttonActionBorderActive(context, radius) {
+  factory AppDecoration.textfeild(context, radius) {
     if (Theme.of(context).brightness == Brightness.dark) {
       return AppDecoration(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius),
-          color: Colors.black.withOpacity(.4),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade900,
-              offset: Offset(2, 2),
-              blurRadius: 2,
-              spreadRadius: -2,
-            ),
-          ],
-        ),
+        color: fCD,
+        borderRadius: BorderRadius.circular(radius),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 3,
+            spreadRadius: 1,
+            offset: const Offset(1, 1),
+            color: colorBlack.withOpacity(.4),
+          ),
+        ],
+      ),
       );
     } else {
       return AppDecoration(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius),
-          color: mCD,
-          boxShadow: [
-            BoxShadow(
-              color: mCL,
-              offset: Offset(2, 2),
-              blurRadius: 2,
-              spreadRadius: -2,
-            ),
-          ],
-        ),
+        color: mCL,
+        borderRadius: BorderRadius.circular(radius),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 3,
+            spreadRadius: 1,
+            offset: const Offset(1, 1),
+            color: mCH,
+          ),
+        ],
+      ),
       );
     }
   }

@@ -1,4 +1,5 @@
 import 'package:shop_app/src/modules/home/controllers/home_controller.dart';
+import 'package:shop_app/src/themes/app_decorations.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
 import '../../../core/widgets/app_icon.dart';
@@ -6,7 +7,6 @@ import '../../../core/widgets/custom_loader.dart';
 import '../../../core/widgets/no_data_page.dart';
 import 'package:get/get.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/icon_text_widget.dart';
 import '../../../core/widgets/small_text.dart';
@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import '../../../models/product_model.dart';
 import '../../../public/constants.dart';
 import '../../../routes/app_pages.dart';
+import '../../../themes/app_colors.dart';
 
 class HomeCategoryDealsView extends GetView<HomeController> {
   const HomeCategoryDealsView({
@@ -37,7 +38,7 @@ class HomeCategoryDealsView extends GetView<HomeController> {
           child: AppIcon(
             onTap: () => Get.back(),
             icon: Icons.arrow_back_ios,
-            backgroundColor: AppColors.originColor,
+            backgroundColor: colorMedium,
           ),
         ),
       ),
@@ -98,17 +99,7 @@ class HomeCategoryDealsView extends GetView<HomeController> {
                                         child: Container(
                                           height:
                                               Dimensions.listViewTextConSize,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(
-                                                15.sp,
-                                              ),
-                                              bottomRight: Radius.circular(
-                                                15.sp,
-                                              ),
-                                            ),
-                                            color: Colors.white,
-                                          ),
+                                          decoration: AppDecoration.product(context, Dimensions.radius15).decoration,
                                           child: Padding(
                                             padding: EdgeInsets.only(
                                               left: 5.sp,
@@ -144,20 +135,20 @@ class HomeCategoryDealsView extends GetView<HomeController> {
                                                       icon: Icons.circle_sharp,
                                                       text: 'Normal',
                                                       iconColor:
-                                                          AppColors.iconColor1,
+                                                          colorMedium,
                                                     ),
                                                     IconAndTextWidget(
                                                       icon: Icons.location_on,
                                                       text: '1.7KM',
                                                       iconColor:
-                                                          AppColors.mainColor,
+                                                          colorPrimary,
                                                     ),
                                                     IconAndTextWidget(
                                                       icon: Icons
                                                           .access_time_rounded,
                                                       text: '23min',
                                                       iconColor:
-                                                          AppColors.iconColor2,
+                                                          colorHigh,
                                                     ),
                                                   ],
                                                 ),

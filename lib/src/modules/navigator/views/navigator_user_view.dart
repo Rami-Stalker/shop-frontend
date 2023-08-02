@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/src/modules/navigator/controllers/navigator_user_controller.dart';
 
-import '../../../core/utils/app_colors.dart';
-
-
 class UserNavigatorView extends GetView<NavigatorUserController> {
   const UserNavigatorView({super.key});
 
@@ -13,7 +10,6 @@ class UserNavigatorView extends GetView<NavigatorUserController> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       bottomNavigationBar: Obx(
         () =>  BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -29,8 +25,6 @@ class UserNavigatorView extends GetView<NavigatorUserController> {
           onTap: (index) {
             controller.changePage(index);
           },
-          selectedItemColor: AppColors.mainColor,
-          unselectedItemColor: Colors.amberAccent,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           ),

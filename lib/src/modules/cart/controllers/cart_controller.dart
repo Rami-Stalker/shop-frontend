@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:shop_app/src/core/utils/components/app_components.dart';
+import 'package:shop_app/src/public/components.dart';
 import 'package:shop_app/src/modules/cart/repositories/cart_repository.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../models/cart_model.dart';
 import '../../../models/product_model.dart';
 
@@ -162,10 +162,10 @@ class CartController extends GetxController implements GetxService {
 
   int checkQuantity(int quantity, int productQuantity) {
     if (quantity > productQuantity) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         "You ordered more than the available quantity \n available quantity is $productQuantity !",
         title: "Item count",
-        color: AppColors.originColor,
+        color: colorMedium,
       );
       _isValid.value = false;
       return productQuantity;

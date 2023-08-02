@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop_app/src/core/utils/constants/error_handling.dart';
 
 import '../../../models/order_model.dart';
+import '../../../public/constants.dart';
 import '../repositories/user_order_repository.dart';
 
 class UserOrderController extends GetxController implements GetxService {
@@ -22,7 +22,7 @@ class UserOrderController extends GetxController implements GetxService {
   Future<List<OrderModel>> fetchUserOrders() async {
       List<OrderModel> userOrders = [];
       http.Response res = await userOrderRepository.fetchMyOrder();
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           for (var i = 0; i < jsonDecode(res.body).length; i++) {

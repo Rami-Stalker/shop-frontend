@@ -1,18 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:shop_app/src/core/utils/app_colors.dart';
-import 'package:shop_app/src/core/utils/components/app_components.dart';
+import 'package:shop_app/src/public/components.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app/src/modules/navigator/controllers/navigator_admin_controller.dart';
+import 'package:shop_app/src/public/constants.dart';
 
-import '../../../core/utils/constants/error_handling.dart';
 import '../../../models/admin_model.dart';
 import '../../../models/order_model.dart';
 import '../../../models/product_model.dart';
+import '../../../themes/app_colors.dart';
 import '../repositories/admin_repository.dart';
 
 class AdminController extends GetxController implements GetxService {
@@ -88,20 +88,20 @@ class AdminController extends GetxController implements GetxService {
         product: product,
       );
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
-          AppComponents.showCustomSnackBar(
+          Components.showSnackBar(
             "Product Added Successfully!",
             title: "Product",
-            color: AppColors.mainColor,
+            color: colorPrimary,
           );
           Get.back();
         },
       );
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 
@@ -110,7 +110,7 @@ class AdminController extends GetxController implements GetxService {
 
     http.Response res = await adminRepository.fetchAllProducts();
 
-    httpErrorHandle(
+    Constants.httpErrorHandle(
       res: res,
       onSuccess: () {
         for (var i = 0; i < jsonDecode(res.body).length; i++) {
@@ -136,7 +136,7 @@ class AdminController extends GetxController implements GetxService {
       http.Response res =
           await adminRepository.fetchCategoryProduct(category: category);
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           for (var i = 0; i < jsonDecode(res.body).length; i++) {
@@ -164,13 +164,13 @@ class AdminController extends GetxController implements GetxService {
     try {
       http.Response res = await adminRepository.deleteProduct(product: product);
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {},
       );
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 
@@ -190,19 +190,19 @@ class AdminController extends GetxController implements GetxService {
         quantity: quantity,
       );
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
-          AppComponents.showCustomSnackBar(
+          Components.showSnackBar(
             'Update Seccessfully',
             title: 'Update',
-            color: AppColors.mainColor,
+            color: colorPrimary,
           );
         },
       );
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 
@@ -216,7 +216,7 @@ class AdminController extends GetxController implements GetxService {
       http.Response res =
           await adminRepository.changeOrderStatus(status: status, order: order);
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           currentStep += 1;
@@ -224,7 +224,7 @@ class AdminController extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 
@@ -234,7 +234,7 @@ class AdminController extends GetxController implements GetxService {
     try {
       http.Response res = await adminRepository.deleteOrder(order: order);
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           Get.find<NavigatorAdminController>().currentIndex.value = 0;
@@ -242,7 +242,7 @@ class AdminController extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 
@@ -252,7 +252,7 @@ class AdminController extends GetxController implements GetxService {
     try {
       http.Response res = await adminRepository.fetchEarnings();
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           var response = jsonDecode(res.body);
@@ -268,7 +268,7 @@ class AdminController extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
     return {
       'sales': sales,

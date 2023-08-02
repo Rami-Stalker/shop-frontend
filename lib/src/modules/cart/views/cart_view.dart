@@ -1,18 +1,19 @@
 import 'package:shop_app/src/controller/user_controller.dart';
 import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
 import 'package:shop_app/src/modules/cart/controllers/cart_controller.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
 import '../../../core/widgets/app_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/components/app_components.dart';
+import '../../../public/components.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/no_data_page.dart';
 import '../../../public/constants.dart';
 import '../../../routes/app_pages.dart';
+import '../../../themes/app_decorations.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -31,65 +32,37 @@ class _CartScreenState extends State<CartView> {
   Widget build(BuildContext context) {
     cartController.getCartList();
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "Cart",
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        leading: Container(
+          padding: EdgeInsets.all(8.sp),
+          child: InkWell(
+            onTap: () => Get.back(),
+            child: Container(
+              padding: EdgeInsets.all(5.sp),
+              decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
+              child: Icon(Icons.arrow_back_ios, size: 10.sp),
+            ),
+          ),
+        ),
+        bottom: PreferredSize(
+          child: Divider(),
+          preferredSize: Size(
+            Dimensions.screenWidth,
+            20,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.sp),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.only(top: Dimensions.height15),
-                height: 100,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () => Get.back(),
-                          child: Container(
-                            padding: EdgeInsets.all(Dimensions.height10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 1,
-                                  offset: const Offset(0, 2),
-                                  color: Colors.grey.withOpacity(0.2),
-                                ),
-                              ],
-                              borderRadius: BorderRadius.circular(
-                                5.sp,
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              size: 14.sp,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          "Cart",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.sp,
-                          ),
-                        ),
-                        Container(
-                          width: 40.sp,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 8.sp,
-                    ),
-                    Divider(),
-                  ],
-                ),
-              ),
               cartController.getItems.isNotEmpty
                   ? MediaQuery.removePadding(
                       removeTop: true,
@@ -212,8 +185,7 @@ class _CartScreenState extends State<CartView> {
                                                           },
                                                           child: Icon(
                                                             Icons.remove,
-                                                            color: AppColors
-                                                                .signColor,
+                                                            color: fCL,
                                                           ),
                                                         ),
                                                         SizedBox(width: 5.sp),
@@ -247,8 +219,7 @@ class _CartScreenState extends State<CartView> {
                                                           },
                                                           child: Icon(
                                                             Icons.add,
-                                                            color: AppColors
-                                                                .signColor,
+                                                            color: fCL,
                                                           ),
                                                         ),
                                                       ],
@@ -289,7 +260,7 @@ class _CartScreenState extends State<CartView> {
                 left: Dimensions.width20,
               ),
               decoration: BoxDecoration(
-                color: AppColors.buttonBackgroundColor,
+                color: fCL,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40.sp),
                   topRight: Radius.circular(40.sp),
@@ -338,7 +309,7 @@ class _CartScreenState extends State<CartView> {
                               Get.toNamed(Routes.CHECKOUT);
                             }
                           } else {
-                            AppComponents.showCustomDialog(
+                            Components.showCustomDialog(
                               context: context,
                               msg:
                                   'You should Sign in to complete \n do you want Sign in ?',

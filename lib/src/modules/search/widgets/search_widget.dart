@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:shop_app/src/modules/search/controllers/search_controller.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
 import '../../../controller/user_controller.dart';
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 
@@ -122,7 +122,7 @@ class SearchWidget extends GetView<SearchController> {
                                 children: [
                                   Icon(
                                     Icons.star,
-                                    color: AppColors.starColor,
+                                    color: colorStar,
                                     size: 20,
                                   ),
                                   Text(

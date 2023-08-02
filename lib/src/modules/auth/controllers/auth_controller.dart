@@ -7,17 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shop_app/src/services/push_notification_service.dart';
-import 'package:shop_app/src/core/utils/app_colors.dart';
 import 'package:shop_app/src/modules/auth/repositories/auth_repository.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
-import '../../../core/utils/components/app_components.dart';
+import '../../../public/components.dart';
 
 import '../../../core/api/api_client.dart';
-import '../../../core/utils/constants/error_handling.dart';
 import '../../../controller/user_controller.dart';
+import '../../../public/constants.dart';
 import '../../../services/dependencies.dart' as dep;
 import '../../../routes/app_pages.dart';
+import '../../../services/push_notification_service.dart';
 
 class AuthController extends GetxController implements GetxService {
   final ApiClient apiClient;
@@ -62,7 +62,7 @@ class AuthController extends GetxController implements GetxService {
       await authRepository.sendOtP(phoneCode, phoneNumber);
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 
@@ -82,7 +82,7 @@ class AuthController extends GetxController implements GetxService {
       http.Response verifyRes =
           await authRepository.verifyOTP(phoneCode, phoneNumber, codeOTP);
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
           res: verifyRes,
           onSuccess: () async {
             String photoCloud = '';
@@ -110,13 +110,13 @@ class AuthController extends GetxController implements GetxService {
               phone: phoneNumber,
             );
 
-            httpErrorHandle(
+            Constants.httpErrorHandle(
               res: res,
               onSuccess: () {
-                AppComponents.showCustomSnackBar(
+                Components.showSnackBar(
                   title: 'Sign Up',
                   "Account created! Login with the same credentials!",
-                  color: AppColors.mainColor,
+                  color: colorPrimary,
                 );
                 emailUC.text = '';
                 passwordUC.text = '';
@@ -127,7 +127,7 @@ class AuthController extends GetxController implements GetxService {
             );
           });
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
     _isLoading = false;
     update();
@@ -142,7 +142,7 @@ class AuthController extends GetxController implements GetxService {
       update();
       http.Response res = await authRepository.login(email, password);
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () async {
           await dep.init();
@@ -162,7 +162,7 @@ class AuthController extends GetxController implements GetxService {
         },
       );
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
     _isLoading = false;
     update();
@@ -189,7 +189,7 @@ class AuthController extends GetxController implements GetxService {
         userController.setUserFromJson(userRes.body);
       }
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
     _isLoading = false;
     update();
@@ -198,9 +198,9 @@ class AuthController extends GetxController implements GetxService {
   void saveUserTokenFCM(String tokenFCM) async {
     try {
       http.Response res = await authRepository.saveUserTokenFCM(tokenFCM);
-      httpErrorHandle(res: res, onSuccess: () {});
+      Constants.httpErrorHandle(res: res, onSuccess: () {});
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 

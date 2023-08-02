@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app/src/core/network/network_info.dart';
-import 'package:shop_app/src/core/utils/components/app_components.dart';
+import 'package:shop_app/src/public/components.dart';
 import 'package:shop_app/src/modules/home/repositories/home_repository.dart';
 
-import '../../../core/utils/constants/error_handling.dart';
 import '../../../models/product_model.dart';
+import '../../../public/constants.dart';
 
 class HomeController extends GetxController implements GetxService {
   final HomeRepository homeRepository;
@@ -30,7 +30,7 @@ class HomeController extends GetxController implements GetxService {
     http.Response res =
         await homeRepository.fetchCategoryProduct(category: category);
 
-    httpErrorHandle(
+    Constants.httpErrorHandle(
       res: res,
       onSuccess: () {
         for (var i = 0; i < jsonDecode(res.body).length; i++) {
@@ -53,7 +53,7 @@ class HomeController extends GetxController implements GetxService {
         _isLoading = true;
       update();
       http.Response res = await homeRepository.fetchRatingProduct();
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           for (var i = 0; i < jsonDecode(res.body).length; i++) {
@@ -72,12 +72,12 @@ class HomeController extends GetxController implements GetxService {
       _isLoading = false;
       update();
       } else {
-        AppComponents.showCustomSnackBar('Make sure you are connected to the internet', title: 'You are offline');
+        Components.showSnackBar('Make sure you are connected to the internet', title: 'You are offline');
       }
 
       
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 
@@ -87,7 +87,7 @@ class HomeController extends GetxController implements GetxService {
       update();
       http.Response res = await homeRepository.fetchNewestProduct();
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           for (var i = 0; i < jsonDecode(res.body).length; i++) {
@@ -106,7 +106,7 @@ class HomeController extends GetxController implements GetxService {
       _isLoading = false;
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 

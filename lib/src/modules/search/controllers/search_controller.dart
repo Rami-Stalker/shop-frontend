@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app/src/modules/search/repositories/search_repository.dart';
 
-import '../../../core/utils/components/app_components.dart';
-import '../../../core/utils/constants/error_handling.dart';
+import '../../../public/components.dart';
 import '../../../models/product_model.dart';
+import '../../../public/constants.dart';
 
 class SearchControlle extends GetxController implements GetxService {
   final SearchRepository searchRepository;
@@ -35,7 +35,7 @@ class SearchControlle extends GetxController implements GetxService {
       http.Response res =
           await searchRepository.fetchSearchProduct(searchQuery: searchQuery);
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           for (var i = 0; i < jsonDecode(res.body).length; i++) {
@@ -51,7 +51,7 @@ class SearchControlle extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
     return products;
   }

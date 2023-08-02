@@ -1,12 +1,8 @@
 import 'package:shop_app/src/controller/notification_controller.dart';
 import 'package:shop_app/src/controller/user_controller.dart';
-import 'package:shop_app/src/core/widgets/app_icon.dart';
-import 'package:shop_app/src/core/widgets/big_text.dart';
 import 'package:shop_app/src/modules/admin/controllers/admin_controller.dart';
 import 'package:shop_app/src/modules/order_details/controllers/order_details_controller.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
-
-import '../../../core/utils/app_colors.dart';
 
 import '../../../core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +11,7 @@ import 'package:intl/intl.dart';
 
 import '../../../models/order_model.dart';
 import '../../../routes/app_pages.dart';
+import '../../../themes/app_decorations.dart';
 
 class OrderDetailsView extends GetView<OrderDetailsController> {
   const OrderDetailsView({
@@ -33,35 +30,33 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
     adminController.currentStep = userOrder.status;
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      body: Column(
-        children: [
-          Container(
-            color: AppColors.mainColor,
-            width: double.maxFinite,
-            height: 100.sp,
-            padding: EdgeInsets.only(
-              top: Dimensions.height45,
-              left: Dimensions.width20,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppIcon(
-                  onTap: () => Get.back(),
-                  icon: Icons.arrow_back_ios,
-                  backgroundColor: AppColors.originColor,
-                ),
-                BigText(
-                  text: 'Order Details',
-                  color: Colors.white,
-                ),
-                Container(
-                  width: Dimensions.height45,
-                ),
-              ],
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "Order Details",
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        leading: Container(
+          padding: EdgeInsets.all(8.sp),
+          child: InkWell(
+            onTap: () => Get.back(),
+            child: Container(
+              padding: EdgeInsets.all(5.sp),
+              decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
+              child: Icon(Icons.arrow_back_ios, size: 10.sp),
             ),
           ),
+        ),
+        bottom: PreferredSize(
+          child: Divider(),
+          preferredSize: Size(
+            Dimensions.screenWidth,
+            20,
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
           MediaQuery.removePadding(
             removeTop: true,
             context: context,

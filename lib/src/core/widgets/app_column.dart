@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
-import '../utils/app_colors.dart';
 import 'big_text.dart';
 import 'icon_text_widget.dart';
 
@@ -55,7 +55,7 @@ class AppColumn extends StatelessWidget {
                   5.sp,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.mainColor,
+                  color: colorPrimary,
                   borderRadius: BorderRadius.circular(10.sp),
                 ),
                 child: Row(
@@ -86,17 +86,17 @@ class AppColumn extends StatelessWidget {
             IconAndTextWidget(
               icon: Icons.circle_sharp,
               text: 'Normal',
-              iconColor: AppColors.iconColor1,
+              iconColor: colorMedium,
             ),
             IconAndTextWidget(
               icon: Icons.location_on,
               text: '1.7KM',
-              iconColor: AppColors.mainColor,
+              iconColor: colorPrimary,
             ),
             IconAndTextWidget(
               icon: Icons.access_time_rounded,
               text: '23min',
-              iconColor: AppColors.iconColor2,
+              iconColor: colorHigh,
             ),
           ],
         ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../helpers/hex_color.dart';
+
 var colorBlack = Color(0xFF121212);
 var colorPrimaryBlack = Color(0xFF14171A);
 var colorDarkGrey = Color(0xFF657786);
-var colorPrimary = Color(0xFF1DA1F2);
+var colorPrimary = Color(0xFF89dad0);
 var colorTitle = Color(0xFF2C3D50);
 
 var colorHigh = Colors.redAccent;
@@ -14,6 +16,7 @@ var colorFailed = colorDarkGrey;
 var colorActive = Color(0xFF00D72F);
 var colorGreenLight = Color(0xFF009E60);
 var colorAttendance = Color(0xFF0CCF4C);
+var colorStar = HexColor('FFFF9900');
 
 Color mC = Colors.grey.shade100;
 Color mCL = Colors.white;
@@ -52,11 +55,11 @@ class AppColors {
   factory AppColors.light() {
     return AppColors(
       header: colorBlack,
-      primary: Color(0xFF1DA1F2),
+      primary: colorPrimary,
       background: mC,
       accent: Color(0xFF17c063),
       disabled: Colors.black12,
-      error: Color(0xFFFF7466),
+      error: colorHigh,
       divider: Colors.black26,
       button: Color(0xFF657786),
       contentText1: colorBlack,
@@ -67,11 +70,11 @@ class AppColors {
   factory AppColors.dark() {
     return AppColors(
       header: Colors.white,
-      primary: Color(0xFF1DA1F2),
+      primary: colorPrimary,
       background: Color(0xFF14171A),
       accent: Color(0xFF17c063),
       disabled: Colors.white12,
-      error: Color(0xFFFF5544),
+      error: colorHigh,
       divider: Colors.white24,
       button: Colors.white,
       contentText1: mCL,

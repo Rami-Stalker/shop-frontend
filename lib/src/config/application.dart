@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:shop_app/src/services/push_notification_service.dart';
 import 'package:shop_app/src/services/dependencies.dart' as dep;
+import 'package:shop_app/src/services/push_notification_service.dart';
 
 class Application {
   /// [Production - Dev]
@@ -17,8 +17,8 @@ class Application {
       await GetStorage.init();
       await dep.init();
       await PushNotificationService().initialise();
-      baseUrl = 'http://192.168.73.79:3000';
-      socketUrl = 'http://192.168.73.79:3000';
+      baseUrl = 'http://192.168.22.79:3000';
+      socketUrl = 'http://192.168.22.79:3000';
       mode = 'PRODUCTION'; 
     } catch (error) {
       debugPrint(error.toString());

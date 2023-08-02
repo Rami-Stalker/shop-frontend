@@ -5,6 +5,7 @@ import 'package:shop_app/src/controller/notification_controller.dart';
 import 'package:shop_app/src/core/widgets/big_text.dart';
 import 'package:shop_app/src/core/widgets/small_text.dart';
 import 'package:shop_app/src/models/notification_model.dart';
+import 'package:shop_app/src/themes/app_decorations.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
 class HomeNitification extends StatefulWidget {
@@ -49,18 +50,11 @@ class _HomeNitificationState extends State<HomeNitification> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: Colors.grey[100],
-        elevation: 0.0,
         centerTitle: true,
         title: Text(
           "Notifications",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 13.sp,
-            color: Colors.black,
-          ),
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         leading: Container(
           padding: EdgeInsets.all(8.sp),
@@ -68,23 +62,18 @@ class _HomeNitificationState extends State<HomeNitification> {
             onTap: () => Get.back(),
             child: Container(
               padding: EdgeInsets.all(5.sp),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 1,
-                    offset: const Offset(0, 2),
-                    color: Colors.grey.withOpacity(0.2),
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(5.sp),
-              ),
+              decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
               child: Icon(Icons.arrow_back_ios, size: 10.sp),
             ),
           ),
         ),
         bottom: PreferredSize(
-            child: Divider(), preferredSize: Size(Dimensions.screenWidth, 20)),
+          child: Divider(),
+          preferredSize: Size(
+            Dimensions.screenWidth,
+            20,
+          ),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(

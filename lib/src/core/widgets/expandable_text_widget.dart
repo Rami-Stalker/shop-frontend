@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
 import '../../utils/sizer_custom/sizer.dart';
-import '../utils/app_colors.dart';
 import 'small_text.dart';
 
 class ExpandableTextWidget extends StatefulWidget {
@@ -40,7 +40,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
     return Container(
         child: secondHalf.isEmpty
             ? SmallText(
-                color: AppColors.paraColor,
+                color: colorDarkGrey,
                 size: Dimensions.font16,
                 text: firstHalf,
               )
@@ -49,7 +49,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
                 children: [
                   SmallText(
                     height: 1.8,
-                    color: AppColors.paraColor,
+                    color: colorDarkGrey,
                     size: Dimensions.font16,
                     text: hiddenText
                         ? (firstHalf + '...')
@@ -65,13 +65,13 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
                       children: [
                         SmallText(
                           text: hiddenText ? 'Show more' : 'Show less',
-                          color: AppColors.mainColor,
+                          color: colorPrimary,
                         ),
                         Icon(
                           hiddenText
                               ? Icons.arrow_drop_down
                               : Icons.arrow_drop_up,
-                          color: AppColors.mainColor,
+                          color: colorPrimary,
                         ),
                       ],
                     ),

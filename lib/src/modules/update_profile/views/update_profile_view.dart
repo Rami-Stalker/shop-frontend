@@ -4,19 +4,19 @@ import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
 import 'package:shop_app/src/modules/update_profile/controllers/update_profile_controller.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
-import '../../../core/utils/components/app_components.dart';
+import '../../../public/components.dart';
 import '../../../controller/user_controller.dart';
-import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../routes/app_pages.dart';
+import '../../../themes/app_colors.dart';
+import '../../../themes/app_decorations.dart';
 
 class UpdateProfileView extends StatefulWidget {
   const UpdateProfileView({super.key});
@@ -41,7 +41,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
     services = await Geolocator.isLocationServiceEnabled();
 
     if (services == false) {
-      AppComponents.showCustomSnackBar("Services Not Enabled");
+      Components.showSnackBar("Services Not Enabled");
     }
 
     per = await Geolocator.checkPermission();
@@ -81,34 +81,58 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            color: AppColors.mainColor,
-            width: double.maxFinite,
-            height: 100.sp,
-            padding: EdgeInsets.only(
-              top: Dimensions.height45,
-              left: Dimensions.width20,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppIcon(
-                  onTap: () => Get.back(),
-                  icon: Icons.arrow_back_ios,
-                  backgroundColor: AppColors.originColor,
-                ),
-                BigText(
-                  text: 'Modify profile',
-                  color: Colors.white,
-                ),
-                Container(
-                  width: Dimensions.height45,
-                ),
-              ],
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "Modification Profile",
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        leading: Container(
+          padding: EdgeInsets.all(8.sp),
+          child: InkWell(
+            onTap: () => Get.back(),
+            child: Container(
+              padding: EdgeInsets.all(5.sp),
+              decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
+              child: Icon(Icons.arrow_back_ios, size: 10.sp),
             ),
           ),
+        ),
+        bottom: PreferredSize(
+          child: Divider(),
+          preferredSize: Size(
+            Dimensions.screenWidth,
+            20,
+          ),
+        ),
+      ),
+      body: 
+          // Container(
+          //   color: colorPrimary,
+          //   width: double.maxFinite,
+          //   height: 100.sp,
+          //   padding: EdgeInsets.only(
+          //     top: Dimensions.height45,
+          //     left: Dimensions.width20,
+          //   ),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       AppIcon(
+          //         onTap: () => Get.back(),
+          //         icon: Icons.arrow_back_ios,
+          //         backgroundColor: colorMedium,
+          //       ),
+          //       BigText(
+          //         text: 'Modify profile',
+          //         color: Colors.white,
+          //       ),
+          //       Container(
+          //         width: Dimensions.height45,
+          //       ),
+          //     ],
+          //   ),
+          // ),
           GetBuilder<UpdateProfileController>(
             builder: (addressController) {
               addressController.addressC.text =
@@ -127,7 +151,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                           borderRadius: BorderRadius.circular(5),
                           border: Border.all(
                             width: 2,
-                            color: AppColors.mainColor,
+                            color: colorPrimary,
                           ),
                         ),
                         child: _isPosition != false
@@ -224,7 +248,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                                                   color: addressController
                                                               .addressTypeIndex ==
                                                           index
-                                                      ? AppColors.mainColor
+                                                      ? colorPrimary
                                                       : Theme.of(context)
                                                           .disabledColor,
                                                 ),
@@ -281,8 +305,8 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
               );
             },
           ),
-        ],
-      ),
+        
+      
       bottomNavigationBar:
           GetBuilder<UpdateProfileController>(builder: (addressCtrl) {
         return Column(
@@ -291,7 +315,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
             Container(
               height: 140.sp,
               decoration: BoxDecoration(
-                color: AppColors.buttonBackgroundColor,
+                color: colorPrimary,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40.sp),
                   topRight: Radius.circular(40.sp),

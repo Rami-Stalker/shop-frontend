@@ -4,14 +4,14 @@ import 'package:shop_app/src/core/picker/picker.dart';
 import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
 import 'package:shop_app/src/modules/cart/controllers/cart_controller.dart';
 import 'package:shop_app/src/modules/navigator/controllers/navigator_user_controller.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
 import '../../../controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/components/app_components.dart';
+import '../../../public/components.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/custom_loader.dart';
@@ -51,7 +51,7 @@ class _ProfileViewState extends State<ProfileView> {
       body: Column(
         children: [
           Container(
-            color: AppColors.mainColor,
+            color: colorPrimary,
             width: double.maxFinite,
             height: 100.sp,
             padding: EdgeInsets.only(
@@ -94,7 +94,7 @@ class _ProfileViewState extends State<ProfileView> {
                                               radius: 80.sp,
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  color: AppColors.mainColor,
+                                                  color: colorPrimary,
                                                   shape: BoxShape.circle,
                                                 ),
                                                 child: image != null
@@ -106,7 +106,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                     : CircleAvatar(
                                                         radius: 80.sp,
                                                         backgroundColor:
-                                                            AppColors.mainColor,
+                                                            colorPrimary,
                                                         backgroundImage:
                                                             NetworkImage(
                                                           userController
@@ -120,89 +120,12 @@ class _ProfileViewState extends State<ProfileView> {
                                               right: 0.0,
                                               child: InkWell(
                                                 onTap: () {
-                                                  Get.bottomSheet(
-                                                    SingleChildScrollView(
-                                                      child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                            Dimensions.radius15,
-                                                          ),
-                                                          color: Get.isDarkMode
-                                                              ? Colors.black
-                                                              : Colors.white,
-                                                        ),
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .only(
-                                                          top: 4.sp,
-                                                        ),
-                                                        width: Dimensions
-                                                            .screenWidth,
-                                                        height: 150.sp,
-                                                        child: Column(
-                                                          children: [
-                                                            Flexible(
-                                                              child: Container(
-                                                                height: 6.sp,
-                                                                width: 120.sp,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                    20,
-                                                                  ),
-                                                                  color: Get
-                                                                          .isDarkMode
-                                                                      ? Colors.grey[
-                                                                          600]
-                                                                      : Colors.grey[
-                                                                          300],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 10,
-                                                            ),
-                                                            AppComponents
-                                                                .buildbottomsheet(
-                                                              icon: Icon(
-                                                                Icons.camera,
-                                                                color: AppColors
-                                                                    .mainColor,
-                                                              ),
-                                                              label:
-                                                                  "From camera",
-                                                              ontap:
-                                                                  pickImageCamera,
-                                                            ),
-                                                            Divider(
-                                                              color: Get
-                                                                      .isDarkMode
-                                                                  ? Colors.white
-                                                                  : Colors
-                                                                      .black,
-                                                            ),
-                                                            AppComponents
-                                                                .buildbottomsheet(
-                                                              icon: Icon(
-                                                                Icons.image,
-                                                                color: AppColors
-                                                                    .mainColor,
-                                                              ),
-                                                              label:
-                                                                  "From Gallery",
-                                                              ontap:
-                                                                  pickImageGallery,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    elevation: 0.4,
+                                                  Components.showbottomsheet(
+                                                    context,
+                                                    onTapCamera:
+                                                        pickImageFromCamera,
+                                                    onTapGallery:
+                                                        pickImageFromGallery,
                                                   );
                                                 },
                                                 child: CircleAvatar(
@@ -211,9 +134,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                       Colors.transparent,
                                                   child: Icon(
                                                     Icons.camera_alt,
-                                                    size:
-                                                        32.sp,
-                                                    color: AppColors.mainColor,
+                                                    size: 32.sp,
+                                                    color: colorPrimary,
                                                   ),
                                                 ),
                                               ),
@@ -234,7 +156,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       appIcon: AppIcon(
                                         onTap: () {},
                                         icon: Icons.person,
-                                        backgroundColor: AppColors.mainColor,
+                                        backgroundColor: colorPrimary,
                                         iconColor: Colors.white,
                                         iconSize: 25.sp,
                                         size: 50.sp,
@@ -254,7 +176,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       appIcon: AppIcon(
                                         onTap: () {},
                                         icon: Icons.phone,
-                                        backgroundColor: AppColors.originColor,
+                                        backgroundColor: colorMedium,
                                         iconColor: Colors.white,
                                         iconSize: 25.sp,
                                         size: 50.sp,
@@ -272,7 +194,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       appIcon: AppIcon(
                                         onTap: () {},
                                         icon: Icons.email,
-                                        backgroundColor: AppColors.originColor,
+                                        backgroundColor: colorMedium,
                                         iconColor: Colors.white,
                                         iconSize: 25.sp,
                                         size: 50.sp,
@@ -292,7 +214,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       appIcon: AppIcon(
                                         onTap: () {},
                                         icon: Icons.location_on,
-                                        backgroundColor: AppColors.originColor,
+                                        backgroundColor: colorMedium,
                                         iconColor: Colors.white,
                                         iconSize: 25.sp,
                                         size: 50.sp,
@@ -345,8 +267,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         iconSize: 25.sp,
                                         size: 50.sp,
                                       ),
-                                      bigText:
-                                          BigText(text: 'Login out'),
+                                      bigText: BigText(text: 'Login out'),
                                     ),
                                     SizedBox(
                                       height: Dimensions.height20,
@@ -392,7 +313,7 @@ class _ProfileViewState extends State<ProfileView> {
                             right: Dimensions.width20,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.mainColor,
+                            color: colorPrimary,
                             borderRadius:
                                 BorderRadius.circular(Dimensions.height20),
                           ),

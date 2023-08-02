@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
-
-import '../utils/app_colors.dart';
 
 class AppTextButton extends StatelessWidget {
   final String txt;
@@ -17,7 +16,7 @@ class AppTextButton extends StatelessWidget {
     return TextButton(
       onPressed: onTap,
       style: TextButton.styleFrom(
-          backgroundColor: AppColors.mainColor,
+          backgroundColor: colorPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
               10.sp,

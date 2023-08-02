@@ -6,8 +6,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/src/modules/cart/controllers/cart_controller.dart';
 import 'package:shop_app/src/modules/product_details/controllers/product_details_controller.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/expandable_text_widget.dart';
@@ -93,7 +93,7 @@ class _NewestProductViewState extends State<NewestProductView> {
                                 icon: Icons.circle,
                                 size: 20,
                                 iconColor: Colors.transparent,
-                                backgroundColor: AppColors.mainColor,
+                                backgroundColor: colorPrimary,
                               ),
                             )
                           : Container(),
@@ -116,7 +116,7 @@ class _NewestProductViewState extends State<NewestProductView> {
               ],
             ),
             pinned: true, // expanded حتى يبقى الابار ظاهر حتى بعد ال
-            backgroundColor: AppColors.originColor,
+            backgroundColor: colorMedium,
             expandedHeight: 315,
             flexibleSpace: FlexibleSpaceBar(
               background: product.images.length > 1
@@ -181,7 +181,7 @@ class _NewestProductViewState extends State<NewestProductView> {
                                     Dimensions.width10,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: AppColors.starColor,
+                                    color: colorStar,
                                     borderRadius: BorderRadius.circular(
                                         Dimensions.radius15),
                                     boxShadow: [
@@ -283,7 +283,7 @@ class _NewestProductViewState extends State<NewestProductView> {
                   itemPadding: const EdgeInsets.symmetric(horizontal: 4),
                   itemBuilder: (context, _) => Icon(
                     Icons.star,
-                    color: AppColors.starColor,
+                    color: colorStar,
                   ),
                   onRatingUpdate: (rating) {
                     // productDetailsController.rateProduct(
@@ -314,7 +314,7 @@ class _NewestProductViewState extends State<NewestProductView> {
                       },
                       iconSize: Dimensions.iconSize24,
                       iconColor: Colors.white,
-                      backgroundColor: AppColors.mainColor,
+                      backgroundColor: colorPrimary,
                       icon: Icons.remove,
                     ),
                     BigText(
@@ -332,7 +332,7 @@ class _NewestProductViewState extends State<NewestProductView> {
                       },
                       iconSize: Dimensions.iconSize24,
                       iconColor: Colors.white,
-                      backgroundColor: AppColors.mainColor,
+                      backgroundColor: colorPrimary,
                       icon: Icons.add,
                     ),
                   ],
@@ -347,7 +347,7 @@ class _NewestProductViewState extends State<NewestProductView> {
               left: Dimensions.width20,
             ),
             decoration: BoxDecoration(
-              color: AppColors.buttonBackgroundColor,
+              color: colorPrimaryBlack,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(40.sp),
                 topRight: Radius.circular(40.sp),

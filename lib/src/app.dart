@@ -45,7 +45,7 @@ class App extends StatelessWidget {
             ],
             theme: AppTheme.light().data,
             darkTheme: AppTheme.dark().data,
-            themeMode: ThemeService.currentTheme,
+            themeMode: ThemeService().getThemeMode(),
             initialRoute: initRoute(),
             getPages: AppPages.routes,
           ),

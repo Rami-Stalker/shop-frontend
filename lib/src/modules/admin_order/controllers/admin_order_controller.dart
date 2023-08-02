@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../core/utils/components/app_components.dart';
-import '../../../core/utils/constants/error_handling.dart';
+import '../../../public/components.dart';
 import '../../../models/order_model.dart';
+import '../../../public/constants.dart';
 import '../../../routes/app_pages.dart';
 import '../repositories/admin_order_repository.dart';
 
@@ -26,7 +26,7 @@ class AdminOrderController extends GetxController {
       _isLoading = true;
       update();
       http.Response res = await adminOrderRepository.fetchAllOrders();
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           for (var i = 0; i < jsonDecode(res.body).length; i++) {
@@ -43,7 +43,7 @@ class AdminOrderController extends GetxController {
       _isLoading = false;
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 
@@ -57,7 +57,7 @@ class AdminOrderController extends GetxController {
       http.Response res =
           await adminOrderRepository.changeOrderStatus(status: status, order: order);
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           currentStep += 1;
@@ -65,7 +65,7 @@ class AdminOrderController extends GetxController {
       );
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 
@@ -75,7 +75,7 @@ class AdminOrderController extends GetxController {
     try {
       http.Response res = await adminOrderRepository.deleteOrder(order: order);
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           Get.toNamed(Routes.ADMIN_NAVIGATOR);
@@ -83,7 +83,7 @@ class AdminOrderController extends GetxController {
       );
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 

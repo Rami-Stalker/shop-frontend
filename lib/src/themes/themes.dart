@@ -19,15 +19,18 @@ class AppTheme {
         backgroundColor: appColors.error,
         behavior: SnackBarBehavior.floating,
       ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: appColors.background,
+        elevation: 0.4,
+        shape: RoundedRectangleBorder(),
+      ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: appColors.background,
         selectedItemColor: colorPrimary,
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: appColors.background,
-        iconTheme: IconThemeData(
-          color: appColors.contentText1,
-        ),
+        elevation: 0.0,
       ),
       textTheme: TextTheme(
         displayLarge: TextStyle(color: appColors.header),
@@ -54,15 +57,19 @@ class AppTheme {
         backgroundColor: appColors.error,
         behavior: SnackBarBehavior.floating,
       ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: appColors.background,
+        elevation: 0.4,
+        shape: RoundedRectangleBorder(),
+      ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: appColors.background,
         selectedItemColor: colorPrimary,
+        unselectedItemColor: colorMedium,
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: appColors.background,
-        iconTheme: IconThemeData(
-          color: appColors.contentText1,
-        ),
+        elevation: 0.0,
       ),
       textTheme: TextTheme(
         displayLarge: TextStyle(color: appColors.header),

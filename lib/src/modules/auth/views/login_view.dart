@@ -1,15 +1,15 @@
 import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
 
-import '../../../core/utils/components/app_components.dart';
+import '../../../public/components.dart';
 import '../../../core/widgets/app_text_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/custom_loader.dart';
 import '../../../routes/app_pages.dart';
+import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 class LoginView extends GetView<AuthController> {
@@ -24,22 +24,22 @@ class LoginView extends GetView<AuthController> {
       String password = controller.passwordIC.text.trim();
 
       if (email.isEmpty) {
-        AppComponents.showCustomSnackBar(
+        Components.showSnackBar(
           'Type in your email address',
           title: 'Email address',
         );
       } else if (!GetUtils.isEmail(email)) {
-        AppComponents.showCustomSnackBar(
+        Components.showSnackBar(
           'Type in a valid email address',
           title: 'Valid email address',
         );
       } else if (password.isEmpty) {
-        AppComponents.showCustomSnackBar(
+        Components.showSnackBar(
           'Type in your password',
           title: 'password',
         );
       } else if (password.length < 6) {
-        AppComponents.showCustomSnackBar(
+        Components.showSnackBar(
           'Password can not less than six characters',
           title: 'password',
         );
@@ -128,7 +128,7 @@ class LoginView extends GetView<AuthController> {
                               authCtrl.isObscure
                                   ? Icons.visibility_outlined
                                   : Icons.visibility_off_outlined,
-                              color: AppColors.mainColor,
+                              color: colorPrimary,
                             ),
                           ),
                         );
@@ -182,10 +182,7 @@ class LoginView extends GetView<AuthController> {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () => Get.toNamed(Routes.SIGN_UP),
                             text: 'Create',
-                            style: TextStyle(
-                              color: AppColors.mainBlackColor,
-                              fontSize: Dimensions.font20,
-                            ),
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ],
                       ),

@@ -5,13 +5,13 @@ import 'package:intl/intl.dart';
 import 'package:shop_app/src/modules/user_order/controllers/user_order_controller.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/no_data_page.dart';
 import '../../../models/order_model.dart';
 import '../../../public/constants.dart';
 import '../../../routes/app_pages.dart';
 
+import '../../../themes/app_colors.dart';
 import '../widgets/build_shimmer_order.dart';
 
 class UserOrderView extends GetView<UserOrderController> {
@@ -22,7 +22,7 @@ class UserOrderView extends GetView<UserOrderController> {
     return Column(
       children: [
         Container(
-          color: AppColors.mainColor,
+          color: colorPrimary,
           width: double.maxFinite,
           height: 100.sp,
           padding: EdgeInsets.only(top: Dimensions.height45),
@@ -119,19 +119,25 @@ class UserOrderView extends GetView<UserOrderController> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,
                                                 children: [
-                                                  BigText(
-                                                    text: 'total:',
-                                                    size: 16,
-                                                    color: AppColors.titleColor,
+                                                  Text(
+                                                    'total:',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium,
                                                   ),
+                                                  // BigText(
+                                                  //   text: 'total:',
+                                                  //   size: 16,
+                                                  //   color: AppColors.titleColor,
+                                                  // ),
                                                   SizedBox(
                                                     width: Dimensions.width10,
                                                   ),
-                                                  BigText(
-                                                    text:
-                                                        '\$${userOrder.totalPrice.toString()}',
-                                                    size: 16,
-                                                    color: AppColors.titleColor,
+                                                  Text(
+                                                    '\$${userOrder.totalPrice.toString()}',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium,
                                                   ),
                                                 ],
                                               ),
@@ -156,13 +162,12 @@ class UserOrderView extends GetView<UserOrderController> {
                                                     ),
                                                     border: Border.all(
                                                       width: 1,
-                                                      color:
-                                                          AppColors.mainColor,
+                                                      color: colorPrimary,
                                                     ),
                                                   ),
                                                   child: SmallText(
                                                     text: 'Details',
-                                                    color: AppColors.mainColor,
+                                                    color: colorPrimary,
                                                   ),
                                                 ),
                                               ),

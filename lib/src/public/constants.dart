@@ -1,3 +1,10 @@
+import 'dart:convert';
+import 'dart:ui';
+
+import 'components.dart';
+
+import 'package:http/http.dart' as http;
+
 class Constants {
   static const INCH_TO_DP = 160;
 
@@ -82,4 +89,23 @@ class Constants {
     'pdf',
     'pptx',
   ];
+
+  static httpErrorHandle({
+  required http.Response res,
+  required VoidCallback onSuccess,
+}) {
+  switch (res.statusCode) {
+    case 200:
+      onSuccess();
+      break;
+    case 400:
+    Components.showSnackBar(jsonDecode(res.body)['msg']);
+    break;
+    case 500:
+    Components.showSnackBar(jsonDecode(res.body)['error']);
+    break;
+    default:
+    Components.showSnackBar(title: 'successfull',jsonDecode(res.body)['error']);
+  }
+}
 }

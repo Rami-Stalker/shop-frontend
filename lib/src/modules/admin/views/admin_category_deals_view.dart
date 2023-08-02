@@ -1,13 +1,13 @@
 import 'package:shop_app/src/modules/admin/controllers/admin_controller.dart';
 import 'package:shop_app/src/modules/home/controllers/home_controller.dart';
 import 'package:shop_app/src/public/constants.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/custom_loader.dart';
 import '../../../core/widgets/no_data_page.dart';
 import 'package:get/get.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/icon_text_widget.dart';
 import '../../../core/widgets/small_text.dart';
@@ -30,7 +30,7 @@ class AdminCategoryDealsView extends GetView<AdminController> {
           Column(
         children: [
           Container(
-            color: AppColors.mainColor,
+            color: colorPrimary,
             width: double.maxFinite,
             height: 100.sp,
             padding: EdgeInsets.only(
@@ -43,7 +43,7 @@ class AdminCategoryDealsView extends GetView<AdminController> {
                 AppIcon(
                   onTap: () => Get.back(),
                   icon: Icons.arrow_back_ios,
-                  backgroundColor: AppColors.originColor,
+                  backgroundColor: colorMedium,
                 ),
                 BigText(
                   text: Get.arguments,
@@ -186,7 +186,7 @@ class AdminCategoryDealsView extends GetView<AdminController> {
                                                                         decoration:
                                                                             BoxDecoration(
                                                                           color:
-                                                                              AppColors.starColor,
+                                                                              colorStar,
                                                                           borderRadius:
                                                                               BorderRadius.circular(Dimensions.radius15),
                                                                           boxShadow: [
@@ -245,23 +245,20 @@ class AdminCategoryDealsView extends GetView<AdminController> {
                                                                 icon: Icons
                                                                     .circle_sharp,
                                                                 text: 'Normal',
-                                                                iconColor: AppColors
-                                                                    .iconColor1,
+                                                                iconColor: colorMedium,
                                                               ),
                                                               IconAndTextWidget(
                                                                 icon: Icons
                                                                     .location_on,
                                                                 text: '1.7KM',
                                                                 iconColor:
-                                                                    AppColors
-                                                                        .mainColor,
+                                                                    colorPrimary,
                                                               ),
                                                               IconAndTextWidget(
                                                                 icon: Icons
                                                                     .access_time_rounded,
                                                                 text: '23min',
-                                                                iconColor: AppColors
-                                                                    .iconColor2,
+                                                                iconColor: colorHigh,
                                                               ),
                                                             ],
                                                           ),

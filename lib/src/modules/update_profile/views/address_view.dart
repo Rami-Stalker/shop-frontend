@@ -1,4 +1,4 @@
-import 'package:shop_app/src/core/utils/components/app_components.dart';
+import 'package:shop_app/src/public/components.dart';
 import 'package:shop_app/src/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_google_places/flutter_google_places.dart';
@@ -8,7 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:shop_app/src/modules/update_profile/controllers/update_profile_controller.dart';
 
-import '../../../core/utils/app_colors.dart';
+import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 class AddressView extends StatefulWidget {
@@ -95,7 +95,7 @@ class _AddressViewState extends State<AddressView> {
                         EdgeInsets.symmetric(horizontal: Dimensions.width10),
                     height: 40.sp,
                     decoration: BoxDecoration(
-                      color: AppColors.mainColor,
+                      color: colorPrimary,
                       borderRadius:
                           BorderRadius.circular(Dimensions.radius20 / 2),
                     ),
@@ -106,7 +106,7 @@ class _AddressViewState extends State<AddressView> {
                           Icon(
                             Icons.location_on,
                             size: 20.sp,
-                            color: AppColors.originColor,
+                            color: colorMedium,
                           ),
                           SizedBox(
                             width: Dimensions.width20,
@@ -125,7 +125,7 @@ class _AddressViewState extends State<AddressView> {
                           Icon(
                             Icons.search,
                             size: 20.sp,
-                            color: AppColors.originColor,
+                            color: colorMedium,
                           ),
                         ],
                       );
@@ -156,7 +156,7 @@ class _AddressViewState extends State<AddressView> {
   }
 
   void onError(PlacesAutocompleteResponse response) {
-    AppComponents.showCustomSnackBar(response.errorMessage!);
+    Components.showSnackBar(response.errorMessage!);
   }
 
   // Future<void> _handlePressButton() async {

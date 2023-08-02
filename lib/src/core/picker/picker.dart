@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shop_app/src/core/utils/components/app_components.dart';
+import 'package:shop_app/src/public/components.dart';
 
 Future<File?> pickImageFromGallery() async {
   File? image;
@@ -14,7 +14,7 @@ Future<File?> pickImageFromGallery() async {
       image = File(pickedImage.path);
     }
   } catch (e) {
-    AppComponents.showCustomSnackBar(e.toString());
+    Components.showSnackBar(e.toString());
   }
   return image;
 }
@@ -28,7 +28,7 @@ Future<File?> pickImageFromCamera() async {
       image = File(pickedImage.path);
     }
   } catch (e) {
-    AppComponents.showCustomSnackBar(e.toString());
+    Components.showSnackBar(e.toString());
   }
   return image;
 }
@@ -42,7 +42,7 @@ Future<File?> pickVideoFromGallery() async {
       video = File(pickedVideo.path);
     }
   } catch (e) {
-    AppComponents.showCustomSnackBar(e.toString());
+    Components.showSnackBar(e.toString());
   }
   return video;
 }
@@ -56,7 +56,7 @@ Future<File?> pickVideoFromCamera() async {
       video = File(pickedVideo.path);
     }
   } catch (e) {
-    AppComponents.showCustomSnackBar(e.toString());
+    Components.showSnackBar(e.toString());
   }
   return video;
 }

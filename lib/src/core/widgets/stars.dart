@@ -1,6 +1,6 @@
-import 'package:shop_app/src/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
 
 class Stars extends StatelessWidget {
@@ -19,7 +19,7 @@ class Stars extends StatelessWidget {
       itemSize: 15,
       itemBuilder: (context, _) => Icon(
         Icons.star,
-        color: AppColors.starColor,
+        color: colorStar,
       ),
     );
   }

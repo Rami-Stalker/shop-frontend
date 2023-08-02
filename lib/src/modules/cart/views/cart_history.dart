@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shop_app/src/modules/cart/controllers/cart_controller.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/no_data_page.dart';
@@ -64,7 +64,7 @@ class CartHistoryView extends GetView<CartController> {
         children: [
           //header
           Container(
-            color: AppColors.mainColor,
+            color: colorPrimary,
             width: double.maxFinite,
             height: 80.sp,
             padding: EdgeInsets.only(
@@ -84,7 +84,7 @@ class CartHistoryView extends GetView<CartController> {
                 AppIcon(
                   onTap: () => Get.toNamed(Routes.CART),
                   icon: Icons.shopping_cart_outlined,
-                  backgroundColor: AppColors.originColor,
+                  backgroundColor: colorMedium,
                 ),
               ],
             ),
@@ -160,13 +160,17 @@ class CartHistoryView extends GetView<CartController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            SmallText(
-                                              text: 'Total',
-                                              color: AppColors.titleColor,
+                                            Text(
+                                              'Total',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium,
                                             ),
-                                            BigText(
-                                              text: '${itemsVal[i]} Items',
-                                              color: AppColors.titleColor,
+                                            Text(
+                                              '${itemsVal[i]} Items',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge,
                                             ),
                                             GestureDetector(
                                               onTap: () {
@@ -205,12 +209,12 @@ class CartHistoryView extends GetView<CartController> {
                                                   ),
                                                   border: Border.all(
                                                     width: 1,
-                                                    color: AppColors.mainColor,
+                                                    color: colorPrimary,
                                                   ),
                                                 ),
                                                 child: SmallText(
                                                   text: 'one more',
-                                                  color: AppColors.mainColor,
+                                                  color: colorPrimary,
                                                 ),
                                               ),
                                             ),

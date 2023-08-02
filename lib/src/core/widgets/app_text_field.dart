@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
+import 'package:shop_app/src/themes/app_decorations.dart';
 
 import '../../utils/sizer_custom/sizer.dart';
-import '../utils/app_colors.dart';
 
 class AppTextField extends StatelessWidget {
   final TextEditingController textController;
@@ -25,18 +26,7 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(Dimensions.radius15),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 3,
-            spreadRadius: 1,
-            offset: const Offset(1, 1),
-            color: Colors.grey.withOpacity(0.2),
-          ),
-        ],
-      ),
+      decoration: AppDecoration.textfeild(context, Dimensions.radius15).decoration,
       child: TextField(
         maxLines: maxLines,
         minLines: 1,
@@ -47,7 +37,7 @@ class AppTextField extends StatelessWidget {
           hintText: hintText,
           prefixIcon: Icon(
             icon,
-            color: AppColors.mainColor,
+            color: colorPrimary,
           ),
           suffixIcon: suffixIcon,
           focusedBorder: OutlineInputBorder(

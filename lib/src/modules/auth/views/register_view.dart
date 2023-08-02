@@ -3,15 +3,15 @@ import 'dart:io';
 import 'package:shop_app/src/core/picker/picker.dart';
 import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
 import 'package:shop_app/src/public/constants.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
-import '../../../core/utils/components/app_components.dart';
+import '../../../public/components.dart';
 import '../../../core/widgets/app_text_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/custom_loader.dart';
 import '../../../routes/app_pages.dart';
@@ -94,7 +94,7 @@ class _RegisterViewState extends State<RegisterView> {
           phoneNumber: '${authController.phoneUC.text.trim()}',
         );
       } else {
-        AppComponents.showCustomSnackBar(
+        Components.showSnackBar(
           'Type your number until sent to you code OTP',
           title: 'Code OTP',
         );
@@ -110,37 +110,37 @@ class _RegisterViewState extends State<RegisterView> {
     String codeOTP = authController.codeOtpUC.text.trim();
 
     if (email.isEmpty) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         'Type your email address',
         title: 'Email address',
       );
     } else if (!GetUtils.isEmail(email)) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         'Type a valid email address',
         title: 'Valid email address',
       );
     } else if (password.isEmpty) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         'Type your password',
         title: 'password',
       );
     } else if (password.length < 6) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         'Password can not less than six characters',
         title: 'password',
       );
     } else if (name.isEmpty) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         'Type your name',
         title: 'Name',
       );
     } else if (phoneNumber.isEmpty) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         'Type your phone number',
         title: 'Phone number',
       );
     } else if (codeOTP.isEmpty) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         'Type code OTP',
         title: 'Phone number',
       );
@@ -183,7 +183,7 @@ class _RegisterViewState extends State<RegisterView> {
                               radius: 80.sp,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: AppColors.mainColor,
+                                  color: colorPrimary,
                                   shape: BoxShape.circle,
                                 ),
                                 child: image != null
@@ -204,71 +204,15 @@ class _RegisterViewState extends State<RegisterView> {
                               right: 0.0,
                               child: InkWell(
                                 onTap: () {
-                                  Get.bottomSheet(
-                                    SingleChildScrollView(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              Dimensions.radius15),
-                                          color: Get.isDarkMode
-                                              ? Colors.black
-                                              : Colors.white,
-                                        ),
-                                        padding:
-                                            const EdgeInsetsDirectional.only(
-                                          top: 4,
-                                        ),
-                                        width: Dimensions.screenWidth,
-                                        height: 150.sp,
-                                        child: Column(
-                                          children: [
-                                            Flexible(
-                                              child: Container(
-                                                height: 6.sp,
-                                                width: 120.sp,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  color: Get.isDarkMode
-                                                      ? Colors.grey[600]
-                                                      : Colors.grey[300],
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: Dimensions.height10,
-                                            ),
-                                            AppComponents.buildbottomsheet(
-                                              icon: Icon(
-                                                Icons.camera,
-                                                color: AppColors.mainColor,
-                                              ),
-                                              label: "From camera",
-                                              ontap: pickImageCamera,
-                                            ),
-                                            Divider(
-                                              color: Get.isDarkMode
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            ),
-                                            AppComponents.buildbottomsheet(
-                                              icon: Icon(
-                                                Icons.image,
-                                                color: AppColors.mainColor,
-                                              ),
-                                              label: "From Gallery",
-                                              ontap: pickImageGallery,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    elevation: 0.4,
+                                  Components.showbottomsheet(
+                                    context,
+                                    onTapCamera: pickImageFromCamera,
+                                    onTapGallery: pickImageFromGallery,
                                   );
                                 },
                                 child: CircleAvatar(
                                   radius: 20.sp,
-                                  backgroundColor: AppColors.mainColor,
+                                  backgroundColor: colorPrimary,
                                   child: Icon(Icons.camera_alt_outlined,
                                       size: Dimensions.iconSize24 + 10),
                                 ),
@@ -317,7 +261,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   authController.isObscure
                                       ? Icons.visibility_outlined
                                       : Icons.visibility_off_outlined,
-                                  color: AppColors.originColor,
+                                  color: colorMedium,
                                 ),
                               ),
                             );
@@ -369,7 +313,7 @@ class _RegisterViewState extends State<RegisterView> {
                                       ),
                                       prefixIcon: Icon(
                                         Icons.phone,
-                                        color: AppColors.originColor,
+                                        color: colorMedium,
                                       ),
                                     ),
                                   ),
@@ -463,7 +407,7 @@ class _RegisterViewState extends State<RegisterView> {
                                       ),
                                       prefixIcon: Icon(
                                         Icons.timer_sharp,
-                                        color: AppColors.originColor,
+                                        color: colorMedium,
                                       ),
                                     ),
                                   ),
@@ -496,22 +440,26 @@ class _RegisterViewState extends State<RegisterView> {
                                     onTap: () => _sendCode(authController),
                                     decoration: InputDecoration(
                                       prefixIcon: Padding(
-                                        padding: EdgeInsets.only(left: Dimensions.width30),
+                                        padding: EdgeInsets.only(
+                                            left: Dimensions.width30),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            !isOnData ?
-                                            Text(
-                                              "send code",
-                                              style: TextStyle(
-                                                color: isOnData
-                                                    ? Colors.grey
-                                                    : Colors.red,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: isOnData
-                                                    ? 13.sp : Dimensions.font16,
-                                              ),
-                                            ) : Container(),
+                                            !isOnData
+                                                ? Text(
+                                                    "send code",
+                                                    style: TextStyle(
+                                                      color: isOnData
+                                                          ? Colors.grey
+                                                          : Colors.red,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: isOnData
+                                                          ? 13.sp
+                                                          : Dimensions.font16,
+                                                    ),
+                                                  )
+                                                : Container(),
                                             SizedBox(width: Dimensions.width10),
                                             isOnData
                                                 ? Text(
@@ -626,10 +574,7 @@ class _RegisterViewState extends State<RegisterView> {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () => Get.toNamed(Routes.SIGN_IN),
                             text: 'Login',
-                            style: TextStyle(
-                              color: AppColors.mainBlackColor,
-                              fontSize: Dimensions.font20,
-                            ),
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ],
                       ),

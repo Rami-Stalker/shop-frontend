@@ -1,19 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:shop_app/src/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/src/modules/update_profile/repositories/update_profile_repository.dart';
 
-import '../../../core/utils/components/app_components.dart';
+import '../../../public/components.dart';
 import '../../../controller/user_controller.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-
-import '../../../core/utils/constants/error_handling.dart';
 import '../../../models/user_model.dart';
+import '../../../public/constants.dart';
+import '../../../themes/app_colors.dart';
 
 class UpdateProfileController extends GetxController implements GetxService {
   final UpdateProfileRepository updateProfileRepository;
@@ -85,7 +84,7 @@ class UpdateProfileController extends GetxController implements GetxService {
     try {
       http.Response res = await updateProfileRepository.saveUserData(address, name, phone);
 
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           UserModel user = userCtrl.user.copyWith(
@@ -94,16 +93,16 @@ class UpdateProfileController extends GetxController implements GetxService {
             phone: jsonDecode(res.body)['phone'],
           );
           userCtrl.setUserFromModel(user);
-          AppComponents.showCustomSnackBar(
+          Components.showSnackBar(
             "Update your Data Successfully",
             title: 'Update information',
-            color: AppColors.mainColor,
+            color: colorPrimary,
           );
         },
       );
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 }

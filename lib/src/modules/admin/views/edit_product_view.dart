@@ -1,12 +1,12 @@
 import 'package:shop_app/src/modules/admin/controllers/admin_controller.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
-import '../../../core/utils/components/app_components.dart';
+import '../../../public/components.dart';
 import '../../../core/widgets/app_text_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../models/product_model.dart';
@@ -37,7 +37,7 @@ class EditProductView extends GetView<AdminController> {
             title: AppIcon(
               onTap: () => Get.back(),
               icon: Icons.clear,
-              backgroundColor: AppColors.originColor,
+              backgroundColor: colorMedium,
             ),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(20),
@@ -72,7 +72,7 @@ class EditProductView extends GetView<AdminController> {
               ),
             ),
             pinned: true, // expanded حتى يبقى الابار ظاهر حتى بعد ال
-            backgroundColor: AppColors.originColor,
+            backgroundColor: colorMedium,
             expandedHeight: 300.sp,
             flexibleSpace: FlexibleSpaceBar(
               background: Image.network(
@@ -161,7 +161,7 @@ class EditProductView extends GetView<AdminController> {
                 left: Dimensions.width20,
               ),
               decoration: BoxDecoration(
-                color: AppColors.buttonBackgroundColor,
+                color: fCD,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40.sp),
                   topRight: Radius.circular(40.sp),
@@ -173,7 +173,7 @@ class EditProductView extends GetView<AdminController> {
                   GetBuilder<AdminController>(builder: (adminController) {
                     return GestureDetector(
                       onTap: () {
-                        AppComponents.showCustomDialog(
+                        Components.showCustomDialog(
                           context: context,
                           msg: 'Are you sure to delete the product ?',
                           ok: () {

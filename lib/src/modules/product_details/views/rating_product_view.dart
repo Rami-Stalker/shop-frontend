@@ -4,8 +4,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/src/modules/cart/controllers/cart_controller.dart';
 import 'package:shop_app/src/modules/product_details/controllers/product_details_controller.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/app_column.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_text_button.dart';
@@ -127,7 +127,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                                   icon: Icons.circle,
                                   size: 20,
                                   iconColor: Colors.transparent,
-                                  backgroundColor: AppColors.mainColor,
+                                  backgroundColor: colorPrimary,
                                 ),
                               )
                             : Container(),
@@ -160,7 +160,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                           Dimensions.width10,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.starColor,
+                          color: colorStar,
                           borderRadius:
                               BorderRadius.circular(Dimensions.radius15),
                           boxShadow: [
@@ -280,7 +280,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                               const EdgeInsets.symmetric(horizontal: 4),
                           itemBuilder: (context, _) => Icon(
                             Icons.star,
-                            color: AppColors.starColor,
+                            color: colorStar,
                           ),
                           onRatingUpdate: (rating) {
                             // productDetailsCtrl.rateProduct(
@@ -308,7 +308,7 @@ class _RatingProductViewState extends State<RatingProductView> {
           left: Dimensions.width20,
         ),
         decoration: BoxDecoration(
-          color: AppColors.buttonBackgroundColor,
+          color: colorPrimaryBlack,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40.sp),
             topRight: Radius.circular(40.sp),
@@ -340,7 +340,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                       },
                       child: Icon(
                         Icons.remove,
-                        color: AppColors.signColor,
+                        color: fCL,
                       ),
                     ),
                     SizedBox(
@@ -359,7 +359,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                       },
                       child: Icon(
                         Icons.add,
-                        color: AppColors.signColor,
+                        color: fCL,
                       ),
                     ),
                   ],

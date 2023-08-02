@@ -1,13 +1,13 @@
 import 'package:shop_app/src/modules/home/controllers/home_controller.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
-import '../../../core/utils/app_colors.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
 
 import '../../../public/constants.dart';
 import '../../../routes/app_pages.dart';
+import '../../../themes/app_colors.dart';
 
 class HomeCategories extends GetView<HomeController> {
   const HomeCategories({Key? key}) : super(key: key);
@@ -56,7 +56,7 @@ class HomeCategories extends GetView<HomeController> {
                       height: double.infinity,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: AppColors.originColor.withOpacity(0.2),
+                        color: colorMedium.withOpacity(0.2),
                         borderRadius:
                             BorderRadius.circular(10.sp),
                       ),

@@ -1,9 +1,9 @@
 import 'package:shop_app/src/modules/admin/controllers/admin_controller.dart';
 
-import '../../../core/utils/app_colors.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
 import '../../../public/constants.dart';
 import '../../../routes/app_pages.dart';
@@ -58,7 +58,7 @@ class AdminCategories extends GetView<AdminController> {
                       height: double.infinity,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: AppColors.originColor.withOpacity(0.2),
+                        color: colorMedium.withOpacity(0.2),
                         borderRadius:
                             BorderRadius.circular(Dimensions.radius15),
                       ),

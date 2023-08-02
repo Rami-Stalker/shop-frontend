@@ -4,8 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:shop_app/src/modules/admin/controllers/admin_controller.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
-import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/components/app_components.dart';
+import '../../../public/components.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/big_text.dart';
@@ -16,6 +15,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/picker/picker.dart';
+import '../../../themes/app_colors.dart';
 
 class AddProductView extends StatefulWidget {
   const AddProductView({Key? key}) : super(key: key);
@@ -47,27 +47,27 @@ class _AddProductViewState extends State<AddProductView> {
     List<File> imageFile = images;
 
     if (imageFile.isEmpty) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         'Type in product image',
         title: 'Image',
       );
     } else if (productName.isEmpty) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         'Type in product name',
         title: 'Name',
       );
     } else if (description.isEmpty) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         'Type in product description',
         title: 'Description',
       );
     } else if (price.isEmpty) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         'Type in product price',
         title: 'Price',
       );
     } else if (quantity.isEmpty) {
-      AppComponents.showCustomSnackBar(
+      Components.showSnackBar(
         'Type in product quantity',
         title: 'Quantity',
       );
@@ -97,7 +97,7 @@ class _AddProductViewState extends State<AddProductView> {
         return Column(
           children: [
             Container(
-              color: AppColors.mainColor,
+              color: colorPrimary,
               width: double.maxFinite,
               height: 100.sp,
               padding: EdgeInsets.only(
@@ -110,7 +110,7 @@ class _AddProductViewState extends State<AddProductView> {
                   AppIcon(
                     onTap: () => Get.back(),
                     icon: Icons.arrow_back_ios,
-                    backgroundColor: AppColors.originColor,
+                    backgroundColor: colorMedium,
                   ),
                   BigText(
                     text: 'Add Product',

@@ -1,12 +1,12 @@
-import 'package:shop_app/src/core/utils/app_colors.dart';
-import 'package:shop_app/src/core/utils/components/app_components.dart';
+import 'package:shop_app/src/public/components.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:shop_app/src/modules/cart/repositories/cart_repository.dart';
 import 'package:shop_app/src/modules/checkout/repositories/checkout_repository.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
-import '../../../core/utils/constants/error_handling.dart';
+import '../../../public/constants.dart';
 import '../../navigator/controllers/navigator_user_controller.dart';
 
 class CheckoutController extends GetxController implements GetxService {
@@ -46,21 +46,21 @@ class CheckoutController extends GetxController implements GetxService {
         totalPrice: totalPrice,
         address: address,
       );
-      httpErrorHandle(
+      Constants.httpErrorHandle(
         res: res,
         onSuccess: () {
           Get.find<CartRepository>().removeCart();
-          AppComponents.showCustomSnackBar(
+          Components.showSnackBar(
             'add Order Successed',
             title: 'Order',
-            color: AppColors.mainColor,
+            color: colorPrimary,
           );
           Get.find<NavigatorUserController>().currentIndex.value = 0;
         },
       );
       update();
     } catch (e) {
-      AppComponents.showCustomSnackBar(e.toString());
+      Components.showSnackBar(e.toString());
     }
   }
 }

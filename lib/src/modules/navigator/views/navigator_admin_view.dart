@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/src/modules/navigator/controllers/navigator_admin_controller.dart';
-
-import '../../../core/utils/app_colors.dart';
-
 class AdminNavigatorview extends GetView<NavigatorAdminController> {
   const AdminNavigatorview({super.key});
 
@@ -28,8 +25,6 @@ class AdminNavigatorview extends GetView<NavigatorAdminController> {
           onTap: (index) {
             controller.changePage(index);
           },
-          selectedItemColor: AppColors.mainColor,
-          unselectedItemColor: Colors.amberAccent,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           ),

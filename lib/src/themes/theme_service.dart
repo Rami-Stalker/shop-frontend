@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 enum ThemeOptions { light, dark }
 
-class ThemeService extends ChangeNotifier {
+class ThemeService {
   static ThemeOptions themeOptions = ThemeOptions.light;
   static ThemeMode currentTheme = ThemeMode.light;
   static final systemBrightness = SystemUiOverlayStyle(
@@ -41,9 +42,9 @@ class ThemeService extends ChangeNotifier {
   }
 
   void changeThemeMode() {
+    Get.changeThemeMode(isSavedDarkMode() ? ThemeMode.light : ThemeMode.dark);
     saveThemeMode(!isSavedDarkMode());
     switchStatusColor();
-    notifyListeners();
   }
 }
 

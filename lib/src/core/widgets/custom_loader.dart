@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
-
-import '../utils/app_colors.dart';
 
 class CustomLoader extends StatelessWidget {
   const CustomLoader({super.key});
@@ -14,7 +13,7 @@ class CustomLoader extends StatelessWidget {
         width: 100.sp,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50.sp),
-          color: AppColors.mainColor,
+          color: colorPrimary,
         ),
         alignment: Alignment.center,
         child: const CircularProgressIndicator(color: Colors.white,),

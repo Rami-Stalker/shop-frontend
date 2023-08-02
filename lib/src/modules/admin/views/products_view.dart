@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 import 'package:shop_app/src/modules/admin/controllers/admin_controller.dart';
 import 'package:shop_app/src/modules/admin/widgets/admin_categories.dart';
 import 'package:shop_app/src/routes/app_pages.dart';
+import 'package:shop_app/src/themes/app_decorations.dart';
 
 import '../../../controller/user_controller.dart';
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/icon_text_widget.dart';
 import '../../../core/widgets/no_data_page.dart';
@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import '../../../models/product_model.dart';
 import '../../../public/constants.dart';
 import '../../../services/socket/socket_io_service.dart';
+import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 import '../widgets/build_shimmer_products.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -40,12 +41,9 @@ class _ProductsViewState extends State<ProductsView> {
     _socket.onConnect((data) => print('Connection established'));
     _socket.onConnectError((data) => print('Connect Error: $data'));
     _socket.onDisconnect((data) => print('Socket.IO server disconnected'));
-    _socket.on(
-      'message',
-      (data) {
-        print('message');
-      }
-    );
+    _socket.on('message', (data) {
+      print('message');
+    });
   }
 
   @override
@@ -82,7 +80,7 @@ class _ProductsViewState extends State<ProductsView> {
                   Text(
                     'Ramy App',
                     style: TextStyle(
-                      color: AppColors.mainColor,
+                      color: colorPrimary,
                       fontSize: Dimensions.font20,
                       fontWeight: FontWeight.w800,
                     ),
@@ -96,7 +94,7 @@ class _ProductsViewState extends State<ProductsView> {
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular(Dimensions.radius15),
-                          color: AppColors.mainColor,
+                          color: colorPrimary,
                         ),
                         child: Icon(
                           Icons.search,
@@ -178,17 +176,10 @@ class _ProductsViewState extends State<ProductsView> {
                                         //text container
                                         Expanded(
                                           child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(
-                                                  Dimensions.radius20,
-                                                ),
-                                                bottomRight: Radius.circular(
-                                                  Dimensions.radius20,
-                                                ),
-                                              ),
-                                              color: Colors.white,
-                                            ),
+                                            decoration: AppDecoration.product(
+                                              context,
+                                              Dimensions.radius15,
+                                            ).decoration,
                                             child: Padding(
                                               padding: EdgeInsets.only(
                                                 left: Dimensions.width10,
@@ -222,8 +213,8 @@ class _ProductsViewState extends State<ProductsView> {
                                                                 ),
                                                                 decoration:
                                                                     BoxDecoration(
-                                                                  color: AppColors
-                                                                      .starColor,
+                                                                  color:
+                                                                      colorStar,
                                                                   borderRadius:
                                                                       BorderRadius.circular(
                                                                           Dimensions
@@ -234,12 +225,11 @@ class _ProductsViewState extends State<ProductsView> {
                                                                           1,
                                                                       offset:
                                                                           const Offset(
-                                                                              0,
-                                                                              2),
-                                                                      color: Colors
-                                                                          .grey
-                                                                          .withOpacity(
-                                                                              0.2),
+                                                                        0,
+                                                                        2,
+                                                                      ),
+                                                                      color:
+                                                                          mCM,
                                                                     ),
                                                                   ],
                                                                 ),
@@ -296,21 +286,18 @@ class _ProductsViewState extends State<ProductsView> {
                                                         icon:
                                                             Icons.circle_sharp,
                                                         text: 'Normal',
-                                                        iconColor: AppColors
-                                                            .iconColor1,
+                                                        iconColor: colorMedium,
                                                       ),
                                                       IconAndTextWidget(
                                                         icon: Icons.location_on,
                                                         text: '1.7KM',
-                                                        iconColor:
-                                                            AppColors.mainColor,
+                                                        iconColor: colorPrimary,
                                                       ),
                                                       IconAndTextWidget(
                                                         icon: Icons
                                                             .access_time_rounded,
                                                         text: '23min',
-                                                        iconColor: AppColors
-                                                            .iconColor2,
+                                                        iconColor: colorHigh,
                                                       ),
                                                     ],
                                                   ),
@@ -346,7 +333,7 @@ class _ProductsViewState extends State<ProductsView> {
       floatingActionButton: FloatingActionButton(
         onPressed: navigateToAddProduct,
         tooltip: 'Add a Product',
-        backgroundColor: AppColors.mainColor,
+        backgroundColor: colorPrimary,
         child: const Icon(Icons.add),
       ),
     );

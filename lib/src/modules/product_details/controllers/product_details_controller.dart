@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/src/modules/cart/controllers/cart_controller.dart';
 import 'package:shop_app/src/modules/product_details/repositories/product_detailes_repository.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../models/product_model.dart';
 
 class ProductDetailsController extends GetxController implements GetxService {
@@ -51,7 +51,7 @@ class ProductDetailsController extends GetxController implements GetxService {
       Get.snackbar(
         'Item count',
         "You can't reduce more !",
-        backgroundColor: AppColors.mainColor,
+        backgroundColor: colorPrimary,
         colorText: Colors.white,
       );
       return 0;
@@ -59,7 +59,7 @@ class ProductDetailsController extends GetxController implements GetxService {
       Get.snackbar(
         'Item count',
         "You ordered more than the available quantity !",
-        backgroundColor: AppColors.mainColor,
+        backgroundColor: colorPrimary,
         colorText: Colors.white,
       );
       return productQuantity;

@@ -2,9 +2,9 @@ import 'package:shop_app/src/core/widgets/no_data_page.dart';
 import 'package:intl/intl.dart';
 import 'package:shop_app/src/modules/admin_order/controllers/admin_order_controller.dart';
 import 'package:shop_app/src/routes/app_pages.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/custom_loader.dart';
 import '../../../core/widgets/small_text.dart';
@@ -23,7 +23,7 @@ class AdminOrderView extends GetView<AdminOrderController> {
       return Column(
         children: [
           Container(
-            color: AppColors.mainColor,
+            color: colorPrimary,
             width: double.maxFinite,
             height: 100.sp,
             padding: EdgeInsets.only(top: Dimensions.height45),
@@ -122,23 +122,17 @@ class AdminOrderView extends GetView<AdminOrderController> {
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment.end,
                                                     children: [
-                                                      BigText(
-                                                        text: 'total:',
-                                                        size: 16.sp,
-                                                        color: AppColors
-                                                            .titleColor,
+                                                      Text(
+                                                        'total:',
+                                                        style: Theme.of(context).textTheme.bodyMedium,
                                                       ),
                                                       SizedBox(
                                                         width:
                                                             Dimensions.width10,
                                                       ),
-                                                      BigText(
-                                                        text:
-                                                            '\$${order.totalPrice.toString()}'
-                                                                .toString(),
-                                                        size: 16.sp,
-                                                        color: AppColors
-                                                            .titleColor,
+                                                      Text(
+                                                        '\$${order.totalPrice.toString()}',
+                                                        style: Theme.of(context).textTheme.bodyMedium,
                                                       ),
                                                     ],
                                                   ),
@@ -155,18 +149,17 @@ class AdminOrderView extends GetView<AdminOrderController> {
                                                         vertical: 5.sp,
                                                       ),
                                                       decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius
-                                                            .circular(5.sp),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5.sp),
                                                         border: Border.all(
                                                           width: 1.sp,
-                                                          color: AppColors
-                                                              .mainColor,
+                                                          color: colorPrimary,
                                                         ),
                                                       ),
                                                       child: SmallText(
                                                         text: 'Details',
-                                                        color:
-                                                            AppColors.mainColor,
+                                                        color: colorPrimary,
                                                       ),
                                                     ),
                                                   ),
