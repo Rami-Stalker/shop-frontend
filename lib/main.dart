@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:shop_app/app/helper/push_notification_service.dart';
-import 'package:shop_app/origin.dart';
+import 'package:shop_app/src/app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:shop_app/app/helper/dependencies.dart' as dep;
+
+import 'src/config/application.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // await FirebaseMessaging.instance.getInitialMessage();
-  await GetStorage.init();
-  await dep.init();
-  await PushNotificationService().initialise();
-  runApp(ShopApp());
+
+  await Application().initialAppLication();
+
+  // await PayPalConfiguration.instance.setup(
+  //   clientId: 'YOUR_CLIENT_ID', // Replace with your PayPal Client ID
+  //   secret: 'YOUR_SECRET_KEY', // Replace with your PayPal Secret Key
+  //   environment: PayPalEnvironment.Sandbox, // Use PayPalEnvironment.Production for production
+  // );
+  runApp(App());
 }
