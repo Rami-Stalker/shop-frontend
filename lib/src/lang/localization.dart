@@ -1,22 +1,22 @@
 import 'package:i18n_extension/i18n_extension.dart';
 
-const classTitle = 'class';
+const loginHello = 'loginHello';
 const yourClass = 'yourClass';
 const recommendClass = 'recommendClass';
 
 extension Localization on String {
   static final _t = Translations.from("en_us", {
-    classTitle: {
-      "en_us": "Lớp học",
-      "ar_vn": "Lớp học",
+    loginHello: {
+      "en_us": "Hello",
+      "ar_sa": "مرحبا",
     },
     yourClass: {
       "en_us": "Lớp học của bạn",
-      "ar_vn": "Lớp học của bạn",
+      "ar_sa": "Lớp học của bạn",
     },
     recommendClass: {
       "en_us": "Lớp học đề xuất",
-      "ar_vn": "Lớp học đề xuất",
+      "ar_sa": "Lớp học đề xuất",
     }
   });
 

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:shop_app/src/public/components.dart';
-import 'package:shop_app/src/modules/cart/repositories/cart_repository.dart';
-import 'package:shop_app/src/themes/app_colors.dart';
+import '../../../public/components.dart';
+import '../repositories/cart_repository.dart';
+import '../../../themes/app_colors.dart';
 
 import '../../../models/cart_model.dart';
 import '../../../models/product_model.dart';

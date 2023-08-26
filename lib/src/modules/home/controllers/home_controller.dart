@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop_app/src/core/network/network_info.dart';
-import 'package:shop_app/src/public/components.dart';
-import 'package:shop_app/src/modules/home/repositories/home_repository.dart';
+import '../../../core/network/network_info.dart';
+import '../../../public/components.dart';
+import '../repositories/home_repository.dart';
 
 import '../../../models/product_model.dart';
 import '../../../public/constants.dart';
@@ -72,10 +72,8 @@ class HomeController extends GetxController implements GetxService {
       _isLoading = false;
       update();
       } else {
-        Components.showSnackBar('Make sure you are connected to the internet', title: 'You are offline');
+        Components.showToast('You are offline');
       }
-
-      
     } catch (e) {
       Components.showSnackBar(e.toString());
     }
@@ -83,7 +81,8 @@ class HomeController extends GetxController implements GetxService {
 
   Future<void> fetchNewestProduct() async {
     try {
-      _isLoading = true;
+      if (await networkInfo.isConnected) {
+        _isLoading = true;
       update();
       http.Response res = await homeRepository.fetchNewestProduct();
 
@@ -105,6 +104,9 @@ class HomeController extends GetxController implements GetxService {
       );
       _isLoading = false;
       update();
+      } else {
+        Components.showToast('You are offline');
+      }
     } catch (e) {
       Components.showSnackBar(e.toString());
     }

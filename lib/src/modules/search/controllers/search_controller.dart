@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop_app/src/modules/search/repositories/search_repository.dart';
+import '../repositories/search_repository.dart';
 
 import '../../../public/components.dart';
 import '../../../models/product_model.dart';

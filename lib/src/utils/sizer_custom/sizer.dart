@@ -4,16 +4,15 @@
 */
 library sizer;
 
-import '../../public/constants.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:io';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/widgets.dart';
+
+import '../../public/constants.dart';
+
 part 'dimensions.dart';
-
 part 'extension.dart';
-
 part 'util.dart';
-
 part 'widget.dart';

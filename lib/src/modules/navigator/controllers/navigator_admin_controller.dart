@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_app/src/modules/admin/views/analtyics_view.dart';
+import '../../analytics/views/analtyics_view.dart';
 import '../../admin/views/products_view.dart';
-import '../../admin_order/views/admin_order_view.dart';
+import '../../auth_login/controllers/login_controller.dart';
+import '../../order/views/order_view.dart';
 import '../../profile/views/profile_view.dart';
 
 class NavigatorAdminController extends GetxController {
   final List<Widget> _pages = [
     const ProductsView(),
     const AnalyticsView(),
-    const AdminOrderView(),
+    const OrderView(),
     const ProfileView(),
   ];
   List<Widget> get pages => _pages;
@@ -27,5 +28,20 @@ class NavigatorAdminController extends GetxController {
 
   void changePage(int index) {
     _currentIndex.value = index;
+    List<String> i1 = [];
+    List<int> i2 = [];
+    i1.insertAll(2, ['ddd']);
+    i2.removeWhere((element) => element % 2 == 0);
+    i2.contains(2);
+    i1.retainWhere((item) => item.length == 3);
+    i1.sort((a, b) => a.length.compareTo(b.length));
+  }
+
+  @override
+  void onInit() {
+    if (Get.find<LoginController>().userLoggedIn()) {
+      Get.find<LoginController>().getInfoUser();
+    }
+    super.onInit();
   }
 }

@@ -2,20 +2,21 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:shop_app/src/modules/cart/controllers/cart_controller.dart';
-import 'package:shop_app/src/modules/product_details/controllers/product_details_controller.dart';
-import 'package:shop_app/src/themes/app_colors.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import '../../cart/controllers/cart_controller.dart';
+import '../controllers/product_details_controller.dart';
+import '../../../themes/app_colors.dart';
+import '../../../themes/app_decorations.dart';
 
-import '../../../core/widgets/app_column.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_text_button.dart';
-import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/expandable_text_widget.dart';
 import '../../../controller/user_controller.dart';
 import '../../../models/product_model.dart';
 import '../../../models/rating_model.dart';
 import '../../../routes/app_pages.dart';
 import '../../../utils/sizer_custom/sizer.dart';
+import '../widgets/product_details.dart';
 
 class RatingProductView extends StatefulWidget {
   const RatingProductView({super.key});
@@ -135,13 +136,12 @@ class _RatingProductViewState extends State<RatingProductView> {
                             ? Positioned(
                                 right: 6.sp,
                                 top: 1.sp,
-                                child: BigText(
-                                  text: Get.find<ProductDetailsController>()
+                                child: 
+                                Text(Get.find<ProductDetailsController>()
                                       .totalItems
                                       .toString(),
-                                  size: 12.sp,
-                                  color: Colors.white,
-                                ),
+                                      style: Theme.of(context).textTheme.titleMedium,
+                                      ),
                               )
                             : Container(),
                       ],
@@ -167,7 +167,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                             BoxShadow(
                               blurRadius: 1,
                               offset: const Offset(0, 2),
-                              color: Colors.grey.withOpacity(0.2),
+                              color: mCM,
                             ),
                           ],
                         ),
@@ -175,15 +175,11 @@ class _RatingProductViewState extends State<RatingProductView> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              Icons.star,
-                              color: Colors.black,
-                              size: 20.sp,
+                              PhosphorIcons.star,
                             ),
                             Text(
                               productDetailsCtrl.avgRating.value.toString(),
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
+                              style: Theme.of(context).textTheme.titleMedium,
                             )
                           ],
                         ),
@@ -230,12 +226,12 @@ class _RatingProductViewState extends State<RatingProductView> {
                   topLeft: Radius.circular(Dimensions.radius20),
                   topRight: Radius.circular(Dimensions.radius20),
                 ),
-                color: Colors.white,
+                color: Get.isDarkMode ? colorBlack : mC,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppColumn(
+                  ProductDetailsWidget(
                     name: product.name,
                     category: product.category,
                     price: product.price,
@@ -244,54 +240,45 @@ class _RatingProductViewState extends State<RatingProductView> {
                   SizedBox(
                     height: Dimensions.height20,
                   ),
-                  BigText(
-                    text: 'Introduce',
+                  Text(
+                    'Introduce',
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   SizedBox(
                     height: Dimensions.height20,
                   ),
                   Expanded(
-                      child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: ExpandableTextWidget(
-                      text: product.description,
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: ExpandableTextWidget(
+                        text: product.description,
+                      ),
                     ),
-                  )),
+                  ),
                   SizedBox(height: Dimensions.height10),
-                  GetBuilder<ProductDetailsController>(builder: (productDetailsCtrl) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Rate The Product:',
-                          style: TextStyle(
-                            fontSize: Dimensions.font16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  GetBuilder<ProductDetailsController>(
+                    builder: (productDetailsCtrl) {
+                      return RatingBar.builder(
+                        itemSize: 20.sp,
+                        initialRating: productDetailsCtrl.myRating.value,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: const EdgeInsets.symmetric(horizontal: 4),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: colorStar,
                         ),
-                        RatingBar.builder(
-                          itemSize: 20.sp,
-                          initialRating: productDetailsCtrl.myRating.value,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemPadding:
-                              const EdgeInsets.symmetric(horizontal: 4),
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: colorStar,
-                          ),
-                          onRatingUpdate: (rating) {
-                            // productDetailsCtrl.rateProduct(
-                            //   product: product,
-                            //   rating: rating,
-                            // );
-                          },
-                        )
-                      ],
-                    );
-                  }),
+                        onRatingUpdate: (rating) {
+                          // productDetailsCtrl.rateProduct(
+                          //   product: product,
+                          //   rating: rating,
+                          // );
+                        },
+                      );
+                    },
+                  ),
                   SizedBox(height: Dimensions.height10),
                 ],
               ),
@@ -299,79 +286,79 @@ class _RatingProductViewState extends State<RatingProductView> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        height: Dimensions.bottomHeightBar,
-        padding: EdgeInsets.only(
-          top: Dimensions.height30,
-          bottom: Dimensions.height30,
-          right: Dimensions.width20,
-          left: Dimensions.width20,
-        ),
-        decoration: BoxDecoration(
-          color: colorPrimaryBlack,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40.sp),
-            topRight: Radius.circular(40.sp),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: EdgeInsets.only(
-                top: Dimensions.height15,
-                bottom: Dimensions.height20,
-                left: Dimensions.width20,
-                right: Dimensions.width20,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius15),
-                color: Colors.white,
-              ),
-              child: Obx(
-                () => Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        productDetailsCtrl.setQuantity(
-                          false,
-                          product.quantity,
-                        );
-                      },
-                      child: Icon(
-                        Icons.remove,
-                        color: fCL,
-                      ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            // height: Dimensions.bottomHeightBar,
+            padding: EdgeInsets.symmetric(
+              horizontal: Dimensions.width20,
+              vertical: Dimensions.height20,
+            ),
+            decoration: AppDecoration.bottomNavigationBar(context).decoration,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                    top: Dimensions.height15,
+                    bottom: Dimensions.height20,
+                    left: Dimensions.width20,
+                    right: Dimensions.width20,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius15),
+                    color: Get.isDarkMode ? mCM : mCL,
+                  ),
+                  child: Obx(
+                    () => Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            productDetailsCtrl.setQuantity(
+                              false,
+                              product.quantity,
+                            );
+                          },
+                          child: Icon(
+                            Icons.remove,
+                            color: fCL,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5.sp,
+                        ),
+                        Text(
+                          productDetailsCtrl.quantity.toString(),
+                        style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        SizedBox(
+                          width: 5.sp,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            productDetailsCtrl.setQuantity(
+                              true,
+                              product.quantity,
+                            );
+                          },
+                          child: Icon(
+                            Icons.add,
+                            color: fCL,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      width: 5.sp,
-                    ),
-                    BigText(text: productDetailsCtrl.quantity.toString()),
-                    SizedBox(
-                      width: 5.sp,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        productDetailsCtrl.setQuantity(
-                          true,
-                          product.quantity,
-                        );
-                      },
-                      child: Icon(
-                        Icons.add,
-                        color: fCL,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                AppTextButton(
+                  txt: 'Add to Cart',
+                  onTap: () => productDetailsCtrl.addItem(product),
+                ),
+              ],
             ),
-            AppTextButton(
-              txt: 'Add to Cart',
-              onTap: () => productDetailsCtrl.addItem(product),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,19 +1,18 @@
-import 'package:shop_app/src/services/socket/socket_io_service.dart';
+import '../../helpers/device_helper.dart';
+import '../../models/device_model.dart';
+import 'socket.dart';
 import '../../public/sockets.dart';
 
 class SocketEmit {
-  // addProduct(ProductModel product) {
-  //   socket!.emit(SocketEvent.ADD_PRODUCT, product);
-  // }
+  changeOrderStatus(String OrderId) {
+    socket!.emit(SocketEvent.CHANGE_ORDER_STATUS, {'OrderId': OrderId});
+  }
 
-  answerQuestion(
-      {required String answer,
-      required String roomId,
-      required String questionId}) {
-    socket!.emit(SocketEvent.ANSWER_THE_QUESTION_CSS, {
-      'idRoom': roomId,
-      'idQuestion': questionId,
-      'answer': answer,
-    });
+  sendDeviceInfo() async {
+    DeviceModel deviceModel = await getDeviceDetails();
+    socket!.emit(
+      SocketEvent.SEND_FCM_TOKEN_CSS,
+      deviceModel.toMap(),
+    );
   }
 }

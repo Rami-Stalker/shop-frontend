@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'product_model.dart';
 
 class OrderModel {
+  // blank final variable
   final String id;
+  // Aggregation (has-a)
   final List<ProductModel> products;
   final List<int> quantity;
   final String address;
@@ -22,6 +24,11 @@ class OrderModel {
     required this.totalPrice,
   });
 
+  // // association
+  // void dd (ProductModel productModel){
+
+  // }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -38,6 +45,7 @@ class OrderModel {
   factory OrderModel.fromMap(Map<String, dynamic> map) {
     return OrderModel(
       id: map['_id'] ?? '',
+      // Composition
       products: List<ProductModel>.from(
           map['products']?.map((x) => ProductModel.fromMap(x['product']))),
       quantity: List<int>.from(map['products']?.map((x) => x['quantity'])),

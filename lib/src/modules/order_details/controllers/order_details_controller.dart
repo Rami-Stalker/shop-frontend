@@ -1,21 +1,70 @@
 import 'package:get/get.dart';
+import '../repositories.dart/order_details_repository.dart';
+import '../../../services/socket/socket_emit.dart';
+
+import '../../../models/order_model.dart';
+import '../../../public/components.dart';
+import '../../../public/constants.dart';
+
+import 'package:http/http.dart' as http;
+
+import '../../navigator/controllers/navigator_admin_controller.dart';
 
 class OrderDetailsController extends GetxController {
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  final OrderDetailsRepository orderDetailsRepository;
+  OrderDetailsController({
+    required this.orderDetailsRepository,
+  });
+
+  RxInt currentStep = 0.obs;
+
+  void changeOrderStatus(String OrderId) async {
+    try {
+        SocketEmit().changeOrderStatus(OrderId);
+    } catch (e) {
+      Components.showSnackBar(e.toString());
+    }
+  }
+  
+  void changeOrderStatusToUser(dynamic data){
+  currentStep.value == data.status;
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  // void changeOrderStatus({
+  //   required int status,
+  //   required OrderModel order,
+  // }) async {
+  //   try {
+  //     http.Response res =
+  //         await orderDetailsRepository.changeOrderStatus(status: status, order: order);
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  //     Constants.httpErrorHandle(
+  //       res: res,
+  //       onSuccess: () {
+  //         currentStep += 1;
+  //       },
+  //     );
+  //     update();
+  //   } catch (e) {
+  //     Components.showSnackBar(e.toString());
+  //   }
+  // }
 
-  void increment() => count.value++;
+  void deleteOrder({
+    required OrderModel order,
+  }) async {
+    try {
+      http.Response res = await orderDetailsRepository.deleteOrder(order: order);
+
+      Constants.httpErrorHandle(
+        res: res,
+        onSuccess: () {
+          Get.find<NavigatorAdminController>().currentIndex.value = 0;
+        },
+      );
+      update();
+    } catch (e) {
+      Components.showSnackBar(e.toString());
+    }
+  }
 }

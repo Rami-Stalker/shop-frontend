@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/src/themes/app_colors.dart';
-import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
+import '../../themes/app_colors.dart';
+import '../../utils/sizer_custom/sizer.dart';
 
 class AppTextButton extends StatelessWidget {
   final String txt;
   final Function() onTap;
+  final Color backgroundColor;
   const AppTextButton({
     Key? key,
     required this.txt,
     required this.onTap,
+    this.backgroundColor =const Color(0xFF89DAD0),
   }) : super(key: key);
 
   @override
@@ -16,7 +18,7 @@ class AppTextButton extends StatelessWidget {
     return TextButton(
       onPressed: onTap,
       style: TextButton.styleFrom(
-          backgroundColor: colorPrimary,
+          backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
               10.sp,
@@ -26,8 +28,8 @@ class AppTextButton extends StatelessWidget {
       child: Text(
         txt,
         style: TextStyle(
-          fontSize: Dimensions.font20,
-          color: Colors.white,
+          fontSize: Dimensions.font26,
+          color: mCL,
         ),
       ),
     );

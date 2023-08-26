@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 
 import '../../../core/api/api_client.dart';
 import '../../../public/api_gateway.dart';
-import '../../../models/order_model.dart';
 import '../../../models/product_model.dart';
 
 class AdminRepository extends GetConnect {
@@ -14,20 +13,8 @@ class AdminRepository extends GetConnect {
     required this.apiClient,
   });
 
-  Future<http.Response> addProduct({
-    required ProductModel product,
-  }) async {
-    return await apiClient.postData(ApiGateway.ADD_PRODUCT, product.toJson());
-  }
-
   Future<http.Response> fetchAllProducts() async {
     return await apiClient.getData(ApiGateway.GET_PRODUCTS);
-  }
-
-  Future<http.Response> fetchCategoryProduct({
-    required String category,
-  }) async {
-    return await apiClient.getData('${ApiGateway.GET_CATEGORY}$category');
   }
 
   Future<http.Response> deleteProduct({
@@ -62,36 +49,5 @@ class AdminRepository extends GetConnect {
         },
       ),
     );
-  }
-
-  Future<http.Response> fetchAllOrders() async {
-    return await apiClient.getData(ApiGateway.GET_ORDERS);
-  }
-
-  Future<http.Response> changeOrderStatus({
-    required int status,
-    required OrderModel order,
-  }) async {
-    return await apiClient.postData(
-        ApiGateway.CHANGE_ORDER_STATUS,
-        jsonEncode({
-          "id": order.id,
-          "status": status,
-        }));
-  }
-
-  Future<http.Response> deleteOrder({
-    required OrderModel order,
-  }) async {
-    return await apiClient.postData(
-      ApiGateway.DELETE_ORDER,
-      jsonEncode(
-        {"id": order.id},
-      ),
-    );
-  }
-
-  Future<http.Response> fetchEarnings() async {
-    return await apiClient.getData(ApiGateway.GET_EARNINGS);
   }
 }

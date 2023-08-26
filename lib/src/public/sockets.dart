@@ -2,7 +2,8 @@ class SocketEvent {
   static const PING = 'ping';
   static const PONG = 'pong';
 
-  static const USER_ONLINE = 'user_online';
+  static const CHANGE_ORDER_STATUS = 'CHANGE_ORDER_STATUS';
+  static const CHANGE_ORDER_STATUS_TO_USER = 'CHANGE_ORDER_STATUS_TO_USER';
 
   static const JOIN_ROOM_CSS = 'JOIN_ROOM_CSS';
   static const JOIN_ROOM_SSC = 'JOIN_ROOM_SSC';

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:shop_app/src/controller/notification_controller.dart';
-import 'package:shop_app/src/core/widgets/big_text.dart';
-import 'package:shop_app/src/core/widgets/small_text.dart';
-import 'package:shop_app/src/models/notification_model.dart';
-import 'package:shop_app/src/themes/app_decorations.dart';
-import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
+import '../../../controller/notification_controller.dart';
+import '../../../models/notification_model.dart';
+import '../../../themes/app_decorations.dart';
+import '../../../utils/sizer_custom/sizer.dart';
+
+import '../../../themes/app_colors.dart';
 
 class HomeNitification extends StatefulWidget {
   const HomeNitification({super.key});
@@ -54,7 +54,7 @@ class _HomeNitificationState extends State<HomeNitification> {
         centerTitle: true,
         title: Text(
           "Notifications",
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         leading: Container(
           padding: EdgeInsets.all(8.sp),
@@ -63,7 +63,11 @@ class _HomeNitificationState extends State<HomeNitification> {
             child: Container(
               padding: EdgeInsets.all(5.sp),
               decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
-              child: Icon(Icons.arrow_back_ios, size: 10.sp),
+              child: Icon(
+                Icons.arrow_back_ios,
+                size: 15.sp,
+                color: Get.isDarkMode ? mCL : colorBlack,
+              ),
             ),
           ),
         ),
@@ -80,67 +84,55 @@ class _HomeNitificationState extends State<HomeNitification> {
           horizontal: Dimensions.height10,
           vertical: Dimensions.height10,
         ),
-        child: Expanded(
-          child: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemCount: argument.length,
-            itemBuilder: (_, index) {
-              var notification = argument[index];
-              return Padding(
-                padding: EdgeInsets.only(bottom: 10.sp),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    padding: EdgeInsets.only(
-                      right: 5.sp,
-                      left: Dimensions.width10,
-                      top: 5.sp,
-                      bottom: 5.sp,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 1,
-                          offset: const Offset(0, 2),
-                          color: Colors.grey.withOpacity(0.2),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(
-                        5.sp,
+        child: ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          itemCount: argument.length,
+          itemBuilder: (_, index) {
+            var notification = argument[index];
+            return Padding(
+              padding: EdgeInsets.only(bottom: 10.sp),
+              child: GestureDetector(
+                onTap: () {},
+                child: Container(
+                  padding: EdgeInsets.only(
+                    right: 5.sp,
+                    left: Dimensions.width10,
+                    top: 5.sp,
+                    bottom: 5.sp,
+                  ),
+                  decoration: AppDecoration.appbarIcon(context, 5.sp)
+                        .decoration,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            notification.notification.title,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          Text(
+                            timeAgoCustom(
+                              notification.createdAt,
+                            ),
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ],
                       ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            BigText(
-                              text: notification.notification.title,
-                            ),
-                            SmallText(
-                              text: timeAgoCustom(
-                                notification.createdAt,
-                              ),
-                              color: Colors.black,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5.sp),
-                        SmallText(
-                          text: notification.notification.body,
-                          maxline: 2,
-                          color: Colors.black,
-                          size: 13.sp,
-                        ),
-                      ],
-                    ),
+                      SizedBox(height: 5.sp),
+                      Text(
+                        notification.notification.body,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ],
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

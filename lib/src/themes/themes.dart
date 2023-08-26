@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../utils/sizer_custom/sizer.dart';
 import 'app_colors.dart';
 
 class AppTheme {
@@ -27,16 +28,21 @@ class AppTheme {
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: appColors.background,
         selectedItemColor: colorPrimary,
+        unselectedItemColor: colorMedium,
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: appColors.background,
         elevation: 0.0,
       ),
+      iconTheme: IconThemeData(
+        color: appColors.header,
+        size: 20.sp,
+      ),
       textTheme: TextTheme(
-        displayLarge: TextStyle(color: appColors.header),
         displayMedium: TextStyle(color: appColors.header),
-        bodyLarge: TextStyle(color: appColors.contentText1),
-        bodyMedium: TextStyle(color: appColors.contentText2),
+        titleLarge: TextStyle(color: appColors.contentText1),
+        titleMedium: TextStyle(color: appColors.contentText2),
+        bodyLarge: TextStyle(color: appColors.contentText2),
       ),
       dividerColor: appColors.divider,
     );
@@ -71,11 +77,15 @@ class AppTheme {
         backgroundColor: appColors.background,
         elevation: 0.0,
       ),
+      iconTheme: IconThemeData(
+        color: appColors.header,
+        size: 20.sp,
+      ),
       textTheme: TextTheme(
-        displayLarge: TextStyle(color: appColors.header),
         displayMedium: TextStyle(color: appColors.header),
-        bodyLarge: TextStyle(color: appColors.contentText1),
-        bodyMedium: TextStyle(color: appColors.contentText2),
+        titleLarge: TextStyle(color: appColors.contentText1),
+        titleMedium: TextStyle(color: appColors.contentText2),
+        bodyLarge: TextStyle(color: appColors.contentText2),
       ),
       dividerColor: appColors.divider,
     );

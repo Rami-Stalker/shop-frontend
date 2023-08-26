@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/src/themes/app_colors.dart';
+import 'app_colors.dart';
+
+import '../utils/sizer_custom/sizer.dart';
 
 class AppDecoration {
   final BoxDecoration decoration;
@@ -10,10 +12,6 @@ class AppDecoration {
         decoration: BoxDecoration(
           color: fCD,
           borderRadius: BorderRadius.circular(radius),
-          gradient: LinearGradient(colors: [
-            mCL,
-            fCD,
-          ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
           boxShadow: [
             BoxShadow(
               blurRadius: 1,
@@ -27,10 +25,6 @@ class AppDecoration {
       return AppDecoration(
         decoration: BoxDecoration(
           color: mCL,
-          gradient: LinearGradient(colors: [
-            mCL,
-            fCD,
-          ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
           boxShadow: [
             BoxShadow(
               blurRadius: 1,
@@ -54,15 +48,12 @@ class AppDecoration {
             BoxShadow(
               color: colorBlack.withOpacity(.4),
               blurRadius: 5.0,
-              offset: Offset(0, 5),
+              offset: Offset(0, 3),
             ),
             BoxShadow(
-              color: colorBlack.withOpacity(.8),
-              offset: Offset(-5, 0),
-            ),
-            BoxShadow(
-              color: colorBlack.withOpacity(.35),
-              offset: Offset(5, 0),
+              blurRadius: 1,
+              offset: const Offset(2, 0),
+              color: colorBlack.withOpacity(.4),
             ),
           ],
         ),
@@ -74,17 +65,14 @@ class AppDecoration {
           borderRadius: BorderRadius.circular(radius),
           boxShadow: [
             BoxShadow(
-              color: mCL,
-              blurRadius: 5.0,
-              offset: Offset(0, 5),
-            ),
-            BoxShadow(
-              color: mCM,
-              offset: Offset(-5, 0),
-            ),
-            BoxShadow(
               color: mCH,
-              offset: Offset(5, 0),
+              blurRadius: 5.0,
+              offset: Offset(0, 3),
+            ),
+            BoxShadow(
+              blurRadius: 1,
+              offset: const Offset(2, 0),
+              color: mCH,
             ),
           ],
         ),
@@ -105,15 +93,12 @@ class AppDecoration {
             BoxShadow(
               color: colorBlack.withOpacity(.4),
               blurRadius: 5.0,
-              offset: Offset(0, 5),
+              offset: Offset(0, 3),
             ),
             BoxShadow(
-              color: colorBlack.withOpacity(.8),
-              offset: Offset(-5, 0),
-            ),
-            BoxShadow(
-              color: colorBlack.withOpacity(.35),
-              offset: Offset(5, 0),
+              blurRadius: 1,
+              offset: const Offset(2, 0),
+              color: colorBlack.withOpacity(.4),
             ),
           ],
         ),
@@ -128,17 +113,14 @@ class AppDecoration {
           ),
           boxShadow: [
             BoxShadow(
-              color: mCL,
-              blurRadius: 5.0,
-              offset: Offset(0, 5),
-            ),
-            BoxShadow(
-              color: mCM,
-              offset: Offset(-5, 0),
-            ),
-            BoxShadow(
               color: mCH,
-              offset: Offset(5, 0),
+              blurRadius: 5.0,
+              offset: Offset(0, 3),
+            ),
+            BoxShadow(
+              blurRadius: 1,
+              offset: const Offset(2, 0),
+              color: mCH,
             ),
           ],
         ),
@@ -146,156 +128,42 @@ class AppDecoration {
     }
   }
 
-  factory AppDecoration.textfeild(context, radius) {
+  factory AppDecoration.textfeild(context, radius,
+      {bool isLeft = false, bool isRight = false}) {
     if (Theme.of(context).brightness == Brightness.dark) {
       return AppDecoration(
         decoration: BoxDecoration(
-        color: fCD,
-        borderRadius: BorderRadius.circular(radius),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 3,
-            spreadRadius: 1,
-            offset: const Offset(1, 1),
-            color: colorBlack.withOpacity(.4),
-          ),
-        ],
-      ),
-      );
-    } else {
-      return AppDecoration(
-        decoration: BoxDecoration(
-        color: mCL,
-        borderRadius: BorderRadius.circular(radius),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 3,
-            spreadRadius: 1,
-            offset: const Offset(1, 1),
-            color: mCH,
-          ),
-        ],
-      ),
-      );
-    }
-  }
-
-  factory AppDecoration.buttonActionCircleCall(context) {
-    if (Theme.of(context).brightness == Brightness.dark) {
-      return AppDecoration(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: colorPrimaryBlack,
+          color: fCD,
+          borderRadius: isLeft == false
+              ? isRight == true
+                  ? BorderRadius.only(
+                      topRight: Radius.circular(radius),
+                      bottomRight: Radius.circular(radius),
+                    )
+                  : BorderRadius.circular(radius)
+              : BorderRadius.only(
+                  topLeft: Radius.circular(radius),
+                  bottomLeft: Radius.circular(radius),
+                ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(.8),
-              offset: Offset(2, 2),
-              blurRadius: 2,
-            ),
-            BoxShadow(
-              color: colorBlack.withOpacity(.35),
-              offset: Offset(-2, -2),
-              blurRadius: 2,
+              blurRadius: 1,
+              offset: const Offset(0, 2),
+              color: colorBlack.withOpacity(.4),
             ),
           ],
         ),
       );
-    } else {
-      return AppDecoration(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: mC.withOpacity(.1),
-          boxShadow: [
-            BoxShadow(
-              color: mCM.withOpacity(.1),
-              offset: Offset(.5, .5),
-              blurRadius: .5,
-            ),
-            BoxShadow(
-              color: mCL.withOpacity(.01),
-              offset: Offset(-1, -1),
-              blurRadius: .5,
-            ),
-          ],
-        ),
-      );
-    }
-  }
-
-  factory AppDecoration.buttonActionBorder(context, radius) {
-    if (Theme.of(context).brightness == Brightness.dark) {
-      return AppDecoration(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius),
-          color: colorPrimaryBlack,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.4),
-              offset: Offset(4, 4),
-              blurRadius: 4,
-            ),
-            BoxShadow(
-              color: Colors.black.withOpacity(.15),
-              offset: Offset(-1, -1),
-              blurRadius: 20,
-            ),
-          ],
-        ),
-      );
-    } else {
-      return AppDecoration(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius),
-          color: mC,
-          boxShadow: [
-            BoxShadow(
-              color: mCD,
-              offset: Offset(5, 5),
-              blurRadius: 5,
-            ),
-            BoxShadow(
-              color: mCL,
-              offset: Offset(-2, -2),
-              blurRadius: 2,
-            ),
-          ],
-        ),
-      );
-    }
-  }
-
-  factory AppDecoration.tabBarDecoration(context) {
-    if (Theme.of(context).brightness == Brightness.dark) {
-      return AppDecoration(
-          decoration: BoxDecoration(
-        color: colorPrimaryBlack.withOpacity(.85),
-        boxShadow: [
-          BoxShadow(
-            color: colorBlack,
-            offset: Offset(-2, -2),
-            blurRadius: 2,
-          ),
-          BoxShadow(
-            color: colorBlack.withOpacity(.8),
-            offset: Offset(2, 2),
-            blurRadius: 2,
-          ),
-        ],
-      ));
     } else {
       return AppDecoration(
         decoration: BoxDecoration(
           color: mCL,
+          borderRadius: BorderRadius.circular(radius),
           boxShadow: [
             BoxShadow(
-              color: mCD,
-              offset: Offset(2, 2),
-              blurRadius: 2,
-            ),
-            BoxShadow(
-              color: mC,
-              offset: Offset(-2, -2),
-              blurRadius: 2,
+              blurRadius: 1,
+              offset: const Offset(0, 2),
+              color: mCH,
             ),
           ],
         ),
@@ -303,28 +171,45 @@ class AppDecoration {
     }
   }
 
-  factory AppDecoration.tabBarDecorationSecond(context) {
+  factory AppDecoration.newestProduct(context, radius) {
     if (Theme.of(context).brightness == Brightness.dark) {
       return AppDecoration(
-          decoration: BoxDecoration(
-        color: colorPrimaryBlack,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(.6),
-            offset: Offset(1, 1),
-            blurRadius: 1,
+        decoration: BoxDecoration(
+          color: fCD,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(
+              radius,
+            ),
+            bottomRight: Radius.circular(
+              radius,
+            ),
           ),
-        ],
-      ));
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 1,
+              offset: const Offset(0, 2),
+              color: colorBlack.withOpacity(.4),
+            ),
+          ],
+        ),
+      );
     } else {
       return AppDecoration(
         decoration: BoxDecoration(
-          color: mC,
+          color: mCL,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(
+              radius,
+            ),
+            bottomRight: Radius.circular(
+              radius,
+            ),
+          ),
           boxShadow: [
             BoxShadow(
-              color: mCD,
-              offset: Offset(2, 2),
-              blurRadius: 2,
+              blurRadius: 1,
+              offset: const Offset(0, 2),
+              color: mCH,
             ),
           ],
         ),
@@ -332,39 +217,25 @@ class AppDecoration {
     }
   }
 
-  factory AppDecoration.inputChatDecoration(context) {
+  factory AppDecoration.bottomNavigationBar(context) {
     if (Theme.of(context).brightness == Brightness.dark) {
       return AppDecoration(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            8.0,
+          color: fCD,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(Dimensions.radius45),
+            topRight: Radius.circular(Dimensions.radius45),
           ),
-          color: Colors.black.withOpacity(.25),
-          boxShadow: [
-            BoxShadow(
-              color: colorPrimaryBlack.withOpacity(.1),
-              offset: Offset(2, 2),
-              blurRadius: 2,
-              spreadRadius: -2,
-            ),
-          ],
         ),
       );
     } else {
       return AppDecoration(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            8.0,
-          ),
           color: mCD,
-          boxShadow: [
-            BoxShadow(
-              color: mCL,
-              offset: Offset(2, 2),
-              blurRadius: 2,
-              spreadRadius: -2,
-            ),
-          ],
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(Dimensions.radius45),
+            topRight: Radius.circular(Dimensions.radius45),
+          ),
         ),
       );
     }

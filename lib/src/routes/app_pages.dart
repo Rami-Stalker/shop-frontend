@@ -1,20 +1,22 @@
 import 'package:get/get.dart';
-import 'package:shop_app/src/modules/admin/views/admin_category_deals_view.dart';
-import 'package:shop_app/src/modules/home/views/home_notifications.dart';
-
-import '../modules/admin/views/add_product_view.dart';
-import '../modules/admin/views/edit_product_view.dart';
-import '../modules/auth/bindings/auth_binding.dart';
-import '../modules/auth/views/login_view.dart';
-import '../modules/auth/views/register_view.dart';
+import 'package:shop_app/src/app.dart';
+import '../modules/add_product/bindings/add_product_binding.dart';
+import '../modules/auth_login/bindings/login_binding.dart';
+import '../modules/auth_register/bindings/register_binding.dart';
+import '../modules/category/bindings/category_binding.dart';
+import '../modules/edit_product/bindings/edit_product_binding.dart';
+import '../modules/home/views/home_notifications.dart';
+import '../modules/add_product/views/add_product_view.dart';
+import '../modules/edit_product/views/edit_product_view.dart';
+import '../modules/auth_login/views/login_view.dart';
+import '../modules/auth_register/views/register_view.dart';
 import '../modules/cart/bindings/cart_binding.dart';
 import '../modules/cart/views/cart_view.dart';
+import '../modules/category/views/category_view.dart';
 import '../modules/checkout/bindings/checkout_binding.dart';
 import '../modules/checkout/views/checkout_view.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_category_deals_view.dart';
-import '../modules/navigator/views/navigator_admin_view.dart';
-import '../modules/navigator/views/navigator_user_view.dart';
+import '../modules/navigator/views/navigation_admin_view.dart';
+import '../modules/navigator/views/navigation_user_view.dart';
 import '../modules/order_details/bindings/order_details_binding.dart';
 import '../modules/order_details/views/order_details_view.dart';
 import '../modules/product_details/bindings/product_details_binding.dart';
@@ -31,39 +33,42 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.USER_NAVIGATOR;
+  static const INITIAL = Routes.USER_NAVIGATION;
 
   static final routes = [
+    GetPage(
+      name: _Paths.ROOT,
+      page: () => App(),
+    ),
+
     GetPage(
       name: _Paths.NOTIFICATION,
       page: () => const HomeNitification(),
     ),
     GetPage(
-      name: _Paths.HOME_CATEGORY_DEALS,
-      page: () => const HomeCategoryDealsView(),
+      name: _Paths.CATEGORY,
+      page: () => const CatigoryView(),
+      binding: CategoryBinding(),
     ),
     GetPage(
-      name: _Paths.ADMIN_CATEGORY_DEALS,
-      page: () => const AdminCategoryDealsView(),
-      binding: HomeBinding(),
-    ),
-    GetPage(
-      name: _Paths.ADMIN_ADD_PRODUCT,
+      name: _Paths.ADD_PRODUCT,
       page: () => const AddProductView(),
+      binding: AddProductBinding(),
     ),
     GetPage(
       name: _Paths.EDIT_PRODUCT,
       page: () => const EditProductView(),
+      binding: EditProductBinding(),
     ),
     GetPage(
-      name: _Paths.SIGN_UP,
+      name: _Paths.REGISTER,
       page: () => const RegisterView(),
-      binding: AuthBinding(),
+      binding: RegisterBinding(),
     ),
     GetPage(
-      name: _Paths.SIGN_IN,
+      name: _Paths.LOGIN,
       page: () => const LoginView(),
-      binding: AuthBinding(),
+      binding: LoginBinding(),
     ),
     GetPage(
       name: _Paths.CART,
@@ -76,8 +81,8 @@ class AppPages {
       binding: CheckoutBinding(),
     ),
     GetPage(
-      name: _Paths.USER_NAVIGATOR,
-      page: () => const UserNavigatorView(),
+      name: _Paths.USER_NAVIGATION,
+      page: () => Navigation(),
     ),
     GetPage(
       name: _Paths.ADMIN_NAVIGATOR,

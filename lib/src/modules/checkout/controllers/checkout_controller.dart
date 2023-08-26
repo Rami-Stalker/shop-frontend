@@ -1,10 +1,10 @@
-import 'package:shop_app/src/public/components.dart';
+import '../../../public/components.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:shop_app/src/modules/cart/repositories/cart_repository.dart';
-import 'package:shop_app/src/modules/checkout/repositories/checkout_repository.dart';
-import 'package:shop_app/src/themes/app_colors.dart';
+import '../../cart/repositories/cart_repository.dart';
+import '../repositories/checkout_repository.dart';
+import '../../../themes/app_colors.dart';
 
 import '../../../public/constants.dart';
 import '../../navigator/controllers/navigator_user_controller.dart';

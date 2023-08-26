@@ -25,7 +25,7 @@ class ApiClient extends GetConnect implements GetxService {
       'x-auth-token': tokenKey,
     };
   }
-
+  
   Future<http.Response> getData(String uri,
       {Map<String, String>? headers}) async {
     http.Response response = await http.get(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../themes/app_colors.dart';
+
 class NetworkError extends StatelessWidget {
   final Function loadData;
   final String message;
@@ -38,7 +40,7 @@ class NetworkError extends StatelessWidget {
                 child: Text("Tap to retry",
                     style: TextStyle(
                         fontSize: 14,
-                        color: Colors.black,
+                        color: colorBlack,
                         fontWeight: FontWeight.w800)),
               ),
             ],

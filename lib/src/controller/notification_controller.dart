@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:shop_app/src/core/api/api_client.dart';
-import 'package:shop_app/src/public/api_gateway.dart';
-import 'package:shop_app/src/public/components.dart';
+import '../core/api/api_client.dart';
+import '../public/api_gateway.dart';
+import '../public/components.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop_app/src/models/notification_model.dart';
+import '../models/notification_model.dart';
 
 import '../public/constants.dart';
 

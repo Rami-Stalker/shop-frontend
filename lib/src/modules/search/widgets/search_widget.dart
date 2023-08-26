@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
-import 'package:shop_app/src/modules/search/controllers/search_controller.dart';
-import 'package:shop_app/src/themes/app_colors.dart';
-import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
+import '../controllers/search_controller.dart';
+import '../../../themes/app_colors.dart';
+import '../../../utils/sizer_custom/sizer.dart';
 
 import '../../../controller/user_controller.dart';
-import '../../../core/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/product_model.dart';
@@ -33,9 +32,9 @@ class SearchWidget extends GetView<SearchController> {
       child: GetBuilder<SearchControlle>(
           builder: (cont) => GestureDetector(
                 onTap: () {
-                  if (Get.find<UserController>().user.type == 'user') {
+                  if (Get.find<UserController>().user.type == 'admin') {
                     Get.toNamed(
-                      Routes.PRODUCT_DETAILS_RATING,
+                      Routes.EDIT_PRODUCT,
                       arguments: {
                         'product': product,
                         'ratings': product.rating,
@@ -43,7 +42,7 @@ class SearchWidget extends GetView<SearchController> {
                     );
                   } else {
                     Get.toNamed(
-                      Routes.EDIT_PRODUCT,
+                      Routes.PRODUCT_DETAILS_RATING,
                       arguments: {
                         'product': product,
                         'ratings': product.rating,
@@ -57,10 +56,10 @@ class SearchWidget extends GetView<SearchController> {
                     children: [
                       //image
                       Container(
-                        width: 130.sp,
-                        height: 130.sp,
+                        width: 80.sp,
+                        height: 80.sp,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: mCL,
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
@@ -77,40 +76,28 @@ class SearchWidget extends GetView<SearchController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            BigText(
-                              text: product.name,
-                              color: Colors.black54,
+                            Text(
+                              product.name,
                               overflow: TextOverflow.clip,
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            SizedBox(
+                              height: Dimensions.height10,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                BigText(
-                                  text: '\$ ${product.price.toString()}',
-                                  color: Colors.redAccent,
+                                Text(
+                                  '\$ ${product.price.toString()}',
+                                  style: Theme.of(context).textTheme.titleLarge,
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: Dimensions.width10),
-                                  padding: EdgeInsets.only(
-                                    top: Dimensions.height10,
-                                    bottom: Dimensions.height10,
-                                    left: Dimensions.width10,
-                                    right: Dimensions.width10,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                      Dimensions.radius20,
-                                    ),
-                                    color: Colors.grey[100],
-                                  ),
-                                ),
+
                               ],
                             ),
-                            SizedBox(height: Dimensions.height10),
-                            const Text(
+                            SizedBox(height: Dimensions.height20),
+                            Text(
                               'Eligible for FREE Shipping',
-                              style: TextStyle(fontSize: 15),
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ],
                         ),

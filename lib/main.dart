@@ -1,22 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:shop_app/src/app.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-
-import 'src/config/application.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:shop_app/firebase_options.dart';
+import 'package:shop_app/src/config/application.dart';
+import 'src/app.dart';
+import '../src/dependencies.dart' as dep;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  await dep.init();
   await Application().initialAppLication();
-
-  // await PayPalConfiguration.instance.setup(
-  //   clientId: 'YOUR_CLIENT_ID', // Replace with your PayPal Client ID
-  //   secret: 'YOUR_SECRET_KEY', // Replace with your PayPal Secret Key
-  //   environment: PayPalEnvironment.Sandbox, // Use PayPalEnvironment.Production for production
-  // );
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarBrightness: Brightness.dark,
+    statusBarIconBrightness: Brightness.dark,
+  ));
   runApp(App());
 }

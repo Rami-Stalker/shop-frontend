@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/src/themes/app_colors.dart';
-import 'package:shop_app/src/themes/app_decorations.dart';
+import '../../themes/app_colors.dart';
+import '../../themes/app_decorations.dart';
 
 import '../../utils/sizer_custom/sizer.dart';
 
@@ -33,6 +33,7 @@ class AppTextField extends StatelessWidget {
         keyboardType: keyboardType,
         controller: textController,
         obscureText: isObscure ? true : false,
+        cursorColor: colorPrimary,
         decoration: InputDecoration(
           hintText: hintText,
           prefixIcon: Icon(
@@ -41,16 +42,10 @@ class AppTextField extends StatelessWidget {
           ),
           suffixIcon: suffixIcon,
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              width: 1.0,
-              color: Colors.white,
-            ),
+            borderSide: BorderSide.none,
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              width: 1.0,
-              color: Colors.white,
-            ),
+            borderSide: BorderSide.none,
           ),
         ),
       ),

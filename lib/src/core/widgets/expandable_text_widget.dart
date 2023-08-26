@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/src/themes/app_colors.dart';
+import '../../themes/app_colors.dart';
 
 import '../../utils/sizer_custom/sizer.dart';
-import 'small_text.dart';
 
 class ExpandableTextWidget extends StatefulWidget {
   final String text;
@@ -39,21 +38,20 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
   Widget build(BuildContext context) {
     return Container(
         child: secondHalf.isEmpty
-            ? SmallText(
-                color: colorDarkGrey,
-                size: Dimensions.font16,
-                text: firstHalf,
+            ? Text(
+                firstHalf,
+                style:
+                    Theme.of(context).textTheme.bodyLarge!.copyWith(color: fCL),
               )
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SmallText(
-                    height: 1.8,
-                    color: colorDarkGrey,
-                    size: Dimensions.font16,
-                    text: hiddenText
-                        ? (firstHalf + '...')
-                        : (firstHalf + secondHalf),
+                  Text(
+                    hiddenText ? (firstHalf + '...') : (firstHalf + secondHalf),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: fCL,
+                          height: 1.8,
+                        ),
                   ),
                   InkWell(
                     onTap: () {
@@ -63,10 +61,11 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
                     },
                     child: Row(
                       children: [
-                        SmallText(
-                          text: hiddenText ? 'Show more' : 'Show less',
-                          color: colorPrimary,
-                        ),
+                        Text(
+                hiddenText ? 'Show more' : 'Show less',
+                style:
+                    Theme.of(context).textTheme.bodyLarge!.copyWith(color: colorPrimary),
+              ),
                         Icon(
                           hiddenText
                               ? Icons.arrow_drop_down

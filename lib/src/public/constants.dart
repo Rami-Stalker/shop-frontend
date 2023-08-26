@@ -17,7 +17,7 @@ class Constants {
   static const BOOKS_ASSET = '$IMG_PATH/books.jpg';
   static const FASHION_ASSET = '$IMG_PATH/fashion.webp';
   static const EMPTY_ASSET = '$IMG_PATH/empty-box.png';
-  static const PAYPAL_ASSET = '$IMG_PATH/paypal-delivery.png';
+  static const PAYPAL_ASSET = '$IMG_PATH/paypal-delivery.jpg';
   static const CASH_ASSET = '$IMG_PATH/cash-delivery.png';
 
   static const List<String> carouselImages = [

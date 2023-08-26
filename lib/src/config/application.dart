@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:shop_app/src/services/dependencies.dart' as dep;
-import 'package:shop_app/src/services/push_notification_service.dart';
+import '../services/firebase_messaging/handle_messaging.dart';
 
 class Application {
   /// [Production - Dev]
@@ -15,11 +14,11 @@ class Application {
   Future<void> initialAppLication() async {
     try {
       await GetStorage.init();
-      await dep.init();
-      await PushNotificationService().initialise();
-      baseUrl = 'http://192.168.22.79:3000';
-      socketUrl = 'http://192.168.22.79:3000';
-      mode = 'PRODUCTION'; 
+      baseUrl = 'http://192.168.138.79:3000';
+      socketUrl = 'http://192.168.138.79:3000';
+      mode = 'PRODUCTION';
+      requestPermission();
+      handleReceiveNotification();
     } catch (error) {
       debugPrint(error.toString());
     }

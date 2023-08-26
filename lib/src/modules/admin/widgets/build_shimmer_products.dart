@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../themes/app_decorations.dart';
 
+import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 class BuildShimmerProducts extends StatelessWidget {
@@ -8,109 +11,93 @@ class BuildShimmerProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.removePadding(
-      removeTop: true,
-      context: context,
-      child: Expanded(
-        child: ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: Container(
-                margin: EdgeInsets.only(
-                  left: Dimensions.width20,
-                  bottom: Dimensions.height10,
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: Dimensions.listViewImgSize,
-                      height: Dimensions.listViewImgSize,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          Dimensions.radius20,
-                        ),
-                        color: Colors.white,
-                      ),
+    return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: 4,
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: Get.isDarkMode ? fCD : mCM,
+            highlightColor: Get.isDarkMode ? mCH : mC,
+          child: Container(
+            margin: EdgeInsets.only(
+              left: Dimensions.width20,
+              bottom: Dimensions.height10,
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 100.sp,
+                  height: 100.sp,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius20,
                     ),
-                    SizedBox(
-                      height: 90,
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(
-                                Dimensions.radius20,
-                              ),
-                              bottomRight: Radius.circular(
-                                Dimensions.radius20,
-                              ),
-                            ),
-                            color: Colors.white,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: Dimensions.width10,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                    color: Get.isDarkMode ? fCL : mCL,
+                  ),
+                ),
+                SizedBox(
+                  height: 70.sp,
+                  child: Container(
+                      decoration: AppDecoration.product(context, Dimensions.radius20).decoration,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Dimensions.width10,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      width: 50,
-                                      height: 20.0,
-                                      color: Colors.white,
-                                    ),
-                                  ],
+                                Container(
+                                  width: 50,
+                                  height: 20.0,
+                                  color: Get.isDarkMode ? fCL : mCL,
+                                ),
+                              ],
+                            ),
+                            Container(
+                              width: 70,
+                              height: 20.0,
+                              color: Get.isDarkMode ? fCL : mCL,
+                            ),
+                            SizedBox(
+                              height: Dimensions.height10,
+                            ),
+                            Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: 70,
+                                  height: 20.0,
+                                  color: Get.isDarkMode ? fCL : mCL,
                                 ),
                                 Container(
                                   width: 70,
                                   height: 20.0,
-                                  color: Colors.white,
+                                  color: Get.isDarkMode ? fCL : mCL,
                                 ),
-                                SizedBox(
-                                  height: Dimensions.height10,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      width: 70,
-                                      height: 20.0,
-                                      color: Colors.white,
-                                    ),
-                                    Container(
-                                      width: 70,
-                                      height: 20.0,
-                                      color: Colors.white,
-                                    ),
-                                    Container(
-                                      width: 70,
-                                      height: 20.0,
-                                      color: Colors.white,
-                                    ),
-                                  ],
+                                Container(
+                                  width: 70,
+                                  height: 20.0,
+                                  color: Get.isDarkMode ? fCL : mCL,
                                 ),
                               ],
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

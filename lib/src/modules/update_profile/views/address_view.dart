@@ -1,5 +1,5 @@
-import 'package:shop_app/src/public/components.dart';
-import 'package:shop_app/src/core/widgets/custom_button.dart';
+import '../../../public/components.dart';
+import '../../../core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:get/get.dart';
@@ -173,7 +173,7 @@ class _AddressViewState extends State<AddressView> {
   //         focusedBorder: OutlineInputBorder(
   //           borderRadius: BorderRadius.circular(Dimensions.radius20),
   //           borderSide: const BorderSide(
-  //             color: Colors.white,
+  //             color: mcl,
   //           ),
   //         ),
   //       ),

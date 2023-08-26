@@ -1,17 +1,18 @@
-import 'package:shop_app/src/modules/cart/views/cart_history.dart';
-import 'package:shop_app/src/modules/home/views/home_view.dart';
+import '../../auth_login/controllers/login_controller.dart';
+import '../../cart/views/cart_history.dart';
+import '../../home/views/home_view.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../user_order/views/user_order_view.dart';
+import '../../order/views/order_view.dart';
 import '../../profile/views/profile_view.dart';
 
 
 class NavigatorUserController extends GetxController {
   final List<Widget> _pages = [
     const HomeView(),
-    const UserOrderView(),
+    const OrderView(),
     const CartHistoryView(),
     const ProfileView(),
   ];
@@ -30,5 +31,13 @@ class NavigatorUserController extends GetxController {
 
   void changePage(int index) {
     _currentIndex.value = index;
+  }
+  
+  @override
+  void onInit() {
+    if (Get.find<LoginController>().userLoggedIn()) {
+      Get.find<LoginController>().getInfoUser();
+    }
+    super.onInit();
   }
 }

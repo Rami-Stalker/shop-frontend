@@ -21,11 +21,11 @@ class ItemsWidget extends StatelessWidget {
                 children: [
                   Text(
                     txt,
-                    style: const TextStyle(color: Colors.grey, fontSize: 16),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Text(
                     account,
-                    style: const TextStyle(color: Colors.grey, fontSize: 16),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ],
               ),

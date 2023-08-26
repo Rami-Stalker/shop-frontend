@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_app/src/modules/cart/controllers/cart_controller.dart';
-import 'package:shop_app/src/modules/product_details/repositories/product_detailes_repository.dart';
-import 'package:shop_app/src/themes/app_colors.dart';
+import '../../cart/controllers/cart_controller.dart';
+import '../repositories/product_detailes_repository.dart';
+import '../../../themes/app_colors.dart';
 
 import '../../../models/product_model.dart';
 
@@ -52,7 +52,7 @@ class ProductDetailsController extends GetxController implements GetxService {
         'Item count',
         "You can't reduce more !",
         backgroundColor: colorPrimary,
-        colorText: Colors.white,
+        colorText: mCL,
       );
       return 0;
     } else if (quantity > productQuantity) {
@@ -60,7 +60,7 @@ class ProductDetailsController extends GetxController implements GetxService {
         'Item count',
         "You ordered more than the available quantity !",
         backgroundColor: colorPrimary,
-        colorText: Colors.white,
+        colorText: mCL,
       );
       return productQuantity;
     } else {

@@ -7,7 +7,7 @@ class LanguageService {
   final storageKey = 'locale';
 
   String getLocale() {
-    return _getStorage.read(storageKey) ?? 'ar_vn';
+    return _getStorage.read(storageKey) ?? 'ar_sa';
   }
 
   Future<void> saveLocale(String locale) async {
@@ -15,15 +15,15 @@ class LanguageService {
   }
 
   switchLanguage(context) async {
-    await saveLocale(((I18n.localeStr == "ar_vn") ? "en_us" : "ar_vn"));
+    await saveLocale(((I18n.localeStr == "ar_sa") ? "en_us" : "ar_sa"));
     I18n.of(context).locale =
-        (I18n.localeStr == "ar_vn") ? null : const Locale("ar", "VN");
+        (I18n.localeStr == "ar_sa") ? null : const Locale("ar", "SA");
   }
 
   initialLanguage(context) {
     String localeStr = getLocale();
-    if (localeStr == "ar_vn") {
-      I18n.of(context).locale = Locale("ar", "VN");
+    if (localeStr == "ar_sa") {
+      I18n.of(context).locale = Locale("ar", "SA");
     } else {
       I18n.of(context).locale = null;
     }

@@ -1,15 +1,15 @@
-import 'package:shop_app/src/controller/user_controller.dart';
-import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
-import 'package:shop_app/src/modules/cart/controllers/cart_controller.dart';
-import 'package:shop_app/src/themes/app_colors.dart';
-import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
+import '../../../controller/user_controller.dart';
+import '../../auth_login/controllers/login_controller.dart';
+import '../controllers/cart_controller.dart';
+import '../../navigator/controllers/navigator_user_controller.dart';
+import '../../../themes/app_colors.dart';
+import '../../../utils/sizer_custom/sizer.dart';
 
 import '../../../core/widgets/app_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../public/components.dart';
-import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/no_data_page.dart';
 import '../../../public/constants.dart';
 import '../../../routes/app_pages.dart';
@@ -23,7 +23,7 @@ class CartView extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartView> {
-  final bool _isLogged = Get.find<AuthController>().userLoggedIn();
+  final bool _isLogged = Get.find<LoginController>().userLoggedIn();
   CartController cartController = Get.find<CartController>();
   UserController userController = Get.find<UserController>();
   //double heightNav = Dimensions.bottomHeightBar + 130;
@@ -36,7 +36,7 @@ class _CartScreenState extends State<CartView> {
         centerTitle: true,
         title: Text(
           "Cart",
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         leading: Container(
           padding: EdgeInsets.all(8.sp),
@@ -45,7 +45,11 @@ class _CartScreenState extends State<CartView> {
             child: Container(
               padding: EdgeInsets.all(5.sp),
               decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
-              child: Icon(Icons.arrow_back_ios, size: 10.sp),
+              child: Icon(
+                Icons.arrow_back_ios,
+                size: 15.sp,
+                color: Get.isDarkMode ? mCL : colorBlack,
+              ),
             ),
           ),
         ),
@@ -58,275 +62,270 @@ class _CartScreenState extends State<CartView> {
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.sp),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              cartController.getItems.isNotEmpty
-                  ? MediaQuery.removePadding(
-                      removeTop: true,
-                      context: context,
-                      child: Expanded(
-                        child: ListView(
-                          physics: const BouncingScrollPhysics(),
-                          children: [
-                            ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: cartController.getItems.length,
-                              itemBuilder: (_, index) {
-                                var product = cartController.getItems[index];
-                                cartController.quantity.value =
-                                    product.userQuant!;
-                                return GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed(
-                                      Routes.PRODUCT_DETAILS_RATING,
-                                      arguments: {
-                                        'product':
-                                            product.product,
-                                        'ratings':
-                                            product.rating,
-                                      },
-                                    );
-                                  },
-                                  child: Card(
-                                    child: Row(
-                                      children: [
-                                        //image
-                                        Container(
-                                          width: 100.sp,
-                                          height: 100.sp,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(
-                                                10.sp,
-                                              ),
-                                              bottomLeft: Radius.circular(
-                                                10.sp,
-                                              ),
-                                            ),
-                                            image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: NetworkImage(
-                                                product.image!,
-                                              ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            cartController.getItems.isNotEmpty
+                ? MediaQuery.removePadding(
+                    removeTop: true,
+                    context: context,
+                    child: Expanded(
+                      child: ListView(
+                        physics: const BouncingScrollPhysics(),
+                        children: [
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: cartController.getItems.length,
+                            itemBuilder: (_, index) {
+                              var product = cartController.getItems[index];
+                              cartController.quantity.value =
+                                  product.userQuant!;
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(
+                                    Routes.PRODUCT_DETAILS_RATING,
+                                    arguments: {
+                                      'product': product.product,
+                                      'ratings': product.rating,
+                                    },
+                                  );
+                                },
+                                child: Card(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 80.sp,
+                                        height: 80.sp,
+                                        decoration: BoxDecoration(
+                                          color: mCL,
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                              product.image!,
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: Dimensions.width10,
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              BigText(
-                                                text: product.name!,
-                                                color: Colors.black54,
-                                                overflow: TextOverflow.clip,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  BigText(
-                                                    text:
-                                                        '\$ ${product.price.toString()}',
-                                                    color: Colors.redAccent,
+                                      ),
+                                      SizedBox(
+                                        width: Dimensions.width10,
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              product.name!,
+                                              overflow: TextOverflow.clip,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleLarge,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '\$ ${product.price.toString()}',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleLarge!
+                                                      .copyWith(
+                                                          color:
+                                                              Colors.redAccent),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                    right: Dimensions.width10,
                                                   ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                      right: Dimensions.width10,
+                                                  padding: EdgeInsets.only(
+                                                    top: Dimensions.height10,
+                                                    bottom: Dimensions.height10,
+                                                    left: Dimensions.width10,
+                                                    right: Dimensions.width10,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      Dimensions.radius20,
                                                     ),
-                                                    padding: EdgeInsets.only(
-                                                      top: Dimensions.height10,
-                                                      bottom:
-                                                          Dimensions.height10,
-                                                      left: Dimensions.width10,
-                                                      right: Dimensions.width10,
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                        Dimensions.radius20,
+                                                    color: Get.isDarkMode
+                                                        ? mCM
+                                                        : mCL,
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          cartController
+                                                              .setQuantity(
+                                                            false,
+                                                            product.product!
+                                                                .quantity,
+                                                          );
+                                                          if (cartController
+                                                              .isValid.value) {
+                                                            cartController
+                                                                .addItem(
+                                                              product.id,
+                                                              product.product!,
+                                                              product.userQuant! -
+                                                                  1,
+                                                            );
+                                                          }
+                                                          setState(() {});
+                                                        },
+                                                        child: Icon(
+                                                          Icons.remove,
+                                                          color: fCL,
+                                                        ),
                                                       ),
-                                                      color: Colors.grey[100],
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        InkWell(
-                                                          onTap: () {
+                                                      SizedBox(width: 5.sp),
+                                                      Text(
+                                                        cartController.quantity
+                                                            .toString(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .titleLarge!
+                                                            .copyWith(
+                                                                color:
+                                                                    colorBlack),
+                                                      ),
+                                                      SizedBox(width: 5.sp),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          cartController
+                                                              .setQuantity(
+                                                            true,
+                                                            product.product!
+                                                                .quantity,
+                                                          );
+                                                          if (cartController
+                                                              .isValid.value) {
                                                             cartController
-                                                                .setQuantity(
-                                                              false,
-                                                              product.product!
-                                                                  .quantity,
+                                                                .addItem(
+                                                              product.id,
+                                                              product.product!,
+                                                              product.userQuant! +
+                                                                  1,
                                                             );
-                                                            if (cartController
-                                                                .isValid
-                                                                .value) {
-                                                              cartController
-                                                                  .addItem(
-                                                                product.id,
-                                                                product
-                                                                    .product!,
-                                                                product.userQuant! -
-                                                                    1,
-                                                              );
-                                                            }
-                                                            setState(() {});
-                                                          },
-                                                          child: Icon(
-                                                            Icons.remove,
-                                                            color: fCL,
-                                                          ),
+                                                          }
+                                                          setState(() {});
+                                                        },
+                                                        child: Icon(
+                                                          Icons.add,
+                                                          color: fCL,
                                                         ),
-                                                        SizedBox(width: 5.sp),
-                                                        BigText(
-                                                          text: cartController
-                                                              .quantity
-                                                              .toString(),
-                                                        ),
-                                                        SizedBox(width: 5.sp),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            cartController
-                                                                .setQuantity(
-                                                              true,
-                                                              product.product!
-                                                                  .quantity,
-                                                            );
-                                                            if (cartController
-                                                                .isValid
-                                                                .value) {
-                                                              cartController
-                                                                  .addItem(
-                                                                product.id,
-                                                                product
-                                                                    .product!,
-                                                                product.userQuant! +
-                                                                    1,
-                                                              );
-                                                            }
-                                                            setState(() {});
-                                                          },
-                                                          child: Icon(
-                                                            Icons.add,
-                                                            color: fCL,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  : const Expanded(
-                      child: NoDataPage(
-                        text: 'Your cart is empty',
-                        imgPath: Constants.EMPTY_ASSET,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
-            ],
-          ),
+                  )
+                : const Expanded(
+                    child: NoDataPage(
+                      text: 'Your cart is empty',
+                      imgPath: Constants.EMPTY_ASSET,
+                    ),
+                  ),
+          ],
         ),
       ),
       bottomNavigationBar: cartController.getItems.isNotEmpty
-          ? Container(
-              height: Dimensions.bottomHeightBar + 130,
-              padding: EdgeInsets.only(
-                top: Dimensions.height30,
-                bottom: Dimensions.height30,
-                right: Dimensions.width20,
-                left: Dimensions.width20,
-              ),
-              decoration: BoxDecoration(
-                color: fCL,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40.sp),
-                  topRight: Radius.circular(40.sp),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(15.sp),
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(10.sp),
-                      color: Colors.white,
-                    ),
-                    child: BigText(
-                        text: '\$ ${cartController.totalAmount.toString()}'),
+          ? Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                  // height: 130.sp,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.width20,
+                    vertical: Dimensions.height20,
                   ),
-                  SizedBox(height: Dimensions.height15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  decoration: AppDecoration.bottomNavigationBar(context).decoration,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      AppTextButton(
-                        txt: 'Save Cart',
-                        onTap: () {
-                          cartController.addToCartHistoryList();
-                          Get.toNamed(Routes.USER_NAVIGATOR);
-                        },
+                      Container(
+                        padding: EdgeInsets.all(15.sp),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.sp),
+                          color: Get.isDarkMode ? mCM : mCL,
+                        ),
+                        child: Text(
+                          '\$ ${cartController.totalAmount.toString()}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(color: colorBlack),
+                        ),
                       ),
-                      SizedBox(
-                        width: Dimensions.width10,
-                      ),
-                      const Text('OR'),
-                      SizedBox(
-                        width: Dimensions.width10,
-                      ),
-                      AppTextButton(
-                        txt: 'Check Out',
-                        onTap: () {
-                          if (_isLogged) {
-                            if (userController.user.address == "" &&
-                                userController.user.phone.isEmpty) {
-                              Get.toNamed(Routes.UPDATE_PROFILE);
-                            } else {
-                              Get.toNamed(Routes.CHECKOUT);
-                            }
-                          } else {
-                            Components.showCustomDialog(
-                              context: context,
-                              msg:
-                                  'You should Sign in to complete \n do you want Sign in ?',
-                              ok: () {
-                                Get.offNamedUntil(
-                                    Routes.SIGN_IN, (route) => false);
-                              },
-                              okColor: Colors.blue,
-                            );
-                          }
-                        },
+                      SizedBox(height: Dimensions.height15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppTextButton(
+                            txt: 'Save Cart',
+                            onTap: () {
+                              cartController.addToCartHistoryList();
+                              Get.find<NavigatorUserController>().currentIndex == 2;
+                            },
+                          ),
+                          SizedBox(
+                            width: Dimensions.width10,
+                          ),
+                          Text('OR', style: Theme.of(context).textTheme.titleLarge),
+                          SizedBox(
+                            width: Dimensions.width10,
+                          ),
+                          AppTextButton(
+                            txt: 'Check Out',
+                            onTap: () {
+                              if (_isLogged) {
+                                if (userController.user.address == "" &&
+                                    userController.user.phone.isEmpty) {
+                                  Get.toNamed(Routes.UPDATE_PROFILE);
+                                } else {
+                                  Get.toNamed(Routes.CHECKOUT);
+                                }
+                              } else {
+                                Components.showCustomDialog(
+                                  context: context,
+                                  msg:
+                                      'You should Sign in to complete \n do you want Sign in ?',
+                                  ok: () {
+                                    Get.offNamedUntil(
+                                        Routes.LOGIN, (route) => false);
+                                  },
+                                  okColor: Colors.blue,
+                                );
+                              }
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
-            )
+                ),
+            ],
+          )
           : null,
     );
   }

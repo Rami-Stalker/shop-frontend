@@ -1,17 +1,25 @@
 
-import 'package:shop_app/src/config/application.dart';
+import '../config/application.dart';
 
 class ApiGateway {
   // base
   static final BASEURL = Application.baseUrl;
 
   // Auth
-  static final REGISTER = "$BASEURL/api/auth/register";
-  static final LOGIN = "$BASEURL/api/auth/login";
-  static final IS_TOKEN_VALID = "$BASEURL/auth/is-token-valid";
+  static final REGISTER = "$BASEURL/api/authentication/register";
+  static final LOGIN = "$BASEURL/api/authentication/login";
+  static final IS_TOKEN_VALID = "$BASEURL/api/auth/is-token-valid";
+  static const DELETE_ACCOUNT = 'api/authentication';
+
+  // Upload File
+  static const UPLOAD_SINGLE_FILE = 'api/up-load-file/upload';
+  static const UPLOAD_MULTIPLE_FILE = 'api/up-load-file/uploads';
+  static const GET_FILE_INFO = 'api/up-load-file';
 
   // User
   static final USER = "$BASEURL/api/user/";
+  static final GET_INFO = "$BASEURL/api/user/info";
+  static const UPDATE_AVATAR = 'api/user/avatar';
   static final SAVE_USER_TOKEN_FCM = "$BASEURL/api/user/save-user-token-fcm";
   static final SAVE_USER_DATA = "$BASEURL/api/user/save-user-data";
 

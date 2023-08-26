@@ -1,7 +1,6 @@
 import 'package:i18n_extension/i18n_widget.dart';
-import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
-import 'package:shop_app/src/modules/auth/repositories/auth_repository.dart';
-import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
+import 'modules/auth_login/controllers/login_controller.dart';
+import 'utils/sizer_custom/sizer.dart';
 
 import 'config/language.dart';
 import 'routes/app_pages.dart';
@@ -12,30 +11,40 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'themes/theme_service.dart';
 import 'themes/themes.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   App({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+    // Get.find<ApplicationController>().onSetupApplication();
+  }
+
   String initRoute() {
-    if (Get.find<AuthRepository>().getUserType() == "admin") {
+    if (Get.find<LoginController>().getUserType() == "admin") {
       return Routes.ADMIN_NAVIGATOR;
     } else {
-      return Routes.USER_NAVIGATOR;
+      return Routes.USER_NAVIGATION;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (Get.find<AuthRepository>().userLoggedIn()) {
-      Get.find<AuthController>().getUserData();
-    }
     return Sizer(
       builder: (context, orientation, deviceType) {
         return I18n(
           child: GetMaterialApp(
+            // onInit: () async {
+            //   await dep.init();
+            // },
             debugShowCheckedModeBanner: false,
-            title: 'ramy app',
             locale: AppLanguage.defaultLanguage,
             supportedLocales: AppLanguage.supportLanguage,
             localizationsDelegates: [

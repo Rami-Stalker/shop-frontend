@@ -9,7 +9,7 @@ var colorPrimary = Color(0xFF89dad0);
 var colorTitle = Color(0xFF2C3D50);
 
 var colorHigh = Colors.redAccent;
-var colorMedium = Colors.amber.shade700;
+var colorMedium = Color(0xFFffd379);
 var colorLow = colorPrimary;
 var colorCompleted = Colors.green;
 var colorFailed = colorDarkGrey;
@@ -63,22 +63,22 @@ class AppColors {
       divider: Colors.black26,
       button: Color(0xFF657786),
       contentText1: colorBlack,
-      contentText2: colorPrimaryBlack,
+      contentText2: fCL,
     );
   }
 
   factory AppColors.dark() {
     return AppColors(
-      header: Colors.white,
+      header: mCL,
       primary: colorPrimary,
-      background: Color(0xFF14171A),
+      background: colorBlack,
       accent: Color(0xFF17c063),
       disabled: Colors.white12,
       error: colorHigh,
       divider: Colors.white24,
-      button: Colors.white,
+      button: mCL,
       contentText1: mCL,
-      contentText2: mCL,
+      contentText2: fCL,
     );
   }
 }

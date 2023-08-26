@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-
 class SmallText extends StatelessWidget {
-  final Color? color;
   final String text;
-  final double size;
-  final double height;
-  final TextOverflow? overflow;
   final int? maxline;
+  final TextOverflow? overflow;
+  final Color? color;
+  final double height;
   const SmallText({
     Key? key,
+    required this.text,
     this.maxline,
     this.overflow,
-    this.color =const Color(0xFFccc7c5),
-    required this.text,
-    this.size = 12,
+    this.color = Colors.grey,
     this.height = 1.2,
   }) : super(key: key);
 
@@ -23,12 +20,10 @@ class SmallText extends StatelessWidget {
       text,
       overflow: overflow,
       maxLines: maxline,
-      style: TextStyle(
-        height: height,
+      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
         color: color,
-        fontSize: size,
-        fontFamily: 'Roboto',
-      ),
+        height: height,
+      )
     );
   }
 }

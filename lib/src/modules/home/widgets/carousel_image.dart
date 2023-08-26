@@ -1,7 +1,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_app/src/public/constants.dart';
+import '../../../public/constants.dart';
 
 class CarouselImage extends StatelessWidget {
   const CarouselImage({Key? key}) : super(key: key);

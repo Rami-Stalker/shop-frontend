@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:shop_app/src/public/api_gateway.dart';
+import '../../../public/api_gateway.dart';
 import 'package:http/http.dart' as http;
 
 

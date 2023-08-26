@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import '../../../themes/app_decorations.dart';
 
-import '../../../core/widgets/big_text.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 class AccountWidget extends StatelessWidget {
   final Widget appIcon;
-  final BigText bigText;
+  final String text;
   final Function() onTap;
   const AccountWidget({
     Key? key,
     required this.appIcon,
-    required this.bigText,
+    required this.text,
     required this.onTap,
   }) : super(key: key);
 
@@ -19,27 +19,20 @@ class AccountWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.only(
-          right: Dimensions.width10,
-          left: Dimensions.width20,
-          top: Dimensions.width10,
-          bottom: Dimensions.width10,
+        margin: EdgeInsets.all(
+          Dimensions.width10,
         ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 1,
-              offset: const Offset(0, 2),
-              color: Colors.grey.withOpacity(0.2),
-            ),
-          ],
+        padding: EdgeInsets.all(
+          Dimensions.width10,
         ),
+        decoration: AppDecoration.textfeild(context, 5.sp).decoration,
         child: Row(
           children: [
             appIcon,
             SizedBox(width: Dimensions.width20),
-            Expanded(child: bigText),
+            Expanded(
+                child:
+                    Text(text, style: Theme.of(context).textTheme.titleLarge, overflow: TextOverflow.ellipsis, maxLines: 2)),
           ],
         ),
       ),

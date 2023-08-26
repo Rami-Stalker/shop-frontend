@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../themes/app_decorations.dart';
 
 import '../../../utils/sizer_custom/sizer.dart';
 
@@ -24,29 +25,18 @@ class _RadioWidgetState extends State<RadioWidget> {
     return Column(
       children: [
         Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 1,
-                offset: const Offset(0, 2),
-                color: Colors.grey.withOpacity(0.2),
-              ),
-            ],
-          ),
+          decoration: AppDecoration.dots(context, 10.sp).decoration,
           child: ListTile(
             leading: SizedBox(
-              width: 40,
+              width: Dimensions.width30,
               child: Image.asset(
                 widget.image,
-                height: 30.sp,
+                height: Dimensions.height45,
               ),
             ),
             title: Text(
               widget.title,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             trailing: widget.radio,
           ),

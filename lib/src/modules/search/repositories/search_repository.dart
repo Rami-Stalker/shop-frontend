@@ -1,7 +1,6 @@
 import 'package:http/http.dart' as http;
 
 import '../../../core/api/api_client.dart';
-
 import '../../../public/api_gateway.dart';
 
 class SearchRepository {
