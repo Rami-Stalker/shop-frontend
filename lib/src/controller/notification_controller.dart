@@ -1,39 +1,42 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart' as diox;
 import 'package:get/get.dart';
-import '../core/api/api_client.dart';
+import 'package:shop_app/src/core/api/base_repository.dart';
+
 import '../public/api_gateway.dart';
 import '../public/components.dart';
-import 'package:http/http.dart' as http;
 import '../models/notification_model.dart';
 
 import '../public/constants.dart';
 
 class NotificationController extends GetxController implements GetxService {
-  final ApiClient apiClient;
+  final BaseRepository baseRepository;
 
   NotificationController({
-    required this.apiClient,
+    required this.baseRepository,
   });
 
   void pushNotofication({
     required String userId,
     required String title,
-    required String body,
+    required String message,
   }) async {
     try {
-      http.Response res = await apiClient.postData(
+      var body = {
+        "userId": userId,
+        "title": title,
+        "message": message,
+      };
+      diox.Response response = await baseRepository.postRoute(
         ApiGateway.SEND_NOTIFICATION,
-        jsonEncode(
-          {
-            "userId": userId,
-            "title": title,
-            "body": body,
-          },
-        ),
+        body,
       );
 
-      Constants.httpErrorHandle(res: res, onSuccess: () async {});
+      Constants.handleApi(
+        response: response,
+        onSuccess: () async {},
+      );
     } catch (e) {
       Components.showSnackBar(e.toString());
     }
@@ -41,19 +44,19 @@ class NotificationController extends GetxController implements GetxService {
 
   Future<List<NotificationModel>> getNotofication() async {
     List<NotificationModel> notifications = [];
-    http.Response res = await apiClient.getData(
+    diox.Response response = await baseRepository.getRoute(
       ApiGateway.GET_NOTIFICATIONS,
     );
 
-    Constants.httpErrorHandle(
-        res: res,
+    Constants.handleApi(
+        response: response,
         onSuccess: () async {
-          for (var i = 0; i < jsonDecode(res.body).length; i++) {
+          for (var i = 0; i < jsonDecode(response.data).length; i++) {
             notifications.add(
               NotificationModel.fromJson(
                 jsonEncode(
                   jsonDecode(
-                    res.body,
+                    response.data,
                   )[i],
                 ),
               ),
@@ -65,12 +68,15 @@ class NotificationController extends GetxController implements GetxService {
 
   void seenNotofication() async {
     try {
-      http.Response res = await apiClient.postData(
+      diox.Response response = await baseRepository.postRoute(
         ApiGateway.SEEN_NOTIFICATION,
-        jsonEncode({}),
+        {},
       );
 
-      Constants.httpErrorHandle(res: res, onSuccess: () async {});
+      Constants.handleApi(
+        response: response,
+        onSuccess: () {},
+      );
     } catch (e) {
       Components.showSnackBar(e.toString());
     }

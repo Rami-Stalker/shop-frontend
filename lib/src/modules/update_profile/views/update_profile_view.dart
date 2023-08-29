@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/models/user_model.dart';
+
 import '../controllers/update_profile_controller.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 import '../../../public/components.dart';
-import '../../../controller/user_controller.dart';
 import '../../../core/widgets/app_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -15,7 +17,7 @@ import '../../../core/widgets/app_text_field.dart';
 import '../../../routes/app_pages.dart';
 import '../../../themes/app_colors.dart';
 import '../../../themes/app_decorations.dart';
-import '../../auth_login/controllers/login_controller.dart';
+import '../../auth/controllers/auth_controller.dart';
 
 class UpdateProfileView extends StatefulWidget {
   const UpdateProfileView({super.key});
@@ -25,10 +27,10 @@ class UpdateProfileView extends StatefulWidget {
 }
 
 class _UpdateProfileViewState extends State<UpdateProfileView> {
-  LoginController loginController = Get.find<LoginController>();
-  UserController userController = Get.find<UserController>();
+  AuthController authController = AppGet.authGet;
+  UserModel user = AppGet.authGet.userModel!;
   UpdateProfileController addressController =
-      Get.find<UpdateProfileController>();
+      AppGet.updateProfileGet;
 
   late bool _isLogged;
 
@@ -63,16 +65,16 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
   @override
   void initState() {
     getPosition();
-    _isLogged = loginController.userLoggedIn();
-    if (_isLogged && userController.user.phone == "" ||
-        userController.user.phone.isEmpty) {
-      loginController.getInfoUser();
+    _isLogged = authController.onAuthCheck();
+    if (_isLogged && user.phone == "" ||
+        user.phone.isEmpty) {
+      authController.GetInfoUser();
     }
-    if (userController.user.name.isNotEmpty) {
-      addressController.nameC.text = userController.user.name;
+    if (user.name.isNotEmpty) {
+      addressController.nameC.text = user.name;
     }
-    if (userController.user.phone.isNotEmpty) {
-      addressController.phoneC.text = userController.user.phone;
+    if (user.phone.isNotEmpty) {
+      addressController.phoneC.text = user.phone;
     }
     super.initState();
   }
@@ -114,8 +116,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
               updateProfileController.addressC.text =
                   '${updateProfileController.placemark.value.administrativeArea ?? ''}${updateProfileController.placemark.value.locality ?? ''}${updateProfileController.placemark.value.street ?? ''}${updateProfileController.placemark.value.postalCode ?? ''}';
               return ListView(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
                 children: [
                   Padding(
                     padding: EdgeInsets.all(5.sp),
@@ -299,7 +300,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
               txt: 'Save Modifications',
               onTap: () {
                 if (updateProfileController.addressC.text.isNotEmpty) {
-                        updateProfileController.saveUserData(
+                        updateProfileController.modifyUserInfo(
                           updateProfileController.addressC.text,
                           updateProfileController.nameC.text,
                           updateProfileController.phoneC.text,

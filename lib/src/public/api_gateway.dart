@@ -8,7 +8,7 @@ class ApiGateway {
   // Auth
   static final REGISTER = "$BASEURL/api/authentication/register";
   static final LOGIN = "$BASEURL/api/authentication/login";
-  static final IS_TOKEN_VALID = "$BASEURL/api/auth/is-token-valid";
+  static final IS_TOKEN_VALID = "$BASEURL/api/authentication/is-token-valid";
   static const DELETE_ACCOUNT = 'api/authentication';
 
   // Upload File
@@ -21,7 +21,7 @@ class ApiGateway {
   static final GET_INFO = "$BASEURL/api/user/info";
   static const UPDATE_AVATAR = 'api/user/avatar';
   static final SAVE_USER_TOKEN_FCM = "$BASEURL/api/user/save-user-token-fcm";
-  static final SAVE_USER_DATA = "$BASEURL/api/user/save-user-data";
+  static final MODIFY_USER_INFO = "$BASEURL/api/user/modify-user-info";
 
   // Product
   static final GET_PRODUCTS = "$BASEURL/api/product/";

@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import '../../../public/components.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as diox;
+
 import '../../../public/constants.dart';
 
 import '../../../models/product_model.dart';
@@ -45,21 +44,14 @@ class AdminController extends GetxController implements GetxService {
   Future<List<ProductModel>> fetchAllProducts() async {
     List<ProductModel> products = [];
     try {
-      http.Response res = await adminRepository.fetchAllProducts();
-      print('ddddddddddddddddddddddddddd');
-      print(jsonDecode(res.body)[0]);
-    Constants.httpErrorHandle(
-      res: res,
+      diox.Response response = await adminRepository.fetchAllProducts();
+
+    Constants.handleApi(
+      response: response,
       onSuccess: () {
-        for (var i = 0; i < jsonDecode(res.body).length; i++) {
-          products.add(
-            ProductModel.fromJson(
-              jsonEncode(
-                jsonDecode(res.body)[i],
-              ),
-            ),
-          );
-        }
+        List rawData = response.data;
+            products =
+                rawData.map((e) => ProductModel.fromMap(e)).toList();
       },
     );
     } catch (e) {
@@ -73,10 +65,10 @@ class AdminController extends GetxController implements GetxService {
     // required VoidCallback onSuccess,
   }) async {
     try {
-      http.Response res = await adminRepository.deleteProduct(product: product);
+      diox.Response response = await adminRepository.deleteProduct(product: product);
 
-      Constants.httpErrorHandle(
-        res: res,
+      Constants.handleApi(
+        response: response,
         onSuccess: () {},
       );
       update();
@@ -93,7 +85,7 @@ class AdminController extends GetxController implements GetxService {
     required int quantity,
   }) async {
     try {
-      http.Response res = await adminRepository.updateProduct(
+      diox.Response response = await adminRepository.updateProduct(
         id: id,
         name: name,
         description: description,
@@ -101,8 +93,8 @@ class AdminController extends GetxController implements GetxService {
         quantity: quantity,
       );
 
-      Constants.httpErrorHandle(
-        res: res,
+      Constants.handleApi(
+        response: response,
         onSuccess: () {
           Components.showSnackBar(
             'Update Seccessfully',

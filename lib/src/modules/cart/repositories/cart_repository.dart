@@ -1,17 +1,16 @@
 import 'dart:convert';
 
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
-import '../../../core/api/api_client.dart';
 import '../../../models/cart_model.dart';
 
 class CartRepository {
-  final ApiClient apiClient;
-  final SharedPreferences sharedPreferences;
-  CartRepository({
-    required this.apiClient,
-    required this.sharedPreferences,
-  });
+  CartRepository();
+
+  final _getStorage = GetStorage();
+  final cartKey = 'cashe-cart';
+  final cartHistoryKey = "cashe-cart-history";
+
   List<String> cart = [];
   List<String> cartHistory = [];
 
@@ -22,57 +21,53 @@ class CartRepository {
       element.time = time;
       cart.add(jsonEncode(element));
     }
-    sharedPreferences.setStringList('cashe-cart', cart);
+    _getStorage.write(cartKey, cart);
   }
 
   void addToCartHistoryList() {
-    if (sharedPreferences.containsKey('cashe-cart-history')) {
-      cartHistory =
-          sharedPreferences.getStringList('cashe-cart-history')!;
+    if (_getStorage.read(cartHistoryKey) != null) {
+      cartHistory = _getStorage.read(cartHistoryKey);
     }
 
     for (int i = 0; i < cart.length; i++) {
       cartHistory.add(cart[i]);
     }
     removeCart();
-    sharedPreferences.setStringList('cashe-cart-history', cartHistory);
+    _getStorage.write(cartHistoryKey, cartHistory);
   }
 
   List<CartModel> getCartList() {
-    List<String> carts = [];
-
-    if (sharedPreferences.containsKey('cashe-cart')) {
-      carts = sharedPreferences.getStringList('cashe-cart') ?? [];
-    }
-
     List<CartModel> cartList = [];
-    for (var element in carts) {
-      cartList.add(CartModel.fromJson(jsonDecode(element)));
+
+    var rawData = _getStorage.read(cartKey);
+    if (rawData != null) {
+      for (var element in rawData) {
+        cartList.add(CartModel.fromJson(jsonDecode(element)));
+      }
     }
     return cartList;
   }
 
   List<CartModel> getCartHistoryList() {
-    List<String> cartsHistory = [];
-    if (sharedPreferences.containsKey('cashe-cart-history')) {
-      cartsHistory =
-          sharedPreferences.getStringList('cashe-cart-history') ?? [];
+    List<CartModel> cartHistoryList = [];
+
+    var rawData = _getStorage.read(cartHistoryKey);
+    if (rawData != null) {
+      for (var element in rawData) {
+        cartHistoryList.add(CartModel.fromJson(jsonDecode(element)));
+      }
     }
-    List<CartModel> cartListHistory = [];
-    for (var element in cartsHistory) {
-      cartListHistory.add(CartModel.fromJson(jsonDecode(element)));
-    }
-    return cartListHistory;
+    return cartHistoryList;
   }
 
   void removeCart() {
     cart = [];
-    sharedPreferences.remove('cashe-cart');
+    _getStorage.remove(cartKey);
   }
 
   void clearCartHistory() {
     removeCart();
     cartHistory = [];
-    sharedPreferences.remove('cashe-cart-history');
+    _getStorage.remove(cartHistoryKey);
   }
 }

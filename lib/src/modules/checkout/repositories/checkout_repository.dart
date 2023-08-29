@@ -1,31 +1,30 @@
-import 'dart:convert';
+import 'package:dio/dio.dart' as diox;
+import 'package:shop_app/src/core/api/base_repository.dart';
 
 import '../../../public/api_gateway.dart';
 
-import '../../../core/api/api_client.dart';
-import 'package:http/http.dart' as http;
-
 
 class CheckoutRepository {
-  final ApiClient apiClient;
+  final BaseRepository baseRepository;
   CheckoutRepository({
-    required this.apiClient,
+    required this.baseRepository,
   });
 
-  Future<http.Response> checkout({
+  Future<diox.Response> checkout({
     required List<String> productsId,
     required List<int> userQuants,
     required int totalPrice,
     required String address,
   }) async {
-    return await apiClient.postData(
+    var body = {
+      "productsId": productsId,
+      "userQuants": userQuants,
+      "totalPrice": totalPrice,
+      "address": address,
+    };
+    return await baseRepository.postRoute(
       ApiGateway.ADD_ORDER,
-      jsonEncode({
-        'productsId': productsId,
-        'userQuants': userQuants,
-        'totalPrice': totalPrice,
-        'address': address,
-      }),
+      body,
     );
   }
 }

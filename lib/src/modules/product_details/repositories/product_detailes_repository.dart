@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import '../../../public/api_gateway.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as diox;
 
 
-import '../../../core/api/api_client.dart';
+import '../../../core/api/base_repository.dart';
 import '../../../models/product_model.dart';
 
 
 class ProductDetailsRepository {
-  final ApiClient apiClient;
+  final BaseRepository baseRepository;
   ProductDetailsRepository({
-    required this.apiClient,
+    required this.baseRepository,
   });
 
   // Future<http.Response> rateProduct({

@@ -1,7 +1,7 @@
-import '../../../controller/user_controller.dart';
-import '../../auth_login/controllers/login_controller.dart';
+import 'package:shop_app/src/controller/app_controller.dart';
+
+import '../../auth/controllers/auth_controller.dart';
 import '../controllers/cart_controller.dart';
-import '../../navigator/controllers/navigator_user_controller.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
@@ -23,9 +23,8 @@ class CartView extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartView> {
-  final bool _isLogged = Get.find<LoginController>().userLoggedIn();
-  CartController cartController = Get.find<CartController>();
-  UserController userController = Get.find<UserController>();
+  final bool _isLogged = Get.find<AuthController>().onAuthCheck();
+  CartController cartController = AppGet.CartGet;
   //double heightNav = Dimensions.bottomHeightBar + 130;
 
   @override
@@ -285,7 +284,6 @@ class _CartScreenState extends State<CartView> {
                             txt: 'Save Cart',
                             onTap: () {
                               cartController.addToCartHistoryList();
-                              Get.find<NavigatorUserController>().currentIndex == 2;
                             },
                           ),
                           SizedBox(
@@ -299,8 +297,8 @@ class _CartScreenState extends State<CartView> {
                             txt: 'Check Out',
                             onTap: () {
                               if (_isLogged) {
-                                if (userController.user.address == "" &&
-                                    userController.user.phone.isEmpty) {
+                                if (AppGet.authGet.userModel!.address == "" &&
+                                    AppGet.authGet.userModel!.phone.isEmpty) {
                                   Get.toNamed(Routes.UPDATE_PROFILE);
                                 } else {
                                   Get.toNamed(Routes.CHECKOUT);

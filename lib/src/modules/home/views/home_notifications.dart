@@ -8,14 +8,14 @@ import '../../../utils/sizer_custom/sizer.dart';
 
 import '../../../themes/app_colors.dart';
 
-class HomeNitification extends StatefulWidget {
-  const HomeNitification({super.key});
+class HomeNotification extends StatefulWidget {
+  const HomeNotification({super.key});
 
   @override
-  State<HomeNitification> createState() => _HomeNitificationState();
+  State<HomeNotification> createState() => _HomeNotificationState();
 }
 
-class _HomeNitificationState extends State<HomeNitification> {
+class _HomeNotificationState extends State<HomeNotification> {
   @override
   void initState() {
     Get.find<NotificationController>().seenNotofication();

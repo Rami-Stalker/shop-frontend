@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
+import 'package:shop_app/src/controller/app_controller.dart';
 import '../controllers/search_controller.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
-import '../../../controller/user_controller.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/product_model.dart';
@@ -32,7 +32,7 @@ class SearchWidget extends GetView<SearchController> {
       child: GetBuilder<SearchControlle>(
           builder: (cont) => GestureDetector(
                 onTap: () {
-                  if (Get.find<UserController>().user.type == 'admin') {
+                  if (AppGet.authGet.userModel!.type == 'admin') {
                     Get.toNamed(
                       Routes.EDIT_PRODUCT,
                       arguments: {

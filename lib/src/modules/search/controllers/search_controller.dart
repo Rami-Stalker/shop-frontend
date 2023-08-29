@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as diox;
+
 import '../repositories/search_repository.dart';
 
 import '../../../public/components.dart';
@@ -32,22 +31,16 @@ class SearchControlle extends GetxController implements GetxService {
   }) async {
     List<ProductModel> products = [];
     try {
-      http.Response res =
+      diox.Response response =
           await searchRepository.fetchSearchProduct(searchQuery: searchQuery);
 
-      Constants.httpErrorHandle(
-        res: res,
+      Constants.handleApi(
+        response: response,
         onSuccess: () {
-          for (var i = 0; i < jsonDecode(res.body).length; i++) {
-            products.add(
-              ProductModel.fromJson(
-                jsonEncode(
-                  jsonDecode(res.body)[i],
-                ),
-              ),
-            );
-          }
-        },
+        List rawData = response.data;
+            products =
+                rawData.map((e) => ProductModel.fromMap(e)).toList();
+        }
       );
       update();
     } catch (e) {

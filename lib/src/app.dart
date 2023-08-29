@@ -1,5 +1,5 @@
 import 'package:i18n_extension/i18n_widget.dart';
-import 'modules/auth_login/controllers/login_controller.dart';
+import 'controller/app_controller.dart';
 import 'utils/sizer_custom/sizer.dart';
 
 import 'config/language.dart';
@@ -21,18 +21,11 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  @override
-  void initState() {
-    super.initState();
-    // Get.find<ApplicationController>().onSetupApplication();
-  }
 
-  String initRoute() {
-    if (Get.find<LoginController>().getUserType() == "admin") {
-      return Routes.ADMIN_NAVIGATOR;
-    } else {
-      return Routes.USER_NAVIGATION;
-    }
+    @override
+  void dispose() {
+    AppGet.dispose();
+    super.dispose();
   }
 
   @override
@@ -41,9 +34,9 @@ class _AppState extends State<App> {
       builder: (context, orientation, deviceType) {
         return I18n(
           child: GetMaterialApp(
-            // onInit: () async {
-            //   await dep.init();
-            // },
+            onInit: () {
+              AppGet.init();
+            },
             debugShowCheckedModeBanner: false,
             locale: AppLanguage.defaultLanguage,
             supportedLocales: AppLanguage.supportLanguage,
@@ -54,8 +47,8 @@ class _AppState extends State<App> {
             ],
             theme: AppTheme.light().data,
             darkTheme: AppTheme.dark().data,
-            themeMode: ThemeService().getThemeMode(),
-            initialRoute: initRoute(),
+            themeMode: ThemeService().theme,
+            initialRoute: AppPages.INITIAL,
             getPages: AppPages.routes,
           ),
         );

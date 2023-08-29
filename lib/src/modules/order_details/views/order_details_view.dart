@@ -1,5 +1,7 @@
+import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/models/user_model.dart';
+
 import '../../../controller/notification_controller.dart';
-import '../../../controller/user_controller.dart';
 import '../../../core/widgets/app_text_button.dart';
 import '../controllers/order_details_controller.dart';
 import '../../../utils/sizer_custom/sizer.dart';
@@ -19,7 +21,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    UserController userController = Get.find<UserController>();
+    UserModel user = AppGet.authGet.userModel!;
     OrderModel userOrder = Get.arguments;
     controller.currentStep.value = userOrder.status;
     return Scaffold(
@@ -160,7 +162,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                     physics: const NeverScrollableScrollPhysics(),
                     currentStep: controller.currentStep.value,
                     controlsBuilder: (context, details) {
-                      if (userController.user.type == 'admin') {
+                      if (user.type == 'admin') {
                         return controller.currentStep < 3
                             ? Padding(
                               padding: EdgeInsets.only(
@@ -195,7 +197,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                               .pushNotofication(
                                             userId: userOrder.userId,
                                             title: "Order",
-                                            body:
+                                            message:
                                                 "Your order ${userOrder.id} \n is ready",
                                           );
                                           controller.deleteOrder(
@@ -217,7 +219,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         content: Text(
-                          userController.user.type == 'admin'
+                          user.type == 'admin'
                               ? 'Order is yet to be delivered'
                               : 'Your order is yet to be delivered',
                           style: Theme.of(context).textTheme.bodyLarge,
@@ -233,7 +235,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         content: Text(
-                          userController.user.type == 'admin'
+                          user.type == 'admin'
                               ? 'Order has been delivered, Custom are yet to sign.'
                               : 'Your order has been delivered, you are yet to sign.',
                           style: Theme.of(context).textTheme.bodyLarge,
@@ -249,7 +251,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         content: Text(
-                          userController.user.type == 'admin'
+                          user.type == 'admin'
                               ? 'Order has been delivered and signed by customer.'
                               : 'Your order has been delivered and signed by you.',
                           style: Theme.of(context).textTheme.bodyLarge,
@@ -265,7 +267,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         content: Text(
-                          userController.user.type == 'admin'
+                          user.type == 'admin'
                               ? 'Order has been delivered and signed by customer!'
                               : 'Your order has been delivered and signed by you!',
                               style: Theme.of(context).textTheme.bodyLarge,

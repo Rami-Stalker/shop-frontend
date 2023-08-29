@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../../../public/components.dart';
+import '../../../routes/app_pages.dart';
 import '../repositories/cart_repository.dart';
 import '../../../themes/app_colors.dart';
 
@@ -129,6 +130,7 @@ class CartController extends GetxController implements GetxService {
   void addToCartHistoryList() {
     cartRepository.addToCartHistoryList();
     clear();
+    Get.toNamed(Routes.NAVIGATION);
     update();
   }
 

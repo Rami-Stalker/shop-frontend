@@ -1,4 +1,5 @@
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/controller/theme_controller.dart';
 import '../../../controller/notification_controller.dart';
 import '../../../models/notification_model.dart';
@@ -7,7 +8,6 @@ import '../../../themes/app_decorations.dart';
 import '../../../themes/theme_service.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
-import '../../../controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -57,46 +57,42 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(UserController());
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        title: GetBuilder<UserController>(
-          builder: (userController) {
-            return userController.user.address.isNotEmpty
-                ? Container(
-                    width: 200.sp,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Ramy App',
-                          style: TextStyle(
-                            color: colorPrimary,
-                            fontSize: Dimensions.font26,
-                          ),
-                        ),
-                        Text(
-                          userController.user.address,
-                          style: Theme.of(context).textTheme.titleMedium,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ],
+        title: AppGet.authGet.userModel?.address == ""
+            ? Text(
+                'Ramy App',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: colorPrimary,
+                      fontSize: Dimensions.font26,
                     ),
-                  )
-                : Text(
-                    'Ramy App',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: colorPrimary,
-                          fontSize: Dimensions.font26,
-                        ),
-                  );
-          },
-        ),
+              )
+            : Container(
+                width: 200.sp,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Ramy App',
+                      style: TextStyle(
+                        color: colorPrimary,
+                        fontSize: Dimensions.font26,
+                      ),
+                    ),
+                    Text(
+                      AppGet.authGet.userModel?.address ?? "",
+                      style: Theme.of(context).textTheme.titleMedium,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ),
         actions: [
+          AppGet.authGet.onAuthCheck() ?
           FutureBuilder<List<NotificationModel>>(
-            future: Get.find<NotificationController>().getNotofication(),
+            future: AppGet.notificationGet.getNotofication(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 int isSeen = 0;
@@ -157,35 +153,45 @@ class _HomeViewState extends State<HomeView> {
                 ),
               );
             },
-          ),
-          GetBuilder<ThemeController>(
-            builder: (themeController) {
-              return Container(
+          ) : Container(
                 padding: EdgeInsets.all(8.sp),
-                child: GestureDetector(
-                  onTap: () {
-                    themeController.onChangeTheme(
-                      ThemeService.currentTheme == ThemeMode.dark
-                          ? ThemeMode.light
-                          : ThemeMode.dark,
-                    );
-                    print(themeService.getThemeMode());
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(5.sp),
-                    decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
-                    child: Icon(
-                      Get.isDarkMode
-                          ? Icons.wb_sunny_outlined
-                          : Icons.nightlight_round_outlined,
-                      size: 20.sp,
-                      color: colorPrimary,
-                    ),
+                child: Container(
+                  padding: EdgeInsets.all(5.sp),
+                  decoration:
+                      AppDecoration.appbarIcon(context, 5.sp).decoration,
+                  child: Icon(
+                    Icons.notifications,
+                    size: 20.sp,
+                    color: colorPrimary,
                   ),
                 ),
-              );
-            }
-          ),
+              ),
+          GetBuilder<ThemeController>(builder: (themeController) {
+            return Container(
+              padding: EdgeInsets.all(8.sp),
+              child: GestureDetector(
+                onTap: () {
+                  themeController.onChangeTheme(
+                    ThemeService.currentTheme == ThemeMode.dark
+                        ? ThemeMode.light
+                        : ThemeMode.dark,
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(5.sp),
+                  decoration:
+                      AppDecoration.appbarIcon(context, 5.sp).decoration,
+                  child: Icon(
+                    Get.isDarkMode
+                        ? Icons.wb_sunny_outlined
+                        : Icons.nightlight_round_outlined,
+                    size: 20.sp,
+                    color: colorPrimary,
+                  ),
+                ),
+              ),
+            );
+          }),
         ],
         bottom: PreferredSize(
           child: Padding(

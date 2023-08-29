@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../analytics/views/analtyics_view.dart';
 import '../../admin/views/products_view.dart';
-import '../../auth_login/controllers/login_controller.dart';
 import '../../order/views/order_view.dart';
 import '../../profile/views/profile_view.dart';
 
@@ -39,9 +38,6 @@ class NavigatorAdminController extends GetxController {
 
   @override
   void onInit() {
-    if (Get.find<LoginController>().userLoggedIn()) {
-      Get.find<LoginController>().getInfoUser();
-    }
     super.onInit();
   }
 }

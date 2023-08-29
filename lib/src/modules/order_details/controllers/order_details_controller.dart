@@ -1,14 +1,13 @@
 import 'package:get/get.dart';
+import 'package:dio/dio.dart' as diox;
+
+import '../../../routes/app_pages.dart';
 import '../repositories.dart/order_details_repository.dart';
 import '../../../services/socket/socket_emit.dart';
 
 import '../../../models/order_model.dart';
 import '../../../public/components.dart';
 import '../../../public/constants.dart';
-
-import 'package:http/http.dart' as http;
-
-import '../../navigator/controllers/navigator_admin_controller.dart';
 
 class OrderDetailsController extends GetxController {
   final OrderDetailsRepository orderDetailsRepository;
@@ -35,7 +34,7 @@ class OrderDetailsController extends GetxController {
   //   required OrderModel order,
   // }) async {
   //   try {
-  //     http.Response res =
+  //     diox.Response res =
   //         await orderDetailsRepository.changeOrderStatus(status: status, order: order);
 
   //     Constants.httpErrorHandle(
@@ -54,12 +53,13 @@ class OrderDetailsController extends GetxController {
     required OrderModel order,
   }) async {
     try {
-      http.Response res = await orderDetailsRepository.deleteOrder(order: order);
+      diox.Response response = await orderDetailsRepository.deleteOrder(order: order);
 
-      Constants.httpErrorHandle(
-        res: res,
+      Constants.handleApi(
+        response: response,
         onSuccess: () {
-          Get.find<NavigatorAdminController>().currentIndex.value = 0;
+          Get.toNamed(Routes.NAVIGATION);
+          update();
         },
       );
       update();

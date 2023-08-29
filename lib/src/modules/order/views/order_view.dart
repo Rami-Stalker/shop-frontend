@@ -1,4 +1,5 @@
-import '../../../controller/user_controller.dart';
+import 'package:shop_app/src/controller/app_controller.dart';
+
 import '../../../core/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,17 +30,17 @@ class OrderView extends GetView<OrderController> {
         ),
       ),
       body: FutureBuilder<List<OrderModel>>(
-        future: Get.find<UserController>().user.type == "user" ? controller.fetchUserOrders() : controller.fetchAllOrders(),
+        future: AppGet.authGet.userModel?.type == "user" ? controller.fetchUserOrders() : controller.fetchAllOrders(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: Dimensions.width10,
-                vertical: Dimensions.height20,
+                // vertical: Dimensions.height10,
               ),
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
-                // reverse: true,
+                reverse: true,
                 itemCount: snapshot.data?.length ?? 0,
                 itemBuilder: (context, index) {
                   OrderModel userOrder = snapshot.data![index];

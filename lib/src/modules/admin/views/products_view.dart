@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
+import 'package:shop_app/src/controller/theme_controller.dart';
+import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
 import '../controllers/admin_controller.dart';
 import '../../../routes/app_pages.dart';
 import '../../../themes/app_decorations.dart';
 
 import '../../../controller/notification_controller.dart';
-import '../../../controller/user_controller.dart';
 import '../../../core/widgets/category_widget.dart';
 import '../../../core/widgets/no_data_page.dart';
 import '../../../core/widgets/product_widget.dart';
@@ -48,13 +49,13 @@ class _ProductsViewState extends State<ProductsView> {
   }
   @override
   Widget build(BuildContext context) {
-    Get.put(UserController());
+    // Get.put(UserController());
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        title: GetBuilder<UserController>(
-          builder: (userController) {
-            return userController.user.address.isNotEmpty
+        title: GetBuilder<AuthController>(
+          builder: (loginController) {
+            return loginController.userModel!.address.isNotEmpty
                 ? Container(
                     width: 200.sp,
                     child: Column(
@@ -68,7 +69,7 @@ class _ProductsViewState extends State<ProductsView> {
                           ),
                         ),
                         Text(
-                          userController.user.address,
+                          loginController.userModel!.address,
                           style: Theme.of(context).textTheme.titleMedium,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -149,25 +150,32 @@ class _ProductsViewState extends State<ProductsView> {
               );
             },
           ),
-          Container(
-            padding: EdgeInsets.all(8.sp),
-            child: GestureDetector(
-              onTap: () {
-                themeService.changeThemeMode();
-                print(themeService.getThemeMode());
-              },
-              child: Container(
-                padding: EdgeInsets.all(5.sp),
-                decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
-                child: Icon(
-                  Get.isDarkMode
-                      ? Icons.wb_sunny_outlined
-                      : Icons.nightlight_round_outlined,
-                  size: 20.sp,
-                  color: colorPrimary,
+          GetBuilder<ThemeController>(
+            builder: (themeController) {
+              return Container(
+                padding: EdgeInsets.all(8.sp),
+                child: GestureDetector(
+                  onTap: () {
+                    themeController.onChangeTheme(
+                        ThemeService.currentTheme == ThemeMode.dark
+                            ? ThemeMode.light
+                            : ThemeMode.dark,
+                      );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(5.sp),
+                    decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
+                    child: Icon(
+                      Get.isDarkMode
+                          ? Icons.wb_sunny_outlined
+                          : Icons.nightlight_round_outlined,
+                      size: 20.sp,
+                      color: colorPrimary,
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              );
+            }
           ),
         ],
         bottom: PreferredSize(

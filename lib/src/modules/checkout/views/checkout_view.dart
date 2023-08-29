@@ -1,4 +1,6 @@
-import '../../../controller/user_controller.dart';
+import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/models/user_model.dart';
+
 import '../../../public/components.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,7 +36,7 @@ class _CheckoutViewState extends State<CheckoutView> {
 
   @override
   Widget build(BuildContext context) {
-    UserController userController = Get.find<UserController>();
+    UserModel user = AppGet.authGet.userModel!;
     CartController cartController = Get.find<CartController>();
     List<CartModel> getItems = cartController.getItems;
 
@@ -132,7 +134,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  userController.user.phone,
+                                  user.phone,
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)
                                       .textTheme
@@ -140,7 +142,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                                       .copyWith(fontSize: 10.sp),
                                 ),
                                 Text(
-                                  userController.user.address,
+                                  user.address,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   style: Theme.of(context)
@@ -246,14 +248,14 @@ class _CheckoutViewState extends State<CheckoutView> {
                 return AppTextButton(
                   txt: 'Apply',
                   onTap: () {
-                    if (userController.user.address != "" ||
-                                  userController.user.phone.isNotEmpty) {
+                    if (user.address != "" ||
+                                  user.phone.isNotEmpty) {
                                 if (_order == Ordered.cashOnDelivery) {
                                   checkoutController.checkout(
                                     productsId: productsId,
                                     userQuants: userQuants,
                                     totalPrice: cartController.totalAmount,
-                                    address: userController.user.address,
+                                    address: user.address,
                                   );
                                 }  else if (_order == Ordered.paypal) {
                                   PaypalService(
@@ -268,7 +270,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                                         productsId: productsId,
                                         userQuants: userQuants,
                                         totalPrice: cartController.totalAmount,
-                                        address: userController.user.address,
+                                        address: user.address,
                                       );
                                     },
                                   );

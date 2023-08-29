@@ -1,4 +1,4 @@
-import '../controllers/login_controller.dart';
+import '../controllers/auth_controller.dart';
 
 import '../../../public/components.dart';
 import '../../../core/widgets/app_text_button.dart';
@@ -12,12 +12,12 @@ import '../../../routes/app_pages.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
-class LoginView extends GetView<LoginController> {
+class LoginView extends GetView<AuthController> {
   const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    void _login(LoginController loginController) {
+    void _login(AuthController authController) async {
       String email = controller.emailC.text.trim();
       String password = controller.passwordC.text.trim();
 
@@ -42,13 +42,13 @@ class LoginView extends GetView<LoginController> {
           title: 'password',
         );
       } else {
-        loginController.signInUser(email, password);
+        authController.login(email, password);
       }
     }
 
     return Scaffold(
-      body: GetBuilder<LoginController>(
-        builder: (loginController) => !loginController.isLoading
+      body: GetBuilder<AuthController>(
+        builder: (authController) => !authController.isLoading
             ? SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
@@ -107,7 +107,7 @@ class LoginView extends GetView<LoginController> {
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: Dimensions.width20),
-                      child: GetBuilder<LoginController>(builder: (loginController) {
+                      child: GetBuilder<AuthController>(builder: (loginController) {
                         return AppTextField(
                           textController: loginController.passwordC,
                           hintText: 'password',
@@ -154,7 +154,7 @@ class LoginView extends GetView<LoginController> {
                     AppTextButton(
                       txt: 'Login',
                       onTap: () {
-                        _login(loginController);
+                        _login(authController);
                       },
                     ),
                     SizedBox(

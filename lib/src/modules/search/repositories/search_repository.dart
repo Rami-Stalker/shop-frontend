@@ -1,17 +1,17 @@
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as diox;
+import 'package:shop_app/src/core/api/base_repository.dart';
 
-import '../../../core/api/api_client.dart';
 import '../../../public/api_gateway.dart';
 
 class SearchRepository {
-  final ApiClient apiClient;
+  final BaseRepository baseRepository;
   SearchRepository({
-    required this.apiClient,
+    required this.baseRepository,
   });
-  Future<http.Response> fetchSearchProduct({
+  Future<diox.Response> fetchSearchProduct({
     required String searchQuery,
   }) async {
-    return await apiClient.getData(
+    return await baseRepository.getRoute(
       '${ApiGateway.GET_SEARCH}$searchQuery',
       );
   }

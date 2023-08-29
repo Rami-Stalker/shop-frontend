@@ -1,7 +1,8 @@
 import '../../../public/components.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as diox;
+
 import '../../../public/constants.dart';
 
 import '../../../models/product_model.dart';
@@ -36,10 +37,10 @@ class EditProductController extends GetxController implements GetxService {
     // required VoidCallback onSuccess,
   }) async {
     try {
-      http.Response res = await editProductRepository.deleteProduct(product: product);
+      diox.Response response = await editProductRepository.deleteProduct(product: product);
 
-      Constants.httpErrorHandle(
-        res: res,
+      Constants.handleApi(
+        response: response,
         onSuccess: () {},
       );
       update();
@@ -56,7 +57,7 @@ class EditProductController extends GetxController implements GetxService {
     required int quantity,
   }) async {
     try {
-      http.Response res = await editProductRepository.updateProduct(
+      diox.Response response = await editProductRepository.updateProduct(
         id: id,
         name: name,
         description: description,
@@ -64,8 +65,8 @@ class EditProductController extends GetxController implements GetxService {
         quantity: quantity,
       );
 
-      Constants.httpErrorHandle(
-        res: res,
+      Constants.handleApi(
+        response: response,
         onSuccess: () {
           Components.showSnackBar(
             'Update Seccessfully',

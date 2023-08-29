@@ -1,14 +1,19 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:lottie/lottie.dart';
+
 import 'components.dart';
 
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as diox;
+
 
 class Constants {
   static const INCH_TO_DP = 160;
 
   // Assets
+  LottieBuilder splashLottie = Lottie.asset('assets/lottie/splash.json');
+  LottieBuilder loadingLottie = Lottie.asset('assets/lottie/cat_sleeping.json');
   static const IMG_PATH = 'assets/images';
   static const PERSON_ASSET = "$IMG_PATH/person.jpg";
   static const MOBILES_ASSET = '$IMG_PATH/mobiles.png';
@@ -90,22 +95,22 @@ class Constants {
     'pptx',
   ];
 
-  static httpErrorHandle({
-  required http.Response res,
+static handleApi({
+  required diox.Response response,
   required VoidCallback onSuccess,
 }) {
-  switch (res.statusCode) {
+  switch (response.statusCode) {
     case 200:
       onSuccess();
       break;
     case 400:
-    Components.showSnackBar(jsonDecode(res.body)['msg']);
+    Components.showSnackBar(response.data['msg'], title: "msg");
     break;
     case 500:
-    Components.showSnackBar(jsonDecode(res.body)['error']);
+    Components.showSnackBar(response.data['error'], title: "error");
     break;
     default:
-    Components.showSnackBar(title: 'successfull',jsonDecode(res.body)['error']);
+    Components.showSnackBar(title: 'successfull',jsonDecode(response.data)['error']);
   }
 }
 }

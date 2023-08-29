@@ -4,6 +4,7 @@ import '../../modules/order_details/controllers/order_details_controller.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../public/sockets.dart';
+import '../../resources/local/user_local.dart';
 import 'socket_emit.dart';
 
 IO.Socket? socket;
@@ -13,7 +14,11 @@ void connectAndListen() {
   String socketUrl = Application.socketUrl;
   socket = IO.io(
     socketUrl,
-    IO.OptionBuilder().enableForceNew().setTransports(['websocket']).build(),
+    IO.OptionBuilder()
+        .enableForceNew()
+        .setTransports(['websocket']).setExtraHeaders({
+      'authorization': UserLocal().getAccessToken(),
+    }).build(),
   );
 
   socket!.connect();

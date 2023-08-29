@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:get/get.dart';
+import 'package:dio/dio.dart' as diox;
+
 import '../repositories/add_product_repository.dart';
 import '../../../public/components.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+
 import '../../../public/constants.dart';
 
 import '../../../models/product_model.dart';
@@ -62,12 +64,12 @@ class AddProductController extends GetxController implements GetxService {
         oldPrice: 0,
       );
 
-      http.Response res = await addProductRepository.addProduct(
+      diox.Response response = await addProductRepository.addProduct(
         product: product,
       );
 
-      Constants.httpErrorHandle(
-        res: res,
+      Constants.handleApi(
+        response: response,
         onSuccess: () {
           Components.showSnackBar(
             "Product Added Successfully!",

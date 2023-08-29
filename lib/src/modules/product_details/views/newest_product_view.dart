@@ -1,4 +1,5 @@
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:shop_app/src/controller/app_controller.dart';
 import '../../../core/widgets/app_text_button.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
@@ -12,7 +13,6 @@ import '../../../themes/app_colors.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/expandable_text_widget.dart';
-import '../../../controller/user_controller.dart';
 import '../../../models/product_model.dart';
 import '../../../models/rating_model.dart';
 import '../../../routes/app_pages.dart';
@@ -51,7 +51,7 @@ class _NewestProductViewState extends State<NewestProductView> {
     double totalRating = 0;
     for (int i = 0; i < ratings.length; i++) {
       totalRating += ratings[i].rating;
-      if (ratings[i].userId == Get.find<UserController>().user.id) {
+      if (ratings[i].userId == AppGet.authGet.userModel!.id) {
         productDetailsController.myRating.value = ratings[i].rating;
       }
     }

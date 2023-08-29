@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import '../controllers/register_controller.dart';
+import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
 import '../../../public/constants.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
@@ -29,6 +29,23 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+
+  TextEditingController emailTextController = TextEditingController();
+  TextEditingController passwordTextController = TextEditingController();
+  TextEditingController nameTextController = TextEditingController();
+  TextEditingController phoneTextController = TextEditingController();
+  TextEditingController codeOtpTextController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailTextController.dispose();
+    passwordTextController.dispose();
+    nameTextController.dispose();
+    phoneTextController.dispose();
+    codeOtpTextController.dispose();
+    super.dispose();
+  }
+
   File? _image;
 
   Country? countryCode;
@@ -74,15 +91,15 @@ class _RegisterViewState extends State<RegisterView> {
     });
   }
 
-  void _sendCode(RegisterController registerController) {
-    String phoneNumber = registerController.phoneUC.text.trim();
+  void _sendCode(AuthController authController) {
+    String phoneNumber = phoneTextController.text.trim();
 
     if (!isOnData) {
       if (phoneNumber.isNotEmpty) {
         startTimer();
-        registerController.sendOtP(
+        authController.sendOtP(
           phoneCode: countryCode!.phoneCode,
-          phoneNumber: '${registerController.phoneUC.text.trim()}',
+          phoneNumber: '${phoneTextController.text.trim()}',
         );
       } else {
         Components.showSnackBar(
@@ -93,12 +110,12 @@ class _RegisterViewState extends State<RegisterView> {
     }
   }
 
-  void _registration(RegisterController registerController) {
-    String email = registerController.emailUC.text.trim();
-    String password = registerController.passwordUC.text.trim();
-    String name = registerController.nameUC.text.trim();
-    String phoneNumber = registerController.phoneUC.text.trim();
-    String codeOTP = registerController.codeOtpUC.text.trim();
+  void _registration(AuthController authController) {
+    String email = emailTextController.text.trim();
+    String password = passwordTextController.text.trim();
+    String name = nameTextController.text.trim();
+    String phoneNumber = phoneTextController.text.trim();
+    String codeOTP = codeOtpTextController.text.trim();
 
     if (email.isEmpty) {
       Components.showSnackBar(
@@ -136,7 +153,7 @@ class _RegisterViewState extends State<RegisterView> {
         title: 'Phone number',
       );
     } else {
-      registerController.signUpUser(
+      authController.register(
         photo: _image,
         name: name,
         email: email,
@@ -151,8 +168,8 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GetBuilder<RegisterController>(
-        builder: (registerController) => !registerController.isLoading
+      body: GetBuilder<AuthController>(
+        builder: (authController) => !authController.isLoading
             ? SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
@@ -210,7 +227,7 @@ class _RegisterViewState extends State<RegisterView> {
                         children: [
                           //name
                           AppTextField(
-                            textController: registerController.nameUC,
+                            textController: nameTextController,
                             hintText: 'name',
                             icon: Icons.person,
                           ),
@@ -220,7 +237,7 @@ class _RegisterViewState extends State<RegisterView> {
                           //email
                           AppTextField(
                             keyboardType: TextInputType.emailAddress,
-                            textController: registerController.emailUC,
+                            textController: emailTextController,
                             hintText: 'email',
                             icon: Icons.email,
                           ),
@@ -228,18 +245,18 @@ class _RegisterViewState extends State<RegisterView> {
                             height: Dimensions.height20,
                           ),
                           //password
-                          GetBuilder<RegisterController>(builder: (registerController) {
+                          GetBuilder<AuthController>(builder: (authController) {
                             return AppTextField(
-                              textController: registerController.passwordUC,
+                              textController: passwordTextController,
                               hintText: 'password',
                               icon: Icons.password,
-                              isObscure: registerController.isObscure,
+                              isObscure: authController.isObscure,
                               suffixIcon: InkWell(
                                 onTap: () {
-                                  registerController.changeObsure();
+                                  authController.changeObsure();
                                 },
                                 child: Icon(
-                                  registerController.isObscure
+                                  authController.isObscure
                                       ? Icons.visibility_outlined
                                       : Icons.visibility_off_outlined,
                                   color: colorPrimary,
@@ -288,7 +305,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   child:
                                   TextField(
                                     keyboardType: TextInputType.number,
-                                    controller: registerController.phoneUC,
+                                    controller: phoneTextController,
                                     cursorColor: colorMedium,
                                     decoration: InputDecoration(
                                       hintText: "phone",
@@ -318,7 +335,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   child:
                                   TextField(
                                     keyboardType: TextInputType.number,
-                                    controller: registerController.codeOtpUC,
+                                    controller: codeOtpTextController,
                                     cursorColor: colorMedium,
                                     decoration: InputDecoration(
                                       hintText: "verification code",
@@ -344,9 +361,8 @@ class _RegisterViewState extends State<RegisterView> {
                                   child:
                                   TextField(
                                     keyboardType: TextInputType.number,
-                                    controller: registerController.codeOtpUC,
                                     readOnly: true,
-                                    onTap: () => _sendCode(registerController),
+                                    onTap: () => _sendCode(authController),
                                     decoration: InputDecoration(
                                       prefixIcon: Padding(
                                         padding: EdgeInsets.only(
@@ -405,7 +421,7 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                     AppTextButton(
                       txt: 'register',
-                      onTap: () => _registration(registerController),
+                      onTap: () => _registration(authController),
                     ),
 
                     SizedBox(

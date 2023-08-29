@@ -1,4 +1,3 @@
-import '../../auth_login/controllers/login_controller.dart';
 import '../../cart/views/cart_history.dart';
 import '../../home/views/home_view.dart';
 
@@ -35,9 +34,6 @@ class NavigatorUserController extends GetxController {
   
   @override
   void onInit() {
-    if (Get.find<LoginController>().userLoggedIn()) {
-      Get.find<LoginController>().getInfoUser();
-    }
     super.onInit();
   }
 }

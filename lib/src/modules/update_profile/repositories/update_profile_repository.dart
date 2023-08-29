@@ -1,29 +1,24 @@
-import 'dart:convert';
+import 'package:dio/dio.dart' as diox;
 
 import '../../../public/api_gateway.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../core/api/api_client.dart';
-
-import 'package:http/http.dart' as http;
-
+import '../../../core/api/base_repository.dart';
 class UpdateProfileRepository {
-  final ApiClient apiClient;
-  final SharedPreferences sharedPreferences;
+  final BaseRepository baseRepository;
   UpdateProfileRepository({
-    required this.apiClient,
-    required this.sharedPreferences,
+    required this.baseRepository,
   });
 
-  Future<http.Response> saveUserData(
+  Future<diox.Response> modifyUserInfo(
       String address, String name, String phone) async {
-    return await apiClient.postData(
-      ApiGateway.SAVE_USER_DATA,
-      jsonEncode({
-        'address': address,
-        'name': name,
-        'phone': phone,
-      }),
+    var body = {
+      "address": address,
+      "name": name,
+      "phone": phone,
+    };
+    return await baseRepository.postRoute(
+      ApiGateway.MODIFY_USER_INFO,
+      body,
     );
   }
 }

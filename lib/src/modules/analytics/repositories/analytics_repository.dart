@@ -1,16 +1,16 @@
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as diox;
+import 'package:shop_app/src/core/api/base_repository.dart';
 
-import '../../../core/api/api_client.dart';
 import '../../../public/api_gateway.dart';
 
 class AnalyticsRepository extends GetConnect {
-  final ApiClient apiClient;
+  final BaseRepository baseRepository;
   AnalyticsRepository({
-    required this.apiClient,
+    required this.baseRepository,
   });
 
-  Future<http.Response> fetchEarnings() async {
-    return await apiClient.getData(ApiGateway.GET_EARNINGS);
+  Future<diox.Response> fetchEarnings() async {
+    return await baseRepository.getRoute(ApiGateway.GET_EARNINGS);
   }
 }

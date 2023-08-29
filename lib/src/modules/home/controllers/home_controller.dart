@@ -1,7 +1,6 @@
-import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as diox;
 import '../../../core/network/network_info.dart';
 import '../../../public/components.dart';
 import '../repositories/home_repository.dart';
@@ -20,62 +19,30 @@ class HomeController extends GetxController implements GetxService {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  List<ProductModel>? productCategory = [];
   List<ProductModel> productNewest = [];
   List<ProductModel> productRating = [];
-
-  Future<List<ProductModel>?> fetchCategoryProduct({
-    required String category,
-  }) async {
-    http.Response res =
-        await homeRepository.fetchCategoryProduct(category: category);
-
-    Constants.httpErrorHandle(
-      res: res,
-      onSuccess: () {
-        for (var i = 0; i < jsonDecode(res.body).length; i++) {
-          productCategory!.add(
-            ProductModel.fromJson(
-              jsonEncode(
-                jsonDecode(res.body)[i],
-              ),
-            ),
-          );
-        }
-      },
-    );
-    return productCategory;
-  }
 
   Future<void> fetchRatingProduct() async {
     try {
       if (await networkInfo.isConnected) {
         _isLoading = true;
-      update();
-      http.Response res = await homeRepository.fetchRatingProduct();
-      Constants.httpErrorHandle(
-        res: res,
-        onSuccess: () {
-          for (var i = 0; i < jsonDecode(res.body).length; i++) {
-            productRating.add(
-              ProductModel.fromJson(
-                jsonEncode(
-                  jsonDecode(
-                    res.body,
-                  )[i],
-                ),
-              ),
-            );
-          }
-        },
-      );
-      _isLoading = false;
-      update();
+        update();
+        diox.Response response = await homeRepository.fetchRatingProduct();
+        Constants.handleApi(
+          response: response,
+          onSuccess: () {
+            List rawData = response.data;
+            productRating =
+                rawData.map((e) => ProductModel.fromMap(e)).toList();
+          },
+        );
+        _isLoading = false;
+        update();
       } else {
         Components.showToast('You are offline');
       }
     } catch (e) {
-      Components.showSnackBar(e.toString());
+      Components.showSnackBar(e.toString(), title: "catch");
     }
   }
 
@@ -83,27 +50,30 @@ class HomeController extends GetxController implements GetxService {
     try {
       if (await networkInfo.isConnected) {
         _isLoading = true;
-      update();
-      http.Response res = await homeRepository.fetchNewestProduct();
+        update();
+        diox.Response response = await homeRepository.fetchNewestProduct();
 
-      Constants.httpErrorHandle(
-        res: res,
-        onSuccess: () {
-          for (var i = 0; i < jsonDecode(res.body).length; i++) {
-            productNewest.add(
-              ProductModel.fromJson(
-                jsonEncode(
-                  jsonDecode(
-                    res.body,
-                  )[i],
-                ),
-              ),
-            );
-          }
-        },
-      );
-      _isLoading = false;
-      update();
+        Constants.handleApi(
+          response: response,
+          onSuccess: () {
+            List rawData = response.data;
+            productNewest =
+                rawData.map((e) => ProductModel.fromMap(e)).toList();
+            // for (var i = 0; i < jsonDecode(response.data).length; i++) {
+            //   productNewest.add(
+            //     ProductModel.fromJson(
+            //       jsonEncode(
+            //         jsonDecode(
+            //           response.data,
+            //         )[i],
+            //       ),
+            //     ),
+            //   );
+            // }
+          },
+        );
+        _isLoading = false;
+        update();
       } else {
         Components.showToast('You are offline');
       }
@@ -114,8 +84,8 @@ class HomeController extends GetxController implements GetxService {
 
   @override
   void onInit() {
-    fetchNewestProduct();
-    fetchRatingProduct();
     super.onInit();
+    fetchRatingProduct();
+    fetchNewestProduct();
   }
 }

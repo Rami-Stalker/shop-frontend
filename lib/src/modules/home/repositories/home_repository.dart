@@ -1,26 +1,20 @@
+import 'package:dio/dio.dart' as diox;
+
 import '../../../public/api_gateway.dart';
-import 'package:http/http.dart' as http;
 
-
-import '../../../core/api/api_client.dart';
+import '../../../core/api/base_repository.dart';
 
 class HomeRepository {
-  final ApiClient apiClient;
+  final BaseRepository baseRepository;
   HomeRepository({
-    required this.apiClient,
+    required this.baseRepository,
   });
 
-  Future<http.Response> fetchCategoryProduct({
-    required String category,
-  }) async {
-    return await apiClient.getData('${ApiGateway.GET_CATEGORY}$category');
+  Future<diox.Response> fetchRatingProduct() async {
+    return await baseRepository.getRoute(ApiGateway.GET_RATING);
   }
 
-  Future<http.Response> fetchRatingProduct() async {
-    return await apiClient.getData(ApiGateway.GET_RATING);
-  }
-
-  Future<http.Response> fetchNewestProduct() async {
-    return await apiClient.getData(ApiGateway.GET_NEWEST);
+  Future<diox.Response> fetchNewestProduct() async {
+    return await baseRepository.getRoute(ApiGateway.GET_NEWEST);
   }
 }

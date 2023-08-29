@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import '../../modules/auth_login/controllers/login_controller.dart';
+import '../../modules/auth/controllers/auth_controller.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
   print('Title: ${message.notification?.title}');
@@ -84,7 +84,7 @@ class PushNotificationService {
   void getToken() async {
     await _fcm.getToken().then((token) {
       print('My token is $token');
-      Get.find<LoginController>().saveUserTokenFCM(token!);
+      Get.find<AuthController>().saveUserTokenFCM(token!);
     });
   }
 

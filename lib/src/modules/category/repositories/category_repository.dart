@@ -1,18 +1,20 @@
+
+import 'package:shop_app/src/core/api/base_repository.dart';
+
 import '../../../public/api_gateway.dart';
-import 'package:http/http.dart' as http;
 
+import 'package:dio/dio.dart' as diox;
 
-import '../../../core/api/api_client.dart';
 
 class CategoryRepository {
-  final ApiClient apiClient;
+  final BaseRepository baseRepository;
   CategoryRepository({
-    required this.apiClient,
+    required this.baseRepository,
   });
 
-  Future<http.Response> fetchCategoryProduct({
+  Future<diox.Response> fetchCategoryProduct({
     required String category,
   }) async {
-    return await apiClient.getData('${ApiGateway.GET_CATEGORY}$category');
+    return await baseRepository.getRoute('${ApiGateway.GET_CATEGORY}$category');
   }
 }

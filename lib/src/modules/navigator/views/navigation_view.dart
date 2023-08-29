@@ -47,17 +47,17 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:shop_app/src/controller/app_controller.dart';
 
-import 'package:shop_app/src/controller/user_controller.dart';
-import 'package:shop_app/src/modules/auth_login/controllers/login_controller.dart';
 import 'package:shop_app/src/resources/local/user_local.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
 import '../../../services/socket/socket.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/blurhash.dart';
+import '../../admin/views/products_view.dart';
+import '../../analytics/views/analtyics_view.dart';
 import '../../cart/views/cart_history.dart';
 import '../../home/views/home_view.dart';
 import '../../order/views/order_view.dart';
@@ -77,19 +77,28 @@ class Navigation extends StatefulWidget {
 class _NavigationState extends State<Navigation> {
   int currentPage = 0;
 
-  var _pages = [
-    HomeView(),
-    OrderView(),
-    CartHistoryView(),
-    ProfileView(),
+  List<Widget> _adminPages = [
+    const ProductsView(),
+    const AnalyticsView(),
+    const OrderView(),
+    const ProfileView(),
+  ];
+
+  List<Widget> _userPages = [
+    const HomeView(),
+    const OrderView(),
+    const CartHistoryView(),
+    const ProfileView(),
   ];
 
   @override
   void initState() {
     super.initState;
     currentPage = widget.initialIndex;
-    Get.find<LoginController>().getInfoUser();
-    connectAndListen();
+    if (AppGet.authGet.onAuthCheck()) {
+      AppGet.authGet.GetInfoUser();
+      connectAndListen();
+    }
   }
 
   @override
@@ -111,7 +120,8 @@ class _NavigationState extends State<Navigation> {
                   ),
                 ),
               ),
-              child: Row(
+              child: UserLocal().getUserType() == "admin" ?
+              Row(
                 children: [
                   _buildItemBottomBar(
                     PhosphorIcons.house,
@@ -131,15 +141,37 @@ class _NavigationState extends State<Navigation> {
                     2,
                     'Message',
                   ),
-                  // _buildItemBottomBar(
-                  //   PhosphorIcons.clock,
-                  //   PhosphorIcons.alarmBold,
-                  //   3,
-                  //   'Calendar',
-                  // ),
+                  _buildItemBottomBar(
+                    PhosphorIcons.person,
+                    PhosphorIcons.personFill,
+                    2,
+                    'Me',
+                  ),
+                ],
+              ):
+              Row(
+                children: [
+                  _buildItemBottomBar(
+                    PhosphorIcons.house,
+                    PhosphorIcons.houseFill,
+                    0,
+                    'Home',
+                  ),
+                  _buildItemBottomBar(
+                    PhosphorIcons.shoppingBag,
+                    PhosphorIcons.shoppingBagFill,
+                    1,
+                    'Classes',
+                  ),
+                  _buildItemBottomBar(
+                    PhosphorIcons.shoppingCart,
+                    PhosphorIcons.shoppingCartFill,
+                    2,
+                    'Message',
+                  ),
                   _buildItemBottomAccount(
                     UserLocal().getAccessToken().isNotEmpty
-                        ? Get.find<UserController>().user.photo
+                        ? AppGet.authGet.userModel!.photo
                         :'https://freepngimg.com/save/22654-man/594x600',
                         r'rGQ8#*9Z~D%2aL$+t6NHNG%NtQaKRkM_axo#oejF^Sr@I.S1S#S2o0n$WBROWWSyoexbj]nij]W;%Mg2NZV[i_nhWrt7t6xajFjbbbbvbbWAWAkD',
                     3,
@@ -148,7 +180,7 @@ class _NavigationState extends State<Navigation> {
               ),
             ),
           ),
-          body: _pages[currentPage],
+          body: UserLocal().getUserType() == "admin" ? _adminPages[currentPage] : _userPages[currentPage],
         );
   }
 

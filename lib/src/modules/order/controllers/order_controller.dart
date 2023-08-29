@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as diox;
+
 import '../repositories/order_repository.dart';
 
 import '../../../models/order_model.dart';
@@ -16,19 +16,13 @@ class OrderController extends GetxController implements GetxService {
 
   Future<List<OrderModel>> fetchAllOrders() async {
       List<OrderModel> orders = [];
-      http.Response res = await orderRepository.fetchAllOrders();
-      Constants.httpErrorHandle(
-        res: res,
+      diox.Response response = await orderRepository.fetchAllOrders();
+      Constants.handleApi(
+        response: response,
         onSuccess: () {
-          for (var i = 0; i < jsonDecode(res.body).length; i++) {
-            orders.add(
-              OrderModel.fromJson(
-                jsonEncode(
-                  jsonDecode(res.body)[i],
-                ),
-              ),
-            );
-          }
+          List rawData = response.data;
+            orders =
+                rawData.map((e) => OrderModel.fromMap(e)).toList();
         },
       );
       return orders;
@@ -36,21 +30,13 @@ class OrderController extends GetxController implements GetxService {
 
   Future<List<OrderModel>> fetchUserOrders() async {
       List<OrderModel> userOrders = [];
-      http.Response res = await orderRepository.fetchUserOrder();
-      Constants.httpErrorHandle(
-        res: res,
+      diox.Response response = await orderRepository.fetchUserOrder();
+      Constants.handleApi(
+        response: response,
         onSuccess: () {
-          for (var i = 0; i < jsonDecode(res.body).length; i++) {
-            userOrders.add(
-              OrderModel.fromJson(
-                jsonEncode(
-                  jsonDecode(
-                    res.body,
-                  )[i],
-                ),
-              ),
-            );
-          }
+          List rawData = response.data;
+            userOrders =
+                rawData.map((e) => OrderModel.fromMap(e)).toList();
         },
       );
       return userOrders;
