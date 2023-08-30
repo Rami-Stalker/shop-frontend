@@ -1,6 +1,5 @@
-import 'package:get/get.dart';
+import 'package:shop_app/src/controller/app_controller.dart';
 import '../../config/application.dart';
-import '../../modules/order_details/controllers/order_details_controller.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../public/sockets.dart';
@@ -27,7 +26,7 @@ void connectAndListen() {
 
     socket!.on(SocketEvent.CHANGE_ORDER_STATUS_TO_USER, (data) {
       print('Received new product: $data');
-      Get.find<OrderDetailsController>().changeOrderStatusToUser(data);
+      AppGet.orderDetailsGet.changeOrderStatusToUser(data);
     });
 
     SocketEmit().sendDeviceInfo();

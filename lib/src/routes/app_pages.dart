@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
-import 'package:shop_app/src/app.dart';
+import 'package:shop_app/src/modules/notification/bindings/notification_binding.dart';
+import 'package:shop_app/src/modules/notification/views/notification_view.dart';
 import 'package:shop_app/src/modules/splash/views/splash_view.dart';
 import '../modules/add_product/bindings/add_product_binding.dart';
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/category/bindings/category_binding.dart';
 import '../modules/edit_product/bindings/edit_product_binding.dart';
-import '../modules/home/views/home_notifications.dart';
 import '../modules/add_product/views/add_product_view.dart';
 import '../modules/edit_product/views/edit_product_view.dart';
 import '../modules/auth/views/login_view.dart';
@@ -56,7 +56,8 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.NOTIFICATION,
-      page: () => const HomeNotification(),
+      page: () => const NotificationView(),
+      binding: NotificationBinding(),
     ),
     GetPage(
       name: _Paths.CATEGORY,

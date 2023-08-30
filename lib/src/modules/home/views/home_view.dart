@@ -1,7 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/controller/theme_controller.dart';
-import '../../../controller/notification_controller.dart';
 import '../../../models/notification_model.dart';
 import '../controllers/home_controller.dart';
 import '../../../themes/app_decorations.dart';
@@ -30,12 +29,12 @@ class _HomeViewState extends State<HomeView> {
   var _currPageValue = 0.0;
   final double _scaleFactor = 0.8;
   final double _height = Dimensions.pageViewContainer;
-  HomeController homeController = Get.find<HomeController>();
+  HomeController homeController = AppGet.homeGet;
 
   Future<void> _loadResources() async {
     homeController.fetchNewestProduct();
     homeController.fetchRatingProduct();
-    await Get.find<NotificationController>().getNotofication();
+    await AppGet.notificationGet.getNotofications();
   }
 
   @override
@@ -92,7 +91,7 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           AppGet.authGet.onAuthCheck() ?
           FutureBuilder<List<NotificationModel>>(
-            future: AppGet.notificationGet.getNotofication(),
+            future: AppGet.notificationGet.getNotofications(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 int isSeen = 0;

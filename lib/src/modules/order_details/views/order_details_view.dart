@@ -1,7 +1,6 @@
 import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/models/user_model.dart';
 
-import '../../../controller/notification_controller.dart';
 import '../../../core/widgets/app_text_button.dart';
 import '../controllers/order_details_controller.dart';
 import '../../../utils/sizer_custom/sizer.dart';
@@ -193,7 +192,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                     child: AppTextButton(
                                         txt: 'Delete',
                                         onTap: () {
-                                          Get.find<NotificationController>()
+                                          AppGet.notificationGet
                                               .pushNotofication(
                                             userId: userOrder.userId,
                                             title: "Order",

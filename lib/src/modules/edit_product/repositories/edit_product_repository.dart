@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as diox;
 
-import 'package:shop_app/src/core/api/base_repository.dart';
+import 'package:shop_app/src/resources/base_repository.dart';
 
 import '../../../public/api_gateway.dart';
 import '../../../models/product_model.dart';

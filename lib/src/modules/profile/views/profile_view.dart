@@ -16,7 +16,6 @@ import '../../../core/widgets/custom_loader.dart';
 import '../../../public/constants.dart';
 import '../../../routes/app_pages.dart';
 import '../../auth/controllers/auth_controller.dart';
-import '../controllers/profile_controller.dart';
 import '../widgets/profile_widget.dart';
 
 class ProfileView extends StatefulWidget {
@@ -27,7 +26,6 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  ProfileController profileController = Get.find<ProfileController>();
   bool userLoggedIn = AppGet.authGet.onAuthCheck();
 
   File? _image;
@@ -62,7 +60,7 @@ class _ProfileViewState extends State<ProfileView> {
                               setState(() {
                                 showDialogLoading(context);
                                 _image = image;
-                                profileController.updateAvatar(
+                                AppGet.profileGet.updateAvatar(
                                     avatar: image);
                               });
                             },

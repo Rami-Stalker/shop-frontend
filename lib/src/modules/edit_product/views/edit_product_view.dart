@@ -1,3 +1,5 @@
+import 'package:shop_app/src/controller/app_controller.dart';
+
 import '../controllers/edit_product_controller.dart';
 import '../../../themes/app_colors.dart';
 
@@ -11,7 +13,6 @@ import '../../../core/widgets/app_icon.dart';
 import '../../../models/product_model.dart';
 import '../../../themes/app_decorations.dart';
 import '../../../utils/sizer_custom/sizer.dart';
-import '../../navigator/controllers/navigator_admin_controller.dart';
 
 class EditProductView extends StatefulWidget {
   const EditProductView({super.key});
@@ -38,7 +39,7 @@ class _EditProductViewState extends State<EditProductView> {
 
   @override
   Widget build(BuildContext context) {
-    EditProductController editProductController = Get.find<EditProductController>();
+    EditProductController editProductController = AppGet.editProduct;
     
     ProductModel product = Get.arguments['product'];
 
@@ -287,14 +288,7 @@ class _EditProductViewState extends State<EditProductView> {
                         ok: () {
                           editProductController.deleteProduct(
                             product: product,
-                            // onSuccess: () {
-                            //   controller.products.removeAt(index);
-                            //   Get.toNamed(Routes.ADMIN_NAVIGATOR);
-                            // },
                           );
-                          Get.find<NavigatorAdminController>()
-                              .currentIndex
-                              .value = 0;
                         },
                         okColor: colorHigh,
                       );
@@ -317,8 +311,6 @@ class _EditProductViewState extends State<EditProductView> {
                         price: int.parse(editProductController.priceUC.text),
                         quantity: int.parse(editProductController.quantityUC.text),
                       );
-                      Get.find<NavigatorAdminController>().currentIndex.value =
-                          0;
                     },
                   ),
                 ],

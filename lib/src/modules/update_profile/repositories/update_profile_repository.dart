@@ -2,7 +2,7 @@ import 'package:dio/dio.dart' as diox;
 
 import '../../../public/api_gateway.dart';
 
-import '../../../core/api/base_repository.dart';
+import '../../../resources/base_repository.dart';
 class UpdateProfileRepository {
   final BaseRepository baseRepository;
   UpdateProfileRepository({

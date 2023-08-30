@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:shop_app/src/core/api/base_repository.dart';
+import 'package:shop_app/src/resources/base_repository.dart';
 import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
 
 import '../core/network/network_info.dart';
@@ -17,6 +17,7 @@ import '../modules/checkout/controllers/checkout_controller.dart';
 import '../modules/edit_product/controllers/edit_product_controller.dart';
 import '../modules/home/controllers/home_controller.dart';
 import '../modules/home/repositories/home_repository.dart';
+import '../modules/notification/controllers/notification_controller.dart';
 import '../modules/order/controllers/order_controller.dart';
 import '../modules/order/repositories/order_repository.dart';
 import '../modules/order_details/controllers/order_details_controller.dart';
@@ -24,12 +25,9 @@ import '../modules/product_details/controllers/product_details_controller.dart';
 import '../modules/profile/controllers/profile_controller.dart';
 import '../modules/search/controllers/search_controller.dart';
 import '../modules/update_profile/controllers/update_profile_controller.dart';
-import 'application_controller.dart';
-import 'notification_controller.dart';
 import 'theme_controller.dart';
 
 class AppGet {
-  static final applicationGet = Get.find<ApplicationController>();
   static final themeGet = Get.find<ThemeController>();
   static final notificationGet = Get.find<NotificationController>();
   static final authGet = Get.find<AuthController>();
@@ -65,9 +63,7 @@ class AppGet {
     Get.lazyPut(() => AnalyticsRepository(baseRepository: Get.find()));
 
     //controllers
-    Get.lazyPut(() => ApplicationController());
     Get.lazyPut(() => ThemeController());
-    Get.lazyPut(() => NotificationController(baseRepository: Get.find()));
     Get.lazyPut(() => AuthController(authRepository: Get.find()));
     Get.lazyPut(() =>
         HomeController(homeRepository: Get.find(), networkInfo: Get.find()));
@@ -79,7 +75,6 @@ class AppGet {
   }
 
   static void dispose() {
-    // applicationGet.dispose;
     themeGet.dispose;
     notificationGet.dispose;
     authGet.dispose;

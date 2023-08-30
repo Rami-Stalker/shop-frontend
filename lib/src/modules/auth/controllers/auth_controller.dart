@@ -6,10 +6,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as diox;
+import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/models/user_model.dart';
 import 'package:shop_app/src/routes/app_pages.dart';
 import '../../../resources/local/user_local.dart';
-import '../../cart/controllers/cart_controller.dart';
 import '../repositories/auth_repository.dart';
 
 import '../../../public/components.dart';
@@ -170,8 +170,7 @@ class AuthController extends GetxController implements GetxService {
   }
 
   Future<bool> logOut() async {
-    Get.find<CartController>().clear();
-    Get.find<CartController>().clearCartHistory();
+    AppGet.CartGet..clear()..clearCartHistory();
     await FirebaseMessaging.instance.deleteToken();
     await authRepository.logOut();
     Get.toNamed(Routes.NAVIGATION);

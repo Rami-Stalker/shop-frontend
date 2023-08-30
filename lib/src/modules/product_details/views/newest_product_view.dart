@@ -44,7 +44,7 @@ class _NewestProductViewState extends State<NewestProductView> {
   @override
   Widget build(BuildContext context) {
     ProductDetailsController productDetailsController =
-        Get.find<ProductDetailsController>();
+        AppGet.productDetailsGet;
     ProductModel product = Get.arguments['product'];
     List<RatingModel> ratings = Get.arguments['ratings'];
     productDetailsController.initProduct(product, Get.find<CartController>());
@@ -75,17 +75,17 @@ class _NewestProductViewState extends State<NewestProductView> {
                   icon: Icons.clear,
                 ),
                 GetBuilder<ProductDetailsController>(
-                  builder: (controller) => Stack(
+                  builder: (productDetailsController) => Stack(
                     children: [
                       AppIcon(
                         onTap: () {
-                          if (controller.totalItems != 0) {
+                          if (productDetailsController.totalItems != 0) {
                             Get.toNamed(Routes.CART);
                           }
                         },
                         icon: Icons.shopping_cart_outlined,
                       ),
-                      controller.totalItems != 0
+                      productDetailsController.totalItems != 0
                           ? Positioned(
                               right: 0.0,
                               top: 0.0,
@@ -98,12 +98,12 @@ class _NewestProductViewState extends State<NewestProductView> {
                               ),
                             )
                           : Container(),
-                      controller.totalItems != 0
+                      productDetailsController.totalItems != 0
                           ? Positioned(
                               right: 3.0,
                               top: 3.0,
                               child: BigText(
-                                text: Get.find<ProductDetailsController>()
+                                text: productDetailsController
                                     .totalItems
                                     .toString(),
                               ),

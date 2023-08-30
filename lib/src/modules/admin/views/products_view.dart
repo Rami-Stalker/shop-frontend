@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
+import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/controller/theme_controller.dart';
 import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
 import '../controllers/admin_controller.dart';
 import '../../../routes/app_pages.dart';
 import '../../../themes/app_decorations.dart';
 
-import '../../../controller/notification_controller.dart';
 import '../../../core/widgets/category_widget.dart';
 import '../../../core/widgets/no_data_page.dart';
 import '../../../core/widgets/product_widget.dart';
@@ -35,11 +35,10 @@ class _ProductsViewState extends State<ProductsView> {
     Get.toNamed(Routes.SEARCH);
   }
 
-  AdminController adminController = Get.find<AdminController>();
 
   Future<void> _loadResources() async {
-    adminController.fetchAllProducts();
-    await Get.find<NotificationController>().getNotofication();
+    AppGet.adminGet.fetchAllProducts();
+    await AppGet.notificationGet.getNotofications();
   }
 
   @override
@@ -88,7 +87,7 @@ class _ProductsViewState extends State<ProductsView> {
         ),
         actions: [
           FutureBuilder<List<NotificationModel>>(
-            future: Get.find<NotificationController>().getNotofication(),
+            future: AppGet.notificationGet.getNotofications(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 int isSeen = 0;
@@ -221,7 +220,7 @@ class _ProductsViewState extends State<ProductsView> {
                 height: Dimensions.height20,
               ),
               FutureBuilder<List<ProductModel>>(
-                  future: Get.find<AdminController>().fetchAllProducts(),
+                  future: AppGet.adminGet.fetchAllProducts(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       return ListView.builder(

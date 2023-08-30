@@ -11,22 +11,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'themes/theme_service.dart';
 import 'themes/themes.dart';
 
-class App extends StatefulWidget {
+class App extends StatelessWidget {
   App({
     Key? key,
   }) : super(key: key);
-
-  @override
-  State<App> createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-
-    @override
-  void dispose() {
-    AppGet.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +25,9 @@ class _AppState extends State<App> {
             onInit: () {
               AppGet.init();
             },
+            onDispose: () {
+              AppGet.dispose();
+            },
             debugShowCheckedModeBanner: false,
             locale: AppLanguage.defaultLanguage,
             supportedLocales: AppLanguage.supportLanguage,
@@ -45,9 +36,9 @@ class _AppState extends State<App> {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
+            themeMode: ThemeService().theme,
             theme: AppTheme.light().data,
             darkTheme: AppTheme.dark().data,
-            themeMode: ThemeService().theme,
             initialRoute: AppPages.INITIAL,
             getPages: AppPages.routes,
           ),

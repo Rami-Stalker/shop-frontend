@@ -1,4 +1,3 @@
-import 'package:shop_app/src/modules/navigator/views/navigation_view.dart';
 import 'package:shop_app/src/routes/app_pages.dart';
 
 import '../../../public/components.dart';

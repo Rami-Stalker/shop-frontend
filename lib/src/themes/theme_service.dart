@@ -11,46 +11,13 @@ class ThemeService {
   static final systemBrightness = SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   );
-  // final _getStorage = GetStorage();
-  // final storageKey = 'isDarkMode';
+  
+  final _getStorage = GetStorage();
+  final storageKey = 'theme';
 
+  void _writeBox(bool istheme) => _getStorage.write(storageKey, istheme);
 
-  // switchStatusColor() {
-  //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //     statusBarColor: Colors.transparent,
-  //     statusBarBrightness: Platform.isIOS
-  //         ? (isSavedDarkMode() ? Brightness.dark : Brightness.light)
-  //         : (isSavedDarkMode() ? Brightness.light : Brightness.dark),
-  //     statusBarIconBrightness: Platform.isIOS
-  //         ? (isSavedDarkMode() ? Brightness.dark : Brightness.light)
-  //         : (isSavedDarkMode() ? Brightness.light : Brightness.dark),
-  //   ));
-  // }
-
-  // ThemeMode getThemeMode() {
-  //   switchStatusColor();
-  //   return isSavedDarkMode() ? ThemeMode.dark : ThemeMode.light;
-  // }
-
-  // bool isSavedDarkMode() {
-  //   return _getStorage.read(storageKey) ?? false;
-  // }
-
-  // void saveThemeMode(bool isDarkMode) async {
-  //   _getStorage.write(storageKey, isDarkMode);
-  // }
-
-  // void changeThemeMode() {
-  //   saveThemeMode(!isSavedDarkMode());
-  //   switchStatusColor();
-  // }
-
-  final GetStorage _box = GetStorage();
-  final _key = 'mode-theme';
-
-  void _writeBox(bool istheme) => _box.write(_key, istheme);
-
-  bool _readBox() => _box.read<bool>(_key) ?? false;
+  bool _readBox() => _getStorage.read<bool>(storageKey) ?? false;
 
   ThemeMode get theme => _readBox() ? ThemeMode.dark : ThemeMode.light;
 

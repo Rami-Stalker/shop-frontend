@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../../../controller/notification_controller.dart';
+import 'package:shop_app/src/controller/app_controller.dart';
 import '../../../models/notification_model.dart';
 import '../../../themes/app_decorations.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 import '../../../themes/app_colors.dart';
 
-class HomeNotification extends StatefulWidget {
-  const HomeNotification({super.key});
+class NotificationView extends StatefulWidget {
+  const NotificationView({super.key});
 
   @override
-  State<HomeNotification> createState() => _HomeNotificationState();
+  State<NotificationView> createState() => _NotificationViewState();
 }
 
-class _HomeNotificationState extends State<HomeNotification> {
+class _NotificationViewState extends State<NotificationView> {
   @override
   void initState() {
-    Get.find<NotificationController>().seenNotofication();
+    AppGet.notificationGet.seenNotofication();
     super.initState();
   }
 

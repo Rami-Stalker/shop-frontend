@@ -4,7 +4,7 @@ import '../../../public/api_gateway.dart';
 import 'package:dio/dio.dart' as diox;
 
 
-import '../../../core/api/base_repository.dart';
+import '../../../resources/base_repository.dart';
 import '../../../models/product_model.dart';
 
 

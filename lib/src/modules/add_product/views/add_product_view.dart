@@ -25,7 +25,6 @@ class AddProductView extends StatefulWidget {
 }
 
 class _AddProductViewState extends State<AddProductView> {
-  AddProductController addProductController = Get.find<AddProductController>();
 
   String category = 'Mobiles';
   List<File> images = [];

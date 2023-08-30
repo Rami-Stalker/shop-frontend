@@ -29,7 +29,6 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
   TextEditingController nameTextController = TextEditingController();
@@ -302,8 +301,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 child: _containerWidget(
                                   isRight: true,
                                   isLeft: false,
-                                  child:
-                                  TextField(
+                                  child: TextField(
                                     keyboardType: TextInputType.number,
                                     controller: phoneTextController,
                                     cursorColor: colorMedium,
@@ -332,8 +330,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 child: _containerWidget(
                                   isRight: false,
                                   isLeft: true,
-                                  child:
-                                  TextField(
+                                  child: TextField(
                                     keyboardType: TextInputType.number,
                                     controller: codeOtpTextController,
                                     cursorColor: colorMedium,
@@ -358,8 +355,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 child: _containerWidget(
                                   isRight: true,
                                   isLeft: false,
-                                  child:
-                                  TextField(
+                                  child: TextField(
                                     keyboardType: TextInputType.number,
                                     readOnly: true,
                                     onTap: () => _sendCode(authController),
@@ -466,7 +462,8 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  Container _containerWidget({required bool isRight, required bool isLeft, required Widget child}) {
+  Container _containerWidget(
+      {required bool isRight, required bool isLeft, required Widget child}) {
     return Container(
       decoration: AppDecoration.textfeild(
         context,

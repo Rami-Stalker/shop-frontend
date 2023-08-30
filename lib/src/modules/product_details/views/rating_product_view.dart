@@ -4,7 +4,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
-import '../../cart/controllers/cart_controller.dart';
 import '../controllers/product_details_controller.dart';
 import '../../../themes/app_colors.dart';
 import '../../../themes/app_decorations.dart';
@@ -43,21 +42,21 @@ class _RatingProductViewState extends State<RatingProductView> {
 
   @override
   Widget build(BuildContext context) {
-    ProductDetailsController productDetailsCtrl =
-        Get.find<ProductDetailsController>();
+    ProductDetailsController productDetailsController =
+        AppGet.productDetailsGet;
     ProductModel product = Get.arguments['product'];
     List<RatingModel> ratings = Get.arguments['ratings'];
-    productDetailsCtrl.initProduct(product, Get.find<CartController>());
+    productDetailsController.initProduct(product, AppGet.CartGet);
     double totalRating = 0;
     for (int i = 0; i < ratings.length; i++) {
       totalRating += ratings[i].rating;
       if (ratings[i].userId == AppGet.authGet.userModel!.id) {
-        productDetailsCtrl.myRating.value = ratings[i].rating;
+        productDetailsController.myRating.value = ratings[i].rating;
       }
     }
 
     if (totalRating != 0) {
-      productDetailsCtrl.avgRating.value = totalRating / ratings.length;
+      productDetailsController.avgRating.value = totalRating / ratings.length;
     }
 
     return Scaffold(
@@ -137,7 +136,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                                 right: 6.sp,
                                 top: 1.sp,
                                 child: 
-                                Text(Get.find<ProductDetailsController>()
+                                Text(AppGet.productDetailsGet
                                       .totalItems
                                       .toString(),
                                       style: Theme.of(context).textTheme.titleMedium,
@@ -149,7 +148,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                   ),
                 ],
               )),
-          productDetailsCtrl.avgRating.value != 0.0
+          productDetailsController.avgRating.value != 0.0
               ? Positioned(
                   top: 260.sp,
                   right: Dimensions.width20,
@@ -178,7 +177,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                               PhosphorIcons.star,
                             ),
                             Text(
-                              productDetailsCtrl.avgRating.value.toString(),
+                              productDetailsController.avgRating.value.toString(),
                               style: Theme.of(context).textTheme.titleMedium,
                             )
                           ],
@@ -315,7 +314,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                       children: [
                         InkWell(
                           onTap: () {
-                            productDetailsCtrl.setQuantity(
+                            productDetailsController.setQuantity(
                               false,
                               product.quantity,
                             );
@@ -329,7 +328,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                           width: 5.sp,
                         ),
                         Text(
-                          productDetailsCtrl.quantity.toString(),
+                          productDetailsController.quantity.toString(),
                         style: Theme.of(context).textTheme.titleLarge,
                         ),
                         SizedBox(
@@ -337,7 +336,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                         ),
                         InkWell(
                           onTap: () {
-                            productDetailsCtrl.setQuantity(
+                            productDetailsController.setQuantity(
                               true,
                               product.quantity,
                             );
@@ -353,7 +352,7 @@ class _RatingProductViewState extends State<RatingProductView> {
                 ),
                 AppTextButton(
                   txt: 'Add to Cart',
-                  onTap: () => productDetailsCtrl.addItem(product),
+                  onTap: () => productDetailsController.addItem(product),
                 ),
               ],
             ),

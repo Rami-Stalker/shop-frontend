@@ -1,3 +1,5 @@
+import 'package:shop_app/src/routes/app_pages.dart';
+
 import '../../../public/components.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,7 +43,10 @@ class EditProductController extends GetxController implements GetxService {
 
       Constants.handleApi(
         response: response,
-        onSuccess: () {},
+        onSuccess: () {
+          Get.toNamed(Routes.NAVIGATION);
+          update();
+        },
       );
       update();
     } catch (e) {
@@ -73,6 +78,8 @@ class EditProductController extends GetxController implements GetxService {
             title: 'Update',
             color: colorPrimary,
           );
+          Get.toNamed(Routes.NAVIGATION);
+          update();
         },
       );
       update();

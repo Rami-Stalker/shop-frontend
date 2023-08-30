@@ -1,5 +1,5 @@
 
-import 'package:shop_app/src/core/api/base_repository.dart';
+import 'package:shop_app/src/resources/base_repository.dart';
 
 import '../../../public/api_gateway.dart';
 

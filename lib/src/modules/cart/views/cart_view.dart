@@ -1,6 +1,5 @@
 import 'package:shop_app/src/controller/app_controller.dart';
 
-import '../../auth/controllers/auth_controller.dart';
 import '../controllers/cart_controller.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
@@ -23,7 +22,7 @@ class CartView extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartView> {
-  final bool _isLogged = Get.find<AuthController>().onAuthCheck();
+  final bool _isLogged = AppGet.authGet.onAuthCheck();
   CartController cartController = AppGet.CartGet;
   //double heightNav = Dimensions.bottomHeightBar + 130;
 

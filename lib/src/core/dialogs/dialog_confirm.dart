@@ -26,7 +26,7 @@ class _DialogConfirmState extends State<DialogConfirm> {
   Widget build(BuildContext context) {
     return Container(
       width: 300.sp,
-      height: widget.height == null ? 180.sp : widget.height,
+      height: widget.height ?? 180.sp,
       padding: EdgeInsets.symmetric(vertical: 16.sp),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

@@ -13,10 +13,7 @@ class BaseRepository {
   )); // with default Options
 
   Future<diox.Response<dynamic>> downloadFile(
-    String url,
-    String path,
-    Function onReceive,
-  ) async {
+      String url, String path, Function onReceive) async {
     var response = await dio.download(
       url,
       path,
@@ -124,6 +121,7 @@ class BaseRepository {
       options: getOptions(token: token),
       queryParameters: query == null ? null : paramsObject,
     );
+    // printResponse(response);
     return response;
   }
 
@@ -161,7 +159,7 @@ class BaseRepository {
 
   getHeaders({String? token}) {
     return {
-      'Authorization': 'Bearer ' + (token ?? UserLocal().getAccessToken()),
+      'Authorization': token ?? UserLocal().getAccessToken(),
       'Content-Type': 'application/json; charset=UTF-8',
       'Connection': 'keep-alive',
       'Accept': '*/*',

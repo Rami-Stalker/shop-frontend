@@ -37,7 +37,7 @@ class _CheckoutViewState extends State<CheckoutView> {
   @override
   Widget build(BuildContext context) {
     UserModel user = AppGet.authGet.userModel!;
-    CartController cartController = Get.find<CartController>();
+    CartController cartController = AppGet.CartGet;
     List<CartModel> getItems = cartController.getItems;
 
     List<int> userQuants = [];

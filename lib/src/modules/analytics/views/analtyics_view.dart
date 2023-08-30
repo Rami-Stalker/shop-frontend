@@ -1,7 +1,7 @@
+import 'package:shop_app/src/controller/app_controller.dart';
+
 import '../../../core/widgets/custom_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../controllers/analytics_controller.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 import '../../../models/admin_model.dart';
@@ -15,7 +15,6 @@ class AnalyticsView extends StatefulWidget {
 }
 
 class _AnalyticsViewState extends State<AnalyticsView> {
-  AnalyticsController analyticsController = Get.find<AnalyticsController>();
   int? totalSales;
   List<Sales>? earnings;
 
@@ -26,7 +25,7 @@ class _AnalyticsViewState extends State<AnalyticsView> {
   }
 
   getEarnings() async {
-    var earningData = await analyticsController.fetchEarnings();
+    var earningData = await AppGet.analyticsGet.fetchEarnings();
     totalSales = earningData['totalEarnings'];
     earnings = earningData['sales'];
     setState(() {});

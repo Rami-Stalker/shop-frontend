@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:shop_app/src/controller/app_controller.dart';
 import '../controllers/cart_controller.dart';
 import '../../../themes/app_colors.dart';
 
@@ -18,10 +19,9 @@ class CartHistoryView extends GetView<CartController> {
 
   @override
   Widget build(BuildContext context) {
-    CartController cartCtrl = Get.find<CartController>();
 
     List<CartModel> cartHistoryList =
-        cartCtrl.getCartHistoryList().reversed.toList();
+        AppGet.CartGet.getCartHistoryList().reversed.toList();
 
     Map<String, int> cartItems = {};
 
@@ -186,8 +186,8 @@ class CartHistoryView extends GetView<CartController> {
                                             );
                                           }
                                         }
-                                        cartCtrl.setItems = moreOrder;
-                                        cartCtrl.addToCartList();
+                                        AppGet.CartGet.setItems = moreOrder;
+                                        AppGet.CartGet.addToCartList();
                                         Get.toNamed(Routes.CART);
                                       },
                                       child: Container(
