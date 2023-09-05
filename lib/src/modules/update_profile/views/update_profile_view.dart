@@ -16,7 +16,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../routes/app_pages.dart';
 import '../../../themes/app_colors.dart';
-import '../../../themes/app_decorations.dart';
 import '../../auth/controllers/auth_controller.dart';
 
 class UpdateProfileView extends StatefulWidget {
@@ -82,35 +81,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Modify Profile",
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        leading: Container(
-          padding: EdgeInsets.all(8.sp),
-          child: InkWell(
-            onTap: () => Get.back(),
-            child: Container(
-              padding: EdgeInsets.all(5.sp),
-              decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
-              child: Icon(
-                Icons.arrow_back_ios,
-                size: 15.sp,
-                color: Get.isDarkMode ? mCL : colorBlack,
-              ),
-            ),
-          ),
-        ),
-        bottom: PreferredSize(
-          child: Divider(),
-          preferredSize: Size(
-            Dimensions.screenWidth,
-            20,
-          ),
-        ),
-      ),
+      appBar: Components.customAppBar(context, "Modify Info"),
       body: GetBuilder<UpdateProfileController>(
             builder: (updateProfileController) {
               updateProfileController.addressC.text =
@@ -125,11 +96,11 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                       children: [
                         Container(
                           height: 130.sp,
-                          width: Dimensions.screenWidth,
+                          width: SizerUtil.width,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(
-                              width: 2,
+                              width: 2.sp,
                               color: colorPrimary,
                             ),
                           ),
@@ -141,7 +112,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                                     zoom: 17.0,
                                   ),
                                   onTap: (latLng) {
-                                    Get.toNamed(
+                                    AppNavigator.push(
                                       Routes.ADDRESS,
                                     );
                                   },
@@ -167,7 +138,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                                 )
                               : Container(),
                         ),
-                        SizedBox(height: Dimensions.height10),
+                        SizedBox(height: 10.sp),
                     SizedBox(
                             height: 50.sp,
                             child: ListView.builder(
@@ -184,11 +155,11 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
                                         horizontal:
-                                            Dimensions.width30,
-                                        vertical: Dimensions.height10,
+                                            30.sp,
+                                        vertical: 10.sp,
                                       ),
                                       margin: EdgeInsets.only(
-                                        right: Dimensions.width10,
+                                        right: 10.sp,
                                       ),
                                       decoration: BoxDecoration(
                                         borderRadius:
@@ -227,18 +198,18 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.width20,
+                      horizontal: 20.sp,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: Dimensions.height20),
+                        SizedBox(height: 20.sp),
                         Text(
                           'Delivery Address',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         SizedBox(
-                          height: Dimensions.height10,
+                          height: 10.sp,
                         ),
                         AppTextField(
                           textController:
@@ -246,26 +217,26 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                           hintText: 'Your address',
                           icon: Icons.map,
                         ),
-                        SizedBox(height: Dimensions.height20),
+                        SizedBox(height: 20.sp),
                         Text(
                           'Delivery Name',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         SizedBox(
-                          height: Dimensions.height10,
+                          height: 10.sp,
                         ),
                         AppTextField(
                           textController: updateProfileController.nameC,
                           hintText: 'Your name',
                           icon: Icons.person,
                         ),
-                        SizedBox(height: Dimensions.height20),
+                        SizedBox(height: 20.sp),
                         Text(
                           'Delivery Phone',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         SizedBox(
-                          height: Dimensions.height10,
+                          height: 10.sp,
                         ),
                         AppTextField(
                           keyboardType: TextInputType.phone,
@@ -284,14 +255,14 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
       bottomNavigationBar: Container(
         height: 80.sp,
         padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.width20,
-          vertical: Dimensions.height20,
+          horizontal: 20.sp,
+          vertical: 20.sp,
         ),
         decoration: BoxDecoration(
           color: Get.isDarkMode ? fCD : mCD,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(Dimensions.radius45),
-            topRight: Radius.circular(Dimensions.radius45),
+            topLeft: Radius.circular(45.sp),
+            topRight: Radius.circular(45.sp),
           ),
         ),
         child: GetBuilder<UpdateProfileController>(
@@ -305,7 +276,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
                           updateProfileController.nameC.text,
                           updateProfileController.phoneC.text,
                         );
-                        Get.back();
+                        AppNavigator.pop();
                       }
               },
             );

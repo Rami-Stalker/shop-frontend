@@ -1,12 +1,7 @@
-import 'dart:convert';
-
-import '../../../public/api_gateway.dart';
 import 'package:dio/dio.dart' as diox;
-
+import 'package:shop_app/src/public/api_gateway.dart';
 
 import '../../../resources/base_repository.dart';
-import '../../../models/product_model.dart';
-
 
 class ProductDetailsRepository {
   final BaseRepository baseRepository;
@@ -14,13 +9,17 @@ class ProductDetailsRepository {
     required this.baseRepository,
   });
 
-  // Future<http.Response> rateProduct({
-  //   required ProductModel product,
-  //   required double rating,
-  // }) async {
-  //   return await apiClient.postData(ApiConstance.RATE_PRODUCT, jsonEncode({
-  //     "id": product.id,
-  //     "rating": rating,
-  //   }));
-  // }
+  Future<diox.Response> rateProduct({
+    required String productId,
+    required double rating,
+  }) async {
+    var body = {
+      "productId": productId,
+      "rating": rating,
+    };
+    return await baseRepository.postRoute(
+      ApiGateway.RATE_PRODUCT,
+      body,
+    );
+  }
 }

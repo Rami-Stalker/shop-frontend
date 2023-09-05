@@ -34,7 +34,7 @@ class CustomButton extends StatelessWidget {
               ? Colors.transparent
               : Theme.of(context).primaryColor,
       minimumSize: Size(
-        width ?? Dimensions.screenWidth,
+        width ?? SizerUtil.width,
         height ?? 50.sp,
       ),
       padding: EdgeInsets.zero,
@@ -44,7 +44,7 @@ class CustomButton extends StatelessWidget {
     );
     return Center(
       child: SizedBox(
-        width: width ?? Dimensions.screenWidth,
+        width: width ?? SizerUtil.width,
         height: height ?? 50.sp,
         child: TextButton(
           onPressed: onPressed,
@@ -59,7 +59,7 @@ class CustomButton extends StatelessWidget {
                 ):const SizedBox(),
                 Text(buttomText,
                 style: TextStyle(
-                  fontSize: fontSize ?? Dimensions.font16,
+                  fontSize: fontSize ?? 15.sp,
                   color: transparent?Theme.of(context).primaryColor:Theme.of(context).cardColor,
                 ),),
             ],

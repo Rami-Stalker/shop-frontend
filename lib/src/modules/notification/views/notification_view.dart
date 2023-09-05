@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/public/components.dart';
 import '../../../models/notification_model.dart';
 import '../../../themes/app_decorations.dart';
 import '../../../utils/sizer_custom/sizer.dart';
-
-import '../../../themes/app_colors.dart';
 
 class NotificationView extends StatefulWidget {
   const NotificationView({super.key});
@@ -50,39 +49,14 @@ class _NotificationViewState extends State<NotificationView> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Notifications",
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        leading: Container(
-          padding: EdgeInsets.all(8.sp),
-          child: InkWell(
-            onTap: () => Get.back(),
-            child: Container(
-              padding: EdgeInsets.all(5.sp),
-              decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
-              child: Icon(
-                Icons.arrow_back_ios,
-                size: 15.sp,
-                color: Get.isDarkMode ? mCL : colorBlack,
-              ),
-            ),
-          ),
-        ),
-        bottom: PreferredSize(
-          child: Divider(),
-          preferredSize: Size(
-            Dimensions.screenWidth,
-            20,
-          ),
-        ),
+      appBar: Components.customAppBar(
+        context,
+        "Notificaton",
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.height10,
-          vertical: Dimensions.height10,
+          horizontal: 10.sp,
+          vertical: 10.sp,
         ),
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
@@ -94,14 +68,9 @@ class _NotificationViewState extends State<NotificationView> {
               child: GestureDetector(
                 onTap: () {},
                 child: Container(
-                  padding: EdgeInsets.only(
-                    right: 5.sp,
-                    left: Dimensions.width10,
-                    top: 5.sp,
-                    bottom: 5.sp,
-                  ),
-                  decoration: AppDecoration.appbarIcon(context, 5.sp)
-                        .decoration,
+                  padding: EdgeInsets.fromLTRB(10.sp, 5.sp, 5.sp, 5.sp),
+                  decoration:
+                      AppDecoration.appbarIcon(context, 5.sp).decoration,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

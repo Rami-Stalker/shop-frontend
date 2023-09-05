@@ -22,7 +22,7 @@ class UploadRepository {
     );
 
     if ([200, 201].contains(response.statusCode)) {
-      var jsonResponse = await response.data['data'];
+      var jsonResponse = await response.data;
       return UploadResponseModel.fromMap(jsonResponse);
     }
 

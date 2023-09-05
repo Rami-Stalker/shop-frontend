@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/themes/font_family.dart';
 
 import '../utils/sizer_custom/sizer.dart';
 import 'app_colors.dart';
@@ -39,8 +40,17 @@ class AppTheme {
         size: 20.sp,
       ),
       textTheme: TextTheme(
-        displayMedium: TextStyle(color: appColors.header),
-        titleLarge: TextStyle(color: appColors.contentText1),
+        displayMedium: TextStyle(
+          color: appColors.header,
+          fontWeight: FontWeight.w500,
+          fontSize: 30.sp,
+        ),
+        titleLarge: TextStyle(
+          color: appColors.contentText1,
+          fontWeight: FontWeight.w400,
+          fontSize: 14.sp,
+          fontFamily: FontFamily.lato,
+        ),
         titleMedium: TextStyle(color: appColors.contentText2),
         bodyLarge: TextStyle(color: appColors.contentText2),
       ),

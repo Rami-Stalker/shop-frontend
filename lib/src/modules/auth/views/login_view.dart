@@ -54,11 +54,11 @@ class LoginView extends GetView<AuthController> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: Dimensions.screenHeight * 0.05,
+                      height: SizerUtil.height * 0.05,
                     ),
                     //app logo
                     SizedBox(
-                      height: Dimensions.screenHeight * 0.25,
+                      height: 120.sp,
                       child: Center(
                         child: CircleAvatar(
                           backgroundColor: mCL,
@@ -67,9 +67,10 @@ class LoginView extends GetView<AuthController> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 30.sp),
                     //welcome
                     Container(
-                      margin: EdgeInsets.only(left: Dimensions.width20),
+                      margin: EdgeInsets.only(left: 20.sp),
                       width: double.maxFinite,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,19 +80,18 @@ class LoginView extends GetView<AuthController> {
                             style: Theme.of(context).textTheme.displayMedium,
                           ),
                           Text(
-                            'Sign into your account',
-                            style:
-                                Theme.of(context).textTheme.titleLarge!.copyWith(
-                                      color: fCL,
-                                    ),
+                            "An application that contains everything you desire",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(color: fCL),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 60.sp),
+                    SizedBox(height: 40.sp),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: Dimensions.width20),
+                      padding: EdgeInsets.symmetric(horizontal: 20.sp),
                       child: //email
                           AppTextField(
                         keyboardType: TextInputType.emailAddress,
@@ -100,14 +100,12 @@ class LoginView extends GetView<AuthController> {
                         icon: Icons.email,
                       ),
                     ),
-                    SizedBox(
-                      height: Dimensions.height20,
-                    ),
+                    SizedBox(height: 10.sp),
                     //password
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: Dimensions.width20),
-                      child: GetBuilder<AuthController>(builder: (loginController) {
+                      padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                      child: GetBuilder<AuthController>(
+                          builder: (loginController) {
                         return AppTextField(
                           textController: loginController.passwordC,
                           hintText: 'password',
@@ -127,9 +125,7 @@ class LoginView extends GetView<AuthController> {
                         );
                       }),
                     ),
-                    SizedBox(
-                      height: Dimensions.height20,
-                    ),
+                    SizedBox(height: 20.sp),
                     //tag line
                     Row(
                       children: [
@@ -139,14 +135,14 @@ class LoginView extends GetView<AuthController> {
                         RichText(
                           text: TextSpan(
                             text: 'Sign into your account',
-                            style: TextStyle(
-                              color: Colors.grey[500],
-                              fontSize: Dimensions.font20,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(color: fCL),
                           ),
                         ),
                         SizedBox(
-                          width: Dimensions.width20,
+                          width: 20.sp,
                         ),
                       ],
                     ),
@@ -158,28 +154,31 @@ class LoginView extends GetView<AuthController> {
                       },
                     ),
                     SizedBox(
-                      height: Dimensions.screenHeight * 0.05,
+                      height: SizerUtil.height * 0.05,
                     ),
                     //tag line
                     RichText(
                       text: TextSpan(
                         text: 'Don\'t an account? ',
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: Dimensions.font20,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(color: fCL),
                         children: [
                           TextSpan(
                             recognizer: TapGestureRecognizer()
-                              ..onTap = () => Get.toNamed(Routes.REGISTER),
-                            text: 'Create',
-                            style: Theme.of(context).textTheme.titleLarge,
+                              ..onTap = () => AppNavigator.replaceWith(Routes.REGISTER),
+                            text: 'create',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(color: Colors.blue),
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: Dimensions.screenHeight * 0.05,
+                      height: SizerUtil.height * 0.05,
                     ),
                   ],
                 ),

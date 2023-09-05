@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../analytics/views/analtyics_view.dart';
-import '../../admin/views/products_view.dart';
+import '../../home_admin/views/home_admin_view.dart';
 import '../../order/views/order_view.dart';
 import '../../profile/views/profile_view.dart';
 
 class NavigatorAdminController extends GetxController {
   final List<Widget> _pages = [
-    const ProductsView(),
+    const HomeAdminView(),
     const AnalyticsView(),
     const OrderView(),
     const ProfileView(),

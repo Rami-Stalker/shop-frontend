@@ -130,7 +130,7 @@ class CartController extends GetxController implements GetxService {
   void addToCartHistoryList() {
     cartRepository.addToCartHistoryList();
     clear();
-    Get.toNamed(Routes.NAVIGATION);
+    AppNavigator.replaceWith(Routes.NAVIGATION);
     update();
   }
 

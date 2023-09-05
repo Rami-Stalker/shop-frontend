@@ -12,7 +12,6 @@ import 'package:flutter/widgets.dart';
 
 import '../../public/constants.dart';
 
-part 'dimensions.dart';
 part 'extension.dart';
 part 'util.dart';
 part 'widget.dart';

@@ -49,58 +49,33 @@ class _CheckoutViewState extends State<CheckoutView> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Check out",
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        leading: Container(
-          padding: EdgeInsets.all(8.sp),
-          child: InkWell(
-            onTap: () => Get.back(),
-            child: Container(
-              padding: EdgeInsets.all(5.sp),
-              decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
-              child: Icon(
-                Icons.arrow_back_ios,
-                size: 15.sp,
-                color: Get.isDarkMode ? mCL : colorBlack,
-              ),
-            ),
-          ),
-        ),
-        bottom: PreferredSize(
-          child: Divider(),
-          preferredSize: Size(
-            Dimensions.screenWidth,
-            20,
-          ),
-        ),
+      appBar: Components.customAppBar(
+        context,
+        "Check out",
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.width10,
-          vertical: Dimensions.height20,
-          ),
+          horizontal: 10.sp,
+          vertical: 20.sp,
+        ),
         child: Container(
-          height: Dimensions.screenHeight,
+          height: SizerUtil.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: Dimensions.height20,
+                height: 20.sp,
               ),
               Text(
                 'Shipping Address',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              SizedBox(height: Dimensions.height20),
+              SizedBox(height: 20.sp),
               GestureDetector(
-                onTap: () => Get.toNamed(Routes.UPDATE_PROFILE),
+                onTap: () => AppNavigator.push(Routes.UPDATE_PROFILE),
                 child: Container(
                   padding: EdgeInsets.all(
-                    Dimensions.width10,
+                    10.sp,
                   ),
                   decoration: AppDecoration.dots(context, 10.sp).decoration,
                   child: Row(
@@ -116,7 +91,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                           iconSize: 20.sp,
                         ),
                       ),
-                      SizedBox(width: Dimensions.width20),
+                      SizedBox(width: 20.sp),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -161,12 +136,12 @@ class _CheckoutViewState extends State<CheckoutView> {
                   ),
                 ),
               ),
-              SizedBox(height: Dimensions.height45),
+              SizedBox(height: 45.sp),
               Text(
                 'Payment Methods',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              SizedBox(height: Dimensions.height20),
+              SizedBox(height: 20.sp),
               RadioWidget(
                 image: Constants.PAYPAL_ASSET,
                 title: 'Paypal',
@@ -228,7 +203,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                   ),
                 ],
               ),
-              SizedBox(height: Dimensions.height20),
+              SizedBox(height: 20.sp),
             ],
           ),
         ),
@@ -237,53 +212,50 @@ class _CheckoutViewState extends State<CheckoutView> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            // height: 80.sp,
             padding: EdgeInsets.symmetric(
-              horizontal: Dimensions.width20,
-              vertical: Dimensions.height20,
+              horizontal: 20.sp,
+              vertical: 20.sp,
             ),
             decoration: AppDecoration.bottomNavigationBar(context).decoration,
-            child: GetBuilder<CheckoutController>(
-              builder: (checkoutController) {
-                return AppTextButton(
-                  txt: 'Apply',
-                  onTap: () {
-                    if (user.address != "" ||
-                                  user.phone.isNotEmpty) {
-                                if (_order == Ordered.cashOnDelivery) {
-                                  checkoutController.checkout(
-                                    productsId: productsId,
-                                    userQuants: userQuants,
-                                    totalPrice: cartController.totalAmount,
-                                    address: user.address,
-                                  );
-                                }  else if (_order == Ordered.paypal) {
-                                  PaypalService(
-                                    total: cartController.totalAmount,
-                                    items: [
-                                      {
-                                        "": "",
-                                      }
-                                    ],
-                                    onSuccess: (Map params) async {
-                                      checkoutController.checkout(
-                                        productsId: productsId,
-                                        userQuants: userQuants,
-                                        totalPrice: cartController.totalAmount,
-                                        address: user.address,
-                                      );
-                                    },
-                                  );
-                                }
-                              } else {
-                                Components.showSnackBar(
-                                  'Your Data is not completed',
-                                );
-                              }
-                  },
-                );
-              }
-            ),
+            child:
+                GetBuilder<CheckoutController>(builder: (checkoutController) {
+              return AppTextButton(
+                txt: 'Apply',
+                onTap: () {
+                  if (user.address != "" || user.phone.isNotEmpty) {
+                    if (_order == Ordered.cashOnDelivery) {
+                      checkoutController.checkout(
+                        productsId: productsId,
+                        userQuants: userQuants,
+                        totalPrice: cartController.totalAmount,
+                        address: user.address,
+                      );
+                    } else if (_order == Ordered.paypal) {
+                      PaypalService(
+                        total: cartController.totalAmount,
+                        items: [
+                          {
+                            "": "",
+                          }
+                        ],
+                        onSuccess: (Map params) async {
+                          checkoutController.checkout(
+                            productsId: productsId,
+                            userQuants: userQuants,
+                            totalPrice: cartController.totalAmount,
+                            address: user.address,
+                          );
+                        },
+                      );
+                    }
+                  } else {
+                    Components.showSnackBar(
+                      'Your Data is not completed',
+                    );
+                  }
+                },
+              );
+            }),
           ),
         ],
       ),

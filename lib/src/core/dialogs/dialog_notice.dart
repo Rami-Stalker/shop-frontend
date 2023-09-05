@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
 import '../../themes/app_colors.dart';
@@ -40,7 +39,7 @@ class DialogNotice extends StatelessWidget {
           Divider(),
           GestureDetector(
             onTap: () {
-              Get.back();
+              // AppNavigator.pop();
             },
             child: Container(
               color: Colors.transparent,

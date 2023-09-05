@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
 class NoDataPage extends StatelessWidget {
   final String text;
@@ -18,11 +19,11 @@ class NoDataPage extends StatelessWidget {
         Image.asset(
           imgPath,
           ),
-          SizedBox(height: MediaQuery.of(context).size.height*0.03,),
+          SizedBox(height: SizerUtil.height*0.03,),
           Text(
             text,
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height*0.0175,
+              fontSize: SizerUtil.height*0.0175,
               color: Theme.of(context).disabledColor,
             ),
             textAlign: TextAlign.center,

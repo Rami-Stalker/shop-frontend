@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:shop_app/src/resources/base_repository.dart';
 
+import '../../../models/user_model.dart';
 import '../../../public/api_gateway.dart';
 import 'package:dio/dio.dart' as diox;
 
@@ -13,8 +14,9 @@ class AuthRepository {
     required this.baseRepository,
   });
 
-  Future<diox.Response> register({
-    required String photo,
+  Future<UserModel?> register({
+    required String image,
+    required String blurHash,
     required String name,
     required String email,
     required String password,
@@ -22,16 +24,22 @@ class AuthRepository {
     String? token,
   }) async {
     var body = {
-      'photo': photo,
+      'image': image,
+      'blurHash': blurHash,
       'name': name.toLowerCase(),
       'email': email,
       'password': password,
       'phone': phone,
     };
-    return await baseRepository.postRoute(
-      ApiGateway.REGISTER,
-      body,
-    );
+    diox.Response response =
+        await baseRepository.postRoute(ApiGateway.REGISTER, body);
+
+        print(response.data);
+
+    if ([200, 201].contains(response.statusCode)) {
+      return UserModel.fromMap(response.data as Map<String, dynamic>);
+    }
+    return null;
   }
 
   Future<diox.Response> login(String email, String password,
@@ -88,6 +96,24 @@ class AuthRepository {
       token: token,
     );
   }
+
+  // Future<UserModel?> updateAvatar({
+  //   required String avatar,
+  //   required String blurHash,
+  // }) async {
+  //   var body = {
+  //     "blurHash": blurHash,
+  //     "image": avatar,
+  //   };
+  //   diox.Response response = await BaseRepository().patchRoute(
+  //     ApiGateway.UPDATE_AVATAR,
+  //     body: body,
+  //   );
+  //   if ([200, 201].contains(response.statusCode)) {
+  //     return UserModel.fromMap(response.data['data'] as Map<String, dynamic>);
+  //   }
+  //   return null;
+  // }
 
   // save user token fCM
   Future<diox.Response> saveUserTokenFCM(String tokenFCM) async {

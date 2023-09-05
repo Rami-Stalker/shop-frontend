@@ -28,10 +28,10 @@ class _RadioWidgetState extends State<RadioWidget> {
           decoration: AppDecoration.dots(context, 10.sp).decoration,
           child: ListTile(
             leading: SizedBox(
-              width: Dimensions.width30,
+              width: 30.sp,
               child: Image.asset(
                 widget.image,
-                height: Dimensions.height45,
+                height: 45.sp,
               ),
             ),
             title: Text(
@@ -41,7 +41,7 @@ class _RadioWidgetState extends State<RadioWidget> {
             trailing: widget.radio,
           ),
         ),
-        SizedBox(height: Dimensions.height10),
+        SizedBox(height: 10.sp),
       ],
     );
   }

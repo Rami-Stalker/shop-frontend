@@ -56,13 +56,13 @@ class CheckoutController extends GetxController implements GetxService {
             title: 'Order',
             color: colorPrimary,
           );
-          Get.toNamed(Routes.NAVIGATION);
+          AppNavigator.replaceWith(Routes.NAVIGATION);
           update();
         },
       );
       update();
     } catch (e) {
-      Components.showSnackBar(e.toString());
+      Components.showSnackBar(e.toString(), title: "Checkout Order");
     }
   }
 }

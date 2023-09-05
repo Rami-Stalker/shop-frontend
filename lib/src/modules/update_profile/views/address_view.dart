@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:shop_app/src/modules/update_profile/controllers/update_profile_controller.dart';
 
+import '../../../routes/app_pages.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
@@ -84,20 +85,20 @@ class _AddressViewState extends State<AddressView> {
               // ),
               Positioned(
                 top: 40.sp,
-                left: Dimensions.width20,
-                right: Dimensions.width20,
+                left: 20.sp,
+                right: 20.sp,
                 child: InkWell(
                   onTap: () {},
                   //_handlePressButton(),
                   // Get.dialog(AddressSearch(mapController: _mapController)),
                   child: Container(
                     padding:
-                        EdgeInsets.symmetric(horizontal: Dimensions.width10),
+                        EdgeInsets.symmetric(horizontal: 10.sp),
                     height: 40.sp,
                     decoration: BoxDecoration(
                       color: colorPrimary,
                       borderRadius:
-                          BorderRadius.circular(Dimensions.radius20 / 2),
+                          BorderRadius.circular(10.sp),
                     ),
                     child: GetBuilder<UpdateProfileController>(
                         builder: (addressCtrl) {
@@ -109,7 +110,7 @@ class _AddressViewState extends State<AddressView> {
                             color: colorMedium,
                           ),
                           SizedBox(
-                            width: Dimensions.width20,
+                            width: 20.sp
                           ),
                           Expanded(
                             child: Text(
@@ -121,7 +122,7 @@ class _AddressViewState extends State<AddressView> {
                               ),
                             ),
                           ),
-                          SizedBox(width: Dimensions.width10),
+                          SizedBox(width: 10.sp),
                           Icon(
                             Icons.search,
                             size: 20.sp,
@@ -135,15 +136,15 @@ class _AddressViewState extends State<AddressView> {
               ),
               Positioned(
                 bottom: 100.sp,
-                right: Dimensions.width20,
-                left: Dimensions.width20,
+                right: 20.sp,
+                left: 20.sp,
                 child: CustomButton(
                   buttomText: 'Pick address',
                   onPressed: addressCtrl.loading
                       ? null
                       : () {
                           if (_address.isNotEmpty) {
-                            Get.back();
+                            AppNavigator.pop();
                           }
                         },
                 ),

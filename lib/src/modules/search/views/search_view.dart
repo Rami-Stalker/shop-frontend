@@ -1,3 +1,4 @@
+import '../../../routes/app_pages.dart';
 import '../controllers/search_controller.dart';
 import '../widgets/search_widget.dart';
 import '../../../themes/app_colors.dart';
@@ -7,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/widgets/app_icon.dart';
-
 
 class SearchView extends GetView<SearchControlle> {
   const SearchView({
@@ -25,22 +25,24 @@ class SearchView extends GetView<SearchControlle> {
             width: double.maxFinite,
             height: 100.sp,
             padding: EdgeInsets.only(
-              top: Dimensions.height45,
-              left: Dimensions.width10,
-              right: Dimensions.width10,
+              top: 45.sp,
+              left: 10.sp,
+              right: 10.sp,
             ),
             child: Row(
               //mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(onTap: () => Get.back(), icon: Icons.arrow_back_ios, ),
-                SizedBox(width: Dimensions.width10),
+                AppIcon(
+                  onTap: () => AppNavigator.pop(),
+                  icon: Icons.arrow_back_ios,
+                ),
+                SizedBox(width: 10.sp),
                 GetBuilder<SearchControlle>(builder: (searchCtrl) {
                   return Expanded(
                     child: Container(
-                      // width: 330,
                       decoration: BoxDecoration(
                         color: mCL,
-                        borderRadius: BorderRadius.circular(Dimensions.radius15),
+                        borderRadius: BorderRadius.circular(15.sp),
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 3,
@@ -56,7 +58,7 @@ class SearchView extends GetView<SearchControlle> {
                           searchCtrl.changeSearchStatus(val);
                         },
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(Dimensions.height10),
+                          contentPadding: EdgeInsets.all(10.sp),
                           hintText: "Search Products ...",
                           focusColor: colorMedium,
                           prefixIcon: Icon(
@@ -64,16 +66,14 @@ class SearchView extends GetView<SearchControlle> {
                             color: colorMedium,
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.circular(Dimensions.radius15),
+                            borderRadius: BorderRadius.circular(15.sp),
                             borderSide: BorderSide(
                               width: 1.0,
                               color: mCL,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.circular(Dimensions.radius15),
+                            borderRadius: BorderRadius.circular(15.sp),
                             borderSide: BorderSide(
                               width: 1.0,
                               color: mCL,
@@ -102,7 +102,7 @@ class SearchView extends GetView<SearchControlle> {
                             itemCount: controller.products.length,
                             itemBuilder: (context, index) {
                               return SearchWidget(
-                                  product: controller.products[index],
+                                product: controller.products[index],
                               );
                             },
                           ),

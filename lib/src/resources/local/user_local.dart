@@ -6,6 +6,7 @@ class UserLocal {
   final _getStorage = GetStorage();
   final typeKey = 'type';
   final tokenKey = 'token';
+  final userIdKey = 'userId';
   final userKey = 'user-local';
 
   void saveUser(UserModel user) async {
@@ -26,6 +27,14 @@ class UserLocal {
 
   String getAccessToken() {
     return _getStorage.read(tokenKey) ?? '';
+  }
+
+  void saveUserId(String userId) async {
+    _getStorage.write(userIdKey, userId);
+  }
+
+  String getUserId() {
+    return _getStorage.read(userIdKey) ?? '';
   }
 
   void clearAccessToken() async {

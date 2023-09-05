@@ -4,7 +4,6 @@ import '../../../utils/sizer_custom/sizer.dart';
 
 import '../../../core/widgets/icon_text_widget.dart';
 
-
 class ProductDetailsHome extends StatelessWidget {
   final String name;
   final String category;
@@ -27,18 +26,14 @@ class ProductDetailsHome extends StatelessWidget {
           name,
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        SizedBox(
-          height: 5.sp,
-        ),
+        SizedBox(height: 5.sp),
         Row(
           children: [
             Text(
-          '\$${price.toString()}',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-            SizedBox(
-              width: 5.sp,
+              '\$${price.toString()}',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
+            SizedBox(width: 5.sp),
             oldPrice != 0
                 ? Text(
                     '\$${oldPrice.toString()}',
@@ -77,9 +72,7 @@ class ProductDetailsHome extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
-          height: 10.sp,
-        ),
+        SizedBox(height: 10.sp),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

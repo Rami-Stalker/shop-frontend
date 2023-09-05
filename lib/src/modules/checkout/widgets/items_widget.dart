@@ -29,7 +29,7 @@ class ItemsWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: Dimensions.height10),
+              SizedBox(height: 10.sp),
       ],
     );
   }

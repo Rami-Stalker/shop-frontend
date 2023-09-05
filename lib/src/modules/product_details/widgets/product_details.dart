@@ -23,22 +23,11 @@ class ProductDetailsWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         BigText(text: name),
-        // Text(
-        //   name,
-        //   overflow: TextOverflow.clip,
-        //   maxLines: 1,
-        //   style:
-        //       Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20.sp),
-        // ),
-        SizedBox(
-          height: 5.sp,
-        ),
+        SizedBox(height: 5.sp),
         Row(
           children: [
             BigText(text: '\$${price.toString()}'),
-            SizedBox(
-              width: 5.sp,
-            ),
+            SizedBox(width: 5.sp),
             oldPrice != 0
                 ? Text(
                     '\$${oldPrice.toString()}',
@@ -77,9 +66,7 @@ class ProductDetailsWidget extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
-          height: 10.sp,
-        ),
+        SizedBox(height: 10.sp),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -119,11 +106,9 @@ Row _iconAndTextWidget({
       Icon(
         icon,
         color: iconColor,
-        size: Dimensions.iconSize24,
+        size: 24.sp,
       ),
-      SizedBox(
-        width: 3.sp,
-      ),
+      SizedBox(width: 3.sp),
       SmallText(text: text),
     ],
   );

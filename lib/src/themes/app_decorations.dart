@@ -50,11 +50,6 @@ class AppDecoration {
               blurRadius: 5.0,
               offset: Offset(0, 3),
             ),
-            BoxShadow(
-              blurRadius: 1,
-              offset: const Offset(2, 0),
-              color: colorBlack.withOpacity(.4),
-            ),
           ],
         ),
       );
@@ -68,11 +63,6 @@ class AppDecoration {
               color: mCH,
               blurRadius: 5.0,
               offset: Offset(0, 3),
-            ),
-            BoxShadow(
-              blurRadius: 1,
-              offset: const Offset(2, 0),
-              color: mCH,
             ),
           ],
         ),
@@ -128,8 +118,12 @@ class AppDecoration {
     }
   }
 
-  factory AppDecoration.textfeild(context, radius,
-      {bool isLeft = false, bool isRight = false}) {
+  factory AppDecoration.textfeild(
+    context,
+    radius, {
+    bool isLeft = false,
+    bool isRight = false,
+  }) {
     if (Theme.of(context).brightness == Brightness.dark) {
       return AppDecoration(
         decoration: BoxDecoration(
@@ -158,7 +152,17 @@ class AppDecoration {
       return AppDecoration(
         decoration: BoxDecoration(
           color: mCL,
-          borderRadius: BorderRadius.circular(radius),
+          borderRadius: isLeft == false
+              ? isRight == true
+                  ? BorderRadius.only(
+                      topRight: Radius.circular(radius),
+                      bottomRight: Radius.circular(radius),
+                    )
+                  : BorderRadius.circular(radius)
+              : BorderRadius.only(
+                  topLeft: Radius.circular(radius),
+                  bottomLeft: Radius.circular(radius),
+                ),
           boxShadow: [
             BoxShadow(
               blurRadius: 1,
@@ -175,7 +179,10 @@ class AppDecoration {
     if (Theme.of(context).brightness == Brightness.dark) {
       return AppDecoration(
         decoration: BoxDecoration(
-          color: fCD,
+          border: Border.all(
+            color: fCL,
+            width: 1,
+          ),
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(
               radius,
@@ -223,8 +230,8 @@ class AppDecoration {
         decoration: BoxDecoration(
           color: fCD,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(Dimensions.radius45),
-            topRight: Radius.circular(Dimensions.radius45),
+            topLeft: Radius.circular(45.sp),
+            topRight: Radius.circular(45.sp),
           ),
         ),
       );
@@ -233,8 +240,8 @@ class AppDecoration {
         decoration: BoxDecoration(
           color: mCD,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(Dimensions.radius45),
-            topRight: Radius.circular(Dimensions.radius45),
+            topLeft: Radius.circular(45.sp),
+            topRight: Radius.circular(45.sp),
           ),
         ),
       );

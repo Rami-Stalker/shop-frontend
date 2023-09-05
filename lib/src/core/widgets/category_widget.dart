@@ -26,7 +26,7 @@ class CategoryWidget extends GetView<HomeController> {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                Get.toNamed(
+                AppNavigator.push(
                   Routes.CATEGORY,
                   arguments: Constants.categoryImages[index]['title']!,
                 );

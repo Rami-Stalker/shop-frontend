@@ -72,3 +72,16 @@ flutter:
     - assets/lottie/
     - assets/gpay.json
     - assets/applepay.json
+
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: assets/fonts/Lato-Regular.ttf
+
+    - family: Allison
+      fonts:
+        - asset: assets/fonts/Allison-Regular.ttf
+
+    - family: DancingScript
+      fonts:
+        - asset: assets/fonts/DancingScript.ttf

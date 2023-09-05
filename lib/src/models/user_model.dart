@@ -1,8 +1,12 @@
 import 'dart:convert';
 
+import '../config/application.dart';
+import '../public/constants.dart';
+
 class UserModel {
   final String id;
-  final String photo;
+  final String image;
+  final String blurHash;
   final String name;
   final String email;
   final String phone;
@@ -14,7 +18,8 @@ class UserModel {
 
   UserModel({
     required this.id,
-    required this.photo,
+    required this.image,
+    required this.blurHash,
     required this.name,
     required this.email,
     required this.phone,
@@ -28,7 +33,8 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'photo': photo,
+      'image': image,
+      'blurHash': blurHash,
       'name': name,
       'email': email,
       'phone': phone,
@@ -43,7 +49,14 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['_id'] ?? '',
-      photo: map['photo'] ?? '',
+      image: map['image'] == Constants.urlImageDefault ||
+              map['image'] == null ||
+              map['image'] == ''
+          ? Constants.urlImageDefault
+          : map['image'].toString().contains('http')
+              ? map['image']
+              : (Application.imageUrl + map['image']),
+      blurHash: map['blurHash'] ?? '',
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       phone: map['phone'] ?? '',
@@ -61,7 +74,8 @@ class UserModel {
 
   UserModel copyWith({
     String? id,
-    String? photo,
+    String? image,
+    String? blurHash,
     String? name,
     String? email,
     String? phone,
@@ -73,7 +87,8 @@ class UserModel {
   }) {
     return UserModel(
       id: id ?? this.id,
-      photo: photo ?? this.photo,
+      image: image ?? this.image,
+      blurHash: blurHash ?? this.blurHash,
       name: name ?? this.name,
       email: email ?? this.email,
       phone: phone ?? this.phone,

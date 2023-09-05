@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
 import '../../themes/app_colors.dart';
@@ -26,7 +25,7 @@ class _DialogConfirmState extends State<DialogConfirm> {
   Widget build(BuildContext context) {
     return Container(
       width: 300.sp,
-      height: widget.height ?? 180.sp,
+      height: widget.height == null ? 180.sp : widget.height,
       padding: EdgeInsets.symmetric(vertical: 16.sp),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -52,7 +51,7 @@ class _DialogConfirmState extends State<DialogConfirm> {
           Divider(),
           GestureDetector(
             onTap: () {
-              Get.back();
+              // AppNavigator.pop();
               widget.handleConfirm();
             },
             child: Container(
@@ -73,7 +72,7 @@ class _DialogConfirmState extends State<DialogConfirm> {
           Divider(color: Colors.grey),
           GestureDetector(
             onTap: () {
-              Get.back();
+              // AppNavigator.pop();
             },
             child: Container(
               color: Colors.transparent,

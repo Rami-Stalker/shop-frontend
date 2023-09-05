@@ -29,12 +29,13 @@ class UserRepository {
       "phone": phone,
     };
 
-    Response response = await BaseRepository().patchRoute(ApiGateway.USER, body: body);
+    Response response =
+        await BaseRepository().patchRoute(ApiGateway.USER, body: body);
 
     print(response.data);
 
     if ([200, 201].contains(response.statusCode)) {
-      return UserModel.fromMap(response.data['data'] as Map<String, dynamic>);
+      return UserModel.fromMap(response.data as Map<String, dynamic>);
     }
     return null;
   }
@@ -47,19 +48,19 @@ class UserRepository {
       "blurHash": blurHash,
       "image": avatar,
     };
-    Response response = await BaseRepository().patchRoute(ApiGateway.UPDATE_AVATAR, body: body);
-    print(response.statusCode);
-    print(response.data.toString());
+    Response response = await BaseRepository().patchRoute(
+      ApiGateway.UPDATE_AVATAR,
+      body: body,
+    );
     if ([200, 201].contains(response.statusCode)) {
-      return UserModel.fromMap(response.data['data'] as Map<String, dynamic>);
+      return UserModel.fromMap(response.data as Map<String, dynamic>);
     }
     return null;
   }
 
   Future<bool> deleteAccount() async {
-    Response response = await BaseRepository().deleteRoute(ApiGateway.DELETE_ACCOUNT);
-    print(response.statusCode);
-    print(response.data.toString());
+    Response response =
+        await BaseRepository().deleteRoute(ApiGateway.DELETE_ACCOUNT);
     if (response.statusCode == 200) {
       return true;
     }

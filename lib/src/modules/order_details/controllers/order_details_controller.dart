@@ -58,7 +58,7 @@ class OrderDetailsController extends GetxController {
       Constants.handleApi(
         response: response,
         onSuccess: () {
-          Get.toNamed(Routes.NAVIGATION);
+          AppNavigator.replaceWith(Routes.NAVIGATION);
           update();
         },
       );

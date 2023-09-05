@@ -14,8 +14,8 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: 100.h,
-        width: 100.w,
+        height: 100.sp,
+        width: 100.sp,
         child: Column(
           children: [
             Expanded(
@@ -24,8 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 100.w,
-                    height: 100.w,
+                    height: 100.sp,
+                    width: 100.sp,
                     child: Constants().splashLottie,
                   ),
                   SizedBox(height: 16.sp),

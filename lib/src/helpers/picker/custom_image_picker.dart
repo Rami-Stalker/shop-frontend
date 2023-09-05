@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
+
+import '../../routes/app_pages.dart';
 
 class CustomImagePicker {
   final _picker = ImagePicker();
@@ -17,7 +18,7 @@ class CustomImagePicker {
           source: source,
           maxWidthImage: 600,
         );
-        Get.back();
+        AppNavigator.pop();
         if (image != null && handleFinish != null) {
           handleFinish(File(image.path));
         }

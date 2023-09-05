@@ -26,7 +26,7 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: AppDecoration.textfeild(context, Dimensions.radius15).decoration,
+      decoration: AppDecoration.textfeild(context, 10.sp).decoration,
       child: TextField(
         maxLines: maxLines,
         minLines: 1,

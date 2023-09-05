@@ -1,3 +1,4 @@
+import '../../../controller/app_controller.dart';
 import '../../../core/widgets/product_widget.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
@@ -30,7 +31,7 @@ class CatigoryView extends GetView<CategoryController> {
         leading: Container(
           padding: EdgeInsets.all(8.sp),
           child: AppIcon(
-            onTap: () => Get.back(),
+            onTap: () => AppNavigator.pop(),
             icon: Icons.arrow_back_ios,
             backgroundColor: colorMedium,
           ),
@@ -51,13 +52,23 @@ class CatigoryView extends GetView<CategoryController> {
                           var product = controller.productCategory![index];
                           return ProductWidget(
                             onTap: () {
-                              Get.toNamed(
-                                Routes.PRODUCT_DETAILS_RATING,
-                                arguments: {
-                                  'product': product,
-                                  'ratings': product.rating,
-                                },
-                              );
+                              if (AppGet.authGet.userModel!.type == 'admin') {
+                    AppNavigator.push(
+                      Routes.PRODUCT_EDIT,
+                      arguments: {
+                        'product': product,
+                        'ratings': product.rating,
+                      },
+                    );
+                  } else {
+                    AppNavigator.push(
+                      Routes.PRODUCT_DETAILS_RATING,
+                      arguments: {
+                        'product': product,
+                        'ratings': product.rating,
+                      },
+                    );
+                  }
                             },
                             product: product,
                             index: index,

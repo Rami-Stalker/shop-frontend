@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/public/components.dart';
 
 import '../../models/product_model.dart';
 import '../../utils/sizer_custom/sizer.dart';
@@ -32,8 +33,8 @@ class ProductWidget extends StatelessWidget {
       onTap: onTap,
       child: Container(
         margin: EdgeInsets.symmetric(
-          horizontal: Dimensions.width10,
-          vertical: 3.sp,
+          horizontal: 5.sp,
+          vertical: 5.sp,
         ),
         child: Row(
           children: [
@@ -42,7 +43,7 @@ class ProductWidget extends StatelessWidget {
               height: 100.sp,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
-                  Dimensions.radius15,
+                  15.sp,
                 ),
                 color: index.isEven
                     ? const Color(0xFF69c5df)
@@ -57,93 +58,49 @@ class ProductWidget extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: Dimensions.height10,
-                ),
+                padding: EdgeInsets.all(5.sp),
                 decoration: AppDecoration.product(
                   context,
-                  Dimensions.radius15,
+                  15.sp,
                 ).decoration,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 5.sp,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            product.name,
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          Spacer(),
-                          avgRating != 0.0
-                              ? Container(
-                                  padding: EdgeInsets.all(
-                                    5.sp,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: colorStar,
-                                    borderRadius: BorderRadius.circular(
-                                      Dimensions.radius15,
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color: colorBlack,
-                                        size: 20,
-                                      ),
-                                      Text(
-                                        avgRating.toString(),
-                                        style: TextStyle(
-                                          color: colorBlack,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              : Container(),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5.sp,
-                      ),
-                      Text(
-                        product.description,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      SizedBox(
-                        height: 5.sp,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconAndTextWidget(
-                            icon: Icons.circle_sharp,
-                            text: 'Normal',
-                            iconColor: colorMedium,
-                          ),
-                          IconAndTextWidget(
-                            icon: Icons.location_on,
-                            text: '1.7KM',
-                            iconColor: colorPrimary,
-                          ),
-                          IconAndTextWidget(
-                            icon: Icons.access_time_rounded,
-                            text: '23min',
-                            iconColor: colorHigh,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          product.name,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        Spacer(),
+                        avgRating != 0.0
+                            ? Components.customRating(avgRating.toString())
+                            : Container(),
+                      ],
+                    ),
+                    Text(
+                      product.description,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    SizedBox(height: 5.sp),
+                    Row(
+                      children: [
+                        IconAndTextWidget(
+                          icon: Icons.location_on,
+                          text: '1.7KM',
+                          iconColor: colorPrimary,
+                        ),
+                        SizedBox(width: 10.sp),
+                        IconAndTextWidget(
+                          icon: Icons.access_time_rounded,
+                          text: '23min',
+                          iconColor: colorHigh,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),

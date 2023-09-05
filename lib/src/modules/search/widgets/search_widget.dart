@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
+import '../../../public/components.dart';
 import '../controllers/search_controller.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
@@ -33,15 +34,15 @@ class SearchWidget extends GetView<SearchController> {
           builder: (cont) => GestureDetector(
                 onTap: () {
                   if (AppGet.authGet.userModel!.type == 'admin') {
-                    Get.toNamed(
-                      Routes.EDIT_PRODUCT,
+                    AppNavigator.push(
+                      Routes.PRODUCT_EDIT,
                       arguments: {
                         'product': product,
                         'ratings': product.rating,
                       },
                     );
                   } else {
-                    Get.toNamed(
+                    AppNavigator.push(
                       Routes.PRODUCT_DETAILS_RATING,
                       arguments: {
                         'product': product,
@@ -68,9 +69,7 @@ class SearchWidget extends GetView<SearchController> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: Dimensions.width10,
-                      ),
+                      SizedBox(width: 10.sp),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +81,7 @@ class SearchWidget extends GetView<SearchController> {
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             SizedBox(
-                              height: Dimensions.height10,
+                              height: 10.sp,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,10 +90,9 @@ class SearchWidget extends GetView<SearchController> {
                                   '\$ ${product.price.toString()}',
                                   style: Theme.of(context).textTheme.titleLarge,
                                 ),
-
                               ],
                             ),
-                            SizedBox(height: Dimensions.height20),
+                            SizedBox(height: 20.sp),
                             Text(
                               'Eligible for FREE Shipping',
                               style: Theme.of(context).textTheme.titleMedium,
@@ -103,22 +101,16 @@ class SearchWidget extends GetView<SearchController> {
                         ),
                       ),
                       avgRating != 0.0
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: colorStar,
-                                    size: 20,
-                                  ),
-                                  Text(
-                                    avgRating.toString(),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : Container(),
+                      ? Padding(
+                          padding: EdgeInsets.only(
+                            right: 5.sp,
+                            top: 5.sp,
+                          ),
+                          child: Components.customRating(
+                      avgRating.toString(),
+                    ),
+                        )
+                      : Container(),
                     ],
                   ),
                 ),

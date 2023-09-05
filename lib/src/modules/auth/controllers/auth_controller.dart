@@ -1,15 +1,16 @@
 import 'dart:io';
-import 'dart:math';
 
-import 'package:cloudinary_public/cloudinary_public.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as diox;
 import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/models/user_model.dart';
+import 'package:shop_app/src/resources/remote/user_repository.dart';
 import 'package:shop_app/src/routes/app_pages.dart';
+import '../../../models/upload_response_model.dart';
 import '../../../resources/local/user_local.dart';
+import '../../../resources/remote/upload_repository.dart';
+import '../../../routess/app_routes.dart';
 import '../repositories/auth_repository.dart';
 
 import '../../../public/components.dart';
@@ -49,12 +50,12 @@ class AuthController extends GetxController implements GetxService {
         onSuccess: () {},
       );
     } catch (e) {
-      Components.showSnackBar(e.toString());
+      Components.showSnackBar(e.toString(), title: "OTP");
     }
   }
 
   void register({
-    required File? photo,
+    required File? avatar,
     required String name,
     required String email,
     required String password,
@@ -65,44 +66,34 @@ class AuthController extends GetxController implements GetxService {
     try {
       _isLoading = true;
       update();
-      String photoCloud = '';
-      if (photo != null) {
-        final cloudinary = CloudinaryPublic('dvn9z2jmy', 'qle4ipae');
-        int random = Random().nextInt(1000);
+      if (avatar != null) {
+        UploadResponseModel? response =
+            await UploadRepository().uploadSingleFile(file: avatar);
 
-        CloudinaryResponse res = await cloudinary.uploadFile(
-          CloudinaryFile.fromFile(
-            photo.path,
-            folder: "$name $random",
-          ),
-        );
-        photoCloud = res.secureUrl;
-      } else {
-        photoCloud =
-            "https://asota.umobile.edu/wp-content/uploads/2021/08/Person-icon.jpeg";
+        if (response != null) {
+          UserModel? user = await authRepository.register(
+            image: response.image,
+            blurHash: response.blurHash,
+            name: name,
+            email: email,
+            password: password,
+            phone: phoneNumber,
+          );
+          if (user != null) {
+            userModel = user;
+            UserLocal().saveAccessToken(user.token);
+            UserLocal().saveUserType(user.type);
+            UserLocal().saveUserId(user.id);
+            AppNavigator.push(Routes.NAVIGATION);
+          }
+        }
       }
-      diox.Response response = await authRepository.register(
-        photo: photoCloud,
-        name: name,
-        email: email,
-        password: password,
-        phone: phoneNumber,
-      );
-
-      Constants.handleApi(
-        response: response,
-        onSuccess: () {
-          userModel = UserModel.fromMap(response.data as Map<String, dynamic>);
-          UserLocal().saveAccessToken(response.data['token']);
-          UserLocal().saveUserType(response.data['type']);
-        },
-      );
       _isLoading = false;
       update();
     } catch (e) {
       _isLoading = false;
       update();
-      Components.showSnackBar(e.toString(), title: "catch");
+      Components.showSnackBar(e.toString(), title: "Register");
     }
   }
 
@@ -119,9 +110,10 @@ class AuthController extends GetxController implements GetxService {
         response: response,
         onSuccess: () {
           userModel = UserModel.fromMap(response.data as Map<String, dynamic>);
+          UserLocal().saveUserId(response.data['_id']);
           UserLocal().saveAccessToken(response.data['token']);
           UserLocal().saveUserType(response.data['type']);
-          Get.toNamed(Routes.NAVIGATION);
+          AppNavigator.replaceWith(Routes.NAVIGATION);
         },
       );
       _isLoading = false;
@@ -129,7 +121,7 @@ class AuthController extends GetxController implements GetxService {
     } catch (e) {
       _isLoading = false;
       update();
-      Components.showSnackBar(e.toString(), title: "catch");
+      Components.showSnackBar(e.toString(), title: "Login");
     }
   }
 
@@ -157,7 +149,29 @@ class AuthController extends GetxController implements GetxService {
       );
       update();
     } catch (e) {
-      Components.showSnackBar(e.toString());
+      Components.showSnackBar(e.toString(), title: "Get Info User");
+    }
+  }
+
+  Future<void> updateAvatar({
+    required File avatar,
+  }) async {
+    try {
+      UploadResponseModel? response =
+          await UploadRepository().uploadSingleFile(file: avatar);
+      if (response != null) {
+        UserModel? user = await UserRepository().updateAvatar(
+          avatar: response.image,
+          blurHash: response.blurHash,
+        );
+        if (user != null) {
+          userModel = user;
+        }
+      }
+      AppNavigator.pop();
+      update();
+    } catch (e) {
+      Components.showSnackBar(e.toString(), title: "upload image");
     }
   }
 
@@ -169,13 +183,24 @@ class AuthController extends GetxController implements GetxService {
     return UserLocal().getAccessToken() != '';
   }
 
-  Future<bool> logOut() async {
-    AppGet.CartGet..clear()..clearCartHistory();
-    await FirebaseMessaging.instance.deleteToken();
-    await authRepository.logOut();
-    Get.toNamed(Routes.NAVIGATION);
-    update();
-    return true;
+  Future<void> logOut() async {
+    try {
+      AppGet.CartGet
+        ..clear()
+        ..clearCartHistory();
+      // await FirebaseMessaging.instance.deleteToken();
+      await authRepository.logOut();
+      AppNavigator.push(Routes.NAVIGATION);
+      update();
+    } catch (e) {
+      Components.showSnackBar(e.toString());
+    }
+  }
+
+  Future<void> deleteAccount() async {
+    await UserRepository().deleteAccount();
+    AppNavigator.popUntil(AppRoutes.ROOT);
+    logOut();
   }
 
   void saveUserTokenFCM(String tokenFCM) async {

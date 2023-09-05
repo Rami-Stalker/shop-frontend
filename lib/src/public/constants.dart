@@ -14,6 +14,8 @@ class Constants {
   // Assets
   LottieBuilder splashLottie = Lottie.asset('assets/lottie/splash.json');
   LottieBuilder loadingLottie = Lottie.asset('assets/lottie/cat_sleeping.json');
+  LottieBuilder loginLottie = Lottie.asset('assets/lottie/login.json');
+  static const urlImageDefault = 'https://i.postimg.cc/Dfsg6VYJ/Hi-School.png';
   static const IMG_PATH = 'assets/images';
   static const PERSON_ASSET = "$IMG_PATH/person.jpg";
   static const MOBILES_ASSET = '$IMG_PATH/mobiles.png';

@@ -28,6 +28,7 @@ class App extends StatelessWidget {
             onDispose: () {
               AppGet.dispose();
             },
+            navigatorKey: AppNavigator.navigatorKey,
             debugShowCheckedModeBanner: false,
             locale: AppLanguage.defaultLanguage,
             supportedLocales: AppLanguage.supportLanguage,
@@ -39,8 +40,8 @@ class App extends StatelessWidget {
             themeMode: ThemeService().theme,
             theme: AppTheme.light().data,
             darkTheme: AppTheme.dark().data,
-            initialRoute: AppPages.INITIAL,
-            getPages: AppPages.routes,
+            initialRoute: AppNavigator.INITIAL,
+            getPages: AppNavigator.routes,
           ),
         );
       },

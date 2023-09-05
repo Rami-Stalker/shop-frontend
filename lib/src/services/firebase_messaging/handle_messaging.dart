@@ -71,7 +71,7 @@ handleReceiveNotification() async {
 
 handleTouchOnNotification(RemoteMessage? message) {
   if (message != null) {
-    Get.toNamed(Routes.NOTIFICATION);
+    AppNavigator.push(Routes.NOTIFICATION);
     // AppBloc.doExamBloc.add(JoinQuizEvent(roomId: message.data['idRoom'].toString()));
   }
 }

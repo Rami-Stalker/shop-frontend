@@ -19,7 +19,6 @@ class CartHistoryView extends GetView<CartController> {
 
   @override
   Widget build(BuildContext context) {
-
     List<CartModel> cartHistoryList =
         AppGet.CartGet.getCartHistoryList().reversed.toList();
 
@@ -77,7 +76,7 @@ class CartHistoryView extends GetView<CartController> {
           Container(
             padding: EdgeInsets.all(6.sp),
             child: AppIcon(
-              onTap: () => Get.toNamed(Routes.CART),
+              onTap: () => AppNavigator.push(Routes.CART),
               icon: Icons.shopping_cart_outlined,
               iconColor: Get.isDarkMode ? colorPrimary : colorBlack,
               backgroundColor: colorMedium,
@@ -88,8 +87,8 @@ class CartHistoryView extends GetView<CartController> {
       body: controller.getCartHistoryList().isNotEmpty
           ? Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: Dimensions.width10,
-                vertical: Dimensions.height20,
+                horizontal: 10.sp,
+                vertical: 20.sp,
               ),
               child: ListView(
                 physics: const BouncingScrollPhysics(),
@@ -97,12 +96,12 @@ class CartHistoryView extends GetView<CartController> {
                   for (int i = 0; i < itemsVal.length; i++)
                     Container(
                       height: 100.sp,
-                      margin: EdgeInsets.only(bottom: Dimensions.height20),
+                      margin: EdgeInsets.only(bottom: 20.sp),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _timeWidget(listCounter),
-                          SizedBox(height: Dimensions.height10),
+                          SizedBox(height: 10.sp),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -151,9 +150,7 @@ class CartHistoryView extends GetView<CartController> {
                                               .textTheme
                                               .bodyMedium,
                                         ),
-                                        SizedBox(
-                                          width: Dimensions.width10,
-                                        ),
+                                        SizedBox(width: 10.sp),
                                         Text(
                                           '\$${price.toString()}',
                                           style: Theme.of(context)
@@ -188,11 +185,11 @@ class CartHistoryView extends GetView<CartController> {
                                         }
                                         AppGet.CartGet.setItems = moreOrder;
                                         AppGet.CartGet.addToCartList();
-                                        Get.toNamed(Routes.CART);
+                                        AppNavigator.push(Routes.CART);
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
-                                          horizontal: Dimensions.width10,
+                                          horizontal: 10.sp,
                                           vertical: 5.sp,
                                         ),
                                         decoration: BoxDecoration(
@@ -224,11 +221,10 @@ class CartHistoryView extends GetView<CartController> {
                 ],
               ),
             )
-          : 
-          NoDataPage(
-            text: 'Your cart history is empty',
-            imgPath: Constants.EMPTY_ASSET,
-          ),
+          : NoDataPage(
+              text: 'Your cart history is empty',
+              imgPath: Constants.EMPTY_ASSET,
+            ),
     );
   }
 }

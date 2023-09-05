@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
 import '../../themes/app_colors.dart';
 
@@ -19,7 +20,7 @@ class NetworkError extends StatelessWidget {
           Image.asset(
             "assets/images/cloud_state.png",
             package: "flutter_paypal",
-            height: 120,
+            height: 120.sp,
           ),
           SizedBox(
             height: isSmall ? 20 : 40,
@@ -33,7 +34,7 @@ class NetworkError extends StatelessWidget {
                       color: Color(0xFF272727),
                       fontWeight: FontWeight.w400)),
               SizedBox(
-                width: 5,
+                width: 5.sp,
               ),
               InkWell(
                 onTap: () => loadData(),

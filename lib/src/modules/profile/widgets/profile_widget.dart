@@ -20,16 +20,16 @@ class AccountWidget extends StatelessWidget {
       onTap: onTap,
       child: Container(
         margin: EdgeInsets.all(
-          Dimensions.width10,
+          5.sp,
         ),
         padding: EdgeInsets.all(
-          Dimensions.width10,
+          5.sp,
         ),
         decoration: AppDecoration.textfeild(context, 5.sp).decoration,
         child: Row(
           children: [
             appIcon,
-            SizedBox(width: Dimensions.width20),
+            SizedBox(width: 15.sp),
             Expanded(
                 child:
                     Text(text, style: Theme.of(context).textTheme.titleLarge, overflow: TextOverflow.ellipsis, maxLines: 2)),

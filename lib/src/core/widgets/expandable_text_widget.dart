@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../themes/app_colors.dart';
 
-import '../../utils/sizer_custom/sizer.dart';
 
 class ExpandableTextWidget extends StatefulWidget {
   final String text;
@@ -19,7 +19,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
   late String secondHalf;
 
   bool hiddenText = true;
-  double textHeight = Dimensions.screenHeight / 6.63;
+  double textHeight = Get.height / 6.63;
 
   @override
   void initState() {

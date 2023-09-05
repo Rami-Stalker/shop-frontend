@@ -1,9 +1,11 @@
 import 'dart:io';
 
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
+import '../../../controller/app_controller.dart';
+import '../../../core/dialogs/dialog_loading.dart';
 import '../../../public/constants.dart';
 import '../../../themes/app_colors.dart';
+import '../../../utils/blurhash.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 import '../../../helpers/picker/custom_image_picker.dart';
@@ -54,7 +56,7 @@ class _RegisterViewState extends State<RegisterView> {
       context: context,
       showPhoneCode: true,
       countryListTheme: CountryListThemeData(
-        bottomSheetHeight: MediaQuery.of(context).size.height - 300,
+        bottomSheetHeight: SizerUtil.height - 300,
       ),
       onSelect: (Country _country) {
         setState(() {
@@ -153,7 +155,7 @@ class _RegisterViewState extends State<RegisterView> {
       );
     } else {
       authController.register(
-        photo: _image,
+        avatar: _image,
         name: name,
         email: email,
         password: password,
@@ -173,55 +175,98 @@ class _RegisterViewState extends State<RegisterView> {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: Dimensions.screenHeight * 0.05,
-                    ),
+                    SizedBox(height: 30.sp),
                     //app logo
                     SizedBox(
-                      height: 120.sp,
-                      width: Dimensions.screenWidth,
-                      child: GestureDetector(
-                        onTap: () {
-                          CustomImagePicker().openImagePicker(
-                            context: context,
-                            handleFinish: (File image) async {
-                              setState(() {
-                                _image = image;
-                              });
-                            },
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: colorPrimary,
-                              width: 1.5.sp,
-                            ),
-                            // borderRadius: BorderRadius.circular(6.sp),
-                            image: _image != null
-                                ? DecorationImage(
-                                    image: FileImage(_image!),
-                                    fit: BoxFit.fill,
-                                  )
-                                : DecorationImage(
-                                    image: AssetImage(Constants.PERSON_ASSET),
-                                    fit: BoxFit.contain,
-                                  ),
-                          ),
-                          alignment: Alignment.center,
-                          child: Icon(
-                            PhosphorIcons.plusCircle,
+                        height: 120.sp,
+                        width: SizerUtil.height,
+                        child: GestureDetector(
+                  onTap: () {
+                    CustomImagePicker().openImagePicker(
+                      context: context,
+                      handleFinish: (File image) async {
+                        showDialogLoading(context);
+                        AppGet.authGet.updateAvatar(avatar: image);
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: 100.w,
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 105.sp,
+                      width: 105.sp,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: colorPrimary,
+                          width: 3.sp,
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 95.sp,
+                        width: 95.sp,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(1000.sp),
+                          child: BlurHash(
+                            hash: '',
+                            image: Constants.urlImageDefault,
+                            imageFit: BoxFit.cover,
                             color: colorPrimary,
-                            size: 30.sp,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: Dimensions.height30),
+                  ),
+                ),
+              ),
+                    // SizedBox(
+                    //   height: 120.sp,
+                    //   child: GestureDetector(
+                    //     onTap: () {
+                    //       CustomImagePicker().openImagePicker(
+                    //         context: context,
+                    //         handleFinish: (File image) async {
+                    //           setState(() {
+                    //             _image = image;
+                    //           });
+                    //         },
+                    //       );
+                    //     },
+                    //     child: Container(
+                    //       decoration: BoxDecoration(
+                    //         shape: BoxShape.circle,
+                    //         border: Border.all(
+                    //           color: colorPrimary,
+                    //           width: 1.5.sp,
+                    //         ),
+                    //         // borderRadius: BorderRadius.circular(6.sp),
+                    //         image: _image != null
+                    //             ? DecorationImage(
+                    //                 image: FileImage(_image!),
+                    //                 fit: BoxFit.fill,
+                    //               )
+                    //             : DecorationImage(
+                    //                 image: AssetImage(Constants.PERSON_ASSET),
+                    //                 fit: BoxFit.contain,
+                    //               ),
+                    //       ),
+                    //       alignment: Alignment.center,
+                    //       child: Icon(
+                    //         PhosphorIcons.plusCircle,
+                    //         color: colorPrimary,
+                    //         size: 30.sp,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    SizedBox(height: 30.sp),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: Dimensions.width20),
+                      padding: EdgeInsets.symmetric(horizontal: 20.sp),
                       child: Column(
                         children: [
                           //name
@@ -230,9 +275,7 @@ class _RegisterViewState extends State<RegisterView> {
                             hintText: 'name',
                             icon: Icons.person,
                           ),
-                          SizedBox(
-                            height: Dimensions.height20,
-                          ),
+                          SizedBox(height: 10.sp),
                           //email
                           AppTextField(
                             keyboardType: TextInputType.emailAddress,
@@ -240,9 +283,8 @@ class _RegisterViewState extends State<RegisterView> {
                             hintText: 'email',
                             icon: Icons.email,
                           ),
-                          SizedBox(
-                            height: Dimensions.height20,
-                          ),
+                          SizedBox(height: 10.sp),
+
                           //password
                           GetBuilder<AuthController>(builder: (authController) {
                             return AppTextField(
@@ -263,9 +305,8 @@ class _RegisterViewState extends State<RegisterView> {
                               ),
                             );
                           }),
-                          SizedBox(
-                            height: Dimensions.height20,
-                          ),
+                          SizedBox(height: 10.sp),
+
                           //phone
                           Row(
                             children: [
@@ -319,9 +360,8 @@ class _RegisterViewState extends State<RegisterView> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: Dimensions.height20,
-                          ),
+                          SizedBox(height: 10.sp),
+
                           //verify phone number
                           Row(
                             children: [
@@ -362,7 +402,7 @@ class _RegisterViewState extends State<RegisterView> {
                                     decoration: InputDecoration(
                                       prefixIcon: Padding(
                                         padding: EdgeInsets.only(
-                                          left: Dimensions.width30,
+                                          left: 15.sp,
                                         ),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
@@ -377,14 +417,12 @@ class _RegisterViewState extends State<RegisterView> {
                                                             : Colors.red,
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: isOnData
-                                                            ? 13.sp
-                                                            : Dimensions.font16,
+                                                        fontSize: 13.sp,
                                                       ),
                                                     ),
                                                   )
                                                 : Container(),
-                                            SizedBox(width: Dimensions.width10),
+                                            SizedBox(width: 10.sp),
                                             isOnData
                                                 ? Text(
                                                     "$_current s",
@@ -412,46 +450,48 @@ class _RegisterViewState extends State<RegisterView> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: Dimensions.height20,
-                    ),
+                    SizedBox(height: 20.sp),
+
                     AppTextButton(
                       txt: 'register',
                       onTap: () => _registration(authController),
                     ),
 
                     SizedBox(
-                      height: Dimensions.height10,
+                      height: 10.sp,
                     ),
                     //tag line
                     RichText(
                       text: TextSpan(
-                        text: 'Have an account already? ',
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: Dimensions.font20,
-                        ),
+                        text: 'Have an account already ',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(color: fCL),
                         children: [
                           TextSpan(
                             recognizer: TapGestureRecognizer()
-                              ..onTap = () => Get.toNamed(Routes.LOGIN),
-                            text: 'Login',
-                            style: Theme.of(context).textTheme.titleLarge,
+                              ..onTap = () => AppNavigator.replaceWith(Routes.LOGIN),
+                            text: 'login',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(color: Colors.blue),
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: Dimensions.screenHeight * 0.05,
+                      height: SizerUtil.height * 0.05,
                     ),
                     //sign up options
                     RichText(
                       text: TextSpan(
                         text: 'Sign up using one of the following methods',
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: Dimensions.font16,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(color: fCL),
                       ),
                     ),
                   ],
@@ -462,12 +502,15 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  Container _containerWidget(
-      {required bool isRight, required bool isLeft, required Widget child}) {
+  Container _containerWidget({
+    required bool isRight,
+    required bool isLeft,
+    required Widget child,
+  }) {
     return Container(
       decoration: AppDecoration.textfeild(
         context,
-        Dimensions.radius15,
+        10.sp,
         isLeft: isLeft,
         isRight: isRight,
       ).decoration,

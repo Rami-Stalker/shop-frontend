@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shop_app/src/modules/notification/repositories/notification_repository.dart';
 import 'package:shop_app/src/resources/base_repository.dart';
 import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
 
 import '../core/network/network_info.dart';
-import '../modules/add_product/controllers/add_product_controller.dart';
-import '../modules/admin/controllers/admin_controller.dart';
-import '../modules/admin/repositories/admin_repository.dart';
+import '../modules/product_add/controllers/product_add_controller.dart';
+import '../modules/home_admin/controllers/home_admin_controller.dart';
+import '../modules/home_admin/repositories/home_admin_repository.dart';
 import '../modules/analytics/controllers/analytics_controller.dart';
 import '../modules/analytics/repositories/analytics_repository.dart';
 import '../modules/auth/repositories/auth_repository.dart';
@@ -14,7 +15,7 @@ import '../modules/cart/controllers/cart_controller.dart';
 import '../modules/cart/repositories/cart_repository.dart';
 import '../modules/category/controllers/category_controller.dart';
 import '../modules/checkout/controllers/checkout_controller.dart';
-import '../modules/edit_product/controllers/edit_product_controller.dart';
+import '../modules/product_edit/controllers/product_edit_controller.dart';
 import '../modules/home/controllers/home_controller.dart';
 import '../modules/home/repositories/home_repository.dart';
 import '../modules/notification/controllers/notification_controller.dart';
@@ -34,8 +35,8 @@ class AppGet {
   static final homeGet = Get.find<HomeController>();
   static final categoryGet = Get.find<CategoryController>();
   static final adminGet = Get.find<AdminController>();
-  static final addProductGet = Get.find<AddProductController>();
-  static final editProduct = Get.find<EditProductController>();
+  static final addProductGet = Get.find<ProductAddController>();
+  static final editProduct = Get.find<ProductEditController>();
   static final analyticsGet = Get.find<AnalyticsController>();
   static final productDetailsGet = Get.find<ProductDetailsController>();
   static final CartGet = Get.find<CartController>();
@@ -55,6 +56,7 @@ class AppGet {
     Get.lazyPut(() => InternetConnectionChecker());
 
     //repos
+    Get.lazyPut(() => NotificationRepository(baseRepository: Get.find()));
     Get.lazyPut(() => AuthRepository(baseRepository: Get.find()));
     Get.lazyPut(() => HomeRepository(baseRepository: Get.find()));
     Get.lazyPut(() => OrderRepository(baseRepository: Get.find()));
@@ -63,6 +65,7 @@ class AppGet {
     Get.lazyPut(() => AnalyticsRepository(baseRepository: Get.find()));
 
     //controllers
+    Get.lazyPut(() => NotificationController(notificationRepository: Get.find()));
     Get.lazyPut(() => ThemeController());
     Get.lazyPut(() => AuthController(authRepository: Get.find()));
     Get.lazyPut(() =>

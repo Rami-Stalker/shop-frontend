@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class RatingModel {
   final String userId;
-  final double rating;
+  double rating;
   RatingModel({
     required this.userId,
     required this.rating,

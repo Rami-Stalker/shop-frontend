@@ -1,5 +1,6 @@
 import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/models/user_model.dart';
+import 'package:shop_app/src/public/components.dart';
 
 import '../../../core/widgets/app_text_button.dart';
 import '../controllers/order_details_controller.dart';
@@ -10,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/order_model.dart';
-import '../../../themes/app_colors.dart';
 import '../../../themes/app_decorations.dart';
 
 class OrderDetailsView extends GetView<OrderDetailsController> {
@@ -24,34 +24,9 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
     OrderModel userOrder = Get.arguments;
     controller.currentStep.value = userOrder.status;
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Order Details",
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        leading: Container(
-          padding: EdgeInsets.all(8.sp),
-          child: InkWell(
-            onTap: () => Get.back(),
-            child: Container(
-              padding: EdgeInsets.all(5.sp),
-              decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
-              child: Icon(
-                Icons.arrow_back_ios,
-                size: 15.sp,
-                color: Get.isDarkMode ? mCL : colorBlack,
-              ),
-            ),
-          ),
-        ),
-        bottom: PreferredSize(
-          child: Divider(),
-          preferredSize: Size(
-            Dimensions.screenWidth,
-            20,
-          ),
-        ),
+      appBar: Components.customAppBar(
+        context,
+        "Details Order",
       ),
       body: ListView(
         padding: EdgeInsets.all(5.sp),
@@ -61,7 +36,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
             'View order details',
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          SizedBox(height: Dimensions.height10),
+          SizedBox(height: 10.sp),
           _containerWidget(
             context,
             Column(
@@ -76,13 +51,13 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                     ),
                   ),
                 ),
-                SizedBox(height: Dimensions.height10),
+                SizedBox(height: 10.sp),
                 _infoOrder(
                   context: context,
                   title: 'Order Id:',
                   subtitle: userOrder.id,
                 ),
-                SizedBox(height: Dimensions.height10),
+                SizedBox(height: 10.sp),
                 _infoOrder(
                   context: context,
                   title: 'Order Total:',
@@ -91,12 +66,12 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
               ],
             ),
           ),
-          SizedBox(height: Dimensions.height20),
+          SizedBox(height: 20.sp),
           Text(
             'Purchase Details',
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          SizedBox(height: Dimensions.height10),
+          SizedBox(height: 10.sp),
           _containerWidget(
             context,
             Column(
@@ -129,15 +104,19 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                             children: [
                               Text(
                                 userOrder.products[i].name,
-                                style:
-                                    Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 13.sp),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(fontSize: 13.sp),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
                                 'Quality: ${userOrder.quantity[i]}',
-                                style:
-                                    Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 13.sp),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(fontSize: 13.sp),
                               ),
                             ],
                           ),
@@ -148,136 +127,134 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
               ],
             ),
           ),
-          SizedBox(height: Dimensions.height20),
+          SizedBox(height: 20.sp),
           Text(
             'Tracking',
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          SizedBox(height: Dimensions.height10),
+          SizedBox(height: 10.sp),
           _containerWidget(
             context,
             Obx(
-              ()=> Stepper(
-                    physics: const NeverScrollableScrollPhysics(),
-                    currentStep: controller.currentStep.value,
-                    controlsBuilder: (context, details) {
-                      if (user.type == 'admin') {
-                        return controller.currentStep < 3
-                            ? Padding(
-                              padding: EdgeInsets.only(
-                                top: Dimensions.height10,
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: AppTextButton(
-                                        txt: 'Done',
-                                        onTap: () {
-                                          controller.changeOrderStatus(
-                                            userOrder.id
-                                          );
-                                        },
-                                      ),
+              () => Stepper(
+                physics: const NeverScrollableScrollPhysics(),
+                currentStep: controller.currentStep.value,
+                controlsBuilder: (context, details) {
+                  if (user.type == 'admin') {
+                    return controller.currentStep < 3
+                        ? Padding(
+                            padding: EdgeInsets.only(
+                              top: 10.sp,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: AppTextButton(
+                                    txt: 'Done',
+                                    onTap: () {
+                                      controller
+                                          .changeOrderStatus(userOrder.id);
+                                    },
                                   ),
-                                ],
-                              ),
-                            )
-                            : Padding(
-                              padding: EdgeInsets.only(
-                                top: Dimensions.height10,
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: AppTextButton(
-                                        txt: 'Delete',
-                                        onTap: () {
-                                          AppGet.notificationGet
-                                              .pushNotofication(
-                                            userId: userOrder.userId,
-                                            title: "Order",
-                                            message:
-                                                "Your order ${userOrder.id} \n is ready",
-                                          );
-                                          controller.deleteOrder(
-                                            order: userOrder,
-                                          );
-                                        },
-                                      ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Padding(
+                            padding: EdgeInsets.only(
+                              top: 10.sp,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: AppTextButton(
+                                    txt: 'Delete',
+                                    onTap: () {
+                                      AppGet.notificationGet.pushNotofication(
+                                        userId: userOrder.userId,
+                                        title: "Order",
+                                        message:
+                                            "Your order ${userOrder.id} \n is ready",
+                                      );
+                                      controller.deleteOrder(
+                                        order: userOrder,
+                                      );
+                                    },
                                   ),
-                                ],
-                              ),
-                            );
-                      }
-                      return const SizedBox();
-                    },
-                    steps: [
-                      Step(
-                        title: Text(
-                          'Pending',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        content: Text(
-                          user.type == 'admin'
-                              ? 'Order is yet to be delivered'
-                              : 'Your order is yet to be delivered',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        isActive: controller.currentStep > 0,
-                        state: controller.currentStep > 0
-                            ? StepState.complete
-                            : StepState.indexed,
-                      ),
-                      Step(
-                        title: Text(
-                          'Completed',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        content: Text(
-                          user.type == 'admin'
-                              ? 'Order has been delivered, Custom are yet to sign.'
-                              : 'Your order has been delivered, you are yet to sign.',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        isActive: controller.currentStep > 1,
-                        state: controller.currentStep > 1
-                            ? StepState.complete
-                            : StepState.indexed,
-                      ),
-                      Step(
-                        title: Text(
-                          'Received',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        content: Text(
-                          user.type == 'admin'
-                              ? 'Order has been delivered and signed by customer.'
-                              : 'Your order has been delivered and signed by you.',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        isActive: controller.currentStep > 2,
-                        state: controller.currentStep > 2
-                            ? StepState.complete
-                            : StepState.indexed,
-                      ),
-                      Step(
-                        title: Text(
-                          'Delivered',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        content: Text(
-                          user.type == 'admin'
-                              ? 'Order has been delivered and signed by customer!'
-                              : 'Your order has been delivered and signed by you!',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        isActive: controller.currentStep >= 3,
-                        state: controller.currentStep >= 3
-                            ? StepState.complete
-                            : StepState.indexed,
-                      ),
-                    ],
+                                ),
+                              ],
+                            ),
+                          );
+                  }
+                  return const SizedBox();
+                },
+                steps: [
+                  Step(
+                    title: Text(
+                      'Pending',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    content: Text(
+                      user.type == 'admin'
+                          ? 'Order is yet to be delivered'
+                          : 'Your order is yet to be delivered',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    isActive: controller.currentStep > 0,
+                    state: controller.currentStep > 0
+                        ? StepState.complete
+                        : StepState.indexed,
                   ),
+                  Step(
+                    title: Text(
+                      'Completed',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    content: Text(
+                      user.type == 'admin'
+                          ? 'Order has been delivered, Custom are yet to sign.'
+                          : 'Your order has been delivered, you are yet to sign.',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    isActive: controller.currentStep > 1,
+                    state: controller.currentStep > 1
+                        ? StepState.complete
+                        : StepState.indexed,
+                  ),
+                  Step(
+                    title: Text(
+                      'Received',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    content: Text(
+                      user.type == 'admin'
+                          ? 'Order has been delivered and signed by customer.'
+                          : 'Your order has been delivered and signed by you.',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    isActive: controller.currentStep > 2,
+                    state: controller.currentStep > 2
+                        ? StepState.complete
+                        : StepState.indexed,
+                  ),
+                  Step(
+                    title: Text(
+                      'Delivered',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    content: Text(
+                      user.type == 'admin'
+                          ? 'Order has been delivered and signed by customer!'
+                          : 'Your order has been delivered and signed by you!',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    isActive: controller.currentStep >= 3,
+                    state: controller.currentStep >= 3
+                        ? StepState.complete
+                        : StepState.indexed,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -294,11 +271,13 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 13.sp),
+          style:
+              Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 13.sp),
         ),
         Text(
           subtitle,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 13.sp),
+          style:
+              Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 13.sp),
         ),
       ],
     );
@@ -310,7 +289,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
   ) {
     return Container(
       padding: EdgeInsets.all(
-        Dimensions.height10,
+        10.sp,
       ),
       decoration: AppDecoration.textfeild(context, 5.sp).decoration,
       child: child,

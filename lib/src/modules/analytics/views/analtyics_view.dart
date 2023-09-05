@@ -44,14 +44,14 @@ class _AnalyticsViewState extends State<AnalyticsView> {
       ),
       body: earnings != null || totalSales != null
           ? Padding(
-            padding: EdgeInsets.all(Dimensions.height15),
+            padding: EdgeInsets.all(15.sp),
             child: Column(
                 children: [
                   Text(
                     'total sales: \$$totalSales',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  SizedBox(height: Dimensions.height10),
+                  SizedBox(height: 10.h),
                   // SizedBox(
                   //   height: Dimensions.screenHeight - 170,
                   //   child: Container(

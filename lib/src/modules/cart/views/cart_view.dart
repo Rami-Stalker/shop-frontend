@@ -24,40 +24,14 @@ class CartView extends StatefulWidget {
 class _CartScreenState extends State<CartView> {
   final bool _isLogged = AppGet.authGet.onAuthCheck();
   CartController cartController = AppGet.CartGet;
-  //double heightNav = Dimensions.bottomHeightBar + 130;
 
   @override
   Widget build(BuildContext context) {
     cartController.getCartList();
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Cart",
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        leading: Container(
-          padding: EdgeInsets.all(8.sp),
-          child: InkWell(
-            onTap: () => Get.back(),
-            child: Container(
-              padding: EdgeInsets.all(5.sp),
-              decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
-              child: Icon(
-                Icons.arrow_back_ios,
-                size: 15.sp,
-                color: Get.isDarkMode ? mCL : colorBlack,
-              ),
-            ),
-          ),
-        ),
-        bottom: PreferredSize(
-          child: Divider(),
-          preferredSize: Size(
-            Dimensions.screenWidth,
-            20,
-          ),
-        ),
+      appBar: Components.customAppBar(
+        context,
+        "Cart",
       ),
       body: SafeArea(
         child: Column(
@@ -81,7 +55,7 @@ class _CartScreenState extends State<CartView> {
                                   product.userQuant!;
                               return GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(
+                                  AppNavigator.push(
                                     Routes.PRODUCT_DETAILS_RATING,
                                     arguments: {
                                       'product': product.product,
@@ -105,9 +79,7 @@ class _CartScreenState extends State<CartView> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: Dimensions.width10,
-                                      ),
+                                      SizedBox(width: 10.sp),
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment:
@@ -138,18 +110,14 @@ class _CartScreenState extends State<CartView> {
                                                 ),
                                                 Container(
                                                   margin: EdgeInsets.only(
-                                                    right: Dimensions.width10,
+                                                    right: 10.sp,
                                                   ),
-                                                  padding: EdgeInsets.only(
-                                                    top: Dimensions.height10,
-                                                    bottom: Dimensions.height10,
-                                                    left: Dimensions.width10,
-                                                    right: Dimensions.width10,
-                                                  ),
+                                                  padding:
+                                                      EdgeInsets.all(10.sp),
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                      Dimensions.radius20,
+                                                      20.sp,
                                                     ),
                                                     color: Get.isDarkMode
                                                         ? mCM
@@ -248,15 +216,16 @@ class _CartScreenState extends State<CartView> {
       ),
       bottomNavigationBar: cartController.getItems.isNotEmpty
           ? Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
                   // height: 130.sp,
                   padding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.width20,
-                    vertical: Dimensions.height20,
+                    horizontal: 20.sp,
+                    vertical: 20.sp,
                   ),
-                  decoration: AppDecoration.bottomNavigationBar(context).decoration,
+                  decoration:
+                      AppDecoration.bottomNavigationBar(context).decoration,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -275,7 +244,7 @@ class _CartScreenState extends State<CartView> {
                               .copyWith(color: colorBlack),
                         ),
                       ),
-                      SizedBox(height: Dimensions.height15),
+                      SizedBox(height: 15.sp),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -285,22 +254,19 @@ class _CartScreenState extends State<CartView> {
                               cartController.addToCartHistoryList();
                             },
                           ),
-                          SizedBox(
-                            width: Dimensions.width10,
-                          ),
-                          Text('OR', style: Theme.of(context).textTheme.titleLarge),
-                          SizedBox(
-                            width: Dimensions.width10,
-                          ),
+                          SizedBox(width: 10.sp),
+                          Text('OR',
+                              style: Theme.of(context).textTheme.titleLarge),
+                          SizedBox(width: 10.sp),
                           AppTextButton(
                             txt: 'Check Out',
                             onTap: () {
                               if (_isLogged) {
                                 if (AppGet.authGet.userModel!.address == "" &&
                                     AppGet.authGet.userModel!.phone.isEmpty) {
-                                  Get.toNamed(Routes.UPDATE_PROFILE);
+                                  AppNavigator.push(Routes.UPDATE_PROFILE);
                                 } else {
-                                  Get.toNamed(Routes.CHECKOUT);
+                                  AppNavigator.push(Routes.CHECKOUT);
                                 }
                               } else {
                                 Components.showCustomDialog(
@@ -321,8 +287,8 @@ class _CartScreenState extends State<CartView> {
                     ],
                   ),
                 ),
-            ],
-          )
+              ],
+            )
           : null,
     );
   }

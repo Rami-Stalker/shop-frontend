@@ -27,10 +27,10 @@ class BuildShimmerOrder extends StatelessWidget {
                   children: [
                     Container(
                       width: 100.sp,
-                      height: 20.0,
+                      height: 20.sp,
                       color: Get.isDarkMode ? fCL : mCL,
                     ),
-                    SizedBox(height: Dimensions.height10),
+                    SizedBox(height: 10.sp),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -40,10 +40,12 @@ class BuildShimmerOrder extends StatelessWidget {
                               height: 70.sp,
                               width: 70.sp,
                               margin: EdgeInsets.only(
-                                  right: Dimensions.width10 / 2),
+                                right: 5.sp,
+                              ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(
-                                    Dimensions.radius15 / 2),
+                                  7.sp,
+                                ),
                                 color: Get.isDarkMode ? fCL : mCL,
                               ),
                             ),
@@ -55,7 +57,8 @@ class BuildShimmerOrder extends StatelessWidget {
                               ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(
-                                    Dimensions.radius15 / 2),
+                                  7.sp,
+                                ),
                                 color: Get.isDarkMode ? fCL : mCL,
                               ),
                             ),
@@ -68,14 +71,14 @@ class BuildShimmerOrder extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Container(
-                                width: 60,
-                                height: 20,
+                                width: 60.sp,
+                                height: 20.sp,
                                 color: Get.isDarkMode ? fCL : mCL,
                               ),
-                              SizedBox(height: Dimensions.height10),
+                              SizedBox(height: 10.sp),
                               Container(
-                                width: 40,
-                                height: 20,
+                                width: 40.sp,
+                                height: 20.sp,
                                 color: Get.isDarkMode ? fCL : mCL,
                               ),
                             ],

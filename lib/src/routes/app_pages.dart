@@ -1,13 +1,16 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shop_app/src/app.dart';
 import 'package:shop_app/src/modules/notification/bindings/notification_binding.dart';
 import 'package:shop_app/src/modules/notification/views/notification_view.dart';
 import 'package:shop_app/src/modules/splash/views/splash_view.dart';
-import '../modules/add_product/bindings/add_product_binding.dart';
+import 'package:shop_app/src/routess/scaffold_wrapper.dart';
+import '../modules/product_add/bindings/product_add_binding.dart';
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/category/bindings/category_binding.dart';
-import '../modules/edit_product/bindings/edit_product_binding.dart';
-import '../modules/add_product/views/add_product_view.dart';
-import '../modules/edit_product/views/edit_product_view.dart';
+import '../modules/product_edit/bindings/product_edit_binding.dart';
+import '../modules/product_add/views/product_add_view.dart';
+import '../modules/product_edit/views/product_edit_view.dart';
 import '../modules/auth/views/login_view.dart';
 import '../modules/auth/views/register_view.dart';
 import '../modules/cart/bindings/cart_binding.dart';
@@ -20,8 +23,8 @@ import '../modules/navigator/views/navigation_view.dart';
 import '../modules/order_details/bindings/order_details_binding.dart';
 import '../modules/order_details/views/order_details_view.dart';
 import '../modules/product_details/bindings/product_details_binding.dart';
-import '../modules/product_details/views/newest_product_view.dart';
-import '../modules/product_details/views/rating_product_view.dart';
+import '../modules/product_details/views/product_details_newest_view.dart';
+import '../modules/product_details/views/product_details_rating_view.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
 import '../modules/update_profile/bindings/update_profile_binding.dart';
@@ -30,33 +33,39 @@ import '../modules/update_profile/views/update_profile_view.dart';
 
 part 'app_routes.dart';
 
-class AppPages {
-  AppPages._();
+class AppNavigator {
+  AppNavigator._();
+
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   static const INITIAL = Routes.NAVIGATION;
 
   static final routes = [
     GetPage(
+      name: _Paths.ROOT,
+      page: () => ScaffoldWrapper(child: App()),
+    ),
+    GetPage(
       name: _Paths.SPLASH,
-      page: () => SplashScreen(),
+      page: () => ScaffoldWrapper(child: SplashScreen()),
     ),
     GetPage(
       name: _Paths.NAVIGATION,
-      page: () => Navigation(initialIndex: 0),
+      page: () => ScaffoldWrapper(child: Navigation(initialIndex: 0)),
     ),
     GetPage(
       name: _Paths.LOGIN,
-      page: () => const LoginView(),
+      page: () => ScaffoldWrapper(child: LoginView()),
       binding: AuthBinding(),
     ),
     GetPage(
       name: _Paths.REGISTER,
-      page: () => const RegisterView(),
+      page: () => ScaffoldWrapper(child: const RegisterView()),
       binding: AuthBinding(),
     ),
     GetPage(
       name: _Paths.NOTIFICATION,
-      page: () => const NotificationView(),
+      page: () => ScaffoldWrapper(child: const NotificationView()),
       binding: NotificationBinding(),
     ),
     GetPage(
@@ -65,14 +74,14 @@ class AppPages {
       binding: CategoryBinding(),
     ),
     GetPage(
-      name: _Paths.ADD_PRODUCT,
-      page: () => const AddProductView(),
-      binding: AddProductBinding(),
+      name: _Paths.PRODUCT_ADD,
+      page: () => const ProductAddView(),
+      binding: ProductAddBinding(),
     ),
     GetPage(
-      name: _Paths.EDIT_PRODUCT,
-      page: () => const EditProductView(),
-      binding: EditProductBinding(),
+      name: _Paths.PRODUCT_EDIT,
+      page: () => const ProductEditView(),
+      binding: ProductEditBinding(),
     ),
     GetPage(
       name: _Paths.CART,
@@ -95,12 +104,12 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PRODUCT_DETAILS_NEWEST,
-      page: () => const NewestProductView(),
+      page: () => const ProductDetailsNewestView(),
       binding: ProductDetailsBinding(),
     ),
     GetPage(
       name: _Paths.PRODUCT_DETAILS_RATING,
-      page: () => const RatingProductView(),
+      page: () => const ProductDetailsRatingView(),
       binding: ProductDetailsBinding(),
     ),
     GetPage(
@@ -119,4 +128,29 @@ class AppPages {
       binding: UpdateProfileBinding(),
     ),
   ];
+  static Future push<T>(
+    String route, {
+    Object? arguments,
+  }) {
+    return state.pushNamed(route, arguments: arguments);
+  }
+
+  static Future replaceWith<T>(
+    String route, {
+    Map<String, dynamic>? arguments,
+  }) {
+    return state.pushReplacementNamed(route, arguments: arguments);
+  }
+
+  static void popUntil<T>(String route) => state.popUntil(ModalRoute.withName(route));
+
+  static void pop() {
+    if (state.canPop()) {
+      state.pop();
+    }
+  }
+
+  static String currentRoute(context) => ModalRoute.of(context)!.settings.name!;
+
+  static NavigatorState get state => navigatorKey.currentState!;
 }

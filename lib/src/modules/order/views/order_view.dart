@@ -30,13 +30,14 @@ class OrderView extends GetView<OrderController> {
         ),
       ),
       body: FutureBuilder<List<OrderModel>>(
-        future: AppGet.authGet.userModel?.type == "user" ? controller.fetchUserOrders() : controller.fetchAllOrders(),
+        future: AppGet.authGet.userModel?.type == "user"
+            ? controller.fetchUserOrders()
+            : controller.fetchAllOrders(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: Dimensions.width10,
-                // vertical: Dimensions.height10,
+                horizontal: 10.sp,
               ),
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
@@ -47,7 +48,7 @@ class OrderView extends GetView<OrderController> {
                   return Container(
                     height: 100.sp,
                     margin: EdgeInsets.only(
-                      bottom: Dimensions.height20,
+                      bottom: 20.sp,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +61,7 @@ class OrderView extends GetView<OrderController> {
                           ),
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        SizedBox(height: Dimensions.height10),
+                        SizedBox(height: 10.sp),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -106,9 +107,7 @@ class OrderView extends GetView<OrderController> {
                                             .textTheme
                                             .bodyMedium,
                                       ),
-                                      SizedBox(
-                                        width: Dimensions.width10,
-                                      ),
+                                      SizedBox(width: 10.sp),
                                       Text(
                                         '\$${userOrder.totalPrice.toString()}',
                                         style: Theme.of(context)
@@ -118,16 +117,16 @@ class OrderView extends GetView<OrderController> {
                                     ],
                                   ),
                                   SizedBox(
-                                    height: Dimensions.height10,
+                                    height: 10.sp,
                                   ),
                                   GestureDetector(
-                                    onTap: () => Get.toNamed(
+                                    onTap: () => AppNavigator.push(
                                       Routes.ORDER_DETAILS,
                                       arguments: userOrder,
                                     ),
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
-                                        horizontal: Dimensions.width10,
+                                        horizontal: 10.sp,
                                         vertical: 5.sp,
                                       ),
                                       decoration: BoxDecoration(

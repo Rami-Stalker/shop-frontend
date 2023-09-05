@@ -3,14 +3,15 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   Routes._();
+  static const ROOT = _Paths.ROOT;
 
   static const SPLASH = _Paths.SPLASH;
   static const NAVIGATION = _Paths.NAVIGATION;
   static const ADMIN_NAVIGATOR = _Paths.ADMIN_NAVIGATOR;
   static const NOTIFICATION = _Paths.NOTIFICATION;
   static const CATEGORY = _Paths.CATEGORY;
-  static const ADD_PRODUCT = _Paths.ADD_PRODUCT;
-  static const EDIT_PRODUCT = _Paths.EDIT_PRODUCT;
+  static const PRODUCT_ADD = _Paths.PRODUCT_ADD;
+  static const PRODUCT_EDIT = _Paths.PRODUCT_EDIT;
   static const REGISTER = _Paths.REGISTER;
   static const LOGIN = _Paths.LOGIN;
   static const CART = _Paths.CART;
@@ -25,14 +26,15 @@ abstract class Routes {
 
 abstract class _Paths {
   _Paths._();
+  static const ROOT = '/';
 
   static const SPLASH = '/splash';
   static const NAVIGATION = '/navigation';
   static const ADMIN_NAVIGATOR = '/admin-navigator';
   static const NOTIFICATION = '/notification';
   static const CATEGORY = '/category';
-  static const ADD_PRODUCT = '/admin-add-product';
-  static const EDIT_PRODUCT = '/admin-product-details';
+  static const PRODUCT_ADD = '/product-add';
+  static const PRODUCT_EDIT = '/product-edit';
   static const LOGIN = '/login';
   static const REGISTER = '/register';
   static const CART = '/cart';

@@ -6,6 +6,7 @@ import 'package:dio/dio.dart' as diox;
 import 'package:flutter/material.dart';
 import 'package:shop_app/src/resources/local/user_local.dart';
 import '../../../controller/app_controller.dart';
+import '../../../routes/app_pages.dart';
 import '../repositories/update_profile_repository.dart';
 
 import '../../../public/components.dart';
@@ -97,6 +98,8 @@ class UpdateProfileController extends GetxController implements GetxService {
             title: 'Update information',
             color: colorPrimary,
           );
+          AppNavigator.pop();
+          update();
         },
       );
       update();

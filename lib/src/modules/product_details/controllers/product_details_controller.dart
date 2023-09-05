@@ -1,4 +1,11 @@
+import 'package:dio/dio.dart' as diox;
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+import 'package:shop_app/src/public/components.dart';
+import 'package:shop_app/src/public/constants.dart';
+import '../../../models/rating_model.dart';
+import '../../../resources/local/user_local.dart';
 import '../../cart/controllers/cart_controller.dart';
 import '../repositories/product_detailes_repository.dart';
 import '../../../themes/app_colors.dart';
@@ -11,22 +18,54 @@ class ProductDetailsController extends GetxController implements GetxService {
     required this.productDetailsRepository,
   });
 
-  Rx<double> avgRating = Rx(0);
-  Rx<double> myRating = Rx(0);
+  final _getStorage = GetStorage();
+  final myRatingKey = 'myRating';
 
-  // void rateProduct({
-  //   required ProductModel product,
-  //   required double rating,
-  // }) async {S
-  //   try {
-  //     await productDetailsRepository.rateProduct(
-  //         product: product, rating: rating);
+  List<RatingModel> ratings = [];
+  Rx<double> avgRating = 0.0.obs;
 
-  //     update();
-  //   } catch (e) {
-  //     Get.snackbar('', e.toString());
-  //   }
-  // }
+  void saveMyRating(double myRating) async {
+    _getStorage.write(myRatingKey, myRating);
+
+    for (int i = 0; i < ratings.length; i++) {
+        if (ratings[i].userId == UserLocal().getUserId()) {
+          ratings[i].rating = myRating;
+      }
+    }
+    update();
+  }
+
+  double getMyRating() {
+    return _getStorage.read(myRatingKey) ?? 0;
+  }
+
+  
+  // Rx<double> myRating = 0.0.obs;
+  
+
+
+  final Rx<int> _quantity = 0.obs;
+  Rx<int> get quantity => _quantity;
+
+  void rateProduct({
+    required String productId,
+    required double rating,
+  }) async {
+    try {
+      diox.Response response = await productDetailsRepository.rateProduct(
+        productId: productId,
+        rating: rating,
+      );
+
+      Constants.handleApi(
+        response: response,
+        onSuccess: () {},
+      );
+      update();
+    } catch (e) {
+      Components.showSnackBar(e.toString(), title: "Rate Product");
+    }
+  }
 
   /////////////////////////
 
@@ -34,8 +73,7 @@ class ProductDetailsController extends GetxController implements GetxService {
     cartRepository: Get.find(),
   );
 
-  final Rx<int> _quantity = 0.obs;
-  Rx<int> get quantity => _quantity;
+  
 
   void setQuantity(bool isIncrement, int productQuantity) {
     if (isIncrement) {

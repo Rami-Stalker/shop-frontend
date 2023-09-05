@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/themes/font_family.dart';
 import '../../themes/app_colors.dart';
 import '../../utils/sizer_custom/sizer.dart';
 
@@ -24,12 +25,13 @@ class AppTextButton extends StatelessWidget {
               10.sp,
             ),
           ),
-          padding: EdgeInsets.all(Dimensions.height10)),
+          padding: EdgeInsets.all(10.sp)),
       child: Text(
         txt,
         style: TextStyle(
-          fontSize: Dimensions.font26,
+          fontSize: 18.sp,
           color: mCL,
+          fontFamily: FontFamily.lato,
         ),
       ),
     );
