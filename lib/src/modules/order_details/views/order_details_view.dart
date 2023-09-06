@@ -1,4 +1,5 @@
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/models/user_model.dart';
 import 'package:shop_app/src/public/components.dart';
 
@@ -21,8 +22,8 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
   @override
   Widget build(BuildContext context) {
     UserModel user = AppGet.authGet.userModel!;
-    OrderModel userOrder = Get.arguments;
-    controller.currentStep.value = userOrder.status;
+    OrderModel order = Get.arguments;
+    controller.currentStep = order.status;
     return Scaffold(
       appBar: Components.customAppBar(
         context,
@@ -32,10 +33,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
         padding: EdgeInsets.all(5.sp),
         physics: BouncingScrollPhysics(),
         children: [
-          Text(
-            'View order details',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          AppText('View order details'),
           SizedBox(height: 10.sp),
           _containerWidget(
             context,
@@ -47,7 +45,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                   title: 'Order Date:',
                   subtitle: DateFormat("MM/dd/yyyy hh:mm a").format(
                     DateTime.fromMillisecondsSinceEpoch(
-                      userOrder.orderedAt,
+                      order.orderedAt,
                     ),
                   ),
                 ),
@@ -55,93 +53,91 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                 _infoOrder(
                   context: context,
                   title: 'Order Id:',
-                  subtitle: userOrder.id,
+                  subtitle: order.id,
                 ),
                 SizedBox(height: 10.sp),
                 _infoOrder(
                   context: context,
                   title: 'Order Total:',
-                  subtitle: '\$${userOrder.totalPrice.toString()}',
+                  subtitle: '\$${order.totalPrice.toString()}',
                 ),
               ],
             ),
           ),
           SizedBox(height: 20.sp),
-          Text(
-            'Purchase Details',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          AppText('Purchase Details'),
           SizedBox(height: 10.sp),
           _containerWidget(
             context,
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                for (int i = 0; i < userOrder.products.length; i++)
-                  Padding(
-                    padding: EdgeInsets.all(5.sp),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 80.sp,
-                          width: 80.sp,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              5.sp,
-                            ),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                userOrder.products[i].images[0],
+                for (int i = 0; i < order.products.length; i++)
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 80.sp,
+                            width: 80.sp,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                5.sp,
+                              ),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  order.products[i].images[0],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(width: 10.sp),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                userOrder.products[i].name,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(fontSize: 13.sp),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
-                                'Quality: ${userOrder.quantity[i]}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(fontSize: 13.sp),
-                              ),
-                            ],
+                          SizedBox(width: 10.sp),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  order.products[i].name,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(fontSize: 12.sp),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  'Quality: ${order.quantity[i]}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(fontSize: 12.sp),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                      // SizedBox(height: 5.sp),
+                      Divider(),
+                    ],
                   ),
               ],
             ),
           ),
           SizedBox(height: 20.sp),
-          Text(
-            'Tracking',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          AppText('Tracking'),
           SizedBox(height: 10.sp),
           _containerWidget(
             context,
-            Obx(
-              () => Stepper(
+            GetBuilder<OrderDetailsController>(
+                builder: (orderDetailsController) {
+              return Stepper(
                 physics: const NeverScrollableScrollPhysics(),
-                currentStep: controller.currentStep.value,
+                currentStep: orderDetailsController.currentStep,
                 controlsBuilder: (context, details) {
                   if (user.type == 'admin') {
-                    return controller.currentStep < 3
+                    return orderDetailsController.currentStep < 3
                         ? Padding(
                             padding: EdgeInsets.only(
                               top: 10.sp,
@@ -152,8 +148,9 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                   child: AppTextButton(
                                     txt: 'Done',
                                     onTap: () {
-                                      controller
-                                          .changeOrderStatus(userOrder.id);
+                                      orderDetailsController
+                                          .changeOrderStatus(order.id);
+                                      order.status++;
                                     },
                                   ),
                                 ),
@@ -171,13 +168,13 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                                     txt: 'Delete',
                                     onTap: () {
                                       AppGet.notificationGet.pushNotofication(
-                                        userId: userOrder.userId,
+                                        userId: order.userId,
                                         title: "Order",
                                         message:
-                                            "Your order ${userOrder.id} \n is ready",
+                                            "Your order ${order.id} \n is ready",
                                       );
-                                      controller.deleteOrder(
-                                        order: userOrder,
+                                      orderDetailsController.deleteOrder(
+                                        order: order,
                                       );
                                     },
                                   ),
@@ -190,15 +187,15 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                 },
                 steps: [
                   Step(
-                    title: Text(
+                    title: AppText(
                       'Pending',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      type: TextType.small,
                     ),
-                    content: Text(
+                    content: AppText(
                       user.type == 'admin'
                           ? 'Order is yet to be delivered'
                           : 'Your order is yet to be delivered',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      type: TextType.small,
                     ),
                     isActive: controller.currentStep > 0,
                     state: controller.currentStep > 0
@@ -206,15 +203,15 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                         : StepState.indexed,
                   ),
                   Step(
-                    title: Text(
+                    title: AppText(
                       'Completed',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      type: TextType.small,
                     ),
-                    content: Text(
+                    content: AppText(
                       user.type == 'admin'
                           ? 'Order has been delivered, Custom are yet to sign.'
                           : 'Your order has been delivered, you are yet to sign.',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      type: TextType.small,
                     ),
                     isActive: controller.currentStep > 1,
                     state: controller.currentStep > 1
@@ -222,15 +219,15 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                         : StepState.indexed,
                   ),
                   Step(
-                    title: Text(
+                    title: AppText(
                       'Received',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      type: TextType.small,
                     ),
-                    content: Text(
+                    content: AppText(
                       user.type == 'admin'
                           ? 'Order has been delivered and signed by customer.'
                           : 'Your order has been delivered and signed by you.',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      type: TextType.small,
                     ),
                     isActive: controller.currentStep > 2,
                     state: controller.currentStep > 2
@@ -238,15 +235,15 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                         : StepState.indexed,
                   ),
                   Step(
-                    title: Text(
+                    title: AppText(
                       'Delivered',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      type: TextType.small,
                     ),
-                    content: Text(
+                    content: AppText(
                       user.type == 'admin'
                           ? 'Order has been delivered and signed by customer!'
                           : 'Your order has been delivered and signed by you!',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      type: TextType.small,
                     ),
                     isActive: controller.currentStep >= 3,
                     state: controller.currentStep >= 3
@@ -254,30 +251,33 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                         : StepState.indexed,
                   ),
                 ],
-              ),
-            ),
+              );
+            }),
           ),
         ],
       ),
     );
   }
 
-  Row _infoOrder(
-      {required BuildContext context,
-      required String title,
-      required String subtitle}) {
+  Row _infoOrder({
+    required BuildContext context,
+    required String title,
+    required String subtitle,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
-          style:
-              Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 13.sp),
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                fontSize: 12.sp,
+              ),
         ),
         Text(
           subtitle,
-          style:
-              Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 13.sp),
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                fontSize: 12.sp,
+              ),
         ),
       ],
     );

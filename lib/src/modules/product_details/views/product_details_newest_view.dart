@@ -1,6 +1,7 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import '../../../core/widgets/app_text_button.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
@@ -13,7 +14,6 @@ import '../controllers/product_details_controller.dart';
 import '../../../themes/app_colors.dart';
 
 import '../../../core/widgets/app_icon.dart';
-import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/expandable_text_widget.dart';
 import '../../../models/product_model.dart';
 import '../../../routes/app_pages.dart';
@@ -30,12 +30,14 @@ class ProductDetailsNewestView extends StatefulWidget {
 class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
   double _currPageValue = 0.0;
   PageController pageController = PageController();
-  final double _height = SizerUtil.height / 2.64;
+  final double _height = 340;
   final double _scaleFactor = 0.8;
 
   @override
   void initState() {
     super.initState();
+    AppGet.productDetailsGet.clearMyRating();
+    AppGet.productDetailsGet.avgRating.value = 0;
     pageController.addListener(() {
       setState(() {
         _currPageValue = pageController.page!;
@@ -108,8 +110,8 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                           ? Positioned(
                               right: 3.0,
                               top: 3.0,
-                              child: BigText(
-                                text: productDetailsController.totalItems
+                              child: AppText(
+                                productDetailsController.totalItems
                                     .toString(),
                               ),
                             )
@@ -124,21 +126,43 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
             expandedHeight: 250.sp,
             flexibleSpace: FlexibleSpaceBar(
               background: product.images.length > 1
-                  ? Container(
-                      height: _height,
-                      color: Colors.grey[100],
-                      child: PageView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        controller: pageController,
-                        itemCount: product.images.length,
-                        itemBuilder: (context, position) {
-                          return _buildPageItem(
-                            position,
-                            product.images[position],
-                          );
-                        },
-                      ),
-                    )
+                  ? Stack(
+                    children: [
+                      Container(
+                          height: _height,
+                          color: Colors.grey[100],
+                          child: PageView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            controller: pageController,
+                            itemCount: product.images.length,
+                            itemBuilder: (context, position) {
+                              return _buildPageItem(
+                                position,
+                                product.images[position],
+                              );
+                            },
+                          ),
+                        ),
+                        Positioned(
+                          top: _height - 60,
+                          left: 0,
+                          right: 0,
+                          child:  DotsIndicator(
+                              dotsCount: product.images.isEmpty
+                                  ? 1
+                                  : product.images.length,
+                              position: _currPageValue.toInt(),
+                              decorator: DotsDecorator(
+                                activeColor: Colors.blue,
+                                size: const Size.square(9.0),
+                                activeSize: const Size(18.0, 9.0),
+                                activeShape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0)),
+                              ),
+                            )
+                          ),
+                    ],
+                  )
                   : Container(
                       width: double.maxFinite,
                       height: SizerUtil.height / 2.41,
@@ -159,21 +183,21 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(width: 70.sp),
-                      product.images.length > 1
-                          ? DotsIndicator(
-                              dotsCount: product.images.isEmpty
-                                  ? 1
-                                  : product.images.length,
-                              position: _currPageValue.toInt(),
-                              decorator: DotsDecorator(
-                                activeColor: Colors.blue,
-                                size: const Size.square(9.0),
-                                activeSize: const Size(18.0, 9.0),
-                                activeShape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0)),
-                              ),
-                            )
-                          : Container(),
+                      // product.images.length > 1
+                      //     ? DotsIndicator(
+                      //         dotsCount: product.images.isEmpty
+                      //             ? 1
+                      //             : product.images.length,
+                      //         position: _currPageValue.toInt(),
+                      //         decorator: DotsDecorator(
+                      //           activeColor: Colors.blue,
+                      //           size: const Size.square(9.0),
+                      //           activeSize: const Size(18.0, 9.0),
+                      //           activeShape: RoundedRectangleBorder(
+                      //               borderRadius: BorderRadius.circular(5.0)),
+                      //         ),
+                      //       )
+                      //     : Container(),
                       productDetailsController.avgRating.value != 0.0
                           ? Obx(
                               () => Padding(
@@ -200,14 +224,9 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                       padding: EdgeInsets.symmetric(
                         horizontal: 20.sp,
                       ),
-                      child: Text(
+                      child: AppText(
                         product.name,
                         overflow: TextOverflow.clip,
-                        maxLines: 1,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontSize: 20.sp),
                       ),
                     )),
                   ),
@@ -274,9 +293,8 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                       backgroundColor: colorPrimary,
                       icon: Icons.remove,
                     ),
-                    Text(
-                      '\$${product.price} *  ${productDetailsController.quantity.value} ',
-                      style: Theme.of(context).textTheme.titleLarge,
+                    AppText(
+                      '\$${product.price} *  ${productDetailsController.quantity.value} '
                     ),
                     AppIcon(
                       onTap: () {
@@ -366,21 +384,17 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
     }
     return Transform(
       transform: matrix,
-      child: Stack(
-        children: [
-          Container(
-            height: _height,
-            decoration: BoxDecoration(
-              color: index.isEven
-                  ? const Color(0xFF69c5df)
-                  : const Color(0xFF9294cc),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(image),
-              ),
-            ),
+      child: Container(
+        height: _height,
+        decoration: BoxDecoration(
+          color: index.isEven
+              ? const Color(0xFF69c5df)
+              : const Color(0xFF9294cc),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(image),
           ),
-        ],
+        ),
       ),
     );
   }

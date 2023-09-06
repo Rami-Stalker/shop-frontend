@@ -1,4 +1,5 @@
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/public/components.dart';
 import '../../config/application.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -24,9 +25,12 @@ void connectAndListen() {
   socket!.onConnect((_) async {
     print('Connected');
 
-    socket!.on(SocketEvent.CHANGE_ORDER_STATUS_TO_USER, (data) {
-      print('Received new product: $data');
+    socket!.on(SocketEvent.CHANGE_ORDER_STATUS, (data) {
       AppGet.orderDetailsGet.changeOrderStatusToUser(data);
+    });
+
+    socket!.on(SocketEvent.CHANGE_ORDER_STATUS_ERROR, (data) {
+      Components.showSnackBar(data['error'], title: "Change Order Status");
     });
 
     SocketEmit().sendDeviceInfo();

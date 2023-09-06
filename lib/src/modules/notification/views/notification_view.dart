@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/public/components.dart';
 import '../../../models/notification_model.dart';
 import '../../../themes/app_decorations.dart';
@@ -77,24 +78,21 @@ class _NotificationViewState extends State<NotificationView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            notification.notification.title,
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          Text(
+                          AppText(
+                            notification.notification.title),
+                          AppText(
                             timeAgoCustom(
                               notification.createdAt,
                             ),
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            type: TextType.small,
                           ),
                         ],
                       ),
                       SizedBox(height: 5.sp),
-                      Text(
+                      AppText(
                         notification.notification.body,
                         maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleMedium,
+                        type: TextType.medium,
                       ),
                     ],
                   ),

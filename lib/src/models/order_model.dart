@@ -11,7 +11,7 @@ class OrderModel {
   final String address;
   final String userId;
   final int orderedAt;
-  final int status;
+  int status;
   final int totalPrice;
   OrderModel({
     required this.id,

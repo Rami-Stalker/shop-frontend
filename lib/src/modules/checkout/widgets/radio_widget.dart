@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import '../../../themes/app_decorations.dart';
 
 import '../../../utils/sizer_custom/sizer.dart';
@@ -34,9 +35,8 @@ class _RadioWidgetState extends State<RadioWidget> {
                 height: 45.sp,
               ),
             ),
-            title: Text(
-              widget.title,
-              style: Theme.of(context).textTheme.titleLarge,
+            title: AppText(
+              widget.title
             ),
             trailing: widget.radio,
           ),

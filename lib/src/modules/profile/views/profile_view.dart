@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import '../../../core/dialogs/dialog_loading.dart';
 import '../../../core/widgets/app_text_button.dart';
 import '../../../themes/app_colors.dart';
@@ -34,10 +35,7 @@ class _ProfileViewState extends State<ProfileView> {
       appBar: AppBar(
         backgroundColor: colorPrimary,
         centerTitle: true,
-        title: Text(
-          'Profile',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
+        title: AppText('Profile'),
       ),
       body: GetBuilder<AuthController>(
         builder: (authController) => userLoggedIn
@@ -51,48 +49,48 @@ class _ProfileViewState extends State<ProfileView> {
                         height: 120.sp,
                         width: SizerUtil.height,
                         child: GestureDetector(
-                  onTap: () {
-                    CustomImagePicker().openImagePicker(
-                      context: context,
-                      handleFinish: (File image) async {
-                        showDialogLoading(context);
-                        AppGet.authGet.updateAvatar(avatar: image);
-                      },
-                    );
-                  },
-                  child: Container(
-                    width: 100.w,
-                    alignment: Alignment.center,
-                    child: Container(
-                      height: 105.sp,
-                      width: 105.sp,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: colorPrimary,
-                          width: 3.sp,
-                        ),
-                      ),
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 95.sp,
-                        width: 95.sp,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(1000.sp),
-                          child: BlurHash(
-                            hash: AppGet.authGet.userModel!.blurHash,
-                            image: AppGet.authGet.userModel!.image,
-                            imageFit: BoxFit.cover,
-                            color: colorPrimary,
+                          onTap: () {
+                            CustomImagePicker().openImagePicker(
+                              context: context,
+                              handleFinish: (File image) async {
+                                showDialogLoading(context);
+                                AppGet.authGet.updateAvatar(avatar: image);
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: 100.w,
+                            alignment: Alignment.center,
+                            child: Container(
+                              height: 105.sp,
+                              width: 105.sp,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: colorPrimary,
+                                  width: 3.sp,
+                                ),
+                              ),
+                              alignment: Alignment.center,
+                              child: Container(
+                                height: 95.sp,
+                                width: 95.sp,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(1000.sp),
+                                  child: BlurHash(
+                                    hash: AppGet.authGet.userModel!.blurHash,
+                                    image: AppGet.authGet.userModel!.image,
+                                    imageFit: BoxFit.cover,
+                                    color: colorPrimary,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                ),
                         // child: GestureDetector(
                         //   onTap: () {
                         //     CustomImagePicker().openImagePicker(
@@ -231,7 +229,6 @@ class _ProfileViewState extends State<ProfileView> {
                   Container(
                     width: double.maxFinite,
                     margin: EdgeInsets.all(8.sp),
-                    // height: 230.sp,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20.sp),
                     ),

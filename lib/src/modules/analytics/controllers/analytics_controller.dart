@@ -5,7 +5,7 @@ import '../../../public/components.dart';
 
 import '../../../public/constants.dart';
 
-import '../../../models/admin_model.dart';
+import '../../../models/sales_model.dart';
 import '../repositories/analytics_repository.dart';
 
 class AnalyticsController extends GetxController implements GetxService {

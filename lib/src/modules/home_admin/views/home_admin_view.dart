@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text_button.dart';
+import 'package:shop_app/src/core/widgets/custom_button.dart';
 import 'package:shop_app/src/public/components.dart';
 import '../controllers/home_admin_controller.dart';
 import '../../../routes/app_pages.dart';
@@ -23,63 +25,59 @@ class HomeAdminView extends StatefulWidget {
 }
 
 class _HomeAdminViewState extends State<HomeAdminView> {
-  Future<void> _loadResources() async {
-    AppGet.adminGet.fetchAllProducts();
-    await AppGet.notificationGet.getNotofications();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Components.customAppBarHome(context),
       body: GetBuilder<AdminController>(builder: (adminController) {
-        return RefreshIndicator(
-          onRefresh: () async {
-            await _loadResources();
-          },
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 10.sp),
-                const CategoryWidget(),
-                SizedBox(height: 10.sp),
-                FutureBuilder<List<ProductModel>>(
-                    future: AppGet.adminGet.fetchAllProducts(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: snapshot.data?.length ?? 0,
-                          itemBuilder: (context, index) {
-                            var product = snapshot.data![index];
-                            return ProductWidget(
-                              onTap: () {
-                                AppNavigator.push(
-                                  Routes.PRODUCT_EDIT,
-                                  arguments: {
-                                    'product': product,
-                                  },
-                                );
-                              },
-                              product: product,
-                              index: index,
-                            );
-                          },
-                        );
-                      }
-                      if (snapshot.connectionState == ConnectionState.none) {
-                        return NoDataPage(
-                          text: "Not found products yet",
-                          imgPath: Constants.EMPTY_ASSET,
-                        );
-                      }
-                      return BuildShimmerProducts();
-                    }),
-              ],
-            ),
+        return SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomButton(buttomText: 'custom'),
+              AppTextButton(
+                txt: "textbutton",
+                onTap: () {},
+              ),
+              SizedBox(height: 10.sp),
+              const CategoryWidget(),
+              SizedBox(height: 10.sp),
+              FutureBuilder<List<ProductModel>>(
+                  future: AppGet.adminGet.fetchAllProducts(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        reverse: true,
+                        itemCount: snapshot.data?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          var product = snapshot.data![index];
+                          return ProductWidget(
+                            onTap: () {
+                              AppNavigator.push(
+                                Routes.PRODUCT_EDIT,
+                                arguments: {
+                                  'product': product,
+                                },
+                              );
+                            },
+                            product: product,
+                            index: index,
+                          );
+                        },
+                      );
+                    }
+                    if (snapshot.connectionState == ConnectionState.none) {
+                      return NoDataPage(
+                        text: "Not found products yet",
+                        imgPath: Constants.EMPTY_ASSET,
+                      );
+                    }
+                    return BuildShimmerProducts();
+                  }),
+            ],
           ),
         );
       }),

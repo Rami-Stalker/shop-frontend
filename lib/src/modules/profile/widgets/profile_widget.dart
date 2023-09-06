@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import '../../../themes/app_decorations.dart';
 
 import '../../../utils/sizer_custom/sizer.dart';
@@ -31,8 +32,11 @@ class AccountWidget extends StatelessWidget {
             appIcon,
             SizedBox(width: 15.sp),
             Expanded(
-                child:
-                    Text(text, style: Theme.of(context).textTheme.titleLarge, overflow: TextOverflow.ellipsis, maxLines: 2)),
+              child: AppText(
+                text,
+                maxLines: 2,
+              ),
+            ),
           ],
         ),
       ),

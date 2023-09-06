@@ -6,6 +6,7 @@ import '../../utils/sizer_custom/sizer.dart';
 
 import '../../themes/app_colors.dart';
 import '../../themes/app_decorations.dart';
+import 'app_text.dart';
 import 'icon_text_widget.dart';
 
 class ProductWidget extends StatelessWidget {
@@ -68,10 +69,7 @@ class ProductWidget extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          product.name,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
+                        AppText(product.name),
                         Spacer(),
                         avgRating != 0.0
                             ? Components.customRating(avgRating.toString())

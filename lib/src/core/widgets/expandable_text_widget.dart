@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import '../../themes/app_colors.dart';
 
 
@@ -38,10 +39,9 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
   Widget build(BuildContext context) {
     return Container(
         child: secondHalf.isEmpty
-            ? Text(
+            ? AppText(
                 firstHalf,
-                style:
-                    Theme.of(context).textTheme.bodyLarge!.copyWith(color: fCL),
+                type: TextType.small,
               )
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

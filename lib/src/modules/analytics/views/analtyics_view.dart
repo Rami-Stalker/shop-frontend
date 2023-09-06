@@ -1,11 +1,13 @@
+import 'package:flutter/material.dart';
+
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../core/widgets/custom_loader.dart';
-import 'package:flutter/material.dart';
-import '../../../utils/sizer_custom/sizer.dart';
-
-import '../../../models/admin_model.dart';
+import '../../../models/sales_model.dart';
 import '../../../themes/app_colors.dart';
+import '../../../utils/sizer_custom/sizer.dart';
 
 class AnalyticsView extends StatefulWidget {
   const AnalyticsView({Key? key}) : super(key: key);
@@ -17,10 +19,12 @@ class AnalyticsView extends StatefulWidget {
 class _AnalyticsViewState extends State<AnalyticsView> {
   int? totalSales;
   List<Sales>? earnings;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     super.initState();
+    _tooltipBehavior = TooltipBehavior(enable: true);
     getEarnings();
   }
 
@@ -37,44 +41,36 @@ class _AnalyticsViewState extends State<AnalyticsView> {
       appBar: AppBar(
         backgroundColor: colorPrimary,
         centerTitle: true,
-        title: Text(
-          'Analtycs',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
+        title: AppText('Analtycs'),
       ),
       body: earnings != null || totalSales != null
           ? Padding(
-            padding: EdgeInsets.all(15.sp),
-            child: Column(
+              padding: EdgeInsets.all(15.sp),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(
-                    'total sales: \$$totalSales',
-                    style: Theme.of(context).textTheme.titleLarge,
+                  AppText(
+                    'total sales: \$$totalSales'
                   ),
-                  SizedBox(height: 10.h),
-                  // SizedBox(
-                  //   height: Dimensions.screenHeight - 170,
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //       color: AppColors.mainColor,
-                  //       borderRadius: BorderRadius.only(
-                  //         topLeft: Radius.circular(Dimensions.radius15),
-                  //         topRight: Radius.circular(Dimensions.radius15),
-                  //         )
-                  //     ),
-                  //     child: CategoryProductsChart(seriesList: [
-                  //       charts.Series(
-                  //         id: 'Sales',
-                  //         data: earnings!,
-                  //         domainFn: (Sales sales, _) => sales.label,
-                  //         measureFn: (Sales sales, _) => sales.earning,
-                  //       ),
-                  //     ]),
-                  //   ),
-                  // )
+                  SizedBox(height: 10.sp),
+                  SizedBox(
+                    height: 360.sp,
+                    child: SfCartesianChart(
+                      title: ChartTitle(text: 'Half yearly sales analysis'),
+                      tooltipBehavior: _tooltipBehavior,
+                      primaryXAxis: CategoryAxis(),
+                      series: <ChartSeries>[
+                        LineSeries<Sales, String>(
+                          dataSource: earnings ?? [],
+                          xValueMapper: (Sales sales, _) => sales.label,
+                          yValueMapper: (Sales sales, _) => sales.earning,
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-          )
+            )
           : const CustomLoader(),
     );
   }

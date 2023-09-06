@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/models/user_model.dart';
 
 import '../controllers/update_profile_controller.dart';
@@ -28,8 +29,7 @@ class UpdateProfileView extends StatefulWidget {
 class _UpdateProfileViewState extends State<UpdateProfileView> {
   AuthController authController = AppGet.authGet;
   UserModel user = AppGet.authGet.userModel!;
-  UpdateProfileController addressController =
-      AppGet.updateProfileGet;
+  UpdateProfileController addressController = AppGet.updateProfileGet;
 
   late bool _isLogged;
 
@@ -65,8 +65,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
   void initState() {
     getPosition();
     _isLogged = authController.onAuthCheck();
-    if (_isLogged && user.phone == "" ||
-        user.phone.isEmpty) {
+    if (_isLogged && user.phone == "" || user.phone.isEmpty) {
       authController.GetInfoUser();
     }
     if (user.name.isNotEmpty) {
@@ -83,175 +82,159 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
     return Scaffold(
       appBar: Components.customAppBar(context, "Modify Info"),
       body: GetBuilder<UpdateProfileController>(
-            builder: (updateProfileController) {
-              updateProfileController.addressC.text =
-                  '${updateProfileController.placemark.value.administrativeArea ?? ''}${updateProfileController.placemark.value.locality ?? ''}${updateProfileController.placemark.value.street ?? ''}${updateProfileController.placemark.value.postalCode ?? ''}';
-              return ListView(
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(5.sp),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 130.sp,
-                          width: SizerUtil.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              width: 2.sp,
-                              color: colorPrimary,
-                            ),
-                          ),
-                          child: _isPosition != false
-                              ? GoogleMap(
-                                  mapType: MapType.hybrid,
-                                  initialCameraPosition: CameraPosition(
-                                    target: updateProfileController.initPosition,
-                                    zoom: 17.0,
-                                  ),
-                                  onTap: (latLng) {
-                                    AppNavigator.push(
-                                      Routes.ADDRESS,
-                                    );
-                                  },
-                                  myLocationEnabled: true,
-                                  onMapCreated:
-                                      (GoogleMapController controller) =>
-                                          updateProfileController
-                                              .setMapController(controller),
-                                  zoomControlsEnabled: false,
-                                  compassEnabled: false,
-                                  indoorViewEnabled: true,
-                                  mapToolbarEnabled: false,
-                                  onCameraMove: ((position) {
-                                    updateProfileController.initPosition = LatLng(
-                                      position.target.latitude,
-                                      position.target.longitude,
-                                    );
-                                  }),
-                                  onCameraIdle: () {
-                                    updateProfileController.updatePosition(
-                                        updateProfileController.initPosition);
-                                  },
-                                )
-                              : Container(),
+        builder: (updateProfileController) {
+          updateProfileController.addressC.text =
+              '${updateProfileController.placemark.value.administrativeArea ?? ''}${updateProfileController.placemark.value.locality ?? ''}${updateProfileController.placemark.value.street ?? ''}${updateProfileController.placemark.value.postalCode ?? ''}';
+          return ListView(
+            physics: const BouncingScrollPhysics(),
+            children: [
+              Padding(
+                padding: EdgeInsets.all(5.sp),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 130.sp,
+                      width: SizerUtil.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          width: 2.sp,
+                          color: colorPrimary,
                         ),
-                        SizedBox(height: 10.sp),
+                      ),
+                      child: _isPosition != false
+                          ? GoogleMap(
+                              mapType: MapType.hybrid,
+                              initialCameraPosition: CameraPosition(
+                                target: updateProfileController.initPosition,
+                                zoom: 17.0,
+                              ),
+                              onTap: (latLng) {
+                                AppNavigator.push(
+                                  Routes.ADDRESS,
+                                );
+                              },
+                              myLocationEnabled: true,
+                              onMapCreated: (GoogleMapController controller) =>
+                                  updateProfileController
+                                      .setMapController(controller),
+                              zoomControlsEnabled: false,
+                              compassEnabled: false,
+                              indoorViewEnabled: true,
+                              mapToolbarEnabled: false,
+                              onCameraMove: ((position) {
+                                updateProfileController.initPosition = LatLng(
+                                  position.target.latitude,
+                                  position.target.longitude,
+                                );
+                              }),
+                              onCameraIdle: () {
+                                updateProfileController.updatePosition(
+                                    updateProfileController.initPosition);
+                              },
+                            )
+                          : Container(),
+                    ),
+                    SizedBox(height: 10.sp),
                     SizedBox(
-                            height: 50.sp,
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: updateProfileController
-                                    .addressTypeList.length,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      updateProfileController
-                                          .setAddressTypeIndex(index);
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            30.sp,
-                                        vertical: 10.sp,
-                                      ),
-                                      margin: EdgeInsets.only(
-                                        right: 10.sp,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                          5.sp,
-                                        ),
-                                        color: Theme.of(context)
-                                            .cardColor,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey[200]!,
-                                            spreadRadius: 1,
-                                            blurRadius: 5,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Icon(
-                                        index == 0
-                                            ? Icons.home_filled
-                                            : index == 1
-                                                ? Icons.work
-                                                : Icons.location_on,
-                                        color: updateProfileController
-                                                    .addressTypeIndex ==
-                                                index
-                                            ? colorPrimary
-                                            : Theme.of(context)
-                                                .disabledColor,
-                                      ),
+                      height: 50.sp,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount:
+                              updateProfileController.addressTypeList.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                updateProfileController
+                                    .setAddressTypeIndex(index);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 30.sp,
+                                  vertical: 10.sp,
+                                ),
+                                margin: EdgeInsets.only(
+                                  right: 10.sp,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                    5.sp,
+                                  ),
+                                  color: Theme.of(context).cardColor,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey[200]!,
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
                                     ),
-                                  );
-                                }),
-                          ),
-                      ],
+                                  ],
+                                ),
+                                child: Icon(
+                                  index == 0
+                                      ? Icons.home_filled
+                                      : index == 1
+                                          ? Icons.work
+                                          : Icons.location_on,
+                                  color: updateProfileController
+                                              .addressTypeIndex ==
+                                          index
+                                      ? colorPrimary
+                                      : Theme.of(context).disabledColor,
+                                ),
+                              ),
+                            );
+                          }),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20.sp,
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.sp,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20.sp),
+                    AppText('Delivery Address'),
+                    SizedBox(
+                      height: 10.sp,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 20.sp),
-                        Text(
-                          'Delivery Address',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        SizedBox(
-                          height: 10.sp,
-                        ),
-                        AppTextField(
-                          textController:
-                              updateProfileController.addressC,
-                          hintText: 'Your address',
-                          icon: Icons.map,
-                        ),
-                        SizedBox(height: 20.sp),
-                        Text(
-                          'Delivery Name',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        SizedBox(
-                          height: 10.sp,
-                        ),
-                        AppTextField(
-                          textController: updateProfileController.nameC,
-                          hintText: 'Your name',
-                          icon: Icons.person,
-                        ),
-                        SizedBox(height: 20.sp),
-                        Text(
-                          'Delivery Phone',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        SizedBox(
-                          height: 10.sp,
-                        ),
-                        AppTextField(
-                          keyboardType: TextInputType.phone,
-                          textController: updateProfileController.phoneC,
-                          hintText: 'Your Phone',
-                          icon: Icons.phone,
-                        ),
-                      ],
+                    AppTextField(
+                      textController: updateProfileController.addressC,
+                      hintText: 'Your address',
+                      icon: Icons.map,
                     ),
-                  ),
-                ],
-              );
-            },
-          ),
-        
+                    SizedBox(height: 20.sp),
+                    AppText('Delivery Name'),
+                    SizedBox(
+                      height: 10.sp,
+                    ),
+                    AppTextField(
+                      textController: updateProfileController.nameC,
+                      hintText: 'Your name',
+                      icon: Icons.person,
+                    ),
+                    SizedBox(height: 20.sp),
+                    AppText('Delivery Phone'),
+                    SizedBox(
+                      height: 10.sp,
+                    ),
+                    AppTextField(
+                      keyboardType: TextInputType.phone,
+                      textController: updateProfileController.phoneC,
+                      hintText: 'Your Phone',
+                      icon: Icons.phone,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
       bottomNavigationBar: Container(
         height: 80.sp,
         padding: EdgeInsets.symmetric(
@@ -266,22 +249,21 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
           ),
         ),
         child: GetBuilder<UpdateProfileController>(
-          builder: (updateProfileController) {
-            return AppTextButton(
-              txt: 'Save Modifications',
-              onTap: () {
-                if (updateProfileController.addressC.text.isNotEmpty) {
-                        updateProfileController.modifyUserInfo(
-                          updateProfileController.addressC.text,
-                          updateProfileController.nameC.text,
-                          updateProfileController.phoneC.text,
-                        );
-                        AppNavigator.pop();
-                      }
-              },
-            );
-          }
-        ),
+            builder: (updateProfileController) {
+          return AppTextButton(
+            txt: 'Save Modifications',
+            onTap: () {
+              if (updateProfileController.addressC.text.isNotEmpty) {
+                updateProfileController.modifyUserInfo(
+                  updateProfileController.addressC.text,
+                  updateProfileController.nameC.text,
+                  updateProfileController.phoneC.text,
+                );
+                AppNavigator.pop();
+              }
+            },
+          );
+        }),
       ),
     );
   }

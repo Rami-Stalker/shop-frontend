@@ -14,9 +14,9 @@ class Application {
   Future<void> initialAppLication() async {
     try {
       await GetStorage.init();
-      baseUrl = 'http://192.168.74.79:3000/';
+      baseUrl = 'http://192.168.156.79:3000/';
       imageUrl = baseUrl + 'api/up-load-file/';
-      socketUrl = 'http://192.168.74.79:3000/';
+      socketUrl = 'http://192.168.156.79:3000/';
       mode = 'PRODUCTION';
       requestPermission();
       handleReceiveNotification();

@@ -22,7 +22,7 @@ class AppTextButton extends StatelessWidget {
           backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
-              10.sp,
+              20.sp,
             ),
           ),
           padding: EdgeInsets.all(10.sp)),

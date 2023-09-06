@@ -1,4 +1,5 @@
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/models/user_model.dart';
 
 import '../../../public/components.dart';
@@ -66,10 +67,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               SizedBox(
                 height: 20.sp,
               ),
-              Text(
-                'Shipping Address',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+              AppText('Shipping Address'),
               SizedBox(height: 20.sp),
               GestureDetector(
                 onTap: () => AppNavigator.push(Routes.UPDATE_PROFILE),
@@ -95,12 +93,9 @@ class _CheckoutViewState extends State<CheckoutView> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          AppText(
                             'Home',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(fontSize: 13.sp),
+                            type: TextType.medium,
                           ),
                           SizedBox(height: 5.sp),
                           SizedBox(
@@ -108,22 +103,16 @@ class _CheckoutViewState extends State<CheckoutView> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                AppText(
                                   user.phone,
                                   overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(fontSize: 10.sp),
+                                  type: TextType.small,
                                 ),
-                                Text(
+                                AppText(
                                   user.address,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(fontSize: 10.sp),
+                                  type: TextType.small,
                                 ),
                               ],
                             ),
@@ -137,10 +126,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                 ),
               ),
               SizedBox(height: 45.sp),
-              Text(
-                'Payment Methods',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+              AppText('Payment Methods'),
               SizedBox(height: 20.sp),
               RadioWidget(
                 image: Constants.PAYPAL_ASSET,
@@ -190,10 +176,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Total",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  AppText("Total"),
                   Text(
                     '\$ ${cartController.totalAmount + 100}',
                     style: Theme.of(context)

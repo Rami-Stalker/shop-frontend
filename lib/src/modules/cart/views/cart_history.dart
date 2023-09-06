@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import '../controllers/cart_controller.dart';
 import '../../../themes/app_colors.dart';
 
@@ -53,7 +54,7 @@ class CartHistoryView extends GetView<CartController> {
         DateFormat outputFormat = DateFormat("MM/dd/yyyy hh:mm a");
         outputDate = outputFormat.format(inputDate);
       }
-      return Text(outputDate, style: Theme.of(context).textTheme.titleLarge);
+      return AppText(outputDate);
     }
 
     int price = 0;
@@ -68,9 +69,8 @@ class CartHistoryView extends GetView<CartController> {
       appBar: AppBar(
         backgroundColor: colorPrimary,
         centerTitle: true,
-        title: Text(
-          'Cart History',
-          style: Theme.of(context).textTheme.titleLarge,
+        title: AppText(
+          'Cart History'
         ),
         actions: [
           Container(
@@ -144,26 +144,18 @@ class CartHistoryView extends GetView<CartController> {
                                   children: [
                                     Row(
                                       children: [
-                                        Text(
+                                        AppText(
                                           'total:',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
+                                          type: TextType.medium
                                         ),
                                         SizedBox(width: 10.sp),
-                                        Text(
-                                          '\$${price.toString()}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge,
+                                        AppText(
+                                          '\$${price.toString()}'
                                         ),
                                       ],
                                     ),
-                                    Text(
-                                      '${itemsVal[i]} Items',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge,
+                                    AppText(
+                                      '${itemsVal[i]} Items'
                                     ),
                                     GestureDetector(
                                       onTap: () {

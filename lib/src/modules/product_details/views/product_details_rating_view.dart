@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/public/components.dart';
 import '../../../resources/local/user_local.dart';
 import '../controllers/product_details_controller.dart';
@@ -36,6 +37,8 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
   @override
   void initState() {
     super.initState();
+    AppGet.productDetailsGet.clearMyRating();
+    AppGet.productDetailsGet.avgRating.value = 0;
     pageController.addListener(() {
       setState(() {
         _currPageValue = pageController.page!;
@@ -151,7 +154,7 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
               )),
           productDetailsController.avgRating.value != 0.0
               ? Positioned(
-                  top: 170.sp,
+                  top: _ratingProductImgSize - 80.sp,
                   right: 10.sp,
                   child: Obx(
                     () => Components.customRating(
@@ -163,7 +166,7 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
 
           product.images.length > 1
               ? Positioned(
-                  top: 260.sp,
+                  top: _ratingProductImgSize - 80.sp,
                   right: 0.0,
                   left: 0.0,
                   child: DotsIndicator(
@@ -210,10 +213,7 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
                     oldPrice: product.oldPrice,
                   ),
                   SizedBox(height: 20.sp),
-                  Text(
-                    'Introduce',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  AppText('Introduce'),
                   SizedBox(
                     height: 20.sp,
                   ),
@@ -296,7 +296,7 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
                             SizedBox(width: 5.sp),
                             Text(
                               productDetailsController.quantity.toString(),
-                              style: Theme.of(context).textTheme.titleLarge,
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                             SizedBox(width: 5.sp),
                             InkWell(

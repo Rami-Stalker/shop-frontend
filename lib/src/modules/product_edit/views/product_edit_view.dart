@@ -1,4 +1,5 @@
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 
 import '../../../routes/app_pages.dart';
 import '../controllers/product_edit_controller.dart';
@@ -126,15 +127,11 @@ class _ProductEditViewState extends State<ProductEditView> {
                       ),
                     ),
                     child: Center(
-                        child: Text(
-                      product.name,
-                      overflow: TextOverflow.clip,
-                      maxLines: 1,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(fontSize: 20.sp),
-                    )),
+                      child: AppText(
+                        product.name,
+                        overflow: TextOverflow.clip,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -150,10 +147,7 @@ class _ProductEditViewState extends State<ProductEditView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 20.sp),
-                  Text(
-                    'Product Name',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  AppText('Product Name'),
                   SizedBox(
                     height: 10.sp,
                   ),
@@ -163,10 +157,7 @@ class _ProductEditViewState extends State<ProductEditView> {
                     icon: Icons.person,
                   ),
                   SizedBox(height: 20.sp),
-                  Text(
-                    'Product Descreption',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  AppText('Product Descreption'),
                   SizedBox(
                     height: 10.sp,
                   ),
@@ -177,10 +168,7 @@ class _ProductEditViewState extends State<ProductEditView> {
                     maxLines: 3,
                   ),
                   SizedBox(height: 20.sp),
-                  Text(
-                    'Product Price',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  AppText('Product Price'),
                   SizedBox(
                     height: 10.sp,
                   ),
@@ -190,10 +178,7 @@ class _ProductEditViewState extends State<ProductEditView> {
                     icon: Icons.price_change,
                   ),
                   SizedBox(height: 20.sp),
-                  Text(
-                    'Product Quantity',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  AppText('Product Quantity'),
                   SizedBox(
                     height: 10.sp,
                   ),
@@ -241,7 +226,7 @@ class _ProductEditViewState extends State<ProductEditView> {
                     },
                   ),
                   SizedBox(width: 10.sp),
-                  Text('OR', style: Theme.of(context).textTheme.titleLarge),
+                  AppText('OR'),
                   SizedBox(width: 10.sp),
                   AppTextButton(
                     txt: 'Save Modific',

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/widgets/big_text.dart';
-import '../../../core/widgets/small_text.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
@@ -22,11 +21,11 @@ class ProductDetailsWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        BigText(text: name),
+        AppText(name),
         SizedBox(height: 5.sp),
         Row(
           children: [
-            BigText(text: '\$${price.toString()}'),
+            AppText('\$${price.toString()}'),
             SizedBox(width: 5.sp),
             oldPrice != 0
                 ? Text(
@@ -109,7 +108,7 @@ Row _iconAndTextWidget({
         size: 24.sp,
       ),
       SizedBox(width: 3.sp),
-      SmallText(text: text),
+      AppText(text, type: TextType.small),
     ],
   );
 }

@@ -26,7 +26,7 @@ class CartRepository {
 
   void addToCartHistoryList() {
     if (_getStorage.read(cartHistoryKey) != null) {
-      cartHistory = _getStorage.read(cartHistoryKey);
+      cartHistory = _getStorage.read<List<String>>(cartHistoryKey)??[];
     }
 
     for (int i = 0; i < cart.length; i++) {

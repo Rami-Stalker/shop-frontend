@@ -128,6 +128,7 @@ class AuthRepository {
 
   FutureOr<bool> logOut() async {
     UserLocal().clearAccessToken();
+    UserLocal().clearUserType();
     return false;
   }
 }

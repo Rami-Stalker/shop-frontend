@@ -4,8 +4,8 @@ import 'socket.dart';
 import '../../public/sockets.dart';
 
 class SocketEmit {
-  changeOrderStatus(String OrderId) {
-    socket!.emit(SocketEvent.CHANGE_ORDER_STATUS, {'OrderId': OrderId});
+  changeOrderStatus(String orderId) {
+    socket!.emit(SocketEvent.CHANGE_ORDER_STATUS_EMIT, {'orderId': orderId});
   }
 
   sendDeviceInfo() async {

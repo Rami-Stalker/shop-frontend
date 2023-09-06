@@ -1,7 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/public/components.dart';
-import '../../../themes/font_family.dart';
 import '../controllers/home_controller.dart';
 import '../../../themes/app_decorations.dart';
 import '../../../utils/sizer_custom/sizer.dart';
@@ -33,7 +33,6 @@ class _HomeViewState extends State<HomeView> {
   Future<void> _loadResources() async {
     homeController.fetchNewestProduct();
     homeController.fetchRatingProduct();
-    await AppGet.notificationGet.getNotofications();
   }
 
   @override
@@ -55,7 +54,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: Components.customAppBarHome(context),
       body: GetBuilder<HomeController>(builder: (homeController) {
@@ -72,15 +70,15 @@ class _HomeViewState extends State<HomeView> {
                       SizedBox(height: 10.sp),
                       const CategoryWidget(),
                       SizedBox(height: 20.sp),
+                      AppText('title medium'),
+                      AppText('title medium', type: TextType.medium),
+                      AppText('title medium', type: TextType.small),
                       Padding(
                         padding: EdgeInsets.only(
                           left: 30.sp,
                           bottom: 15.sp,
                         ),
-                        child: Text(
-                          'Highest Rated',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
+                        child: AppText('Highest Rated'),
                       ),
                       // slider section
                       GetBuilder<HomeController>(builder: (homeController) {
@@ -129,10 +127,7 @@ class _HomeViewState extends State<HomeView> {
                           left: 30.sp,
                           bottom: 15.sp,
                         ),
-                        child: Text(
-                          'Newest Products',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
+                        child: AppText('Newest Products'),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
@@ -146,6 +141,7 @@ class _HomeViewState extends State<HomeView> {
                             crossAxisCount: 2,
                             childAspectRatio: 1 / 1.6,
                             crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
                           ),
                           itemCount: homeController.productNewest.length,
                           itemBuilder: (context, index) {
@@ -228,13 +224,8 @@ class _HomeViewState extends State<HomeView> {
                                                         ),
                                                         child: Row(
                                                           children: [
-                                                            Text(
-                                                              'Disc %${docs.round()}',
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .titleLarge,
-                                                            ),
+                                                            AppText(
+                                                                'Disc %${docs.round()}'),
                                                           ],
                                                         ),
                                                       ),
@@ -301,24 +292,16 @@ class _HomeViewState extends State<HomeView> {
                                                   children: [
                                                     SizedBox(
                                                       width: 100.sp,
-                                                      child: Text(
-                                                        product.name,
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .titleLarge,
-                                                      ),
+                                                      child:
+                                                          AppText(product.name),
                                                     ),
                                                   ],
                                                 ),
                                                 SizedBox(height: 5.sp),
                                                 Row(
                                                   children: [
-                                                    Text(
-                                                      '\$${product.price.toString()}',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .titleLarge,
-                                                    ),
+                                                    AppText(
+                                                        '\$${product.price.toString()}'),
                                                     const Spacer(),
                                                     Container(
                                                       padding: EdgeInsets.all(
@@ -331,13 +314,6 @@ class _HomeViewState extends State<HomeView> {
                                                                 .circular(
                                                           15.sp,
                                                         ),
-                                                        // boxShadow: [
-                                                        //   BoxShadow(
-                                                        //     blurRadius: 1,
-                                                        //     offset: const Offset(0, 2),
-                                                        //     color: Colors.grey.withOpacity(0.2),
-                                                        //   ),
-                                                        // ],
                                                       ),
                                                       child: Row(
                                                         mainAxisSize:

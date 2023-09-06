@@ -25,6 +25,5 @@ class ProfileController extends GetxController {
         UserLocal().saveUser(user);
       }
     }
-    // Get.toNamed(Routes.ROOT);
   }
 }

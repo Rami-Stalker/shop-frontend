@@ -1,4 +1,5 @@
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 
 import '../controllers/cart_controller.dart';
 import '../../../themes/app_colors.dart';
@@ -87,12 +88,9 @@ class _CartScreenState extends State<CartView> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Text(
+                                            AppText(
                                               product.name!,
                                               overflow: TextOverflow.clip,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleLarge,
                                             ),
                                             Row(
                                               mainAxisAlignment:
@@ -255,8 +253,7 @@ class _CartScreenState extends State<CartView> {
                             },
                           ),
                           SizedBox(width: 10.sp),
-                          Text('OR',
-                              style: Theme.of(context).textTheme.titleLarge),
+                          AppText('OR'),
                           SizedBox(width: 10.sp),
                           AppTextButton(
                             txt: 'Check Out',

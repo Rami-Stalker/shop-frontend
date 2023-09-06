@@ -51,8 +51,15 @@ class AppTheme {
           fontSize: 14.sp,
           fontFamily: FontFamily.lato,
         ),
-        titleMedium: TextStyle(color: appColors.contentText2),
-        bodyLarge: TextStyle(color: appColors.contentText2),
+        titleMedium: TextStyle(
+          color: appColors.contentText2,
+          fontFamily: FontFamily.lato,
+        ),
+        bodyLarge: TextStyle(
+          color: appColors.contentText2,
+          fontWeight: FontWeight.w300,
+          fontFamily: FontFamily.lato,
+        ),
       ),
       dividerColor: appColors.divider,
     );

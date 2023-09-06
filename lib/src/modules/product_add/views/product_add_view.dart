@@ -1,12 +1,13 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
+import '../../../core/dialogs/dialog_loading.dart';
 import '../controllers/product_add_controller.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 import '../../../public/components.dart';
 import '../../../core/widgets/app_text_field.dart';
-import '../../../core/widgets/big_text.dart';
 import '../../../core/widgets/custom_button.dart';
 import 'package:get/get.dart';
 
@@ -94,167 +95,158 @@ class _ProductAddViewState extends State<ProductAddView> {
         "Add Product",
       ),
       body: GetBuilder<ProductAddController>(builder: (addProductController) {
-        return 
-            SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Form(
-                key: _addProductFormKey,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 10.sp),
-                      images.isNotEmpty
-                          ? CarouselSlider(
-                              items: images.map(
-                                (i) {
-                                  return Builder(
-                                    builder: (BuildContext context) =>
-                                        Image.file(
-                                      i,
-                                      fit: BoxFit.cover,
-                                      height: 200.sp,
-                                    ),
-                                  );
-                                },
-                              ).toList(),
-                              options: CarouselOptions(
-                                viewportFraction: 1,
-                                height: 200.sp,
-                              ),
-                            )
-                          : GestureDetector(
-                              onTap: selectImages,
-                              child: DottedBorder(
-                                borderType: BorderType.RRect,
-                                radius: Radius.circular(10.sp),
-                                dashPattern: const [10, 4],
-                                strokeCap: StrokeCap.round,
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 150.sp,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.folder_open,
-                                        size: 40.sp,
-                                      ),
-                                      SizedBox(height: 15.sp),
-                                      Text(
-                                        'Select Product Images',
-                                        style: TextStyle(
-                                          fontSize: 15.sp,
-                                          color: Colors.grey.shade400,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+        return SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Form(
+            key: _addProductFormKey,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.sp),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10.sp),
+                  images.isNotEmpty
+                      ? CarouselSlider(
+                          items: images.map(
+                            (i) {
+                              return Builder(
+                                builder: (BuildContext context) => Image.file(
+                                  i,
+                                  fit: BoxFit.cover,
+                                  height: 200.sp,
                                 ),
+                              );
+                            },
+                          ).toList(),
+                          options: CarouselOptions(
+                            viewportFraction: 1,
+                            height: 200.sp,
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: selectImages,
+                          child: DottedBorder(
+                            borderType: BorderType.RRect,
+                            radius: Radius.circular(10.sp),
+                            dashPattern: const [10, 4],
+                            strokeCap: StrokeCap.round,
+                            child: Container(
+                              width: double.infinity,
+                              height: 150.sp,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.folder_open,
+                                    size: 40.sp,
+                                  ),
+                                  SizedBox(height: 15.sp),
+                                  Text(
+                                    'Select Product Images',
+                                    style: TextStyle(
+                                      fontSize: 15.sp,
+                                      color: Colors.grey.shade400,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                      SizedBox(height: 20.sp),
-                      BigText(
-                        text: 'Product Name',
-                      ),
-                      SizedBox(height: 10.sp),
-                      AppTextField(
-                        textController: addProductController.productNameC,
-                        hintText: 'Product Name',
-                        icon: Icons.person,
-                      ),
-                      SizedBox(height: 20.sp),
-                      BigText(
-                        text: 'Product Description',
-                      ),
-                      SizedBox(
-                        height: 10.sp,
-                      ),
-                      AppTextField(
-                        textController: addProductController.descriptionC,
-                        hintText: 'Product Description',
-                        icon: Icons.description,
-                        maxLines: 3,
-                      ),
-                      SizedBox(height: 20.sp),
-                      BigText(
-                        text: 'Product Price',
-                      ),
-                      SizedBox(
-                        height: 10.sp,
-                      ),
-                      AppTextField(
-                        keyboardType: TextInputType.number,
-                        textController: addProductController.priceC,
-                        hintText: 'Product Price',
-                        icon: Icons.money,
-                      ),
-                      SizedBox(height: 20.sp),
-                      BigText(
-                        text: 'Product Quantity',
-                      ),
-                      SizedBox(
-                        height: 10.sp,
-                      ),
-                      AppTextField(
-                        keyboardType: TextInputType.number,
-                        textController: addProductController.quantityC,
-                        hintText: 'Product Quantity',
-                        icon: Icons.production_quantity_limits,
-                      ),
-                      SizedBox(height: 10.sp),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            BigText(text: category),
-                            DropdownButton(
-                              borderRadius: BorderRadius.circular(
-                                10.sp,
-                              ),
-                              dropdownColor: Colors.blueGrey,
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down,
-                                color: Colors.grey,
-                              ),
-                              iconSize: 24.sp,
-                              elevation: 4,
-                              underline: Container(
-                                height: 0,
-                              ),
-                              // style: subTitleStyle,
-                              items: productCategories.map((String item) {
-                                return DropdownMenuItem(
-                                  value: item,
-                                  child: Text(item),
-                                );
-                              }).toList(),
-                              onChanged: (String? newVal) {
-                                setState(() {
-                                  category = newVal!;
-                                });
-                              },
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 10.sp),
-                      CustomButton(
-                        buttomText: 'Add Product',
-                        onPressed: () => addProduct(addProductController),
-                      ),
-                      SizedBox(height: 10.sp),
-                    ],
+                  SizedBox(height: 20.sp),
+                  AppText('Product Name'),
+                  SizedBox(height: 10.sp),
+                  AppTextField(
+                    textController: addProductController.productNameC,
+                    hintText: 'Product Name',
+                    icon: Icons.person,
                   ),
-                ),
+                  SizedBox(height: 20.sp),
+                  AppText('Product Description'),
+                  SizedBox(
+                    height: 10.sp,
+                  ),
+                  AppTextField(
+                    textController: addProductController.descriptionC,
+                    hintText: 'Product Description',
+                    icon: Icons.description,
+                    maxLines: 3,
+                  ),
+                  SizedBox(height: 20.sp),
+                  AppText('Product Price'),
+                  SizedBox(
+                    height: 10.sp,
+                  ),
+                  AppTextField(
+                    keyboardType: TextInputType.number,
+                    textController: addProductController.priceC,
+                    hintText: 'Product Price',
+                    icon: Icons.money,
+                  ),
+                  SizedBox(height: 20.sp),
+                  AppText('Product Quantity'),
+                  SizedBox(
+                    height: 10.sp,
+                  ),
+                  AppTextField(
+                    keyboardType: TextInputType.number,
+                    textController: addProductController.quantityC,
+                    hintText: 'Product Quantity',
+                    icon: Icons.production_quantity_limits,
+                  ),
+                  SizedBox(height: 10.sp),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AppText(category),
+                        DropdownButton(
+                          borderRadius: BorderRadius.circular(
+                            10.sp,
+                          ),
+                          dropdownColor: Colors.blueGrey,
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.grey,
+                          ),
+                          iconSize: 24.sp,
+                          elevation: 4,
+                          underline: Container(
+                            height: 0,
+                          ),
+                          // style: subTitleStyle,
+                          items: productCategories.map((String item) {
+                            return DropdownMenuItem(
+                              value: item,
+                              child: Text(item),
+                            );
+                          }).toList(),
+                          onChanged: (String? newVal) {
+                            setState(() {
+                              category = newVal!;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10.sp),
+                  CustomButton(
+                      buttomText: 'Add Product',
+                      onPressed: () {
+                        showDialogLoading(context);
+                        addProduct(addProductController);
+                      }),
+                  SizedBox(height: 10.sp),
+                ],
               ),
-            );
+            ),
+          ),
+        );
       }),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import '../../../public/components.dart';
 import '../controllers/search_controller.dart';
 import '../../../themes/app_colors.dart';
@@ -75,10 +76,9 @@ class SearchWidget extends GetView<SearchController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(
+                            AppText(
                               product.name,
                               overflow: TextOverflow.clip,
-                              style: Theme.of(context).textTheme.titleLarge,
                             ),
                             SizedBox(
                               height: 10.sp,
@@ -86,13 +86,10 @@ class SearchWidget extends GetView<SearchController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  '\$ ${product.price.toString()}',
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
+                                AppText('\$ ${product.price.toString()}'),
                               ],
                             ),
-                            SizedBox(height: 20.sp),
+                            SizedBox(height: 10.sp),
                             Text(
                               'Eligible for FREE Shipping',
                               style: Theme.of(context).textTheme.titleMedium,
@@ -101,16 +98,16 @@ class SearchWidget extends GetView<SearchController> {
                         ),
                       ),
                       avgRating != 0.0
-                      ? Padding(
-                          padding: EdgeInsets.only(
-                            right: 5.sp,
-                            top: 5.sp,
-                          ),
-                          child: Components.customRating(
-                      avgRating.toString(),
-                    ),
-                        )
-                      : Container(),
+                          ? Padding(
+                              padding: EdgeInsets.only(
+                                right: 5.sp,
+                                top: 5.sp,
+                              ),
+                              child: Components.customRating(
+                                avgRating.toString(),
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),

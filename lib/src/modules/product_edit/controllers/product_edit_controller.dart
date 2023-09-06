@@ -36,9 +36,10 @@ class ProductEditController extends GetxController implements GetxService {
 
   void deleteProduct({
     required ProductModel product,
-    // required VoidCallback onSuccess,
   }) async {
     try {
+      print('ddddddffffffffffffffff');
+      print(product.id);
       diox.Response response = await editProductRepository.deleteProduct(product: product);
 
       Constants.handleApi(

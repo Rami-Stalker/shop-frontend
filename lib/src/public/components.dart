@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import '../controller/app_controller.dart';
 import '../controller/theme_controller.dart';
 import '../models/notification_model.dart';
 import '../routes/app_pages.dart';
 import '../themes/app_colors.dart';
 
-import '../core/widgets/big_text.dart';
 import '../themes/app_decorations.dart';
 import '../themes/font_family.dart';
 import '../themes/theme_service.dart';
@@ -20,10 +20,7 @@ class Components {
   ) {
     return AppBar(
       centerTitle: true,
-      title: Text(
-        title,
-        style: Theme.of(context).textTheme.titleLarge,
-      ),
+      title: AppText(title),
       leading: Container(
         padding: EdgeInsets.all(8.sp),
         child: InkWell(
@@ -74,9 +71,9 @@ class Components {
                       fontFamily: FontFamily.dancing,
                     ),
                   ),
-                  Text(
+                  AppText(
+                    type: TextType.small,
                     AppGet.authGet.userModel?.address ?? "",
-                    style: Theme.of(context).textTheme.titleMedium,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
@@ -267,10 +264,9 @@ class Components {
         builder: (context) => AlertDialog(
               title: Text(
                 msg,
-                style: TextStyle(
-                  color: colorBlack,
-                  fontSize: 16.0,
-                ),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 16.sp,
+                    ),
               ),
               actions: <Widget>[
                 TextButton(
@@ -293,13 +289,18 @@ class Components {
     Get.snackbar(
       title,
       message,
-      titleText: BigText(
-        text: title,
+      titleText: Text(
+        title,
+        style: TextStyle(
+          fontSize: 14.sp,
+          fontFamily: FontFamily.lato,
+        ),
       ),
       messageText: Text(
         message,
         style: TextStyle(
           color: mCL,
+          fontFamily: FontFamily.lato,
         ),
       ),
       colorText: mCL,

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as diox;
+import 'package:shop_app/src/modules/navigator/views/navigation_view.dart';
 
-import '../../../routes/app_pages.dart';
 import '../repositories.dart/order_details_repository.dart';
 import '../../../services/socket/socket_emit.dart';
 
@@ -15,39 +15,22 @@ class OrderDetailsController extends GetxController {
     required this.orderDetailsRepository,
   });
 
-  RxInt currentStep = 0.obs;
+  int currentStep = 0;
 
-  void changeOrderStatus(String OrderId) async {
+  void changeOrderStatus(String orderId) async {
     try {
-        SocketEmit().changeOrderStatus(OrderId);
+        SocketEmit().changeOrderStatus(orderId);
     } catch (e) {
       Components.showSnackBar(e.toString());
     }
   }
   
   void changeOrderStatusToUser(dynamic data){
-  currentStep.value == data.status;
+  currentStep = data['status'];
+  print('11111111111111111111111111111111111');
+  print(currentStep);
+  update();
   }
-
-  // void changeOrderStatus({
-  //   required int status,
-  //   required OrderModel order,
-  // }) async {
-  //   try {
-  //     diox.Response res =
-  //         await orderDetailsRepository.changeOrderStatus(status: status, order: order);
-
-  //     Constants.httpErrorHandle(
-  //       res: res,
-  //       onSuccess: () {
-  //         currentStep += 1;
-  //       },
-  //     );
-  //     update();
-  //   } catch (e) {
-  //     Components.showSnackBar(e.toString());
-  //   }
-  // }
 
   void deleteOrder({
     required OrderModel order,
@@ -58,7 +41,7 @@ class OrderDetailsController extends GetxController {
       Constants.handleApi(
         response: response,
         onSuccess: () {
-          AppNavigator.replaceWith(Routes.NAVIGATION);
+          Get.to(Navigation(initialIndex: 2));
           update();
         },
       );

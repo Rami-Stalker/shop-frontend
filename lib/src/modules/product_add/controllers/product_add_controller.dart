@@ -77,7 +77,12 @@ class ProductAddController extends GetxController implements GetxService {
             title: "Product",
             color: colorPrimary,
           );
-          AppNavigator.pop();
+          productNameC.text = '';
+          descriptionC.text = '';
+          priceC.text = '';
+          quantityC.text = '';
+          AppNavigator.replaceWith(Routes.NAVIGATION);
+          update();
         },
       );
       update();

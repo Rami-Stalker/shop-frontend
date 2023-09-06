@@ -39,6 +39,10 @@ class ProductDetailsController extends GetxController implements GetxService {
     return _getStorage.read(myRatingKey) ?? 0;
   }
 
+  void clearMyRating() {
+    _getStorage.remove(myRatingKey);
+  }
+
   
   // Rx<double> myRating = 0.0.obs;
   

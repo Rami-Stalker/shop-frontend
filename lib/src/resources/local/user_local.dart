@@ -29,6 +29,10 @@ class UserLocal {
     return _getStorage.read(tokenKey) ?? '';
   }
 
+  void clearAccessToken() async {
+    _getStorage.remove(tokenKey);
+  }
+
   void saveUserId(String userId) async {
     _getStorage.write(userIdKey, userId);
   }
@@ -37,15 +41,15 @@ class UserLocal {
     return _getStorage.read(userIdKey) ?? '';
   }
 
-  void clearAccessToken() async {
-    _getStorage.remove(tokenKey);
-  }
-
   void saveUserType(String type) async {
     _getStorage.write(typeKey, type);
   }
   
   String getUserType() {
     return _getStorage.read(typeKey) ?? '';
+  }
+
+  void clearUserType() async {
+    _getStorage.remove(typeKey);
   }
 }

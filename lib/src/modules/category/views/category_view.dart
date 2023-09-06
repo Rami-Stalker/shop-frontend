@@ -1,3 +1,5 @@
+import 'package:shop_app/src/core/widgets/app_text.dart';
+
 import '../../../controller/app_controller.dart';
 import '../../../core/widgets/product_widget.dart';
 import '../../../utils/sizer_custom/sizer.dart';
@@ -27,7 +29,7 @@ class CatigoryView extends GetView<CategoryController> {
         backgroundColor: colorPrimary,
         centerTitle: true,
         title:
-            Text(Get.arguments, style: Theme.of(context).textTheme.titleLarge),
+            AppText(Get.arguments),
         leading: Container(
           padding: EdgeInsets.all(8.sp),
           child: AppIcon(
