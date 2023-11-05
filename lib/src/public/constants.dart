@@ -2,30 +2,51 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:lottie/lottie.dart';
+import 'package:shop_app/src/models/language_model.dart';
 
 import 'components.dart';
 
 import 'package:dio/dio.dart' as diox;
 
-
-class Constants {
+class AppConstants {
   static const INCH_TO_DP = 160;
 
-  // Assets
-  LottieBuilder splashLottie = Lottie.asset('assets/lottie/splash.json');
-  LottieBuilder loadingLottie = Lottie.asset('assets/lottie/cat_sleeping.json');
-  LottieBuilder loginLottie = Lottie.asset('assets/lottie/login.json');
-  static const urlImageDefault = 'https://i.postimg.cc/Dfsg6VYJ/Hi-School.png';
+  static String COUNTRY_CODE = 'country_code';
+  static String LANGUAGE_CODE = 'language_code';
+
+  static const urlImageDefault = 'assets/icons/logo32.png';
+
+  // Lottie
+  static const LOTTIE_PATH = 'assets/lotties';
+  LottieBuilder splashLottie = Lottie.asset('$LOTTIE_PATH/splash.json');
+  LottieBuilder loadingLottie = Lottie.asset('$LOTTIE_PATH/cat_sleeping.json');
+  LottieBuilder loginLottie = Lottie.asset('$LOTTIE_PATH/login.json');
+
+  // Image
   static const IMG_PATH = 'assets/images';
   static const PERSON_ASSET = "$IMG_PATH/person.jpg";
-  static const MOBILES_ASSET = '$IMG_PATH/mobiles.png';
-  static const ESSENTIALS_ASSET = '$IMG_PATH/essentials.jpg';
-  static const APPLIANCES_ASSET = '$IMG_PATH/appliances.jpg';
-  static const BOOKS_ASSET = '$IMG_PATH/books.jpg';
-  static const FASHION_ASSET = '$IMG_PATH/fashion.webp';
   static const EMPTY_ASSET = '$IMG_PATH/empty-box.png';
-  static const PAYPAL_ASSET = '$IMG_PATH/paypal-delivery.jpg';
-  static const CASH_ASSET = '$IMG_PATH/cash-delivery.png';
+  
+  static const DRINKS_ASSET = '$IMG_PATH/drinks.jpg';
+  static const BREAKFAST_ASSET = '$IMG_PATH/breakfast.jpg';
+  static const WRAPS_ASSET = '$IMG_PATH/wraps.jpg';
+  static const BRUNCH_ASSET = '$IMG_PATH/brunch.jpg';
+  static const BURGERS_ASSET = '$IMG_PATH/burgers.png';
+  static const FRUNCHTOAST_ASSET = '$IMG_PATH/frenchToast.jpg';
+  static const SIDES_ASSET = '$IMG_PATH/sides.avif';
+  static const TOASTEDPANINIS_ASSET = '$IMG_PATH/toastedPaninis.jpg';
+
+  // Icon
+  static const ICON_PATH = 'assets/icons';
+  static const LOGO32_ASSET = '$ICON_PATH/logo32.png';
+  static const LOGO64_ASSET = '$ICON_PATH/logo64.png';
+  static const PAYPAL_ASSET = '$ICON_PATH/paypal.png';
+  static const CASH_ASSET = '$ICON_PATH/bitcoins.png';
+
+  // Language
+  static const LANGUAGE_PATH = 'assets/languages';
+  static const IN_LANGUAGE = '$LANGUAGE_PATH/en.json';
+  static const AR_LANGUAGE = '$LANGUAGE_PATH/ar.json';
 
   static const List<String> carouselImages = [
     'https://images-eu.ssl-images-amazon.com/images/G/31/img21/Wireless/WLA/TS/D37847648_Accessories_savingdays_Jan22_Cat_PC_1500.jpg',
@@ -37,24 +58,36 @@ class Constants {
 
   static List<Map<String, String>> categoryImages = [
     {
-      'title': 'Mobiles',
-      'image': MOBILES_ASSET,
+      'title': 'Drinks',
+      'image': DRINKS_ASSET,
     },
     {
-      'title': 'Essentials',
-      'image': ESSENTIALS_ASSET,
+      'title': 'Breakfast',
+      'image': BREAKFAST_ASSET,
     },
     {
-      'title': 'Appliances',
-      'image': APPLIANCES_ASSET,
+      'title': 'Wraps',
+      'image': WRAPS_ASSET,
     },
     {
-      'title': 'Books',
-      'image': BOOKS_ASSET,
+      'title': 'Brunch',
+      'image': BRUNCH_ASSET,
     },
     {
-      'title': 'Fashion',
-      'image': FASHION_ASSET,
+      'title': 'Burgers',
+      'image': BURGERS_ASSET,
+    },
+    {
+      'title': 'French Toast',
+      'image': FRUNCHTOAST_ASSET,
+    },
+    {
+      'title': 'Sides',
+      'image': SIDES_ASSET,
+    },
+    {
+      'title': 'Toasted Paninis',
+      'image': TOASTEDPANINIS_ASSET,
     },
   ];
 
@@ -97,22 +130,38 @@ class Constants {
     'pptx',
   ];
 
-static handleApi({
-  required diox.Response response,
-  required VoidCallback onSuccess,
-}) {
-  switch (response.statusCode) {
-    case 200:
-      onSuccess();
-      break;
-    case 400:
-    Components.showSnackBar(response.data['msg'], title: "msg");
-    break;
-    case 500:
-    Components.showSnackBar(response.data['error'], title: "error");
-    break;
-    default:
-    Components.showSnackBar(title: 'successfull',jsonDecode(response.data)['error']);
+  static List<LanguageModel> languages = [
+    LanguageModel(
+      imageUrl: "en.png",
+      languageName: 'English',
+      languageCode: 'en',
+      countryCode: 'US',
+    ),
+    LanguageModel(
+      imageUrl: "ar.png",
+      languageName: 'عربي',
+      languageCode: 'ar',
+      countryCode: 'SA',
+    ),
+  ];
+
+  static handleApi({
+    required diox.Response response,
+    required VoidCallback onSuccess,
+  }) {
+    switch (response.statusCode) {
+      case 200:
+        onSuccess();
+        break;
+      case 400:
+        Components.showSnackBar(response.data['msg'], title: "msg");
+        break;
+      case 500:
+        Components.showSnackBar(response.data['error'], title: "error");
+        break;
+      default:
+        Components.showSnackBar(
+            title: 'successfull', jsonDecode(response.data)['error']);
+    }
   }
-}
 }

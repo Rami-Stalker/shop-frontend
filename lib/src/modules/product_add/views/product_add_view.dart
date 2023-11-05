@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 import '../../../core/dialogs/dialog_loading.dart';
 import '../controllers/product_add_controller.dart';
 import '../../../utils/sizer_custom/sizer.dart';
@@ -24,23 +25,36 @@ class ProductAddView extends StatefulWidget {
 }
 
 class _ProductAddViewState extends State<ProductAddView> {
-  String category = 'Mobiles';
+  final TextEditingController _productNameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _discountController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
+
+  String category = 'Drinks';
   List<File> images = [];
   final _addProductFormKey = GlobalKey<FormState>();
 
   List<String> productCategories = [
-    'Mobiles',
-    'Essentials',
-    'Appliances',
-    'Books',
-    'Fashion'
+    'Drinks',
+    'Breakfast',
+    'Wraps',
+    'Brunch',
+    'Burgers',
+    'FrenchToast',
+    'Sides',
+    'ToastedPaninis'
   ];
 
   void addProduct(ProductAddController addProductController) {
-    String productName = addProductController.productNameC.text.trim();
-    String description = addProductController.descriptionC.text.trim();
-    String price = addProductController.priceC.text.trim();
-    String quantity = addProductController.quantityC.text.trim();
+    String productName = _productNameController.text.trim();
+    String description = _descriptionController.text.trim();
+    String price = _priceController.text.trim();
+    String discount = _discountController.text.trim();
+    String quantity = _quantityController.text.trim();
+    String time = _timeController.text.trim();
+
     List<File> imageFile = images;
 
     if (imageFile.isEmpty) {
@@ -70,13 +84,21 @@ class _ProductAddViewState extends State<ProductAddView> {
       );
     } else {
       addProductController.addProduct(
-        name: addProductController.productNameC.text,
-        description: addProductController.descriptionC.text,
-        price: int.parse(addProductController.priceC.text),
-        quantity: int.parse(addProductController.quantityC.text),
+        name: productName,
+        description: description,
+        price: int.parse(price),
+        discount: int.parse(discount),
+        quantity: int.parse(quantity),
         category: category,
         images: images,
+        time: time,
       );
+      _productNameController.text = '';
+      _descriptionController.text = '';
+      _priceController.text = '';
+      _discountController.text = '';
+      _quantityController.text = '';
+      _timeController.text = '';
     }
   }
 
@@ -160,7 +182,7 @@ class _ProductAddViewState extends State<ProductAddView> {
                   AppText('Product Name'),
                   SizedBox(height: 10.sp),
                   AppTextField(
-                    textController: addProductController.productNameC,
+                    textController: _productNameController,
                     hintText: 'Product Name',
                     icon: Icons.person,
                   ),
@@ -170,20 +192,27 @@ class _ProductAddViewState extends State<ProductAddView> {
                     height: 10.sp,
                   ),
                   AppTextField(
-                    textController: addProductController.descriptionC,
+                    textController: _descriptionController,
                     hintText: 'Product Description',
                     icon: Icons.description,
                     maxLines: 3,
                   ),
                   SizedBox(height: 20.sp),
                   AppText('Product Price'),
-                  SizedBox(
-                    height: 10.sp,
-                  ),
+                  SizedBox(height: 10.sp),
                   AppTextField(
                     keyboardType: TextInputType.number,
-                    textController: addProductController.priceC,
+                    textController: _priceController,
                     hintText: 'Product Price',
+                    icon: Icons.money,
+                  ),
+                  SizedBox(height: 20.sp),
+                  AppText('Product Discount'),
+                  SizedBox(height: 10.sp),
+                  AppTextField(
+                    keyboardType: TextInputType.number,
+                    textController: _discountController,
+                    hintText: 'Product Discount',
                     icon: Icons.money,
                   ),
                   SizedBox(height: 20.sp),
@@ -193,9 +222,20 @@ class _ProductAddViewState extends State<ProductAddView> {
                   ),
                   AppTextField(
                     keyboardType: TextInputType.number,
-                    textController: addProductController.quantityC,
+                    textController: _quantityController,
                     hintText: 'Product Quantity',
                     icon: Icons.production_quantity_limits,
+                  ),
+                  SizedBox(height: 20.sp),
+                  AppText('Product Time'),
+                  SizedBox(
+                    height: 10.sp,
+                  ),
+                  AppTextField(
+                    keyboardType: TextInputType.number,
+                    textController: _timeController,
+                    hintText: 'Product Time',
+                    icon: Icons.access_time_rounded,
                   ),
                   SizedBox(height: 10.sp),
                   SizedBox(
@@ -208,7 +248,7 @@ class _ProductAddViewState extends State<ProductAddView> {
                           borderRadius: BorderRadius.circular(
                             10.sp,
                           ),
-                          dropdownColor: Colors.blueGrey,
+                          dropdownColor: colorPrimary,
                           icon: const Icon(
                             Icons.keyboard_arrow_down,
                             color: Colors.grey,
@@ -222,7 +262,7 @@ class _ProductAddViewState extends State<ProductAddView> {
                           items: productCategories.map((String item) {
                             return DropdownMenuItem(
                               value: item,
-                              child: Text(item),
+                              child: AppText(item),
                             );
                           }).toList(),
                           onChanged: (String? newVal) {
@@ -236,11 +276,12 @@ class _ProductAddViewState extends State<ProductAddView> {
                   ),
                   SizedBox(height: 10.sp),
                   CustomButton(
-                      buttomText: 'Add Product',
-                      onPressed: () {
-                        showDialogLoading(context);
-                        addProduct(addProductController);
-                      }),
+                    buttomText: 'Add Meal',
+                    onPressed: () {
+                      showDialogLoading(context);
+                      addProduct(addProductController);
+                    },
+                  ),
                   SizedBox(height: 10.sp),
                 ],
               ),

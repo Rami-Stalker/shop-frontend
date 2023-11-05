@@ -7,6 +7,7 @@ import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/public/components.dart';
 import '../../../resources/local/user_local.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/product_details_controller.dart';
 import '../../../themes/app_colors.dart';
 import '../../../themes/app_decorations.dart';
@@ -15,7 +16,6 @@ import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_text_button.dart';
 import '../../../core/widgets/expandable_text_widget.dart';
 import '../../../models/product_model.dart';
-import '../../../routes/app_pages.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 import '../widgets/product_details.dart';
 
@@ -66,11 +66,6 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
       }
     }
 
-    print('bbbbbbbbbbbbbbbbbbbbbbbb');
-    print(totalRating);
-    print(productDetailsController.ratings.length);
-    print(productDetailsController.avgRating);
-
     if (totalRating != 0) {
       productDetailsController.avgRating.value =
           totalRating / productDetailsController.ratings.length;
@@ -113,7 +108,7 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
                   ),
                 ),
           Positioned(
-              top: 35.sp,
+              top: 30.sp,
               left: 20.sp,
               right: 20.sp,
               child: Row(
@@ -129,7 +124,7 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
                         AppIcon(
                           onTap: () {
                             if (controller.totalItems != 0) {
-                              AppNavigator.push(Routes.CART);
+                              AppNavigator.push(AppRoutes.CART);
                             }
                           },
                           icon: Icons.shopping_cart_outlined,
@@ -174,7 +169,7 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
                         product.images.isEmpty ? 1 : product.images.length,
                     position: _currPageValue.toInt(),
                     decorator: DotsDecorator(
-                      activeColor: Colors.blue,
+                      activeColor: colorBranch,
                       size: const Size.square(9.0),
                       activeSize: const Size(18.0, 9.0),
                       activeShape: RoundedRectangleBorder(
@@ -210,7 +205,7 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
                     name: product.name,
                     category: product.category,
                     price: product.price,
-                    oldPrice: product.oldPrice,
+                    oldPrice: product.oldPrice!,
                   ),
                   SizedBox(height: 20.sp),
                   AppText('Introduce'),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/modules/menu/views/menu_view.dart';
 
 import 'package:shop_app/src/resources/local/user_local.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
@@ -39,6 +40,7 @@ class _NavigationState extends State<Navigation> {
 
   List<Widget> _userPages = [
     const HomeView(),
+    const MenuView(),
     const OrderView(),
     const CartHistoryView(),
     const ProfileView(),
@@ -48,10 +50,12 @@ class _NavigationState extends State<Navigation> {
   void initState() {
     super.initState;
     currentPage = widget.initialIndex;
+    // Future.delayed(Duration(milliseconds: 800), () async {
+    //   LanguageService().initialLanguage(context);
+    // });
     if (AppGet.authGet.onAuthCheck()) {
       AppGet.authGet.GetInfoUser();
       connectAndListen();
-      print(AppGet.authGet.userModel!.image);
     }
   }
 
@@ -95,10 +99,11 @@ class _NavigationState extends State<Navigation> {
                       2,
                       'Orders',
                     ),
+                    
                     _buildItemBottomAccount(
                       AppGet.authGet.onAuthCheck()
-                        ? (AppGet.authGet.userModel?.image ?? Constants.urlImageDefault)
-                        : Constants.urlImageDefault,
+                        ? (AppGet.authGet.userModel?.image ?? AppConstants.urlImageDefault)
+                        : AppConstants.urlImageDefault,
                       AppGet.authGet.onAuthCheck() 
                         ? (AppGet.authGet.userModel?.blurHash ?? '') 
                         : '',
@@ -114,26 +119,39 @@ class _NavigationState extends State<Navigation> {
                       0,
                       'Home',
                     ),
+                    _buildItemBottom(
+                      "assets/images/forkm.png",
+                      "assets/images/forkp.png",
+                      1,
+                      'Menu',
+                    ),
                     _buildItemBottomBar(
                       PhosphorIcons.shoppingBag,
                       PhosphorIcons.shoppingBagFill,
-                      1,
+                      2,
                       'Orders',
                     ),
                     _buildItemBottomBar(
                       PhosphorIcons.shoppingCart,
                       PhosphorIcons.shoppingCartFill,
-                      2,
+                      3,
                       'Message',
                     ),
-                    _buildItemBottomAccount(
+                    !AppGet.authGet.onAuthCheck() ?
+                    _buildItemBottom(
+                      AppConstants.urlImageDefault,
+                      AppConstants.urlImageDefault,
+                      4,
+                      '',
+                    )
+                    : _buildItemBottomAccount(
                       AppGet.authGet.onAuthCheck()
-                        ? (AppGet.authGet.userModel?.image ?? Constants.urlImageDefault)
-                        : Constants.urlImageDefault,
+                        ? (AppGet.authGet.userModel?.image ?? AppConstants.urlImageDefault)
+                        : AppConstants.urlImageDefault,
                       AppGet.authGet.onAuthCheck() 
                         ? (AppGet.authGet.userModel?.blurHash ?? '') 
                         : '',
-                      3,
+                      4,
                     ),
                   ],
                 ),
@@ -166,7 +184,49 @@ class _NavigationState extends State<Navigation> {
                   size: 21.5.sp,
                   color: index == currentPage
                       ? colorPrimary
-                      : Theme.of(context).textTheme.bodyMedium!.color,
+                      : colorBranch,
+                ),
+              ),
+              SizedBox(height: 2.5.sp),
+              Container(
+                height: 4.sp,
+                width: 4.sp,
+                decoration: BoxDecoration(
+                  color: index == 10 ? colorPrimary : Colors.transparent,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildItemBottom(inActiveIcon, activeIcon, index, title) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            currentPage = index;
+          });
+        },
+        child: Container(
+          color: Colors.transparent,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 18.5.sp,
+                width: 18.5.sp,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image:
+                    index == currentPage ?
+                    AssetImage(activeIcon)
+                    : AssetImage(inActiveIcon),
+                    ),
                 ),
               ),
               SizedBox(height: 2.5.sp),

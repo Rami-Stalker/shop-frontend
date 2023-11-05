@@ -1,4 +1,6 @@
+
 import '../../modules/home/controllers/home_controller.dart';
+import '../../routes/app_pages.dart';
 import '../../utils/sizer_custom/sizer.dart';
 
 import 'package:get/get.dart';
@@ -6,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 import '../../public/constants.dart';
-import '../../routes/app_pages.dart';
 import '../../themes/app_colors.dart';
 
 class CategoryWidget extends GetView<HomeController> {
@@ -14,62 +15,66 @@ class CategoryWidget extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 5.sp),
-      child: SizedBox(
-        height: 70.sp,
-        child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemCount: Constants.categoryImages.length,
-          scrollDirection: Axis.horizontal,
-          itemExtent: 280,
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                AppNavigator.push(
-                  Routes.CATEGORY,
-                  arguments: Constants.categoryImages[index]['title']!,
-                );
+    return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: AppConstants.categoryImages.length,
+      padding: EdgeInsets.fromLTRB(5.sp, 0, 5.sp, 5.sp),
+      itemBuilder: (BuildContext context, int index) {
+        return GestureDetector(
+          onTap: () {
+            AppNavigator.push(
+              AppRoutes.CATEGORY_PRODUCT,
+              arguments: {
+                'title': AppConstants.categoryImages[index]['title']!,
               },
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.sp),
-                ),
-                elevation: 2,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10.sp),
-                      child: Image.asset(
-                        Constants.categoryImages[index]['image']!,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                    ),
-                    Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: colorMedium.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(10.sp),
-                      ),
-                    ),
-                    Text(
-                      Constants.categoryImages[index]['title']!,
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             );
           },
-        ),
-      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    height: 140.sp,
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.sp),
+                      image: DecorationImage(
+                        image: AssetImage(
+                          AppConstants.categoryImages[index]['image']!,
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0.0,
+                    bottom: 0.0,
+                    right: 0.0,
+                    left: 0.0,
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: colorBranch.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(5.sp),
+                      ),
+                      child: Text(
+                        AppConstants.categoryImages[index]['title']!,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(fontSize: 24.sp, color: mCL),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 5.sp),
+            ],
+          ),
+        );
+      },
     );
   }
 }

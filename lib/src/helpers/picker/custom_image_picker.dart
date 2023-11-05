@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
 import '../../routes/app_pages.dart';
@@ -10,7 +12,8 @@ import '../../routes/app_pages.dart';
 class CustomImagePicker {
   final _picker = ImagePicker();
 
-  Widget _buildImageModalButton({context, index, icon, text, source, Function? handleFinish}) {
+  Widget _buildImageModalButton(
+      {context, index, icon, text, source, Function? handleFinish}) {
     return TextButton(
       onPressed: () async {
         XFile? image = await getImage(
@@ -30,7 +33,7 @@ class CustomImagePicker {
               if (states.contains(MaterialState.pressed)) {
                 return Colors.black.withOpacity(0.5);
               }
-              return Colors.black; // Use the component's default.
+              return Colors.black;
             },
           ),
           overlayColor: MaterialStateProperty.all<Color>(Colors.transparent)),
@@ -45,9 +48,8 @@ class CustomImagePicker {
             SizedBox(
               width: 15.sp,
             ),
-            Text(
+            AppText(
               text,
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -55,7 +57,11 @@ class CustomImagePicker {
     );
   }
 
-  Future getImage({context, source = ImageSource.gallery, maxWidthImage, imageQualityImage}) async {
+  Future getImage(
+      {context,
+      source = ImageSource.gallery,
+      maxWidthImage,
+      imageQualityImage}) async {
     return await _picker.pickImage(
       source: source,
       imageQuality: 80,
@@ -65,73 +71,59 @@ class CustomImagePicker {
 
   Future openImagePicker({
     @required context,
-    text = 'Chọn ảnh đại diện',
+    text = 'Select avatar',
     Function? handleFinish,
   }) {
-    return showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Container(
-          height: 210.sp,
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
-                  ),
-                  color: Colors.white,
-                ),
-                height: 170.sp,
-                width: double.infinity,
-                padding: EdgeInsets.only(left: 18.sp, right: 18.sp),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 25.sp,
-                    ),
-                    Text(
-                      text,
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.sp,
-                    ),
-                    _buildImageModalButton(
-                      context: context,
-                      index: 0,
-                      icon: PhosphorIcons.instagramLogo,
-                      text: 'Chọn ảnh có sẵn',
-                      source: ImageSource.gallery,
-                      handleFinish: handleFinish,
-                    ),
-                    Divider(
-                      height: 1,
-                      thickness: 0.5,
-                      color: Color(0xffe5e5e5),
-                    ),
-                    _buildImageModalButton(
-                      context: context,
-                      index: 1,
-                      icon: PhosphorIcons.camera,
-                      text: 'Chụp ảnh mới',
-                      source: ImageSource.camera,
-                      handleFinish: handleFinish,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    return Get.bottomSheet(
+      Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
           ),
-        );
-      },
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        height: 170.sp,
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 18.sp),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 25.sp,
+            ),
+            AppText(
+              text,
+            ),
+            SizedBox(
+              height: 10.sp,
+            ),
+            _buildImageModalButton(
+              context: context,
+              index: 0,
+              icon: PhosphorIcons.instagramLogo,
+              text: 'From Gallery',
+              source: ImageSource.gallery,
+              handleFinish: handleFinish,
+            ),
+            Divider(
+              height: 1,
+              thickness: 0.5,
+              color: Color(0xffe5e5e5),
+            ),
+            _buildImageModalButton(
+              context: context,
+              index: 1,
+              icon: PhosphorIcons.camera,
+              text: 'From Camera',
+              source: ImageSource.camera,
+              handleFinish: handleFinish,
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
     );
   }
 }

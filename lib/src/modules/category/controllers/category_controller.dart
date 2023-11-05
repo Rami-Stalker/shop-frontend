@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart' as diox;
 
 import 'package:shop_app/src/modules/category/repositories/category_repository.dart';
+import 'package:shop_app/src/public/components.dart';
 import '../../../core/network/network_info.dart';
 
 import '../../../models/product_model.dart';
@@ -15,15 +16,16 @@ class CategoryController extends GetxController implements GetxService {
     required this.networkInfo,
   });
 
-  List<ProductModel>? productCategory = [];
-
   Future<List<ProductModel>?> fetchCategoryProduct({
     required String category,
   }) async {
+    try {
+      List<ProductModel>? productCategory = [];
+    
     diox.Response response =
         await categoryRepository.fetchCategoryProduct(category: category);
 
-    Constants.handleApi(
+    AppConstants.handleApi(
       response: response,
       onSuccess: () {
         List rawData = response.data;
@@ -32,5 +34,9 @@ class CategoryController extends GetxController implements GetxService {
       },
     );
     return productCategory;
+    } catch (e) {
+      Components.showSnackBar(title: "Category", e.toString());
+      return [];
+    }
   }
 }

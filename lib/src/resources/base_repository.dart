@@ -10,7 +10,7 @@ class BaseRepository {
     baseUrl: Application.baseUrl,
     connectTimeout: Duration(milliseconds: 20000),
     receiveTimeout: Duration(milliseconds: 20000),
-  )); // with default Options
+  ));
 
   Future<diox.Response<dynamic>> downloadFile(
       String url, String path, Function onReceive) async {

@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart' as diox;
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shop_app/src/modules/home/repositories/home_repository.dart';
 
 import 'package:shop_app/src/public/components.dart';
 import 'package:shop_app/src/public/constants.dart';
+import '../../../controller/app_controller.dart';
 import '../../../models/rating_model.dart';
 import '../../../resources/local/user_local.dart';
 import '../../cart/controllers/cart_controller.dart';
 import '../repositories/product_detailes_repository.dart';
-import '../../../themes/app_colors.dart';
 
 import '../../../models/product_model.dart';
 
@@ -23,6 +24,8 @@ class ProductDetailsController extends GetxController implements GetxService {
 
   List<RatingModel> ratings = [];
   Rx<double> avgRating = 0.0.obs;
+
+  RxBool isFavorite = false.obs;
 
   void saveMyRating(double myRating) async {
     _getStorage.write(myRatingKey, myRating);
@@ -61,7 +64,7 @@ class ProductDetailsController extends GetxController implements GetxService {
         rating: rating,
       );
 
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {},
       );
@@ -71,13 +74,7 @@ class ProductDetailsController extends GetxController implements GetxService {
     }
   }
 
-  /////////////////////////
-
-  late CartController _cart = CartController(
-    cartRepository: Get.find(),
-  );
-
-  
+  CartController _cart = AppGet.CartGet;
 
   void setQuantity(bool isIncrement, int productQuantity) {
     if (isIncrement) {
@@ -89,19 +86,15 @@ class ProductDetailsController extends GetxController implements GetxService {
 
   int checkQuantity(int quantity, int productQuantity) {
     if (quantity < 0) {
-      Get.snackbar(
-        'Item count',
+      Components.showSnackBar(
+        title: "Item count",
         "You can't reduce more !",
-        backgroundColor: colorPrimary,
-        colorText: mCL,
       );
       return 0;
     } else if (quantity > productQuantity) {
-      Get.snackbar(
-        'Item count',
+      Components.showSnackBar(
+        title: "Item count",
         "You ordered more than the available quantity !",
-        backgroundColor: colorPrimary,
-        colorText: mCL,
       );
       return productQuantity;
     } else {
@@ -110,7 +103,7 @@ class ProductDetailsController extends GetxController implements GetxService {
   }
 
   void addItem(ProductModel product) {
-    _cart.addItem(product.id, product, quantity.value);
+    _cart.addItem(product, quantity.value);
     _quantity.value = _cart.getQuantity(product);
     update();
   }
@@ -123,5 +116,23 @@ class ProductDetailsController extends GetxController implements GetxService {
 
   int get totalItems {
     return _cart.totalItems;
+  }
+
+    setFavorite() {
+    isFavorite.value = !isFavorite.value;
+    update();
+  }
+
+  void changeMealFavorite(String mealId) async {
+    try {
+      diox.Response response = await Get.find<HomeRepository>().changeMealFavorite(mealId);
+
+      AppConstants.handleApi(
+        response: response,
+        onSuccess: () {},
+      );
+    } catch (e) {
+      Components.showSnackBar(e.toString(), title: "Change Meal Favorite");
+    }
   }
 }

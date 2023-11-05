@@ -19,28 +19,42 @@ class Components {
     String title,
   ) {
     return AppBar(
-      centerTitle: true,
       title: AppText(title),
-      leading: Container(
+      leading: Padding(
         padding: EdgeInsets.all(8.sp),
-        child: InkWell(
-          onTap: () => AppNavigator.pop(),
+        child: GestureDetector(
+          onTap: () {
+            AppNavigator.pop();
+          },
           child: Container(
-            padding: EdgeInsets.all(5.sp),
-            decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: colorPrimary,
+              ),
+              shape: BoxShape.circle
+            ),
             child: Icon(
-              Icons.arrow_back_ios,
+              Icons.arrow_back,
               size: 15.sp,
               color: Get.isDarkMode ? mCL : colorBlack,
             ),
           ),
+          // Container(
+          //   padding: EdgeInsets.all(5.sp),
+          //   decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
+          //   child: Icon(
+          //     Icons.arrow_back,
+          //     size: 15.sp,
+          //     color: Get.isDarkMode ? mCL : colorBlack,
+          //   ),
+          // ),
         ),
       ),
       bottom: PreferredSize(
         child: Divider(),
         preferredSize: Size(
           SizerUtil.width,
-          20.sp,
+          10.sp,
         ),
       ),
     );
@@ -49,26 +63,58 @@ class Components {
   static AppBar customAppBarHome(BuildContext context) {
     return AppBar(
       elevation: 0.0,
-      title: AppGet.authGet.userModel?.address == null
-          ? Text(
-              'Ramy Shop',
-              style: TextStyle(
-                color: colorPrimary,
-                fontSize: 20.sp,
-                fontFamily: FontFamily.dancing,
-              ),
-            )
+      title: AppGet.authGet.userModel?.address == '' || AppGet.authGet.userModel?.address == null
+          ? RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Ramy',
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: FontFamily.dancing,
+                            color: colorPrimary,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'shop',
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: FontFamily.dancing,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
           : Container(
               width: 200.sp,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Ramy Shop',
-                    style: TextStyle(
-                      color: colorPrimary,
-                      fontSize: 20.sp,
-                      fontFamily: FontFamily.dancing,
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Ramy',
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: FontFamily.dancing,
+                            color: colorPrimary,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'shop',
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: FontFamily.dancing,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   AppText(
@@ -97,7 +143,7 @@ class Components {
                       child: GestureDetector(
                         onTap: () {
                           AppNavigator.push(
-                            Routes.NOTIFICATION,
+                            AppRoutes.NOTIFICATION,
                             arguments: snapshot.data,
                           );
                         },
@@ -193,23 +239,23 @@ class Components {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 5.sp),
           child: InkWell(
-            onTap: () => AppNavigator.push(Routes.SEARCH),
+            onTap: () => AppNavigator.push(AppRoutes.SEARCH_PRODUCT),
             child: Container(
               width: SizerUtil.width,
               padding: EdgeInsets.all(10.sp),
-              decoration: AppDecoration.textfeild(context, 5.sp).decoration,
+              decoration: AppDecoration.productFavoriteCart(context, 6.sp).decoration,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Search your desired food",
-                    style: TextStyle(
-                      color: mCH,
-                    ),
-                  ),
                   Icon(
-                    Icons.search,
-                  ),
+                      Icons.search,
+                      color: colorPrimary,
+                    ),
+                    SizedBox(width: 10.sp),
+                    AppText(
+                      "Search your desired food",
+                      type: TextType.small,
+                    ),
                 ],
               ),
             ),
@@ -253,6 +299,19 @@ class Components {
     );
   }
 
+  static Container customContainer(
+    BuildContext context,
+    Widget child,
+  ) {
+    return Container(
+      padding: EdgeInsets.all(
+        10.sp,
+      ),
+      decoration: AppDecoration.productFavoriteCart(context, 6.sp).decoration,
+      child: child,
+    );
+  }
+
   static showCustomDialog({
     required BuildContext context,
     required String msg,
@@ -281,7 +340,7 @@ class Components {
             ));
   }
 
-  static showSnackBar(
+  static void showSnackBar(
     String message, {
     String title = 'Error',
     Color color = Colors.redAccent,
@@ -289,19 +348,11 @@ class Components {
     Get.snackbar(
       title,
       message,
-      titleText: Text(
+      titleText: AppText(
         title,
-        style: TextStyle(
-          fontSize: 14.sp,
-          fontFamily: FontFamily.lato,
-        ),
       ),
-      messageText: Text(
+      messageText: AppText(
         message,
-        style: TextStyle(
-          color: mCL,
-          fontFamily: FontFamily.lato,
-        ),
       ),
       colorText: mCL,
       snackPosition: SnackPosition.TOP,

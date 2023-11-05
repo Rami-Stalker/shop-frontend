@@ -5,7 +5,6 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../public/sockets.dart';
 import '../../resources/local/user_local.dart';
-import 'socket_emit.dart';
 
 IO.Socket? socket;
 
@@ -25,15 +24,16 @@ void connectAndListen() {
   socket!.onConnect((_) async {
     print('Connected');
 
-    socket!.on(SocketEvent.CHANGE_ORDER_STATUS, (data) {
-      AppGet.orderDetailsGet.changeOrderStatusToUser(data);
+    // Order Status
+    socket!.on(SocketEvent.ORDER_STATUS, (data) {
+      AppGet.orderDetailsGet.OrderStatus(data);
     });
 
     socket!.on(SocketEvent.CHANGE_ORDER_STATUS_ERROR, (data) {
       Components.showSnackBar(data['error'], title: "Change Order Status");
     });
 
-    SocketEmit().sendDeviceInfo();
+    // SocketEmit().sendDeviceInfo();
 
     socket!.onDisconnect((_) => print('Disconnected'));
   });

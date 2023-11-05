@@ -5,9 +5,9 @@ import 'package:shop_app/src/resources/base_repository.dart';
 import '../../../public/api_gateway.dart';
 import '../../../models/product_model.dart';
 
-class AdminRepository extends GetConnect {
+class HomeAdminRepository extends GetConnect {
   final BaseRepository baseRepository;
-  AdminRepository({
+  HomeAdminRepository({
     required this.baseRepository,
   });
 

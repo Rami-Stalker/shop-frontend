@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_app/src/core/widgets/app_text.dart';
 import '../../themes/app_colors.dart';
+import 'app_text.dart';
 
 
 class ExpandableTextWidget extends StatefulWidget {
@@ -20,7 +20,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
   late String secondHalf;
 
   bool hiddenText = true;
-  double textHeight = Get.height / 6.63;
+  double textHeight = Get.height / 3.63;
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    hiddenText ? (firstHalf + '...') : (firstHalf + secondHalf),
+                    hiddenText ? ('$firstHalf...') : (firstHalf + secondHalf),
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: fCL,
                           height: 1.8,

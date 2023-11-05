@@ -29,7 +29,7 @@ class AppTheme {
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: appColors.background,
         selectedItemColor: colorPrimary,
-        unselectedItemColor: colorMedium,
+        unselectedItemColor: colorBranch,
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: appColors.background,
@@ -52,7 +52,7 @@ class AppTheme {
           fontFamily: FontFamily.lato,
         ),
         titleMedium: TextStyle(
-          color: appColors.contentText2,
+          color: appColors.contentText1,
           fontFamily: FontFamily.lato,
         ),
         bodyLarge: TextStyle(
@@ -88,7 +88,7 @@ class AppTheme {
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: appColors.background,
         selectedItemColor: colorPrimary,
-        unselectedItemColor: colorMedium,
+        unselectedItemColor: colorBranch,
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: appColors.background,
@@ -99,10 +99,26 @@ class AppTheme {
         size: 20.sp,
       ),
       textTheme: TextTheme(
-        displayMedium: TextStyle(color: appColors.header),
-        titleLarge: TextStyle(color: appColors.contentText1),
-        titleMedium: TextStyle(color: appColors.contentText2),
-        bodyLarge: TextStyle(color: appColors.contentText2),
+        displayMedium: TextStyle(
+          color: appColors.header,
+          fontWeight: FontWeight.w500,
+          fontSize: 30.sp,
+        ),
+        titleLarge: TextStyle(
+          color: appColors.contentText1,
+          fontWeight: FontWeight.w400,
+          fontSize: 14.sp,
+          fontFamily: FontFamily.lato,
+        ),
+        titleMedium: TextStyle(
+          color: appColors.contentText1,
+          fontFamily: FontFamily.lato,
+        ),
+        bodyLarge: TextStyle(
+          color: appColors.contentText2,
+          fontWeight: FontWeight.w300,
+          fontFamily: FontFamily.lato,
+        ),
       ),
       dividerColor: appColors.divider,
     );

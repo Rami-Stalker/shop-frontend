@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
+import '../../routes/app_pages.dart';
 import '../../themes/app_colors.dart';
 
 class DialogConfirm extends StatefulWidget {
@@ -25,17 +27,16 @@ class _DialogConfirmState extends State<DialogConfirm> {
   Widget build(BuildContext context) {
     return Container(
       width: 300.sp,
-      height: widget.height == null ? 180.sp : widget.height,
-      padding: EdgeInsets.symmetric(vertical: 16.sp),
+      height: widget.height ?? 130.sp,
+      padding: EdgeInsets.only(top: 16.sp, bottom: 10.sp),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 6.sp),
+          // SizedBox(height: 6.sp),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.sp),
-            child: Text(
+            child: AppText(
               widget.title,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13.sp),
             ),
           ),
           SizedBox(height: 6.sp),
@@ -44,49 +45,50 @@ class _DialogConfirmState extends State<DialogConfirm> {
             child: Text(
               widget.subTitle,
               textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
+              style: TextStyle(
+                  fontWeight: FontWeight.w400, fontSize: 10.5.sp, color: fCL),
             ),
           ),
           SizedBox(height: 4.sp),
           Divider(),
-          GestureDetector(
-            onTap: () {
-              // AppNavigator.pop();
-              widget.handleConfirm();
-            },
-            child: Container(
-              color: Colors.transparent,
-              width: 300.sp,
-              alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(vertical: 5.sp),
-              child: Text(
-                'Đồng ý',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12.sp,
-                  color: colorPrimary,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  AppNavigator.pop();
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(vertical: 5.sp),
+                  child: AppText(
+                    'Refuse',
+                    type: TextType.small,
+                  ),
                 ),
               ),
-            ),
-          ),
-          Divider(color: Colors.grey),
-          GestureDetector(
-            onTap: () {
-              // AppNavigator.pop();
-            },
-            child: Container(
-              color: Colors.transparent,
-              width: 300.sp,
-              alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(vertical: 5.sp),
-              child: Text(
-                'Từ chối',
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 10.5.sp,
+              GestureDetector(
+                onTap: () {
+                  AppNavigator.pop();
+                  widget.handleConfirm();
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  // width: 300.sp,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(vertical: 5.sp),
+                  child: Text(
+                    'Agree',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.sp,
+                      color: colorPrimary,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ],
       ),

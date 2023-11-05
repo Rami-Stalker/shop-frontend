@@ -1,21 +1,21 @@
 import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:shop_app/src/core/dialogs/dialog_loading.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/models/user_model.dart';
 
+import '../../../core/widgets/custom_button.dart';
 import '../../../public/components.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../routes/app_pages.dart';
+import '../../../services/stripe_payment/payment_manager.dart';
 import '../../cart/controllers/cart_controller.dart';
 import '../controllers/checkout_controller.dart';
 import '../../../public/constants.dart';
 import '../../../themes/app_colors.dart';
 
 import '../../../core/widgets/app_icon.dart';
-import '../../../core/widgets/app_text_button.dart';
 import '../../../models/cart_model.dart';
-import '../../../routes/app_pages.dart';
-import '../../../services/payment/paypal_service.dart';
-import '../../../themes/app_decorations.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 import '../widgets/items_widget.dart';
 import '../widgets/radio_widget.dart';
@@ -57,29 +57,23 @@ class _CheckoutViewState extends State<CheckoutView> {
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 10.sp,
-          vertical: 20.sp,
         ),
         child: Container(
           height: SizerUtil.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 20.sp,
-              ),
+              SizedBox(height: 10.sp),
               AppText('Shipping Address'),
-              SizedBox(height: 20.sp),
+              SizedBox(height: 10.sp),
               GestureDetector(
-                onTap: () => AppNavigator.push(Routes.UPDATE_PROFILE),
-                child: Container(
-                  padding: EdgeInsets.all(
-                    10.sp,
-                  ),
-                  decoration: AppDecoration.dots(context, 10.sp).decoration,
-                  child: Row(
+                onTap: () => AppNavigator.push(AppRoutes.EDIT_INFO_USER),
+                child: Components.customContainer(
+                  context,
+                  Row(
                     children: [
                       CircleAvatar(
-                        radius: 20.sp,
+                        radius: 19.sp,
                         backgroundColor: colorPrimary.withOpacity(0.4),
                         child: AppIcon(
                           backgroundColor: colorPrimary,
@@ -93,11 +87,6 @@ class _CheckoutViewState extends State<CheckoutView> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AppText(
-                            'Home',
-                            type: TextType.medium,
-                          ),
-                          SizedBox(height: 5.sp),
                           SizedBox(
                             width: 150.sp,
                             child: Column(
@@ -105,12 +94,11 @@ class _CheckoutViewState extends State<CheckoutView> {
                               children: [
                                 AppText(
                                   user.phone,
-                                  overflow: TextOverflow.ellipsis,
                                   type: TextType.small,
                                 ),
+                                SizedBox(height: 5.sp),
                                 AppText(
                                   user.address,
-                                  overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   type: TextType.small,
                                 ),
@@ -125,12 +113,12 @@ class _CheckoutViewState extends State<CheckoutView> {
                   ),
                 ),
               ),
-              SizedBox(height: 45.sp),
-              AppText('Payment Methods'),
               SizedBox(height: 20.sp),
+              AppText('Payment Methods'),
+              SizedBox(height: 10.sp),
               RadioWidget(
-                image: Constants.PAYPAL_ASSET,
-                title: 'Paypal',
+                image: AppConstants.PAYPAL_ASSET,
+                title: 'Check Payments',
                 radio: Radio<Ordered>(
                   activeColor: colorPrimary,
                   value: Ordered.paypal,
@@ -143,7 +131,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                 ),
               ),
               RadioWidget(
-                image: Constants.CASH_ASSET,
+                image: AppConstants.CASH_ASSET,
                 title: 'Cash on delivery',
                 radio: Radio<Ordered>(
                   activeColor: colorPrimary,
@@ -156,91 +144,104 @@ class _CheckoutViewState extends State<CheckoutView> {
                   },
                 ),
               ),
-              Spacer(),
-              ItemsWidget(
-                txt: '${getItems.length.toString()} Items',
-                account: '\$ ${cartController.totalAmount.toString()}',
-              ),
-              const ItemsWidget(
-                txt: 'ShippingFee',
-                account: '\$ 100',
-              ),
-              cartController.totalOldAmount != 0
-                  ? ItemsWidget(
+              SizedBox(height: 20.sp),
+              AppText('Order Summary'),
+              SizedBox(height: 10.sp),
+              Components.customContainer(
+                context,
+                Column(
+                  children: [
+                    ItemsWidget(
+                      txt: '${getItems.length.toString()} Items',
+                      account:
+                          '\$${cartController.subtotal.toStringAsFixed(2)}',
+                    ),
+                    ItemsWidget(
+                      txt: 'Shipping',
+                      account: '\$0.00',
+                    ),
+                    ItemsWidget(
+                      txt: 'Tax (14%)',
+                      account: '\$${cartController.tax.toStringAsFixed(2)}',
+                    ),
+                    ItemsWidget(
                       txt: 'Discount',
                       account:
-                          '\$ ${cartController.totalOldAmount - cartController.totalAmount}',
-                    )
-                  : Container(),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppText("Total"),
-                  Text(
-                    '\$ ${cartController.totalAmount + 100}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(color: colorPrimary),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.sp),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20.sp,
-              vertical: 20.sp,
-            ),
-            decoration: AppDecoration.bottomNavigationBar(context).decoration,
-            child:
-                GetBuilder<CheckoutController>(builder: (checkoutController) {
-              return AppTextButton(
-                txt: 'Apply',
-                onTap: () {
-                  if (user.address != "" || user.phone.isNotEmpty) {
-                    if (_order == Ordered.cashOnDelivery) {
-                      checkoutController.checkout(
-                        productsId: productsId,
-                        userQuants: userQuants,
-                        totalPrice: cartController.totalAmount,
-                        address: user.address,
-                      );
-                    } else if (_order == Ordered.paypal) {
-                      PaypalService(
-                        total: cartController.totalAmount,
-                        items: [
-                          {
-                            "": "",
-                          }
+                          '\$${cartController.discount.toStringAsFixed(2)}',
+                    ),
+                    const Divider(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.sp,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Total",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(fontSize: 17.sp),
+                          ),
+                          Text(
+                            '\$${cartController.total.toStringAsFixed(2)}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(fontSize: 17.sp, color: colorPrimary),
+                          ),
                         ],
-                        onSuccess: (Map params) async {
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Spacer(),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 40.sp,
+                  vertical: 25.sp,
+                ),
+                child: GetBuilder<CheckoutController>(
+                    builder: (checkoutController) {
+                  return CustomButton(
+                    buttomText: "Aplly",
+                    onPressed: () {
+                      if (user.address != "" || user.phone.isNotEmpty) {
+                        if (_order == Ordered.cashOnDelivery) {
                           checkoutController.checkout(
                             productsId: productsId,
                             userQuants: userQuants,
-                            totalPrice: cartController.totalAmount,
+                            totalPrice: cartController.subtotal,
                             address: user.address,
                           );
-                        },
-                      );
-                    }
-                  } else {
-                    Components.showSnackBar(
-                      'Your Data is not completed',
-                    );
-                  }
-                },
-              );
-            }),
+                        } else if (_order == Ordered.paypal) {
+                          PaymentManager.makePayment(
+                            amount: cartController.subtotal,
+                            currency: 'USD',
+                          ).then((value) {
+                            showDialogLoading(context);
+                            checkoutController.checkout(
+                              productsId: productsId,
+                              userQuants: userQuants,
+                              totalPrice: cartController.subtotal,
+                              address: user.address,
+                            );
+                          });
+                        }
+                      } else {
+                        Components.showSnackBar(
+                          'Your Data is not completed',
+                        );
+                      }
+                    },
+                  );
+                }),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

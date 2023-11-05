@@ -1,4 +1,4 @@
-import 'package:shop_app/src/controller/app_controller.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
 
 import '../../../routes/app_pages.dart';
@@ -24,9 +24,15 @@ class ProductEditView extends StatefulWidget {
 }
 
 class _ProductEditViewState extends State<ProductEditView> {
+  final TextEditingController _productNameController = TextEditingController();
+  final TextEditingController _descreptionController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _discountController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+
   double _currPageValue = 0;
   PageController pageController = PageController();
-  final double _height = SizerUtil.height / 2.64;
+  final double _height = 340;
   final double _scaleFactor = 0.8;
 
   @override
@@ -41,14 +47,13 @@ class _ProductEditViewState extends State<ProductEditView> {
 
   @override
   Widget build(BuildContext context) {
-    ProductEditController editProductController = AppGet.editProduct;
-
     ProductModel product = Get.arguments['product'];
 
-    editProductController.productNameUC.text = product.name;
-    editProductController.descreptionUC.text = product.description;
-    editProductController.priceUC.text = product.price.toString();
-    editProductController.quantityUC.text = product.quantity.toString();
+    _productNameController.text = product.name;
+    _descreptionController.text = product.description;
+    _priceController.text = product.price.toString();
+    _discountController.text = product.discount.toString();
+    _quantityController.text = product.quantity.toString();
 
     return Scaffold(
       body: CustomScrollView(
@@ -56,29 +61,34 @@ class _ProductEditViewState extends State<ProductEditView> {
         slivers: [
           SliverAppBar(
             automaticallyImplyLeading: false,
-            toolbarHeight: 70.sp,
+            toolbarHeight: 50.sp,
             title: AppIcon(
               onTap: () => AppNavigator.pop(),
               icon: Icons.clear,
             ),
             pinned: true,
             backgroundColor: colorPrimary,
-            expandedHeight: 250.sp,
+            expandedHeight: 220.sp,
             flexibleSpace: FlexibleSpaceBar(
               background: product.images.length > 1
-                  ? Container(
-                      height: _height,
-                      child: PageView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        controller: pageController,
-                        itemCount: product.images.length,
-                        itemBuilder: (context, position) {
-                          return _buildPageItem(
-                            position,
-                            product.images[position],
-                          );
-                        },
-                      ),
+                  ? Stack(
+                      children: [
+                        Container(
+                          height: _height,
+                          color: Colors.grey[100],
+                          child: PageView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            controller: pageController,
+                            itemCount: product.images.length,
+                            itemBuilder: (context, position) {
+                              return _buildPageItem(
+                                position,
+                                product.images[position],
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     )
                   : Container(
                       width: double.maxFinite,
@@ -94,31 +104,27 @@ class _ProductEditViewState extends State<ProductEditView> {
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(20.sp),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(width: 70.sp),
-                      // product.images.length > 1
-                      //     ? DotsIndicator(
-                      //         dotsCount: product.images.isEmpty
-                      //             ? 1
-                      //             : product.images.length,
-                      //         position: _currPageValue.toInt(),
-                      //         decorator: DotsDecorator(
-                      //           activeColor: Colors.blue,
-                      //           size: const Size.square(9.0),
-                      //           activeSize: const Size(18.0, 9.0),
-                      //           activeShape: RoundedRectangleBorder(
-                      //               borderRadius: BorderRadius.circular(5.0)),
-                      //         ),
-                      //       )
-                      //     : Container(),
-                    ],
-                  ),
+                  product.images.length > 1
+                      ? DotsIndicator(
+                          dotsCount: product.images.isEmpty
+                              ? 1
+                              : product.images.length,
+                          position: _currPageValue.toInt(),
+                          decorator: DotsDecorator(
+                            activeColor: colorBranch,
+                            size: const Size.square(9.0),
+                            activeSize: const Size(18.0, 9.0),
+                            activeShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0)),
+                          ),
+                        )
+                      : Container(),
+                  SizedBox(height: 10.sp),
                   Container(
                     width: double.maxFinite,
+                    padding: EdgeInsets.only(top: 5.sp),
                     decoration: BoxDecoration(
                       color: Get.isDarkMode ? colorBlack : mC,
                       borderRadius: BorderRadius.only(
@@ -152,7 +158,7 @@ class _ProductEditViewState extends State<ProductEditView> {
                     height: 10.sp,
                   ),
                   AppTextField(
-                    textController: editProductController.productNameUC,
+                    textController: _productNameController,
                     hintText: 'Product Name',
                     icon: Icons.person,
                   ),
@@ -162,20 +168,26 @@ class _ProductEditViewState extends State<ProductEditView> {
                     height: 10.sp,
                   ),
                   AppTextField(
-                    textController: editProductController.descreptionUC,
+                    textController: _descreptionController,
                     hintText: 'Product Descreption',
                     icon: Icons.description,
                     maxLines: 3,
                   ),
                   SizedBox(height: 20.sp),
                   AppText('Product Price'),
-                  SizedBox(
-                    height: 10.sp,
-                  ),
+                  SizedBox(height: 10.sp),
                   AppTextField(
-                    textController: editProductController.priceUC,
+                    textController: _priceController,
                     hintText: 'Product Price',
                     icon: Icons.price_change,
+                  ),
+                  SizedBox(height: 20.sp),
+                  AppText('Product Discount'),
+                  SizedBox(height: 10.sp),
+                  AppTextField(
+                    textController: _discountController,
+                    hintText: 'Product Discount',
+                    icon: Icons.discount,
                   ),
                   SizedBox(height: 20.sp),
                   AppText('Product Quantity'),
@@ -183,7 +195,7 @@ class _ProductEditViewState extends State<ProductEditView> {
                     height: 10.sp,
                   ),
                   AppTextField(
-                    textController: editProductController.quantityUC,
+                    textController: _quantityController,
                     hintText: 'Product Quantity',
                     icon: Icons.production_quantity_limits,
                   ),
@@ -211,7 +223,7 @@ class _ProductEditViewState extends State<ProductEditView> {
                 children: [
                   AppTextButton(
                     txt: 'Delete',
-                    backgroundColor: colorHigh,
+                    backgroundColor: colorError,
                     onTap: () {
                       Components.showCustomDialog(
                         context: context,
@@ -221,7 +233,7 @@ class _ProductEditViewState extends State<ProductEditView> {
                             product: product,
                           );
                         },
-                        okColor: colorHigh,
+                        okColor: colorError,
                       );
                     },
                   ),
@@ -231,13 +243,13 @@ class _ProductEditViewState extends State<ProductEditView> {
                   AppTextButton(
                     txt: 'Save Modific',
                     onTap: () {
-                      editProductController.updateProduct(
+                      editProductController.productEdit(
                         id: product.id!,
-                        name: editProductController.productNameUC.text,
-                        description: editProductController.descreptionUC.text,
-                        price: int.parse(editProductController.priceUC.text),
+                        name: _productNameController.text,
+                        description: _descreptionController.text,
+                        price: int.parse(_priceController.text),
                         quantity:
-                            int.parse(editProductController.quantityUC.text),
+                            int.parse(_quantityController.text),
                       );
                     },
                   ),

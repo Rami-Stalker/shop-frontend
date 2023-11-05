@@ -26,7 +26,7 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: AppDecoration.textfeild(context, 10.sp).decoration,
+      decoration: AppDecoration.productFavoriteCart(context, 6.sp).decoration,
       child: TextField(
         maxLines: maxLines,
         minLines: 1,
@@ -49,6 +49,6 @@ class AppTextField extends StatelessWidget {
           ),
         ),
       ),
-    );
+      );
   }
 }

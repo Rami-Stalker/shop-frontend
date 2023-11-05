@@ -10,7 +10,7 @@ class CarouselImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
-      items: Constants.carouselImages.map(
+      items: AppConstants.carouselImages.map(
         (i) {
           return Builder(
             builder: (BuildContext context) => Image.network(

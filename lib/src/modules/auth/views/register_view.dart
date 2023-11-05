@@ -1,14 +1,10 @@
-import 'dart:io';
 
 import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
-import '../../../controller/app_controller.dart';
-import '../../../core/dialogs/dialog_loading.dart';
 import '../../../public/constants.dart';
+import '../../../routes/app_pages.dart';
 import '../../../themes/app_colors.dart';
-import '../../../utils/blurhash.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
-import '../../../helpers/picker/custom_image_picker.dart';
 import '../../../public/components.dart';
 import '../../../core/widgets/app_text_button.dart';
 import 'package:flutter/gestures.dart';
@@ -17,37 +13,36 @@ import 'package:get/get.dart';
 
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/custom_loader.dart';
-import '../../../routes/app_pages.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:quiver/async.dart';
 
 import '../../../themes/app_decorations.dart';
 
 class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
+  final VoidCallback? toggleView;
+
+  RegisterView({this.toggleView});
 
   @override
   State<RegisterView> createState() => _RegisterViewState();
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  TextEditingController emailTextController = TextEditingController();
-  TextEditingController passwordTextController = TextEditingController();
-  TextEditingController nameTextController = TextEditingController();
-  TextEditingController phoneTextController = TextEditingController();
-  TextEditingController codeOtpTextController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _codeOtpController = TextEditingController();
 
   @override
   void dispose() {
-    emailTextController.dispose();
-    passwordTextController.dispose();
-    nameTextController.dispose();
-    phoneTextController.dispose();
-    codeOtpTextController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _nameController.dispose();
+    _phoneController.dispose();
+    _codeOtpController.dispose();
     super.dispose();
   }
-
-  File? _image;
 
   Country? countryCode;
 
@@ -93,14 +88,14 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   void _sendCode(AuthController authController) {
-    String phoneNumber = phoneTextController.text.trim();
+    String phoneNumber = _phoneController.text.trim();
 
     if (!isOnData) {
       if (phoneNumber.isNotEmpty) {
         startTimer();
         authController.sendOtP(
           phoneCode: countryCode!.phoneCode,
-          phoneNumber: '${phoneTextController.text.trim()}',
+          phoneNumber: '${_phoneController.text.trim()}',
         );
       } else {
         Components.showSnackBar(
@@ -112,11 +107,11 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   void _registration(AuthController authController) {
-    String email = emailTextController.text.trim();
-    String password = passwordTextController.text.trim();
-    String name = nameTextController.text.trim();
-    String phoneNumber = phoneTextController.text.trim();
-    String codeOTP = codeOtpTextController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+    String name = _nameController.text.trim();
+    String phoneNumber = _phoneController.text.trim();
+    String codeOTP = _codeOtpController.text.trim();
 
     if (email.isEmpty) {
       Components.showSnackBar(
@@ -155,7 +150,6 @@ class _RegisterViewState extends State<RegisterView> {
       );
     } else {
       authController.register(
-        avatar: _image,
         name: name,
         email: email,
         password: password,
@@ -178,32 +172,8 @@ class _RegisterViewState extends State<RegisterView> {
                     SizedBox(height: 30.sp),
                     //app logo
                     SizedBox(
-                        height: 120.sp,
-                        width: SizerUtil.height,
-                        child: GestureDetector(
-                  onTap: () {
-                    CustomImagePicker().openImagePicker(
-                      context: context,
-                      handleFinish: (File image) async {
-                        showDialogLoading(context);
-                        AppGet.authGet.updateAvatar(avatar: image);
-                      },
-                    );
-                  },
-                  child: Container(
-                    width: 100.w,
-                    alignment: Alignment.center,
-                    child: Container(
-                      height: 105.sp,
-                      width: 105.sp,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: colorPrimary,
-                          width: 3.sp,
-                        ),
-                      ),
-                      alignment: Alignment.center,
+                      height: 120.sp,
+                      width: 100.sp,
                       child: Container(
                         height: 95.sp,
                         width: 95.sp,
@@ -212,58 +182,22 @@ class _RegisterViewState extends State<RegisterView> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(1000.sp),
-                          child: BlurHash(
-                            hash: '',
-                            image: Constants.urlImageDefault,
-                            imageFit: BoxFit.cover,
-                            color: colorPrimary,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: colorPrimary,
+                                width: 1.5.sp,
+                              ),
+                              image: DecorationImage(
+                                image: NetworkImage(AppConstants.urlImageDefault),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-                    // SizedBox(
-                    //   height: 120.sp,
-                    //   child: GestureDetector(
-                    //     onTap: () {
-                    //       CustomImagePicker().openImagePicker(
-                    //         context: context,
-                    //         handleFinish: (File image) async {
-                    //           setState(() {
-                    //             _image = image;
-                    //           });
-                    //         },
-                    //       );
-                    //     },
-                    //     child: Container(
-                    //       decoration: BoxDecoration(
-                    //         shape: BoxShape.circle,
-                    //         border: Border.all(
-                    //           color: colorPrimary,
-                    //           width: 1.5.sp,
-                    //         ),
-                    //         // borderRadius: BorderRadius.circular(6.sp),
-                    //         image: _image != null
-                    //             ? DecorationImage(
-                    //                 image: FileImage(_image!),
-                    //                 fit: BoxFit.fill,
-                    //               )
-                    //             : DecorationImage(
-                    //                 image: AssetImage(Constants.PERSON_ASSET),
-                    //                 fit: BoxFit.contain,
-                    //               ),
-                    //       ),
-                    //       alignment: Alignment.center,
-                    //       child: Icon(
-                    //         PhosphorIcons.plusCircle,
-                    //         color: colorPrimary,
-                    //         size: 30.sp,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     SizedBox(height: 30.sp),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.sp),
@@ -271,7 +205,7 @@ class _RegisterViewState extends State<RegisterView> {
                         children: [
                           //name
                           AppTextField(
-                            textController: nameTextController,
+                            textController: _nameController,
                             hintText: 'name',
                             icon: Icons.person,
                           ),
@@ -279,7 +213,7 @@ class _RegisterViewState extends State<RegisterView> {
                           //email
                           AppTextField(
                             keyboardType: TextInputType.emailAddress,
-                            textController: emailTextController,
+                            textController: _emailController,
                             hintText: 'email',
                             icon: Icons.email,
                           ),
@@ -288,7 +222,7 @@ class _RegisterViewState extends State<RegisterView> {
                           //password
                           GetBuilder<AuthController>(builder: (authController) {
                             return AppTextField(
-                              textController: passwordTextController,
+                              textController: _passwordController,
                               hintText: 'password',
                               icon: Icons.password,
                               isObscure: authController.isObscure,
@@ -325,7 +259,7 @@ class _RegisterViewState extends State<RegisterView> {
                                       hintStyle: TextStyle(fontSize: 12),
                                       prefixIcon: Icon(
                                         Icons.phone,
-                                        color: colorMedium,
+                                        color: colorBranch,
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide.none,
@@ -344,8 +278,8 @@ class _RegisterViewState extends State<RegisterView> {
                                   isLeft: false,
                                   child: TextField(
                                     keyboardType: TextInputType.number,
-                                    controller: phoneTextController,
-                                    cursorColor: colorMedium,
+                                    controller: _phoneController,
+                                    cursorColor: colorBranch,
                                     decoration: InputDecoration(
                                       hintText: "phone",
                                       focusedBorder: OutlineInputBorder(
@@ -372,13 +306,13 @@ class _RegisterViewState extends State<RegisterView> {
                                   isLeft: true,
                                   child: TextField(
                                     keyboardType: TextInputType.number,
-                                    controller: codeOtpTextController,
-                                    cursorColor: colorMedium,
+                                    controller: _codeOtpController,
+                                    cursorColor: colorBranch,
                                     decoration: InputDecoration(
                                       hintText: "verification code",
                                       prefixIcon: Icon(
                                         Icons.timer_sharp,
-                                        color: colorMedium,
+                                        color: colorBranch,
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide.none,
@@ -471,12 +405,13 @@ class _RegisterViewState extends State<RegisterView> {
                         children: [
                           TextSpan(
                             recognizer: TapGestureRecognizer()
-                              ..onTap = () => AppNavigator.replaceWith(Routes.LOGIN),
-                            text: 'login',
+                              ..onTap =
+                                  () => AppNavigator.replaceWith(AppRoutes.LOGIN),
+                            text: 'Login',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge!
-                                .copyWith(color: Colors.blue),
+                                .copyWith(color: colorPrimary),
                           ),
                         ],
                       ),

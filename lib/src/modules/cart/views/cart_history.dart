@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/cart_controller.dart';
 import '../../../themes/app_colors.dart';
 
@@ -12,7 +13,6 @@ import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/no_data_page.dart';
 import '../../../models/cart_model.dart';
 import '../../../public/constants.dart';
-import '../../../routes/app_pages.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 class CartHistoryView extends GetView<CartController> {
@@ -76,10 +76,10 @@ class CartHistoryView extends GetView<CartController> {
           Container(
             padding: EdgeInsets.all(6.sp),
             child: AppIcon(
-              onTap: () => AppNavigator.push(Routes.CART),
+              onTap: () => AppNavigator.push(AppRoutes.CART),
               icon: Icons.shopping_cart_outlined,
               iconColor: Get.isDarkMode ? colorPrimary : colorBlack,
-              backgroundColor: colorMedium,
+              backgroundColor: colorBranch,
             ),
           ),
         ],
@@ -177,7 +177,7 @@ class CartHistoryView extends GetView<CartController> {
                                         }
                                         AppGet.CartGet.setItems = moreOrder;
                                         AppGet.CartGet.addToCartList();
-                                        AppNavigator.push(Routes.CART);
+                                        AppNavigator.push(AppRoutes.CART);
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
@@ -215,7 +215,7 @@ class CartHistoryView extends GetView<CartController> {
             )
           : NoDataPage(
               text: 'Your cart history is empty',
-              imgPath: Constants.EMPTY_ASSET,
+              imgPath: AppConstants.EMPTY_ASSET,
             ),
     );
   }

@@ -73,7 +73,7 @@ class ProductDetailsWidget extends StatelessWidget {
               context: context,
               icon: Icons.circle_sharp,
               text: 'Normal',
-              iconColor: colorMedium,
+              iconColor: colorBranch,
             ),
             _iconAndTextWidget(
               context: context,
@@ -85,7 +85,7 @@ class ProductDetailsWidget extends StatelessWidget {
               context: context,
               icon: Icons.access_time_rounded,
               text: '23min',
-              iconColor: colorHigh,
+              iconColor: Colors.redAccent,
             ),
           ],
         ),

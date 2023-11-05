@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../public/components.dart';
 import '../../../resources/local/user_local.dart';
+import '../../../routes/app_pages.dart';
 import '../../../themes/app_decorations.dart';
 import '../controllers/product_details_controller.dart';
 import '../../../themes/app_colors.dart';
@@ -16,7 +17,6 @@ import '../../../themes/app_colors.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/expandable_text_widget.dart';
 import '../../../models/product_model.dart';
-import '../../../routes/app_pages.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 class ProductDetailsNewestView extends StatefulWidget {
@@ -47,8 +47,8 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
 
   @override
   Widget build(BuildContext context) {
-    
-    ProductDetailsController productDetailsController = AppGet.productDetailsGet;
+    ProductDetailsController productDetailsController =
+        AppGet.productDetailsGet;
     ProductModel product = Get.arguments['product'];
     productDetailsController.ratings = Get.arguments['ratings'];
 
@@ -58,14 +58,23 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
     for (int i = 0; i < productDetailsController.ratings.length; i++) {
       totalRating += productDetailsController.ratings[i].rating;
       if (AppGet.authGet.onAuthCheck()) {
-        if (productDetailsController.ratings[i].userId == UserLocal().getUserId()) {
-          productDetailsController.saveMyRating(productDetailsController.ratings[i].rating);
+        if (productDetailsController.ratings[i].userId ==
+            UserLocal().getUserId()) {
+          productDetailsController
+              .saveMyRating(productDetailsController.ratings[i].rating);
         }
       }
     }
 
     if (totalRating != 0) {
-      productDetailsController.avgRating.value = totalRating / productDetailsController.ratings.length;
+      productDetailsController.avgRating.value =
+          totalRating / productDetailsController.ratings.length;
+    }
+
+    if (UserLocal().getUser()!.favorites!.contains(product.id)) {
+      productDetailsController.isFavorite.value = true;
+    } else {
+      productDetailsController.isFavorite.value = false;
     }
 
     return Scaffold(
@@ -74,7 +83,7 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
         slivers: [
           SliverAppBar(
             automaticallyImplyLeading: false,
-            toolbarHeight: 70.sp,
+            toolbarHeight: 50.sp,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -88,7 +97,7 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                       AppIcon(
                         onTap: () {
                           if (productDetailsController.totalItems != 0) {
-                            AppNavigator.push(Routes.CART);
+                            AppNavigator.push(AppRoutes.CART);
                           }
                         },
                         icon: Icons.shopping_cart_outlined,
@@ -111,8 +120,7 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                               right: 3.0,
                               top: 3.0,
                               child: AppText(
-                                productDetailsController.totalItems
-                                    .toString(),
+                                productDetailsController.totalItems.toString(),
                               ),
                             )
                           : Container(),
@@ -122,13 +130,13 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
               ],
             ),
             pinned: true,
-            backgroundColor: colorMedium,
-            expandedHeight: 250.sp,
+            backgroundColor: colorBranch,
+            expandedHeight: 220.sp,
             flexibleSpace: FlexibleSpaceBar(
               background: product.images.length > 1
                   ? Stack(
-                    children: [
-                      Container(
+                      children: [
+                        Container(
                           height: _height,
                           color: Colors.grey[100],
                           child: PageView.builder(
@@ -144,25 +152,24 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                           ),
                         ),
                         Positioned(
-                          top: _height - 60,
-                          left: 0,
-                          right: 0,
-                          child:  DotsIndicator(
+                            top: _height - 60,
+                            left: 0,
+                            right: 0,
+                            child: DotsIndicator(
                               dotsCount: product.images.isEmpty
                                   ? 1
                                   : product.images.length,
                               position: _currPageValue.toInt(),
                               decorator: DotsDecorator(
-                                activeColor: Colors.blue,
+                                activeColor: colorBranch,
                                 size: const Size.square(9.0),
                                 activeSize: const Size(18.0, 9.0),
                                 activeShape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5.0)),
                               ),
-                            )
-                          ),
-                    ],
-                  )
+                            )),
+                      ],
+                    )
                   : Container(
                       width: double.maxFinite,
                       height: SizerUtil.height / 2.41,
@@ -177,34 +184,34 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(width: 70.sp),
-                      // product.images.length > 1
-                      //     ? DotsIndicator(
-                      //         dotsCount: product.images.isEmpty
-                      //             ? 1
-                      //             : product.images.length,
-                      //         position: _currPageValue.toInt(),
-                      //         decorator: DotsDecorator(
-                      //           activeColor: Colors.blue,
-                      //           size: const Size.square(9.0),
-                      //           activeSize: const Size(18.0, 9.0),
-                      //           activeShape: RoundedRectangleBorder(
-                      //               borderRadius: BorderRadius.circular(5.0)),
-                      //         ),
-                      //       )
-                      //     : Container(),
+                      product.images.length > 1
+                          ? DotsIndicator(
+                              dotsCount: product.images.isEmpty
+                                  ? 1
+                                  : product.images.length,
+                              position: _currPageValue.toInt(),
+                              decorator: DotsDecorator(
+                                activeColor: colorBranch,
+                                size: const Size.square(9.0),
+                                activeSize: const Size(18.0, 9.0),
+                                activeShape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0)),
+                              ),
+                            )
+                          : Container(),
                       productDetailsController.avgRating.value != 0.0
                           ? Obx(
                               () => Padding(
                                 padding: EdgeInsets.all(10.sp),
                                 child: Components.customRating(
-                      productDetailsController.avgRating.value.toString(),
-                    ),
+                                  productDetailsController.avgRating.value
+                                      .toString(),
+                                ),
                               ),
                             )
                           : SizedBox(width: 70.sp),
@@ -212,6 +219,7 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                   ),
                   Container(
                     width: double.maxFinite,
+                    padding: EdgeInsets.only(top: 5.sp),
                     decoration: BoxDecoration(
                       color: Get.isDarkMode ? colorBlack : mC,
                       borderRadius: BorderRadius.only(
@@ -220,14 +228,9 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                       ),
                     ),
                     child: Center(
-                        child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20.sp,
-                      ),
-                      child: AppText(
-                        product.name,
-                        overflow: TextOverflow.clip,
-                      ),
+                        child: AppText(
+                      product.name,
+                      overflow: TextOverflow.clip,
                     )),
                   ),
                 ],
@@ -251,7 +254,7 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
         mainAxisSize: MainAxisSize.min,
         children: [
           AppGet.authGet.onAuthCheck()
-        ?  RatingBar.builder(
+              ? RatingBar.builder(
                   itemSize: 20.sp,
                   initialRating: productDetailsController.getMyRating(),
                   minRating: 1,
@@ -265,14 +268,12 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                       ),
                   onRatingUpdate: (rating) {
                     productDetailsController.saveMyRating(rating);
-                    // productDetailsController.avgRating.value =
-                    //     totalRating + rating / productDetailsController.ratings.length;
                     productDetailsController.rateProduct(
                       productId: product.id ?? "",
                       rating: rating,
                     );
                   })
-        : Container(),
+              : Container(),
           Container(
             padding: EdgeInsets.symmetric(
               horizontal: 40.sp,
@@ -294,8 +295,7 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                       icon: Icons.remove,
                     ),
                     AppText(
-                      '\$${product.price} *  ${productDetailsController.quantity.value} '
-                    ),
+                        '\$${product.price} *  ${productDetailsController.quantity.value} '),
                     AppIcon(
                       onTap: () {
                         productDetailsController.setQuantity(
@@ -324,17 +324,29 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      padding: EdgeInsets.all(10.sp),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.sp),
-                        color: Get.isDarkMode ? mCM : mCL,
-                      ),
-                      child: const Icon(
-                        Icons.favorite,
-                        color: Colors.grey,
-                      ),
-                    ),
+                    GetBuilder<ProductDetailsController>(
+                        builder: (productDetailsController) {
+                      return Container(
+                        padding: EdgeInsets.all(10.sp),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.sp),
+                          color: Get.isDarkMode ? mCM : mCL,
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            productDetailsController.setFavorite();
+                            productDetailsController
+                                .changeMealFavorite(product.id!);
+                          },
+                          child: Icon(
+                            productDetailsController.isFavorite.value
+                                ? Icons.favorite
+                                : Icons.favorite_border_outlined,
+                            color: Colors.red,
+                          ),
+                        ),
+                      );
+                    }),
                     AppTextButton(
                       txt: 'Add to Cart',
                       onTap: () => productDetailsController.addItem(product),
@@ -387,9 +399,8 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
       child: Container(
         height: _height,
         decoration: BoxDecoration(
-          color: index.isEven
-              ? const Color(0xFF69c5df)
-              : const Color(0xFF9294cc),
+          color:
+              index.isEven ? const Color(0xFF69c5df) : const Color(0xFF9294cc),
           image: DecorationImage(
             fit: BoxFit.cover,
             image: NetworkImage(image),

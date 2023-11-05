@@ -23,7 +23,7 @@ class NotificationController extends GetxController implements GetxService {
         message: message,
       );
 
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {},
       );
@@ -36,7 +36,7 @@ class NotificationController extends GetxController implements GetxService {
     List<NotificationModel> notifications = [];
     diox.Response response = await notificationRepository.getNotofications();
 
-    Constants.handleApi(
+    AppConstants.handleApi(
       response: response,
       onSuccess: () {
         List rawData = response.data;
@@ -51,7 +51,7 @@ class NotificationController extends GetxController implements GetxService {
     try {
       diox.Response response = await notificationRepository.seenNotofication();
 
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {},
       );

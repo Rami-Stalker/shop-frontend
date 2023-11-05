@@ -21,14 +21,12 @@ class OrderDetailsController extends GetxController {
     try {
         SocketEmit().changeOrderStatus(orderId);
     } catch (e) {
-      Components.showSnackBar(e.toString());
+      Components.showSnackBar(e.toString(), title: "Change Order Status");
     }
   }
   
-  void changeOrderStatusToUser(dynamic data){
+  void OrderStatus(dynamic data){
   currentStep = data['status'];
-  print('11111111111111111111111111111111111');
-  print(currentStep);
   update();
   }
 
@@ -38,7 +36,7 @@ class OrderDetailsController extends GetxController {
     try {
       diox.Response response = await orderDetailsRepository.deleteOrder(order: order);
 
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {
           Get.to(Navigation(initialIndex: 2));

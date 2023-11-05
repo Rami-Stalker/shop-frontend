@@ -26,19 +26,12 @@ class _RadioWidgetState extends State<RadioWidget> {
     return Column(
       children: [
         Container(
-          decoration: AppDecoration.dots(context, 10.sp).decoration,
+          decoration: AppDecoration.productFavoriteCart(context, 6.sp).decoration,
           child: ListTile(
-            leading: SizedBox(
-              width: 30.sp,
-              child: Image.asset(
-                widget.image,
-                height: 45.sp,
-              ),
-            ),
+            leading: widget.radio,
             title: AppText(
-              widget.title
+              widget.title,
             ),
-            trailing: widget.radio,
           ),
         ),
         SizedBox(height: 10.sp),

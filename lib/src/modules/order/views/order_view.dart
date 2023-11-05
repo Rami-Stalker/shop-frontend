@@ -4,16 +4,16 @@ import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/order_controller.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 import '../../../core/widgets/no_data_page.dart';
 import '../../../models/order_model.dart';
 import '../../../public/constants.dart';
-import '../../../routes/app_pages.dart';
 
 import '../../../themes/app_colors.dart';
-import '../widgets/build_shimmer_order.dart';
+import '../widgets/custom_shimmer_order.dart';
 
 class OrderView extends GetView<OrderController> {
   const OrderView({super.key});
@@ -113,8 +113,10 @@ class OrderView extends GetView<OrderController> {
                                       ),
                                       GestureDetector(
                                         onTap: () => AppNavigator.push(
-                                          Routes.ORDER_DETAILS,
-                                          arguments: userOrder,
+                                          AppRoutes.DETAILS_ORDER,
+                                          arguments: {
+                                            'order': userOrder,
+                                          },
                                         ),
                                         child: Container(
                                           padding: EdgeInsets.symmetric(
@@ -130,8 +132,12 @@ class OrderView extends GetView<OrderController> {
                                               color: colorPrimary,
                                             ),
                                           ),
-                                          child: AppText(
+                                          child: userOrder.status != 3
+                                          ? AppText(
                                             'Details',
+                                            type: TextType.small,
+                                          ) : AppText(
+                                            'Completed',
                                             type: TextType.small,
                                           ),
                                         ),
@@ -155,10 +161,10 @@ class OrderView extends GetView<OrderController> {
           if (snapshot.connectionState == ConnectionState.none) {
             return NoDataPage(
               text: "Order is empty",
-              imgPath: Constants.EMPTY_ASSET,
+              imgPath: AppConstants.EMPTY_ASSET,
             );
           }
-          return BuildShimmerOrder();
+          return CustomShimmerOrder();
         },
       ),
     );

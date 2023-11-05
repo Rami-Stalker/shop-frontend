@@ -15,6 +15,7 @@ class UserModel {
   final String type;
   final String tokenFCM;
   final String token;
+  final List<String>? favorites;
 
   UserModel({
     required this.id,
@@ -28,6 +29,7 @@ class UserModel {
     required this.type,
     required this.tokenFCM,
     required this.token,
+    this.favorites,
   });
 
   Map<String, dynamic> toMap() {
@@ -43,16 +45,17 @@ class UserModel {
       'type': type,
       'tokenFCM': tokenFCM,
       'token': token,
+      'favorites': favorites,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['_id'] ?? '',
-      image: map['image'] == Constants.urlImageDefault ||
+      image: map['image'] == AppConstants.urlImageDefault ||
               map['image'] == null ||
               map['image'] == ''
-          ? Constants.urlImageDefault
+          ? AppConstants.urlImageDefault
           : map['image'].toString().contains('http')
               ? map['image']
               : (Application.imageUrl + map['image']),
@@ -65,6 +68,7 @@ class UserModel {
       type: map['type'] ?? '',
       tokenFCM: map['tokenFCM'] ?? '',
       token: map['token'] ?? '',
+      favorites: List<String>.from(map['favorites']),
     );
   }
 
@@ -84,6 +88,7 @@ class UserModel {
     String? type,
     String? tokenFCM,
     String? token,
+    List<String>? favorites,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -97,6 +102,7 @@ class UserModel {
       type: type ?? this.type,
       tokenFCM: tokenFCM ?? this.tokenFCM,
       token: token ?? this.token,
+      favorites: favorites ?? this.favorites,
     );
   }
 }

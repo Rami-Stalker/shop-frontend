@@ -10,11 +10,25 @@ class HomeRepository {
     required this.baseRepository,
   });
 
-  Future<diox.Response> fetchRatingProduct() async {
-    return await baseRepository.getRoute(ApiGateway.GET_RATING);
+  Future<diox.Response> fetchProductsTopRest() async {
+    return await baseRepository.getRoute(ApiGateway.GET_PRODUCT_TOP_REST);
   }
 
-  Future<diox.Response> fetchNewestProduct() async {
-    return await baseRepository.getRoute(ApiGateway.GET_NEWEST);
+  Future<diox.Response> fetchProductsMostPopular() async {
+    return await baseRepository.getRoute(ApiGateway.GET_PRODUCT_MOST_POPULAR);
+  }
+
+  Future<diox.Response> fetchProductsMostRecent() async {
+    return await baseRepository.getRoute(ApiGateway.GET_PRODUCT_MOST_RECENT);
+  }
+
+  Future<diox.Response> changeMealFavorite(String mealId) async {
+    var body = {
+      "mealId" : mealId,
+    };
+    return await baseRepository.postRoute(
+      ApiGateway.FAVORITE_PRODUCT,
+      body,
+      );
   }
 }

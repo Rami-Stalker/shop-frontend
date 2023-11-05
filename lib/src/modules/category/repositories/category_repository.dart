@@ -15,6 +15,6 @@ class CategoryRepository {
   Future<diox.Response> fetchCategoryProduct({
     required String category,
   }) async {
-    return await baseRepository.getRoute('${ApiGateway.GET_CATEGORY}$category');
+    return await baseRepository.getRoute('${ApiGateway.GET_PRODUCT_CATEGORY}$category');
   }
 }

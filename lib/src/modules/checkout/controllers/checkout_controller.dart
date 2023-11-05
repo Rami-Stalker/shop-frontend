@@ -1,9 +1,8 @@
-import 'package:shop_app/src/routes/app_pages.dart';
-
 import '../../../public/components.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as diox;
 
+import '../../../routes/app_pages.dart';
 import '../../cart/repositories/cart_repository.dart';
 import '../repositories/checkout_repository.dart';
 import '../../../themes/app_colors.dart';
@@ -11,9 +10,9 @@ import '../../../themes/app_colors.dart';
 import '../../../public/constants.dart';
 
 class CheckoutController extends GetxController implements GetxService {
-  final CheckoutRepository orderRepository;
+  final CheckoutRepository checkoutRepository;
   CheckoutController({
-    required this.orderRepository,
+    required this.checkoutRepository,
   });
 
   bool _isLoading = false;
@@ -41,13 +40,13 @@ class CheckoutController extends GetxController implements GetxService {
     required String address,
   }) async {
     try {
-      diox.Response response = await orderRepository.checkout(
+      diox.Response response = await checkoutRepository.checkout(
         productsId: productsId,
         userQuants: userQuants,
         totalPrice: totalPrice,
         address: address,
       );
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {
           Get.find<CartRepository>().removeCart();
@@ -56,7 +55,7 @@ class CheckoutController extends GetxController implements GetxService {
             title: 'Order',
             color: colorPrimary,
           );
-          AppNavigator.replaceWith(Routes.NAVIGATION);
+          AppNavigator.popUntil(AppRoutes.NAVIGATION);
           update();
         },
       );

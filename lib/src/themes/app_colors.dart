@@ -2,20 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../helpers/hex_color.dart';
 
-var colorBlack = Color(0xFF121212);
-var colorPrimaryBlack = Color(0xFF14171A);
-var colorDarkGrey = Color(0xFF657786);
-var colorPrimary = Color(0xFF89dad0);
-var colorTitle = Color(0xFF2C3D50);
+var colorPrimary = HexColor("FF89DAD0");
+var colorBranch = HexColor("FFffd379");
+var colorDarkPrimary = HexColor("FF14171A");
+var colorDarkBranch = HexColor("FF282828");
+var colorBlack = HexColor("FF121212");
 
-var colorHigh = Colors.redAccent;
-var colorMedium = Color(0xFFffd379);
-var colorLow = colorPrimary;
-var colorCompleted = Colors.green;
-var colorFailed = colorDarkGrey;
-var colorActive = Color(0xFF00D72F);
-var colorGreenLight = Color(0xFF009E60);
-var colorAttendance = Color(0xFF0CCF4C);
+var colorError = Colors.redAccent;
+var colorAccent = HexColor("FF17c063");
+var colorBottom = HexColor("FF657786");
 var colorStar = HexColor('FFFF9900');
 
 Color mC = Colors.grey.shade100;
@@ -57,11 +52,11 @@ class AppColors {
       header: colorBlack,
       primary: colorPrimary,
       background: mC,
-      accent: Color(0xFF17c063),
+      accent: colorAccent,
       disabled: Colors.black12,
-      error: colorHigh,
+      error: colorError,
       divider: Colors.black26,
-      button: Color(0xFF657786),
+      button: colorBottom,
       contentText1: colorBlack,
       contentText2: fCL,
     );
@@ -72,9 +67,9 @@ class AppColors {
       header: mCL,
       primary: colorPrimary,
       background: colorBlack,
-      accent: Color(0xFF17c063),
+      accent: colorAccent,
       disabled: Colors.white12,
-      error: colorHigh,
+      error: colorError,
       divider: Colors.white24,
       button: mCL,
       contentText1: mCL,
@@ -82,3 +77,4 @@ class AppColors {
     );
   }
 }
+

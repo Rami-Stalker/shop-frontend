@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:shop_app/src/resources/base_repository.dart';
 
-import '../../../models/user_model.dart';
 import '../../../public/api_gateway.dart';
 import 'package:dio/dio.dart' as diox;
 
@@ -14,9 +13,7 @@ class AuthRepository {
     required this.baseRepository,
   });
 
-  Future<UserModel?> register({
-    required String image,
-    required String blurHash,
+  Future<diox.Response> register({
     required String name,
     required String email,
     required String password,
@@ -24,22 +21,13 @@ class AuthRepository {
     String? token,
   }) async {
     var body = {
-      'image': image,
-      'blurHash': blurHash,
       'name': name.toLowerCase(),
       'email': email,
       'password': password,
       'phone': phone,
     };
-    diox.Response response =
-        await baseRepository.postRoute(ApiGateway.REGISTER, body);
 
-        print(response.data);
-
-    if ([200, 201].contains(response.statusCode)) {
-      return UserModel.fromMap(response.data as Map<String, dynamic>);
-    }
-    return null;
+      return await baseRepository.postRoute(ApiGateway.REGISTER, body);
   }
 
   Future<diox.Response> login(String email, String password,
@@ -92,7 +80,7 @@ class AuthRepository {
 
   Future<diox.Response> getInfoUser({String? token}) async {
     return await baseRepository.getRoute(
-      ApiGateway.GET_INFO,
+      ApiGateway.GET_USER_DATA,
       token: token,
     );
   }

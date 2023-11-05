@@ -3,12 +3,11 @@ import 'dart:convert';
 import 'product_model.dart';
 
 class OrderModel {
-  // blank final variable
   final String id;
-  // Aggregation (has-a)
   final List<ProductModel> products;
   final List<int> quantity;
   final String address;
+  final String orderId;
   final String userId;
   final int orderedAt;
   int status;
@@ -18,6 +17,7 @@ class OrderModel {
     required this.products,
     required this.quantity,
     required this.address,
+    required this.orderId,
     required this.userId,
     required this.orderedAt,
     required this.status,
@@ -35,6 +35,7 @@ class OrderModel {
       'products': products.map((x) => x.toMap()).toList(),
       'quantity': quantity,
       'address': address,
+      'orderId': orderId,
       'userId': userId,
       'orderedAt': orderedAt,
       'status': status,
@@ -50,6 +51,7 @@ class OrderModel {
           map['products']?.map((x) => ProductModel.fromMap(x['product']))),
       quantity: List<int>.from(map['products']?.map((x) => x['quantity'])),
       address: map['address'] ?? '',
+      orderId: map['orderId'] ?? '',
       userId: map['userId'] ?? '',
       orderedAt: map['orderedAt']?.toInt() ?? 0,
       status: map['status']?.toInt() ?? 0,

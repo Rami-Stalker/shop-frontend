@@ -10,15 +10,8 @@ class AppDecoration {
     if (Theme.of(context).brightness == Brightness.dark) {
       return AppDecoration(
         decoration: BoxDecoration(
-          color: fCD,
+          color: colorDarkBranch,
           borderRadius: BorderRadius.circular(radius),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 1,
-              offset: const Offset(0, 2),
-              color: colorBlack.withOpacity(.4),
-            ),
-          ],
         ),
       );
     } else {
@@ -27,44 +20,12 @@ class AppDecoration {
           color: mCL,
           boxShadow: [
             BoxShadow(
-              blurRadius: 1,
-              offset: const Offset(0, 2),
-              color: mCH,
+              blurRadius: 10,
+              offset: Offset(1, 1),
+              color: colorPrimary.withOpacity(0.3),
             ),
           ],
           borderRadius: BorderRadius.circular(radius),
-        ),
-      );
-    }
-  }
-
-  factory AppDecoration.dots(context, radius) {
-    if (Theme.of(context).brightness == Brightness.dark) {
-      return AppDecoration(
-        decoration: BoxDecoration(
-          color: fCD,
-          borderRadius: BorderRadius.circular(radius),
-          boxShadow: [
-            BoxShadow(
-              color: colorBlack.withOpacity(.4),
-              blurRadius: 5.0,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return AppDecoration(
-        decoration: BoxDecoration(
-          color: mCL,
-          borderRadius: BorderRadius.circular(radius),
-          boxShadow: [
-            BoxShadow(
-              color: mCH,
-              blurRadius: 5.0,
-              offset: Offset(0, 3),
-            ),
-          ],
         ),
       );
     }
@@ -74,23 +35,11 @@ class AppDecoration {
     if (Theme.of(context).brightness == Brightness.dark) {
       return AppDecoration(
         decoration: BoxDecoration(
-          color: fCD,
+          color: colorDarkBranch,
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(radius),
             bottomRight: Radius.circular(radius),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: colorBlack.withOpacity(.4),
-              blurRadius: 5.0,
-              offset: Offset(0, 3),
-            ),
-            BoxShadow(
-              blurRadius: 1,
-              offset: const Offset(2, 0),
-              color: colorBlack.withOpacity(.4),
-            ),
-          ],
         ),
       );
     } else {
@@ -103,14 +52,38 @@ class AppDecoration {
           ),
           boxShadow: [
             BoxShadow(
-              color: mCH,
-              blurRadius: 5.0,
-              offset: Offset(0, 3),
+              blurRadius: 10,
+              offset: Offset(1, 1),
+              color: colorPrimary.withOpacity(0.3),
             ),
-            BoxShadow(
-              blurRadius: 1,
-              offset: const Offset(2, 0),
-              color: mCH,
+          ],
+        ),
+      );
+    }
+  }
+
+  factory AppDecoration.productFavoriteCart(context, radius) {
+    if (Theme.of(context).brightness == Brightness.dark) {
+      return AppDecoration(
+        decoration: BoxDecoration(
+          color: colorDarkBranch,
+          borderRadius: BorderRadius.circular(
+            radius,
+          ),
+        ),
+      );
+    } else {
+      return AppDecoration(
+        decoration: BoxDecoration(
+          color: mCL,
+          borderRadius: BorderRadius.circular(
+            radius,
+          ),
+          boxShadow: [
+              BoxShadow(
+              blurRadius: 10,
+              offset: Offset(1, 1),
+              color: colorPrimary.withOpacity(0.3),
             ),
           ],
         ),
@@ -139,13 +112,6 @@ class AppDecoration {
                   topLeft: Radius.circular(radius),
                   bottomLeft: Radius.circular(radius),
                 ),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 1,
-              offset: const Offset(0, 2),
-              color: colorBlack.withOpacity(.4),
-            ),
-          ],
         ),
       );
     } else {
@@ -174,56 +140,7 @@ class AppDecoration {
       );
     }
   }
-
-  factory AppDecoration.newestProduct(context, radius) {
-    if (Theme.of(context).brightness == Brightness.dark) {
-      return AppDecoration(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: fCL,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(
-              radius,
-            ),
-            bottomRight: Radius.circular(
-              radius,
-            ),
-          ),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 1,
-              offset: const Offset(0, 2),
-              color: colorBlack.withOpacity(.4),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return AppDecoration(
-        decoration: BoxDecoration(
-          color: mCL,
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(
-              radius,
-            ),
-            bottomRight: Radius.circular(
-              radius,
-            ),
-          ),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 1,
-              offset: const Offset(0, 2),
-              color: mCH,
-            ),
-          ],
-        ),
-      );
-    }
-  }
-
+  
   factory AppDecoration.bottomNavigationBar(context) {
     if (Theme.of(context).brightness == Brightness.dark) {
       return AppDecoration(

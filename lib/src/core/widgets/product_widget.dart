@@ -24,16 +24,16 @@ class ProductWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double totalRating = 0;
     double avgRating = 0;
-    for (int i = 0; i < product.rating!.length; i++) {
-      totalRating += product.rating![i].rating;
+    for (int i = 0; i < product.ratings!.length; i++) {
+      totalRating += product.ratings![i].rating;
     }
     if (totalRating != 0) {
-      avgRating = totalRating / product.rating!.length;
+      avgRating = totalRating / product.ratings!.length;
     }
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.symmetric(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
           horizontal: 5.sp,
           vertical: 5.sp,
         ),
@@ -59,7 +59,9 @@ class ProductWidget extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(5.sp),
+                padding: EdgeInsets.all(
+                  avgRating == 0.0 ? 10.sp : 5.sp,
+                ),
                 decoration: AppDecoration.product(
                   context,
                   15.sp,
@@ -77,12 +79,12 @@ class ProductWidget extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      product.description,
+                      product.category,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    SizedBox(height: 5.sp),
+                    SizedBox(height: 8.sp),
                     Row(
                       children: [
                         IconAndTextWidget(
@@ -93,8 +95,8 @@ class ProductWidget extends StatelessWidget {
                         SizedBox(width: 10.sp),
                         IconAndTextWidget(
                           icon: Icons.access_time_rounded,
-                          text: '23min',
-                          iconColor: colorHigh,
+                          text: '${product.time.toString()}min',
+                          iconColor: Colors.redAccent,
                         ),
                       ],
                     ),

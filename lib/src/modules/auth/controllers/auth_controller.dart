@@ -1,16 +1,15 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as diox;
 import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/models/user_model.dart';
 import 'package:shop_app/src/resources/remote/user_repository.dart';
-import 'package:shop_app/src/routes/app_pages.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 import '../../../models/upload_response_model.dart';
 import '../../../resources/local/user_local.dart';
 import '../../../resources/remote/upload_repository.dart';
-import '../../../routess/app_routes.dart';
+import '../../../routes/app_pages.dart';
 import '../repositories/auth_repository.dart';
 
 import '../../../public/components.dart';
@@ -28,16 +27,6 @@ class AuthController extends GetxController implements GetxService {
 
   UserModel? userModel;
 
-  TextEditingController emailC = TextEditingController();
-  TextEditingController passwordC = TextEditingController();
-
-  @override
-  void dispose() {
-    super.dispose();
-    emailC.dispose();
-    passwordC.dispose();
-  }
-
   void sendOtP({
     required String phoneCode,
     required String phoneNumber,
@@ -45,7 +34,7 @@ class AuthController extends GetxController implements GetxService {
     try {
       diox.Response response =
           await authRepository.sendOtP(phoneCode, phoneNumber);
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {},
       );
@@ -55,7 +44,6 @@ class AuthController extends GetxController implements GetxService {
   }
 
   void register({
-    required File? avatar,
     required String name,
     required String email,
     required String password,
@@ -66,28 +54,23 @@ class AuthController extends GetxController implements GetxService {
     try {
       _isLoading = true;
       update();
-      if (avatar != null) {
-        UploadResponseModel? response =
-            await UploadRepository().uploadSingleFile(file: avatar);
+      diox.Response response = await authRepository.register(
+        name: name,
+        email: email,
+        password: password,
+        phone: phoneNumber,
+      );
 
-        if (response != null) {
-          UserModel? user = await authRepository.register(
-            image: response.image,
-            blurHash: response.blurHash,
-            name: name,
-            email: email,
-            password: password,
-            phone: phoneNumber,
-          );
-          if (user != null) {
-            userModel = user;
-            UserLocal().saveAccessToken(user.token);
-            UserLocal().saveUserType(user.type);
-            UserLocal().saveUserId(user.id);
-            AppNavigator.push(Routes.NAVIGATION);
-          }
-        }
-      }
+      AppConstants.handleApi(
+        response: response,
+        onSuccess: () {
+          userModel = UserModel.fromMap(response.data as Map<String, dynamic>);
+          AppNavigator.replaceWith(AppRoutes.LOGIN);
+          Components.showSnackBar('Signed up successfully login now',
+              color: colorPrimary, title: 'Signed up');
+          update();
+        },
+      );
       _isLoading = false;
       update();
     } catch (e) {
@@ -106,14 +89,14 @@ class AuthController extends GetxController implements GetxService {
         password,
       );
 
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {
           userModel = UserModel.fromMap(response.data as Map<String, dynamic>);
           UserLocal().saveUserId(response.data['_id']);
           UserLocal().saveAccessToken(response.data['token']);
           UserLocal().saveUserType(response.data['type']);
-          AppNavigator.replaceWith(Routes.NAVIGATION);
+          AppNavigator.replaceWith(AppRoutes.NAVIGATION);
         },
       );
       _isLoading = false;
@@ -129,19 +112,20 @@ class AuthController extends GetxController implements GetxService {
     try {
       diox.Response tokenResponse = await authRepository.isTokenValid();
 
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: tokenResponse,
         onSuccess: () async {
           bool isTokenValid = tokenResponse.data;
           if (isTokenValid) {
             diox.Response response = await authRepository.getInfoUser();
-            Constants.handleApi(
+            AppConstants.handleApi(
               response: response,
               onSuccess: () {
                 UserModel user =
                     UserModel.fromMap(response.data as Map<String, dynamic>);
                 userModel = user;
                 UserLocal().saveUser(user);
+                update();
               },
             );
           }
@@ -166,9 +150,10 @@ class AuthController extends GetxController implements GetxService {
         );
         if (user != null) {
           userModel = user;
+          update();
         }
       }
-      AppNavigator.pop();
+      AppNavigator.popUntil(AppRoutes.NAVIGATION);
       update();
     } catch (e) {
       Components.showSnackBar(e.toString(), title: "upload image");
@@ -190,7 +175,20 @@ class AuthController extends GetxController implements GetxService {
         ..clearCartHistory();
       // await FirebaseMessaging.instance.deleteToken();
       await authRepository.logOut();
-      AppNavigator.push(Routes.NAVIGATION);
+      userModel = UserModel(
+        id: "",
+        image: "",
+        blurHash: "",
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        address: "",
+        type: "",
+        tokenFCM: "",
+        token: "",
+      );
+      AppNavigator.popUntil(AppRoutes.NAVIGATION);
       update();
     } catch (e) {
       Components.showSnackBar(e.toString());
@@ -199,14 +197,14 @@ class AuthController extends GetxController implements GetxService {
 
   Future<void> deleteAccount() async {
     await UserRepository().deleteAccount();
-    AppNavigator.popUntil(AppRoutes.ROOT);
+    AppNavigator.popUntil(AppRoutes.NAVIGATION);
     logOut();
   }
 
   void saveUserTokenFCM(String tokenFCM) async {
     try {
       diox.Response res = await authRepository.saveUserTokenFCM(tokenFCM);
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: res,
         onSuccess: () {},
       );

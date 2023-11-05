@@ -22,11 +22,11 @@ class CartController extends GetxController implements GetxService {
   final Rx<bool> _isValid = false.obs;
   Rx<bool> get isValid => _isValid;
 
-  void addItem(String? id, ProductModel product, int quantity) {
-    if (_items.containsKey(id)) {
+  void addItem(ProductModel product, int quantity) {
+    if (_items.containsKey(product.id)) {
       if (quantity > 0) {
         _items.update(
-          id!,
+          product.id!,
           (value) {
             return CartModel(
               id: value.id,
@@ -42,11 +42,11 @@ class CartController extends GetxController implements GetxService {
           },
         );
       } else {
-        _items.remove(id);
+        _items.remove(product.id);
       }
     } else {
       if (quantity > 0) {
-        _items.putIfAbsent(id!, () {
+        _items.putIfAbsent(product.id!, () {
           return CartModel(
             id: product.id,
             image: product.images[0],
@@ -55,12 +55,12 @@ class CartController extends GetxController implements GetxService {
             isExist: true,
             userQuant: quantity,
             time: DateTime.now().toString(),
-            rating: product.rating,
+            rating: product.ratings,
             product: product,
           );
         });
       } else {
-        Get.snackbar('no Add', 'no Add');
+        Components.showSnackBar(title: "Cart", "Not Add To Cart");
       }
     }
     cartRepository.addToCartList(getItems);
@@ -70,6 +70,7 @@ class CartController extends GetxController implements GetxService {
   int getQuantity(ProductModel product) {
     int quantity = 0;
     if (_items.containsKey(product.id)) {
+      print('11111111111');
       _items.forEach((key, value) {
         if (key == product.id) {
           quantity = value.userQuant!;
@@ -93,7 +94,7 @@ class CartController extends GetxController implements GetxService {
     }).toList();
   }
 
-  int get totalAmount {
+  int get subtotal {
     int total = 0;
     _items.forEach((key, value) {
       total += value.userQuant! * value.price!;
@@ -101,12 +102,35 @@ class CartController extends GetxController implements GetxService {
     return total;
   }
 
-  int get totalOldAmount {
-    int totalOld = 0;
+  double get tax {
+    double tax = 0;
     _items.forEach((key, value) {
-      totalOld += value.userQuant! * value.product!.oldPrice;
+      String taxString = "14 %";
+      int taxPercentage = int.tryParse(taxString.replaceAll('%', '')) ?? 0;
+
+      double itemDiscount =
+          (value.userQuant! * value.price! * taxPercentage / 100);
+      tax += itemDiscount;
     });
-    return totalOld;
+    return tax;
+  }
+
+  double get discount {
+    double totalDiscount = 0;
+    _items.forEach((key, value) {
+      int discount = value.product!.discount!;
+
+      double itemDiscount =
+          (value.userQuant! * value.price! * discount / 100);
+      totalDiscount += itemDiscount;
+    });
+    return totalDiscount;
+  }
+
+  double get total {
+    double total = 0;
+    total = subtotal + tax - discount;
+    return total;
   }
 
   void addToCartList() {
@@ -130,7 +154,7 @@ class CartController extends GetxController implements GetxService {
   void addToCartHistoryList() {
     cartRepository.addToCartHistoryList();
     clear();
-    AppNavigator.replaceWith(Routes.NAVIGATION);
+    AppNavigator.popUntil(AppRoutes.NAVIGATION);
     update();
   }
 
@@ -167,7 +191,7 @@ class CartController extends GetxController implements GetxService {
       Components.showSnackBar(
         "You ordered more than the available quantity \n available quantity is $productQuantity !",
         title: "Item count",
-        color: colorMedium,
+        color: colorBranch,
       );
       _isValid.value = false;
       return productQuantity;

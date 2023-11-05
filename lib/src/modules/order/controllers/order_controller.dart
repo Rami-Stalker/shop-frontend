@@ -17,7 +17,7 @@ class OrderController extends GetxController implements GetxService {
   Future<List<OrderModel>> fetchAllOrders() async {
       List<OrderModel> orders = [];
       diox.Response response = await orderRepository.fetchAllOrders();
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {
           List rawData = response.data;
@@ -31,7 +31,7 @@ class OrderController extends GetxController implements GetxService {
   Future<List<OrderModel>> fetchUserOrders() async {
       List<OrderModel> userOrders = [];
       diox.Response response = await orderRepository.fetchUserOrder();
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {
           List rawData = response.data;

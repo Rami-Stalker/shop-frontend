@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/core/widgets/app_text.dart';
 
 import '../../../utils/sizer_custom/sizer.dart';
 
@@ -14,23 +14,28 @@ class ItemsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    txt,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Text(
-                    account,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ],
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 10.sp,
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppText(
+                txt,
+                type: TextType.medium,
               ),
-              SizedBox(height: 10.sp),
-      ],
+              AppText(
+                account,
+                type: TextType.small,
+              ),
+            ],
+          ),
+          SizedBox(height: 8.sp),
+        ],
+      ),
     );
   }
 }

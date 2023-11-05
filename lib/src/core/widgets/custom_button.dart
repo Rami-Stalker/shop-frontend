@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
+import 'package:shop_app/src/themes/font_family.dart';
 
 import '../../utils/sizer_custom/sizer.dart';
 
@@ -21,7 +23,7 @@ class CustomButton extends StatelessWidget {
     this.height,
     this.width,
     this.fontSize,
-    this.radius = 5,
+    this.radius = 8,
     this.icon,
   }) : super(key: key);
 
@@ -32,10 +34,10 @@ class CustomButton extends StatelessWidget {
           ? Theme.of(context).disabledColor
           : transparent
               ? Colors.transparent
-              : Theme.of(context).primaryColor,
+              : colorPrimary,
       minimumSize: Size(
         width ?? SizerUtil.width,
-        height ?? 50.sp,
+        height ?? 35.sp,
       ),
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
@@ -45,26 +47,36 @@ class CustomButton extends StatelessWidget {
     return Center(
       child: SizedBox(
         width: width ?? SizerUtil.width,
-        height: height ?? 50.sp,
+        height: height ?? 35.sp,
         child: TextButton(
           onPressed: onPressed,
           style: _flatButton,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              icon != null ? Padding(
-                padding: EdgeInsets.only(right: 5.sp) ,
-                child: Icon(icon, color: transparent?Theme.of(context).primaryColor:Theme.of(context).cardColor,),
-                
-                ):const SizedBox(),
-                Text(buttomText,
+              icon != null
+                  ? Padding(
+                      padding: EdgeInsets.only(right: 5.sp),
+                      child: Icon(
+                        icon,
+                        color: transparent
+                            ? colorPrimary
+                            : Theme.of(context).cardColor,
+                      ),
+                    )
+                  : const SizedBox(),
+              Text(
+                buttomText,
                 style: TextStyle(
                   fontSize: fontSize ?? 15.sp,
-                  color: transparent?Theme.of(context).primaryColor:Theme.of(context).cardColor,
-                ),),
+                  color:
+                      transparent ? colorPrimary : Theme.of(context).cardColor,
+                      fontFamily: FontFamily.lato,
+                ),
+              ),
             ],
           ),
-          ),
+        ),
       ),
     );
   }

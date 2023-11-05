@@ -24,7 +24,7 @@ class ProductEditRepository extends GetConnect {
     );
   }
 
-  Future<diox.Response> updateProduct({
+  Future<diox.Response> productEdit({
     required String id,
     required String name,
     required String description,

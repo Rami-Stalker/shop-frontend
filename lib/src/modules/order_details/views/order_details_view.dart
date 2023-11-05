@@ -2,6 +2,7 @@ import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/models/user_model.dart';
 import 'package:shop_app/src/public/components.dart';
+import 'package:shop_app/src/themes/app_colors.dart';
 
 import '../../../core/widgets/app_text_button.dart';
 import '../controllers/order_details_controller.dart';
@@ -12,7 +13,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/order_model.dart';
-import '../../../themes/app_decorations.dart';
 
 class OrderDetailsView extends GetView<OrderDetailsController> {
   const OrderDetailsView({
@@ -21,8 +21,8 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
 
   @override
   Widget build(BuildContext context) {
+    final OrderModel order = Get.arguments;
     UserModel user = AppGet.authGet.userModel!;
-    OrderModel order = Get.arguments;
     controller.currentStep = order.status;
     return Scaffold(
       appBar: Components.customAppBar(
@@ -30,12 +30,12 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
         "Details Order",
       ),
       body: ListView(
-        padding: EdgeInsets.all(5.sp),
+        padding: EdgeInsets.all(5),
         physics: BouncingScrollPhysics(),
         children: [
-          AppText('View order details'),
+          AppText('Order Details'),
           SizedBox(height: 10.sp),
-          _containerWidget(
+          Components.customContainer(
             context,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +53,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                 _infoOrder(
                   context: context,
                   title: 'Order Id:',
-                  subtitle: order.id,
+                  subtitle: '#${order.orderId}',
                 ),
                 SizedBox(height: 10.sp),
                 _infoOrder(
@@ -67,68 +67,177 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
           SizedBox(height: 20.sp),
           AppText('Purchase Details'),
           SizedBox(height: 10.sp),
-          _containerWidget(
+          Components.customContainer(
             context,
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                for (int i = 0; i < order.products.length; i++)
-                  Column(
+            SizedBox(
+              height: 110,
+              child: ListView.builder(
+                itemCount: order.products.length,
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return Row(
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 80.sp,
-                            width: 80.sp,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                5.sp,
-                              ),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                  order.products[i].images[0],
-                                ),
-                              ),
+                      Container(
+                        height: 80.sp,
+                        width: 80.sp,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(6.sp),
+                            bottomLeft: Radius.circular(6.sp),
+                          ),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              order.products[index].images[0],
                             ),
                           ),
-                          SizedBox(width: 10.sp),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  order.products[i].name,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(fontSize: 12.sp),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                Text(
-                                  'Quality: ${order.quantity[i]}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(fontSize: 12.sp),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                      // SizedBox(height: 5.sp),
-                      Divider(),
+                      Container(
+                        height: 80.sp,
+                        decoration: BoxDecoration(
+                          color: mCM,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(6.sp),
+                            bottomRight: Radius.circular(6.sp),
+                          ),
+                        ),
+                        padding: EdgeInsets.all(10.sp),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AppText(
+                              order.products[index].name,
+                              type: TextType.medium,
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                text: 'Quality:',
+                                style: Theme.of(context).textTheme.titleMedium,
+                                children: [
+                                  TextSpan(
+                                    text: ' ${order.quantity[index]}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          color: colorPrimary,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                text: 'Amount:',
+                                style: Theme.of(context).textTheme.titleMedium,
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        ' \$${order.products[index].price.toString()}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          color: colorPrimary,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10.sp),
                     ],
-                  ),
-              ],
+                  );
+                },
+              ),
             ),
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     for (int i = 0; i < order.products.length; i++)
+            //       Column(
+            //         children: [
+            //           Row(
+            //             children: [
+            //               Container(
+            //                 height: 80.sp,
+            //                 width: 80.sp,
+            //                 decoration: BoxDecoration(
+            //                   borderRadius: BorderRadius.circular(
+            //                     5.sp,
+            //                   ),
+            //                   image: DecorationImage(
+            //                     fit: BoxFit.cover,
+            //                     image: NetworkImage(
+            //                       order.products[i].images[0],
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //               SizedBox(width: 10.sp),
+            //               Expanded(
+            //                 child: Column(
+            //                   crossAxisAlignment: CrossAxisAlignment.start,
+            //                   children: [
+            //                     AppText(
+            //                       order.products[i].name,
+            //                       type: TextType.medium,
+            //                     ),
+            //                     RichText(text: TextSpan(
+            //                       text: 'Quality:',
+            //                       style: Theme.of(context)
+            //                           .textTheme
+            //                           .titleMedium,
+            //                       children: [
+            //                         TextSpan(
+            //                           text: ' ${order.quantity[i]}',
+            //                           style: Theme.of(context)
+            //                         .textTheme
+            //                         .titleMedium!
+            //                         .copyWith(
+            //                           color: colorPrimary,
+            //                         ),
+            //                         ),
+            //                       ]
+            //                     )),
+            //                   ],
+            //                 ),
+            //               ),
+            //               Spacer(),
+            //               Column(
+            //                 children: [
+            //                   AppText(
+            //                     'Amount',
+            //                     type: TextType.medium,
+            //                   ),
+            //                   Text(
+            //                     '\$${order.products[i].price.toString()}',
+            //                     style: Theme.of(context)
+            //                         .textTheme
+            //                         .titleMedium!
+            //                         .copyWith(
+            //                           color: colorPrimary,
+            //                         ),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ],
+            //           ),
+            //           Divider(),
+            //         ],
+            //       ),
+            //   ],
+            // ),
           ),
           SizedBox(height: 20.sp),
           AppText('Tracking'),
           SizedBox(height: 10.sp),
-          _containerWidget(
+          Components.customContainer(
             context,
             GetBuilder<OrderDetailsController>(
                 builder: (orderDetailsController) {
@@ -280,19 +389,6 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
               ),
         ),
       ],
-    );
-  }
-
-  Container _containerWidget(
-    BuildContext context,
-    Widget child,
-  ) {
-    return Container(
-      padding: EdgeInsets.all(
-        10.sp,
-      ),
-      decoration: AppDecoration.textfeild(context, 5.sp).decoration,
-      child: child,
     );
   }
 }

@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
-import '../../../core/dialogs/dialog_loading.dart';
+import 'package:shop_app/src/public/components.dart';
 import '../../../core/widgets/app_text_button.dart';
+import '../../../routes/app_pages.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/blurhash.dart';
 import '../../../utils/sizer_custom/sizer.dart';
@@ -11,11 +10,9 @@ import '../../../utils/sizer_custom/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../helpers/picker/custom_image_picker.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/custom_loader.dart';
 import '../../../public/constants.dart';
-import '../../../routes/app_pages.dart';
 import '../../auth/controllers/auth_controller.dart';
 import '../widgets/profile_widget.dart';
 
@@ -27,18 +24,30 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  bool userLoggedIn = AppGet.authGet.onAuthCheck();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colorPrimary,
+        backgroundColor: Colors.transparent,
         centerTitle: true,
-        title: AppText('Profile'),
+        title: Text(
+          'Profile',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: colorPrimary,
+              ),
+        ),
+        leading: GestureDetector(
+          onTap: () {
+            AppNavigator.push(AppRoutes.SETTINGS);
+          },
+          child: Icon(
+            Icons.settings,
+            color: Get.isDarkMode ? mCL : colorBlack,
+          ),
+        ),
       ),
       body: GetBuilder<AuthController>(
-        builder: (authController) => userLoggedIn
+        builder: (authController) => AppGet.authGet.onAuthCheck()
             ? (!authController.isLoading && authController.userModel != null
                 ? ListView(
                     physics: BouncingScrollPhysics(),
@@ -46,98 +55,107 @@ class _ProfileViewState extends State<ProfileView> {
                       SizedBox(height: 10.sp),
                       //profile icon
                       SizedBox(
-                        height: 120.sp,
+                        height: 150.sp,
                         width: SizerUtil.height,
-                        child: GestureDetector(
-                          onTap: () {
-                            CustomImagePicker().openImagePicker(
-                              context: context,
-                              handleFinish: (File image) async {
-                                showDialogLoading(context);
-                                AppGet.authGet.updateAvatar(avatar: image);
-                              },
-                            );
-                          },
-                          child: Container(
-                            width: 100.w,
-                            alignment: Alignment.center,
-                            child: Container(
-                              height: 105.sp,
-                              width: 105.sp,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: colorPrimary,
-                                  width: 3.sp,
-                                ),
-                              ),
-                              alignment: Alignment.center,
-                              child: Container(
-                                height: 95.sp,
-                                width: 95.sp,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 100.sp,
+                                width: 100.sp,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(1000.sp),
                                   child: BlurHash(
-                                    hash: AppGet.authGet.userModel!.blurHash,
-                                    image: AppGet.authGet.userModel!.image,
+                                    hash: authController.userModel!.blurHash,
+                                    image: authController.userModel!.image,
                                     imageFit: BoxFit.cover,
                                     color: colorPrimary,
                                   ),
                                 ),
                               ),
-                            ),
+                              SizedBox(height: 10.sp),
+                              AppText(authController.userModel!.name),
+                              SizedBox(height: 5.sp),
+                              AppText(
+                                authController.userModel!.address
+                                    .split(' ')
+                                    .first,
+                                type: TextType.medium,
+                              ),
+                            ],
                           ),
                         ),
-                        // child: GestureDetector(
+
+                        // GestureDetector(
                         //   onTap: () {
                         //     CustomImagePicker().openImagePicker(
                         //       context: context,
-                        //       handleFinish: (File image) {
-                        //         setState(
-                        //           () {
-                        //             showDialogLoading(context);
-                        //             _image = image;
-                        //             AppGet.authGet.updateAvatar(avatar: image);
-                        //           },
-                        //         );
+                        //       handleFinish: (File image) async {
+                        //         showDialogLoading(context);
+                        //         AppGet.authGet.updateAvatar(avatar: image);
                         //       },
                         //     );
                         //   },
                         //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //       shape: BoxShape.circle,
-                        //       border: Border.all(
-                        //         color: colorPrimary,
-                        //         width: 1.5.sp,
-                        //       ),
-                        //       // borderRadius: BorderRadius.circular(6.sp),
-                        //       image: _image != null
-                        //           ? DecorationImage(
-                        //               image: FileImage(_image!),
-                        //               fit: BoxFit.fill,
-                        //             )
-                        //           : DecorationImage(
-                        //               image: AssetImage(Constants.PERSON_ASSET),
-                        //               fit: BoxFit.contain,
-                        //             ),
-                        //     ),
                         //     alignment: Alignment.center,
-                        //     child: Icon(
-                        //       PhosphorIcons.plusCircle,
-                        //       color: colorPrimary,
-                        //       size: 30.sp,
+                        //     child: Container(
+                        //       height: 105.sp,
+                        //       width: 105.sp,
+                        //       decoration: BoxDecoration(
+                        //         shape: BoxShape.circle,
+                        //         border: Border.all(
+                        //           color: colorPrimary,
+                        //           width: 3.sp,
+                        //         ),
+                        //       ),
+                        //       alignment: Alignment.center,
+                        //       child: Container(
+                        //         height: 95.sp,
+                        //         width: 95.sp,
+                        //         decoration: BoxDecoration(
+                        //           shape: BoxShape.circle,
+                        //         ),
+                        //         child: ClipRRect(
+                        //           borderRadius: BorderRadius.circular(1000.sp),
+                        //           child: BlurHash(
+                        //             hash: AppGet.authGet.userModel!.blurHash,
+                        //             image: AppGet.authGet.userModel!.image,
+                        //             imageFit: BoxFit.cover,
+                        //             color: colorPrimary,
+                        //           ),
+                        //         ),
+                        //       ),
                         //     ),
                         //   ),
                         // ),
                       ),
                       SizedBox(height: 10.sp),
                       //body
+                      ListTile(
+                        title: AppText('About'),
+                        leading: Icon(Icons.person),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.sp),
+                        child: Components.customContainer(
+                          context,
+                          Expanded(
+                            child: Text(
+                              '${authController.userModel!.name} , ${authController.userModel!.phone} , ${authController.userModel!.address}',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 20.sp),
                       AccountWidget(
                         onTap: () {
-                          AppNavigator.push(Routes.UPDATE_PROFILE);
+                          AppNavigator.push(AppRoutes.EDIT_INFO_USER);
                         },
                         appIcon: AppIcon(
                           onTap: () {},
@@ -147,22 +165,22 @@ class _ProfileViewState extends State<ProfileView> {
                           iconSize: 20.sp,
                           size: 40.sp,
                         ),
-                        text: AppGet.authGet.userModel!.name,
+                        text: authController.userModel!.name,
                       ),
                       //phone
                       AccountWidget(
                         onTap: () {
-                          AppNavigator.push(Routes.UPDATE_PROFILE);
+                          AppNavigator.push(AppRoutes.EDIT_INFO_USER);
                         },
                         appIcon: AppIcon(
                           onTap: () {},
                           icon: Icons.phone,
-                          backgroundColor: colorMedium,
+                          backgroundColor: colorBranch,
                           iconColor: mCL,
                           iconSize: 20.sp,
                           size: 40.sp,
                         ),
-                        text: AppGet.authGet.userModel!.phone,
+                        text: authController.userModel!.phone,
                       ),
                       //email
                       AccountWidget(
@@ -170,27 +188,42 @@ class _ProfileViewState extends State<ProfileView> {
                         appIcon: AppIcon(
                           onTap: () {},
                           icon: Icons.email,
-                          backgroundColor: colorMedium,
+                          backgroundColor: colorBranch,
                           iconColor: mCL,
                           iconSize: 20.sp,
                           size: 40.sp,
                         ),
-                        text: AppGet.authGet.userModel!.email,
+                        text: authController.userModel!.email,
                       ),
                       //address
                       AccountWidget(
                         onTap: () {
-                          AppNavigator.push(Routes.UPDATE_PROFILE);
+                          AppNavigator.push(AppRoutes.EDIT_INFO_USER);
                         },
                         appIcon: AppIcon(
                           onTap: () {},
                           icon: Icons.location_on,
-                          backgroundColor: colorMedium,
+                          backgroundColor: colorBranch,
                           iconColor: mCL,
                           iconSize: 20.sp,
                           size: 40.sp,
                         ),
-                        text: AppGet.authGet.userModel!.address,
+                        text: authController.userModel!.address,
+                      ),
+                      //favorite
+                      AccountWidget(
+                        onTap: () {
+                          AppNavigator.push(AppRoutes.FAVORITE);
+                        },
+                        appIcon: AppIcon(
+                          onTap: () {},
+                          icon: Icons.favorite,
+                          backgroundColor: Colors.redAccent,
+                          iconColor: mCL,
+                          iconSize: 20.sp,
+                          size: 40.sp,
+                        ),
+                        text: "Favorites",
                       ),
                       //messages
                       AccountWidget(
@@ -232,7 +265,7 @@ class _ProfileViewState extends State<ProfileView> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20.sp),
                     ),
-                    child: Constants().loginLottie,
+                    child: AppConstants().loginLottie,
                   ),
                   SizedBox(height: 30.sp),
                   Padding(
@@ -243,7 +276,8 @@ class _ProfileViewState extends State<ProfileView> {
                           child: AppTextButton(
                             txt: 'Login',
                             onTap: () {
-                              Get.offNamedUntil(Routes.LOGIN, (route) => false);
+                              Get.offNamedUntil(
+                                  AppRoutes.LOGIN, (route) => false);
                             },
                           ),
                         ),

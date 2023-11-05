@@ -20,7 +20,7 @@ class AnalyticsController extends GetxController implements GetxService {
     try {
       diox.Response response = await analyticsRepository.fetchEarnings();
 
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {
           var rawData = response.data;

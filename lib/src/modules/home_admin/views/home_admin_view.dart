@@ -1,10 +1,8 @@
 import 'package:get/get.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
-import 'package:shop_app/src/core/widgets/app_text_button.dart';
-import 'package:shop_app/src/core/widgets/custom_button.dart';
 import 'package:shop_app/src/public/components.dart';
-import '../controllers/home_admin_controller.dart';
 import '../../../routes/app_pages.dart';
+import '../controllers/home_admin_controller.dart';
 
 import '../../../core/widgets/category_widget.dart';
 import '../../../core/widgets/no_data_page.dart';
@@ -15,7 +13,7 @@ import '../../../models/product_model.dart';
 import '../../../public/constants.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
-import '../widgets/build_shimmer_products.dart';
+import '../../../core/widgets/custom_shimmer_products.dart';
 
 class HomeAdminView extends StatefulWidget {
   const HomeAdminView({super.key});
@@ -29,17 +27,12 @@ class _HomeAdminViewState extends State<HomeAdminView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Components.customAppBarHome(context),
-      body: GetBuilder<AdminController>(builder: (adminController) {
+      body: GetBuilder<HomeAdminController>(builder: (adminController) {
         return SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomButton(buttomText: 'custom'),
-              AppTextButton(
-                txt: "textbutton",
-                onTap: () {},
-              ),
               SizedBox(height: 10.sp),
               const CategoryWidget(),
               SizedBox(height: 10.sp),
@@ -57,7 +50,7 @@ class _HomeAdminViewState extends State<HomeAdminView> {
                           return ProductWidget(
                             onTap: () {
                               AppNavigator.push(
-                                Routes.PRODUCT_EDIT,
+                                AppRoutes.EDIT_PRODUCT,
                                 arguments: {
                                   'product': product,
                                 },
@@ -72,17 +65,17 @@ class _HomeAdminViewState extends State<HomeAdminView> {
                     if (snapshot.connectionState == ConnectionState.none) {
                       return NoDataPage(
                         text: "Not found products yet",
-                        imgPath: Constants.EMPTY_ASSET,
+                        imgPath: AppConstants.EMPTY_ASSET,
                       );
                     }
-                    return BuildShimmerProducts();
+                    return CustomShimmerProducts();
                   }),
             ],
           ),
         );
       }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => AppNavigator.push(Routes.PRODUCT_ADD),
+        onPressed: () => AppNavigator.push(AppRoutes.CREATE_PRODUCT),
         tooltip: 'Add a Product',
         backgroundColor: colorPrimary,
         child: const Icon(Icons.add),

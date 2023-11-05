@@ -7,7 +7,7 @@ import '../base_repository.dart';
 class UserRepository {
   Future<UserModel?> getInfoUser({String? token}) async {
     Response response = await BaseRepository().getRoute(
-      ApiGateway.GET_INFO,
+      ApiGateway.GET_USER_DATA,
       token: token,
     );
     if (response.statusCode == 200) {
@@ -30,7 +30,7 @@ class UserRepository {
     };
 
     Response response =
-        await BaseRepository().patchRoute(ApiGateway.USER, body: body);
+        await BaseRepository().patchRoute(ApiGateway.GET_USER_DATA, body: body);
 
     print(response.data);
 

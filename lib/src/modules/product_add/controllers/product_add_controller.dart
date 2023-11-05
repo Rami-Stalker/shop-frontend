@@ -2,12 +2,11 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as diox;
-import 'package:shop_app/src/routes/app_pages.dart';
 
+import '../../../routes/app_pages.dart';
 import '../repositories/product_add_repository.dart';
 import '../../../public/components.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
-import 'package:flutter/material.dart';
 
 import '../../../public/constants.dart';
 
@@ -20,27 +19,15 @@ class ProductAddController extends GetxController implements GetxService {
     required this.addProductRepository,
   });
 
-  final TextEditingController productNameC = TextEditingController();
-  final TextEditingController descriptionC = TextEditingController();
-  final TextEditingController priceC = TextEditingController();
-  final TextEditingController quantityC = TextEditingController();
-
-  @override
-  void dispose() {
-    super.dispose();
-    productNameC.dispose();
-    descriptionC.dispose();
-    priceC.dispose();
-    quantityC.dispose();
-  }
-
   void addProduct({
     required String name,
     required String description,
     required int price,
+    required int discount,
     required int quantity,
     required String category,
     required List<File> images,
+    required String time,
   }) async {
     try {
       final cloudinary = CloudinaryPublic('dvn9z2jmy', 'qle4ipae');
@@ -62,14 +49,15 @@ class ProductAddController extends GetxController implements GetxService {
         images: imageUrl,
         category: category,
         price: price,
-        oldPrice: 0,
+        discount: discount,
+        time: time,
       );
 
       diox.Response response = await addProductRepository.addProduct(
         product: product,
       );
 
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {
           Components.showSnackBar(
@@ -77,11 +65,7 @@ class ProductAddController extends GetxController implements GetxService {
             title: "Product",
             color: colorPrimary,
           );
-          productNameC.text = '';
-          descriptionC.text = '';
-          priceC.text = '';
-          quantityC.text = '';
-          AppNavigator.replaceWith(Routes.NAVIGATION);
+          AppNavigator.popUntil(AppRoutes.NAVIGATION);
           update();
         },
       );

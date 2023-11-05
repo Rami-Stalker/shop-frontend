@@ -1,48 +1,91 @@
 part of 'app_pages.dart';
 // DO NOT EDIT. This is code generated via package:get_cli/get_cli.dart
 
-abstract class Routes {
-  Routes._();
-  static const ROOT = _Paths.ROOT;
+abstract class AppRoutes {
+  AppRoutes._();
 
+  // Splash
   static const SPLASH = _Paths.SPLASH;
+
+  // Navigation
   static const NAVIGATION = _Paths.NAVIGATION;
-  static const ADMIN_NAVIGATOR = _Paths.ADMIN_NAVIGATOR;
+
+  // Notification
   static const NOTIFICATION = _Paths.NOTIFICATION;
-  static const CATEGORY = _Paths.CATEGORY;
-  static const PRODUCT_ADD = _Paths.PRODUCT_ADD;
-  static const PRODUCT_EDIT = _Paths.PRODUCT_EDIT;
-  static const REGISTER = _Paths.REGISTER;
+
+  // Authintication
   static const LOGIN = _Paths.LOGIN;
+  static const REGISTER = _Paths.REGISTER;
+
+  // Products
+  static const SEARCH_PRODUCT = _Paths.SEARCH_PRODUCT;
+  static const CATEGORY_PRODUCT = _Paths.CATEGORY_PRODUCT;
+  static const DETAILS_PRODUCT_RATING = _Paths.DETAILS_PRODUCT_RATING;
+  static const DETAILS_PRODUCT_NEWEST = _Paths.DETAILS_PRODUCT_NEWEST;
+  static const CREATE_PRODUCT = _Paths.CREATE_PRODUCT;
+  static const EDIT_PRODUCT = _Paths.EDIT_PRODUCT;
+
+  // Cart
   static const CART = _Paths.CART;
+
+  // Check out
   static const CHECKOUT = _Paths.CHECKOUT;
-  static const ORDER_DETAILS = _Paths.ORDER_DETAILS;
-  static const PRODUCT_DETAILS_NEWEST = _Paths.PRODUCT_DETAILS_NEWEST;
-  static const PRODUCT_DETAILS_RATING = _Paths.PRODUCT_DETAILS_RATING;
-  static const SEARCH = _Paths.SEARCH;
-  static const UPDATE_PROFILE = _Paths.UPDATE_PROFILE;
+
+  // Order
+  static const DETAILS_ORDER = _Paths.DETAILS_ORDER;
+
+  // User
+  static const EDIT_INFO_USER = _Paths.EDIT_INFO_USER;
   static const ADDRESS = _Paths.ADDRESS;
+  static const FAVORITE = _Paths.FAVORITE;
+
+  // Settings
+  static const SETTINGS = _Paths.SETTINGS;
+
+  // Language
+  static const LANGUAGE = _Paths.LANGUAGE;
 }
 
 abstract class _Paths {
   _Paths._();
-  static const ROOT = '/';
-
+  // Splash
   static const SPLASH = '/splash';
+
+  // Navigation
   static const NAVIGATION = '/navigation';
-  static const ADMIN_NAVIGATOR = '/admin-navigator';
+
+  // Notification
   static const NOTIFICATION = '/notification';
-  static const CATEGORY = '/category';
-  static const PRODUCT_ADD = '/product-add';
-  static const PRODUCT_EDIT = '/product-edit';
+
+  // Authintication
   static const LOGIN = '/login';
   static const REGISTER = '/register';
+
+  // Products
+  static const SEARCH_PRODUCT = '/searchProduct';
+  static const CATEGORY_PRODUCT = '/categoryProduct';
+  static const DETAILS_PRODUCT_RATING = '/detailsProductRating';
+  static const DETAILS_PRODUCT_NEWEST = '/detailsProductNewest';
+  static const CREATE_PRODUCT = '/createProduct';
+  static const EDIT_PRODUCT = '/editProduct';
+
+  // Cart
   static const CART = '/cart';
+
+  // Check out
   static const CHECKOUT = '/checkout';
-  static const ORDER_DETAILS = '/order-details';
-  static const PRODUCT_DETAILS_NEWEST = '/product-details-newest';
-  static const PRODUCT_DETAILS_RATING = '/product-details-rating';
-  static const SEARCH = '/search';
-  static const UPDATE_PROFILE = '/update-profile';
+
+  // Order
+  static const DETAILS_ORDER = '/detailsOrder';
+
+  // User
+  static const EDIT_INFO_USER = '/editInfoUser';
   static const ADDRESS = '/address';
+  static const FAVORITE = '/favorite';
+
+  // Settings
+  static const SETTINGS = '/settings';
+
+  // Language
+  static const LANGUAGE = '/language';
 }

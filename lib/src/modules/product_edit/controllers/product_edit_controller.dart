@@ -1,13 +1,12 @@
-import 'package:shop_app/src/routes/app_pages.dart';
 
 import '../../../public/components.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as diox;
 
 import '../../../public/constants.dart';
 
 import '../../../models/product_model.dart';
+import '../../../routes/app_pages.dart';
 import '../../../themes/app_colors.dart';
 import '../repositories/product_edit_repository.dart';
 
@@ -20,32 +19,16 @@ class ProductEditController extends GetxController implements GetxService {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  final TextEditingController productNameUC = TextEditingController();
-  final TextEditingController descreptionUC = TextEditingController();
-  final TextEditingController priceUC = TextEditingController();
-  final TextEditingController quantityUC = TextEditingController();
-
-  @override
-  void dispose() {
-    super.dispose();
-    productNameUC.dispose();
-    descreptionUC.dispose();
-    priceUC.dispose();
-    quantityUC.dispose();
-  }
-
   void deleteProduct({
     required ProductModel product,
   }) async {
     try {
-      print('ddddddffffffffffffffff');
-      print(product.id);
       diox.Response response = await editProductRepository.deleteProduct(product: product);
 
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {
-          AppNavigator.replaceWith(Routes.NAVIGATION);
+          AppNavigator.popUntil(AppRoutes.NAVIGATION);
           update();
         },
       );
@@ -55,7 +38,7 @@ class ProductEditController extends GetxController implements GetxService {
     }
   }
 
-  void updateProduct({
+  void productEdit({
     required String id,
     required String name,
     required String description,
@@ -63,7 +46,7 @@ class ProductEditController extends GetxController implements GetxService {
     required int quantity,
   }) async {
     try {
-      diox.Response response = await editProductRepository.updateProduct(
+      diox.Response response = await editProductRepository.productEdit(
         id: id,
         name: name,
         description: description,
@@ -71,15 +54,15 @@ class ProductEditController extends GetxController implements GetxService {
         quantity: quantity,
       );
 
-      Constants.handleApi(
+      AppConstants.handleApi(
         response: response,
         onSuccess: () {
           Components.showSnackBar(
-            'Update Seccessfully',
-            title: 'Update',
+            'Seccessfull',
+            title: 'Product Edited',
             color: colorPrimary,
           );
-          AppNavigator.replaceWith(Routes.NAVIGATION);
+          AppNavigator.popUntil(AppRoutes.NAVIGATION);
           update();
         },
       );

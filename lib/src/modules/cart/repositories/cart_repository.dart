@@ -1,13 +1,15 @@
 import 'dart:convert';
 
-import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/cart_model.dart';
 
 class CartRepository {
-  CartRepository();
+  final SharedPreferences prefs;
+  CartRepository({
+    required this.prefs,
+});
 
-  final _getStorage = GetStorage();
   final cartKey = 'cashe-cart';
   final cartHistoryKey = "cashe-cart-history";
 
@@ -21,25 +23,25 @@ class CartRepository {
       element.time = time;
       cart.add(jsonEncode(element));
     }
-    _getStorage.write(cartKey, cart);
+    prefs.setStringList(cartKey, cart);
   }
 
   void addToCartHistoryList() {
-    if (_getStorage.read(cartHistoryKey) != null) {
-      cartHistory = _getStorage.read<List<String>>(cartHistoryKey)??[];
+    if (prefs.getStringList(cartHistoryKey) != null) {
+      cartHistory = prefs.getStringList(cartHistoryKey)??[];
     }
 
     for (int i = 0; i < cart.length; i++) {
       cartHistory.add(cart[i]);
     }
     removeCart();
-    _getStorage.write(cartHistoryKey, cartHistory);
+    prefs.setStringList(cartHistoryKey, cartHistory);
   }
 
   List<CartModel> getCartList() {
     List<CartModel> cartList = [];
 
-    var rawData = _getStorage.read(cartKey);
+    var rawData = prefs.getStringList(cartKey);
     if (rawData != null) {
       for (var element in rawData) {
         cartList.add(CartModel.fromJson(jsonDecode(element)));
@@ -51,7 +53,7 @@ class CartRepository {
   List<CartModel> getCartHistoryList() {
     List<CartModel> cartHistoryList = [];
 
-    var rawData = _getStorage.read(cartHistoryKey);
+    var rawData = prefs.getStringList(cartHistoryKey);
     if (rawData != null) {
       for (var element in rawData) {
         cartHistoryList.add(CartModel.fromJson(jsonDecode(element)));
@@ -62,12 +64,12 @@ class CartRepository {
 
   void removeCart() {
     cart = [];
-    _getStorage.remove(cartKey);
+    prefs.remove(cartKey);
   }
 
   void clearCartHistory() {
     removeCart();
     cartHistory = [];
-    _getStorage.remove(cartHistoryKey);
+    prefs.remove(cartHistoryKey);
   }
 }

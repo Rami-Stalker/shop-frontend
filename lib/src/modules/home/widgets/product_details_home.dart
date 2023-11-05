@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
+import '../../../models/product_model.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
 import '../../../core/widgets/icon_text_widget.dart';
 
 class ProductDetailsHome extends StatelessWidget {
-  final String name;
-  final String category;
-  final int price;
-  final int oldPrice;
+  final ProductModel product;
+
   const ProductDetailsHome({
     Key? key,
-    required this.name,
-    required this.category,
-    required this.price,
-    required this.oldPrice,
+    required this.product,
   }) : super(key: key);
 
   @override
@@ -23,15 +19,20 @@ class ProductDetailsHome extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppText(name),
+        AppText(product.name),
         SizedBox(height: 5.sp),
         Row(
           children: [
-            AppText('\$${price.toString()}'),
+            Text(
+              '\$${product.price.toString()}',
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: colorPrimary,
+                  ),
+            ),
             SizedBox(width: 5.sp),
-            oldPrice != 0
+            product.oldPrice != 0
                 ? Text(
-                    '\$${oldPrice.toString()}',
+                    '\$${product.oldPrice.toString()}',
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 15.sp,
@@ -57,7 +58,7 @@ class ProductDetailsHome extends StatelessWidget {
                     size: 15.sp,
                   ),
                   Text(
-                    category,
+                    product.category,
                     style: TextStyle(
                       color: colorBlack,
                     ),
@@ -74,7 +75,7 @@ class ProductDetailsHome extends StatelessWidget {
             IconAndTextWidget(
               icon: Icons.circle_sharp,
               text: 'Normal',
-              iconColor: colorMedium,
+              iconColor: colorBranch,
             ),
             IconAndTextWidget(
               icon: Icons.location_on,
@@ -83,8 +84,8 @@ class ProductDetailsHome extends StatelessWidget {
             ),
             IconAndTextWidget(
               icon: Icons.access_time_rounded,
-              text: '23min',
-              iconColor: colorHigh,
+              text: '${product.time}min',
+              iconColor: Colors.redAccent,
             ),
           ],
         ),

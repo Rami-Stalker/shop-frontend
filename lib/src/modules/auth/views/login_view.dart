@@ -1,3 +1,6 @@
+import 'package:shop_app/src/public/constants.dart';
+
+import '../../../routes/app_pages.dart';
 import '../controllers/auth_controller.dart';
 
 import '../../../public/components.dart';
@@ -8,18 +11,34 @@ import 'package:get/get.dart';
 
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/custom_loader.dart';
-import '../../../routes/app_pages.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
-class LoginView extends GetView<AuthController> {
-  const LoginView({super.key});
+class LoginView extends StatefulWidget {
+  final VoidCallback? toggleView;
+
+  LoginView({this.toggleView});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     void _login(AuthController authController) async {
-      String email = controller.emailC.text.trim();
-      String password = controller.passwordC.text.trim();
+      String email = _emailController.text.trim();
+      String password = _passwordController.text.trim();
 
       if (email.isEmpty) {
         Components.showSnackBar(
@@ -61,9 +80,9 @@ class LoginView extends GetView<AuthController> {
                       height: 120.sp,
                       child: Center(
                         child: CircleAvatar(
-                          backgroundColor: mCL,
-                          radius: 120.sp,
-                          backgroundImage: AssetImage("assets/images/logo.png"),
+                          backgroundColor: colorPrimary,
+                          radius: 50.sp,
+                          child: Image.asset(AppConstants.LOGO64_ASSET),
                         ),
                       ),
                     ),
@@ -75,17 +94,17 @@ class LoginView extends GetView<AuthController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Hello',
-                            style: Theme.of(context).textTheme.displayMedium,
-                          ),
-                          Text(
-                            "An application that contains everything you desire",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(color: fCL),
-                          ),
+                          // Text(
+                          //   loginHello.i18n,
+                          //   style: Theme.of(context).textTheme.displayMedium,
+                          // ),
+                          // Text(
+                          //   loginDis.i18n,
+                          //   style: Theme.of(context)
+                          //       .textTheme
+                          //       .titleLarge!
+                          //       .copyWith(color: fCL),
+                          // ),
                         ],
                       ),
                     ),
@@ -95,7 +114,7 @@ class LoginView extends GetView<AuthController> {
                       child: //email
                           AppTextField(
                         keyboardType: TextInputType.emailAddress,
-                        textController: controller.emailC,
+                        textController: _emailController,
                         hintText: 'email',
                         icon: Icons.email,
                       ),
@@ -107,7 +126,7 @@ class LoginView extends GetView<AuthController> {
                       child: GetBuilder<AuthController>(
                           builder: (loginController) {
                         return AppTextField(
-                          textController: loginController.passwordC,
+                          textController: _passwordController,
                           hintText: 'password',
                           icon: Icons.password,
                           isObscure: loginController.isObscure,
@@ -132,15 +151,15 @@ class LoginView extends GetView<AuthController> {
                         Expanded(
                           child: Container(),
                         ),
-                        RichText(
-                          text: TextSpan(
-                            text: 'Sign into your account',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(color: fCL),
-                          ),
-                        ),
+                        // RichText(
+                        //   text: TextSpan(
+                        //     text: loginAccount.i18n,
+                        //     style: Theme.of(context)
+                        //         .textTheme
+                        //         .titleLarge!
+                        //         .copyWith(color: fCL),
+                        //   ),
+                        // ),
                         SizedBox(
                           width: 20.sp,
                         ),
@@ -167,12 +186,12 @@ class LoginView extends GetView<AuthController> {
                         children: [
                           TextSpan(
                             recognizer: TapGestureRecognizer()
-                              ..onTap = () => AppNavigator.replaceWith(Routes.REGISTER),
-                            text: 'create',
+                              ..onTap = () => AppNavigator.replaceWith(AppRoutes.REGISTER),
+                            text: 'Register',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge!
-                                .copyWith(color: Colors.blue),
+                                .copyWith(color: colorPrimary),
                           ),
                         ],
                       ),
