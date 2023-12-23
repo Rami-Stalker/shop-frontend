@@ -141,7 +141,7 @@ class _AddressViewState extends State<AddressView> {
                 left: 20.sp,
                 child: CustomButton(
                   buttomText: 'Pick address',
-                  onPressed: profileEditController.loading
+                  onPressed: profileEditController.isLoading
                       ? null
                       : () {
                           if (_address.isNotEmpty) {

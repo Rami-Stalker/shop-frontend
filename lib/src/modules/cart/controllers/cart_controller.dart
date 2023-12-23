@@ -1,24 +1,20 @@
 import 'package:get/get.dart';
 import '../../../public/components.dart';
-import '../../../routes/app_pages.dart';
 import '../repositories/cart_repository.dart';
 import '../../../themes/app_colors.dart';
 
 import '../../../models/cart_model.dart';
 import '../../../models/product_model.dart';
 
-class CartController extends GetxController implements GetxService {
+class CartController extends GetxController {
   final CartRepository cartRepository;
-  CartController({
-    required this.cartRepository,
-  });
+  CartController(this.cartRepository);
 
   late Map<String, CartModel> _items = {};
   Map<String, CartModel> get items => _items;
 
   List<CartModel> storageItems = [];
 
-  final Rx<int> quantity = 0.obs;
   final Rx<bool> _isValid = false.obs;
   Rx<bool> get isValid => _isValid;
 
@@ -43,6 +39,7 @@ class CartController extends GetxController implements GetxService {
         );
       } else {
         _items.remove(product.id);
+        update();
       }
     } else {
       if (quantity > 0) {
@@ -60,7 +57,10 @@ class CartController extends GetxController implements GetxService {
           );
         });
       } else {
-        Components.showSnackBar(title: "Cart", "Not Add To Cart");
+        Components.showSnackBar(
+        title: "Item count",
+        "You have to add more !",
+      );
       }
     }
     cartRepository.addToCartList(getItems);
@@ -70,7 +70,6 @@ class CartController extends GetxController implements GetxService {
   int getQuantity(ProductModel product) {
     int quantity = 0;
     if (_items.containsKey(product.id)) {
-      print('11111111111');
       _items.forEach((key, value) {
         if (key == product.id) {
           quantity = value.userQuant!;
@@ -78,6 +77,18 @@ class CartController extends GetxController implements GetxService {
       });
     }
     return quantity;
+  }
+
+    void checkQuantity(int quantity, ProductModel product) {
+    if (quantity > product.quantity) {
+      Components.showSnackBar(
+        "You ordered more than the available quantity \n available quantity is ${product.quantity} !",
+        title: "Item count",
+        color: colorBranch,
+      );
+    } else {
+      addItem(product, quantity);
+    }
   }
 
   int get totalItems {
@@ -95,7 +106,7 @@ class CartController extends GetxController implements GetxService {
   }
 
   int get subtotal {
-    int total = 0;
+    var total = 0;
     _items.forEach((key, value) {
       total += value.userQuant! * value.price!;
     });
@@ -120,8 +131,7 @@ class CartController extends GetxController implements GetxService {
     _items.forEach((key, value) {
       int discount = value.product!.discount!;
 
-      double itemDiscount =
-          (value.userQuant! * value.price! * discount / 100);
+      double itemDiscount = (value.userQuant! * value.price! * discount / 100);
       totalDiscount += itemDiscount;
     });
     return totalDiscount;
@@ -154,7 +164,7 @@ class CartController extends GetxController implements GetxService {
   void addToCartHistoryList() {
     cartRepository.addToCartHistoryList();
     clear();
-    AppNavigator.popUntil(AppRoutes.NAVIGATION);
+    // AppNavigator.popUntil(AppRoutes.NAVIGATION);
     update();
   }
 
@@ -178,26 +188,9 @@ class CartController extends GetxController implements GetxService {
     update();
   }
 
-  void setQuantity(bool isIncrement, int productQuantity) {
-    if (isIncrement) {
-      quantity.value = checkQuantity(quantity.value + 1, productQuantity);
-    } else {
-      quantity.value = checkQuantity(quantity.value - 1, productQuantity);
-    }
-  }
-
-  int checkQuantity(int quantity, int productQuantity) {
-    if (quantity > productQuantity) {
-      Components.showSnackBar(
-        "You ordered more than the available quantity \n available quantity is $productQuantity !",
-        title: "Item count",
-        color: colorBranch,
-      );
-      _isValid.value = false;
-      return productQuantity;
-    } else {
-      _isValid.value = true;
-      return quantity;
-    }
+  @override
+  void onInit() {
+    getCartList();
+    super.onInit();
   }
 }

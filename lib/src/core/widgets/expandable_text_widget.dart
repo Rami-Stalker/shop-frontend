@@ -62,7 +62,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
                     child: Row(
                       children: [
                         Text(
-                hiddenText ? 'Show more' : 'Show less',
+                hiddenText ? 'show_more'.tr : 'show_less'.tr,
                 style:
                     Theme.of(context).textTheme.bodyLarge!.copyWith(color: colorPrimary),
               ),

@@ -11,9 +11,7 @@ import '../../../public/constants.dart';
 
 class CheckoutController extends GetxController implements GetxService {
   final CheckoutRepository checkoutRepository;
-  CheckoutController({
-    required this.checkoutRepository,
-  });
+  CheckoutController(this.checkoutRepository);
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -49,7 +47,7 @@ class CheckoutController extends GetxController implements GetxService {
       AppConstants.handleApi(
         response: response,
         onSuccess: () {
-          Get.find<CartRepository>().removeCart();
+          Get.find<CartRepository>().addToCartHistoryList();
           Components.showSnackBar(
             'add Order Successed',
             title: 'Order',

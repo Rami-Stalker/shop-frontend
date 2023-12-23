@@ -7,11 +7,13 @@ class AppTextButton extends StatelessWidget {
   final String txt;
   final Function() onTap;
   final Color backgroundColor;
+  final double borderRadius;
   const AppTextButton({
     Key? key,
     required this.txt,
     required this.onTap,
-    this.backgroundColor =const Color(0xFF89DAD0),
+    this.backgroundColor = const Color(0xFF89DAD0),
+    this.borderRadius = 40,
   }) : super(key: key);
 
   @override
@@ -19,13 +21,14 @@ class AppTextButton extends StatelessWidget {
     return TextButton(
       onPressed: onTap,
       style: TextButton.styleFrom(
-          backgroundColor: backgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              20.sp,
-            ),
+        backgroundColor: backgroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            borderRadius,
           ),
-          padding: EdgeInsets.all(10.sp)),
+        ),
+        padding: EdgeInsets.all(10.sp),
+      ),
       child: Text(
         txt,
         style: TextStyle(

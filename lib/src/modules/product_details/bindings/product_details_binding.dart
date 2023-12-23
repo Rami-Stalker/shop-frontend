@@ -7,10 +7,10 @@ class ProductDetailsBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ProductDetailsRepository>(
-      () => ProductDetailsRepository(baseRepository: Get.find()),
+      () => ProductDetailsRepository(Get.find()),
     );
     Get.lazyPut<ProductDetailsController>(
-      () => ProductDetailsController(productDetailsRepository: Get.find()),
+      () => ProductDetailsController(Get.find()),
     );
   }
 }

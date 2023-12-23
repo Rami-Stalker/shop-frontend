@@ -12,7 +12,7 @@ class ProductModel {
   final int price;
   final int? oldPrice;
   final int? discount;
-  final List<RatingModel>? ratings;
+  List<RatingModel>? ratings;
   final String time;
   ProductModel({
     this.id,

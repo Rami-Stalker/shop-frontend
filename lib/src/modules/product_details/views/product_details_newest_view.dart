@@ -2,6 +2,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
+import '../../../core/dialogs/dialog_confirm.dart';
+import '../../../core/dialogs/dialog_loading.dart';
 import '../../../core/widgets/app_text_button.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
@@ -71,8 +73,12 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
           totalRating / productDetailsController.ratings.length;
     }
 
-    if (UserLocal().getUser()!.favorites!.contains(product.id)) {
-      productDetailsController.isFavorite.value = true;
+    if (UserLocal().getUser() != null) {
+      if (UserLocal().getUser()!.favorites!.contains(product.id)) {
+        productDetailsController.isFavorite.value = true;
+      } else {
+        productDetailsController.isFavorite.value = false;
+      }
     } else {
       productDetailsController.isFavorite.value = false;
     }
@@ -106,24 +112,39 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                           ? Positioned(
                               right: 0.0,
                               top: 0.0,
-                              child: AppIcon(
-                                onTap: () {},
-                                icon: Icons.circle,
-                                size: 20,
-                                iconColor: Colors.transparent,
-                                backgroundColor: colorPrimary,
+                              child: CircleAvatar(
+                                radius: 8.sp,
+                                child: Text(
+                                  productDetailsController.totalItems
+                                      .toString(),
+                                  style: TextStyle(
+                                    fontSize: 10.sp,
+                                  ),
+                                ),
                               ),
                             )
                           : Container(),
-                      productDetailsController.totalItems != 0
-                          ? Positioned(
-                              right: 3.0,
-                              top: 3.0,
-                              child: AppText(
-                                productDetailsController.totalItems.toString(),
-                              ),
-                            )
-                          : Container(),
+                      //     Positioned(
+                      //         right: 0.0,
+                      //         top: 0.0,
+                      //         child: AppIcon(
+                      //           onTap: () {},
+                      //           icon: Icons.circle,
+                      //           size: 20,
+                      //           iconColor: Colors.transparent,
+                      //           backgroundColor: colorPrimary,
+                      //         ),
+                      //       )
+                      //     : Container(),
+                      // productDetailsController.totalItems != 0
+                      //     ? Positioned(
+                      //         right: 3.0,
+                      //         top: 3.0,
+                      //         child: AppText(
+                      //           productDetailsController.totalItems.toString(),
+                      //         ),
+                      //       )
+                      //     : Container(),
                     ],
                   ),
                 ),
@@ -334,9 +355,24 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                         ),
                         child: InkWell(
                           onTap: () {
-                            productDetailsController.setFavorite();
-                            productDetailsController
-                                .changeMealFavorite(product.id!);
+                            if (AppGet.authGet.onAuthCheck()) {
+                              productDetailsController.setFavorite();
+                              productDetailsController
+                                  .changeMealFavorite(product.id!);
+                            } else {
+                              dialogAnimationWrapper(
+                                context: context,
+                                slideFrom: 'right',
+                                child: DialogConfirm(
+                                  title: 'Sign in',
+                                  subTitle:
+                                      'You should Sign in to complete \n do you want Sign in ?',
+                                  handleConfirm: () {
+                                    AppNavigator.replaceWith(AppRoutes.LOGIN);
+                                  },
+                                ),
+                              );
+                            }
                           },
                           child: Icon(
                             productDetailsController.isFavorite.value
@@ -348,7 +384,7 @@ class _ProductDetailsNewestViewState extends State<ProductDetailsNewestView> {
                       );
                     }),
                     AppTextButton(
-                      txt: 'Add to Cart',
+                      txt: 'add_to_cart'.tr,
                       onTap: () => productDetailsController.addItem(product),
                     ),
                   ],

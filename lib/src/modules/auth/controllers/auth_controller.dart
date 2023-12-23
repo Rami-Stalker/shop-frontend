@@ -1,31 +1,152 @@
 import 'dart:io';
 
+import 'package:country_picker/country_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as diox;
+import 'package:quiver/async.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/models/user_model.dart';
 import 'package:shop_app/src/resources/remote/user_repository.dart';
 import 'package:shop_app/src/themes/app_colors.dart';
+import '../../../core/picker/picker.dart';
 import '../../../models/upload_response_model.dart';
 import '../../../resources/local/user_local.dart';
 import '../../../resources/remote/upload_repository.dart';
 import '../../../routes/app_pages.dart';
+import '../../../services/firebase_messaging/handle_messaging.dart';
+import '../../../utils/sizer_custom/sizer.dart';
 import '../repositories/auth_repository.dart';
 
 import '../../../public/components.dart';
 
 import '../../../public/constants.dart';
 
-class AuthController extends GetxController implements GetxService {
+class AuthController extends GetxController {
   final AuthRepository authRepository;
-  AuthController({
-    required this.authRepository,
-  });
+  AuthController(this.authRepository);
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  late TextEditingController phoneLC;
+  late TextEditingController passwordLC;
+
+  late TextEditingController emailRC;
+  late TextEditingController passwordRC;
+  late TextEditingController nameRC;
+  late TextEditingController phoneRC;
+  late TextEditingController codeOtpRC;
+
+  @override
+  void onInit() {
+    phoneLC = TextEditingController();
+    passwordLC = TextEditingController();
+
+    emailRC = TextEditingController();
+    passwordRC = TextEditingController();
+    nameRC = TextEditingController();
+    phoneRC = TextEditingController();
+    codeOtpRC = TextEditingController();
+    super.onInit();
+  }
+
+  @override
+  void dispose() {
+    phoneLC.dispose();
+    passwordLC.dispose();
+
+    emailRC.dispose();
+    passwordRC.dispose();
+    nameRC.dispose();
+    phoneRC.dispose();
+    codeOtpRC.dispose();
+    super.dispose();
+  }
+
   UserModel? userModel;
+
+  File? photoFile;
+  void selectImageFromCamera() async {
+    File? image = await pickImageFromCamera();
+    if (image != null) {
+      photoFile = image;
+    }
+    AppNavigator.pop();
+    update();
+  }
+
+  void selectImageFromGallery() async {
+    File? image = await pickImageFromGallery();
+    if (image != null) {
+      photoFile = image;
+    }
+    AppNavigator.pop();
+    update();
+  }
+
+  Country? countryCode;
+  void pickCountry(BuildContext context) {
+    showCountryPicker(
+      context: context,
+      showPhoneCode: true,
+      useSafeArea: true,
+      countryListTheme: CountryListThemeData(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        bottomSheetHeight: SizerUtil.height - 300,
+        textStyle: Theme.of(context).textTheme.titleLarge,
+      ),
+      onSelect: (Country _country) {
+        countryCode = _country;
+        update();
+      },
+    );
+  }
+
+  int _start = 28;
+  int current = 10;
+  bool isOnData = false;
+
+  void startTimer() {
+    CountdownTimer countDownTimer = new CountdownTimer(
+      new Duration(seconds: _start),
+      new Duration(seconds: 1),
+    );
+
+    var sub = countDownTimer.listen(null);
+    sub.onData((duration) {
+      current = _start - duration.elapsed.inSeconds;
+      isOnData = true;
+      update();
+    });
+
+    sub.onDone(() {
+      print("Done");
+      current = 28;
+      isOnData = false;
+      sub.cancel();
+    });
+    update();
+  }
+
+  void sendCode() {
+    String phoneNumber = phoneRC.text.trim();
+
+    if (!isOnData) {
+      if (phoneNumber.isNotEmpty) {
+        startTimer();
+        sendOtP(
+          phoneCode: countryCode!.phoneCode,
+          phoneNumber: '${phoneRC.text.trim()}',
+        );
+      } else {
+        Components.showSnackBar(
+          'Type your number until sent to you code OTP',
+          title: 'Code OTP',
+        );
+      }
+    }
+  }
 
   void sendOtP({
     required String phoneCode,
@@ -44,6 +165,7 @@ class AuthController extends GetxController implements GetxService {
   }
 
   void register({
+    required File? photo,
     required String name,
     required String email,
     required String password,
@@ -54,11 +176,22 @@ class AuthController extends GetxController implements GetxService {
     try {
       _isLoading = true;
       update();
+
+      String photoCloud = '';
+
+      if (photo != null) {
+        photoCloud = await Components.cloudinaryPublic(photo.path);
+      }
+
+      String? fcmToken = await getFirebaseMessagingToken();
+
       diox.Response response = await authRepository.register(
+        photo: photoCloud,
         name: name,
         email: email,
         password: password,
         phone: phoneNumber,
+        fcmToken: fcmToken ?? "",
       );
 
       AppConstants.handleApi(
@@ -66,8 +199,11 @@ class AuthController extends GetxController implements GetxService {
         onSuccess: () {
           userModel = UserModel.fromMap(response.data as Map<String, dynamic>);
           AppNavigator.replaceWith(AppRoutes.LOGIN);
-          Components.showSnackBar('Signed up successfully login now',
-              color: colorPrimary, title: 'Signed up');
+          Components.showSnackBar(
+            'Signed up successfully login now',
+            color: colorPrimary,
+            title: 'Signed up',
+          );
           update();
         },
       );
@@ -80,18 +216,19 @@ class AuthController extends GetxController implements GetxService {
     }
   }
 
-  void login(String email, String password) async {
+  void login(String phone, String password) async {
     try {
       _isLoading = true;
       update();
       diox.Response response = await authRepository.login(
-        email,
+        phone,
         password,
       );
 
       AppConstants.handleApi(
         response: response,
-        onSuccess: () {
+        onSuccess: () async {
+          await AppGet.init();
           userModel = UserModel.fromMap(response.data as Map<String, dynamic>);
           UserLocal().saveUserId(response.data['_id']);
           UserLocal().saveAccessToken(response.data['token']);
@@ -177,7 +314,7 @@ class AuthController extends GetxController implements GetxService {
       await authRepository.logOut();
       userModel = UserModel(
         id: "",
-        image: "",
+        photo: "",
         blurHash: "",
         name: "",
         email: "",

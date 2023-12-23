@@ -117,7 +117,10 @@ class _ProductSearchViewState extends State<ProductSearchView> {
                                         selected: searchController
                                             .selectedCategories
                                             .contains(category),
-                                        label: Text(category),
+                                        label: AppText(
+                                          category,
+                                          type: TextType.medium,
+                                        ),
                                         onSelected: (selected) {
                                           setState(() {
                                             if (selected) {
@@ -163,7 +166,10 @@ class _ProductSearchViewState extends State<ProductSearchView> {
                       },
                     );
                   },
-                  child: Icon(Icons.filter_list, color: colorPrimary,),
+                  child: Icon(
+                    Icons.filter_list,
+                    color: colorPrimary,
+                  ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25.sp),
@@ -183,40 +189,40 @@ class _ProductSearchViewState extends State<ProductSearchView> {
             ),
           ),
           MediaQuery.removePadding(
-              removeTop: true,
-              context: context,
-              child: Expanded(
-                child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  children: [
-                    Obx(
-                      () {
-                        final filteredProducts = searchController
-                            .filterProductsByPriceAndCategory(
-                          priceRange: searchController.priceRange.value,
-                        );
+            removeTop: true,
+            context: context,
+            child: Expanded(
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                children: [
+                  Obx(
+                    () {
+                      final filteredProducts =
+                          searchController.filterProductsByPriceAndCategory(
+                        priceRange: searchController.priceRange.value,
+                      );
 
-                        if (filteredProducts.isEmpty) {
-                          return CategoryWidget();
-                        }
+                      if (filteredProducts.isEmpty) {
+                        return CategoryWidget();
+                      }
 
-                        return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: filteredProducts.length,
-                          padding: EdgeInsets.fromLTRB(5.sp, 0, 5.sp, 5.sp),
-                          itemBuilder: (context, index) {
-                            return ProductSearchWidget(
-                              product: filteredProducts[index],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                      return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: filteredProducts.length,
+                        padding: EdgeInsets.fromLTRB(5.sp, 0, 5.sp, 5.sp),
+                        itemBuilder: (context, index) {
+                          return ProductSearchWidget(
+                            product: filteredProducts[index],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
+          ),
         ],
       ),
     );

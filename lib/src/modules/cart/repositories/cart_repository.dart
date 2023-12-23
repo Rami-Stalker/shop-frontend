@@ -6,9 +6,7 @@ import '../../../models/cart_model.dart';
 
 class CartRepository {
   final SharedPreferences prefs;
-  CartRepository({
-    required this.prefs,
-});
+  CartRepository(this.prefs);
 
   final cartKey = 'cashe-cart';
   final cartHistoryKey = "cashe-cart-history";
@@ -21,6 +19,7 @@ class CartRepository {
     cart = [];
     for (var element in cartList) {
       element.time = time;
+      element.product?.ratings = [];
       cart.add(jsonEncode(element));
     }
     prefs.setStringList(cartKey, cart);
@@ -28,7 +27,7 @@ class CartRepository {
 
   void addToCartHistoryList() {
     if (prefs.getStringList(cartHistoryKey) != null) {
-      cartHistory = prefs.getStringList(cartHistoryKey)??[];
+      cartHistory = prefs.getStringList(cartHistoryKey) ?? [];
     }
 
     for (int i = 0; i < cart.length; i++) {

@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import '../config/application.dart';
 import '../public/constants.dart';
 
 class UserModel {
   final String id;
-  final String image;
+  final String photo;
   final String blurHash;
   final String name;
   final String email;
@@ -19,7 +18,7 @@ class UserModel {
 
   UserModel({
     required this.id,
-    required this.image,
+    required this.photo,
     required this.blurHash,
     required this.name,
     required this.email,
@@ -35,7 +34,7 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'image': image,
+      'photo': photo,
       'blurHash': blurHash,
       'name': name,
       'email': email,
@@ -52,13 +51,14 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['_id'] ?? '',
-      image: map['image'] == AppConstants.urlImageDefault ||
-              map['image'] == null ||
-              map['image'] == ''
-          ? AppConstants.urlImageDefault
-          : map['image'].toString().contains('http')
-              ? map['image']
-              : (Application.imageUrl + map['image']),
+      photo: map['photo'] == AppConstants.urlImageDefaultPreson ||
+              map['photo'] == null ||
+              map['photo'] == ''
+          ? AppConstants.urlImageDefaultPreson
+          : map['photo'],
+          // map['photo'].toString().contains('http')
+          //     ? map['photo']
+          //     : (Application.imageUrl + map['photo']),
       blurHash: map['blurHash'] ?? '',
       name: map['name'] ?? '',
       email: map['email'] ?? '',
@@ -78,7 +78,7 @@ class UserModel {
 
   UserModel copyWith({
     String? id,
-    String? image,
+    String? photo,
     String? blurHash,
     String? name,
     String? email,
@@ -92,7 +92,7 @@ class UserModel {
   }) {
     return UserModel(
       id: id ?? this.id,
-      image: image ?? this.image,
+      photo: photo ?? this.photo,
       blurHash: blurHash ?? this.blurHash,
       name: name ?? this.name,
       email: email ?? this.email,

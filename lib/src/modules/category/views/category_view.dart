@@ -52,7 +52,7 @@ class CatigoryView extends GetView<CategoryController> {
                           var product = snapshot.data![index];
                           return ProductWidget(
                             onTap: () {
-                              if (AppGet.authGet.userModel!.type == 'admin') {
+                              if (AppGet.authGet.userModel?.type == 'admin') {
                                 AppNavigator.push(
                                   AppRoutes.EDIT_PRODUCT,
                                   arguments: {

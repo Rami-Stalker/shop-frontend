@@ -1,5 +1,6 @@
 import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
+import 'package:shop_app/src/modules/profile/controllers/profile_controller.dart';
 import 'package:shop_app/src/public/components.dart';
 import '../../../core/widgets/app_text_button.dart';
 import '../../../routes/app_pages.dart';
@@ -16,14 +17,9 @@ import '../../../public/constants.dart';
 import '../../auth/controllers/auth_controller.dart';
 import '../widgets/profile_widget.dart';
 
-class ProfileView extends StatefulWidget {
+class ProfileView extends GetView<ProfileController> {
   const ProfileView({super.key});
 
-  @override
-  State<ProfileView> createState() => _ProfileViewState();
-}
-
-class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +67,7 @@ class _ProfileViewState extends State<ProfileView> {
                                   borderRadius: BorderRadius.circular(1000.sp),
                                   child: BlurHash(
                                     hash: authController.userModel!.blurHash,
-                                    image: authController.userModel!.image,
+                                    image: authController.userModel!.photo,
                                     imageFit: BoxFit.cover,
                                     color: colorPrimary,
                                   ),

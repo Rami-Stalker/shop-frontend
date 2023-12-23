@@ -6,9 +6,9 @@ import '../../../resources/base_repository.dart';
 
 class HomeRepository {
   final BaseRepository baseRepository;
-  HomeRepository({
-    required this.baseRepository,
-  });
+  HomeRepository(
+    this.baseRepository,
+  );
 
   Future<diox.Response> fetchProductsTopRest() async {
     return await baseRepository.getRoute(ApiGateway.GET_PRODUCT_TOP_REST);

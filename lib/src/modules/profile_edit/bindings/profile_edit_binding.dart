@@ -7,10 +7,10 @@ class ProfileEditBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ProfileEditRepository>(
-      () => ProfileEditRepository(baseRepository: Get.find()),
+      () => ProfileEditRepository(Get.find()),
     );
     Get.lazyPut<ProfileEditController>(
-      () => ProfileEditController(profileEditRepository: Get.find()),
+      () => ProfileEditController(Get.find()),
     );
   }
 }

@@ -119,29 +119,45 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
                     icon: Icons.clear,
                   ),
                   GetBuilder<ProductDetailsController>(
-                    builder: (controller) => Stack(
+                    builder: (productDetailsController) => Stack(
                       children: [
                         AppIcon(
                           onTap: () {
-                            if (controller.totalItems != 0) {
+                            if (productDetailsController.totalItems != 0) {
                               AppNavigator.push(AppRoutes.CART);
                             }
                           },
                           icon: Icons.shopping_cart_outlined,
                         ),
-                        controller.totalItems != 0
-                            ? Positioned(
-                                right: 0.0,
-                                top: 0.0,
-                                child: CircleAvatar(
-                                  radius: 7.sp,
-                                  backgroundColor: colorPrimary,
-                                  child: Text(
-                                    productDetailsController.totalItems
-                                        .toString(),
+                        productDetailsController.totalItems != 0
+                          ? Positioned(
+                              right: 0.0,
+                              top: 0.0,
+                              child: CircleAvatar(
+                                radius: 8.sp,
+                                child: Text(
+                                  productDetailsController.totalItems
+                                      .toString(),
+                                  style: TextStyle(
+                                    fontSize: 10.sp,
                                   ),
-                                ))
-                            : Container(),
+                                ),
+                              ),
+                            )
+                          : Container(),
+                        // controller.totalItems != 0
+                        //     ? Positioned(
+                        //         right: 0.0,
+                        //         top: 0.0,
+                        //         child: CircleAvatar(
+                        //           radius: 7.sp,
+                        //           backgroundColor: colorPrimary,
+                        //           child: Text(
+                        //             productDetailsController.totalItems
+                        //                 .toString(),
+                        //           ),
+                        //         ))
+                        //     : Container(),
                       ],
                     ),
                   ),
@@ -208,7 +224,7 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
                     oldPrice: product.oldPrice!,
                   ),
                   SizedBox(height: 20.sp),
-                  AppText('Introduce'),
+                  AppText('introduce'.tr),
                   SizedBox(
                     height: 20.sp,
                   ),
@@ -311,7 +327,7 @@ class _ProductDetailsRatingViewState extends State<ProductDetailsRatingView> {
                       ),
                     ),
                     AppTextButton(
-                      txt: 'Add to Cart',
+                      txt: 'add_to_cart'.tr,
                       onTap: () => productDetailsController.addItem(product),
                     ),
                   ],

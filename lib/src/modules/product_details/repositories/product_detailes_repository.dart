@@ -5,9 +5,7 @@ import '../../../resources/base_repository.dart';
 
 class ProductDetailsRepository {
   final BaseRepository baseRepository;
-  ProductDetailsRepository({
-    required this.baseRepository,
-  });
+  ProductDetailsRepository(this.baseRepository);
 
   Future<diox.Response> rateProduct({
     required String productId,

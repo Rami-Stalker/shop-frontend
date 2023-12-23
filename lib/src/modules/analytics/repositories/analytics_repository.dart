@@ -6,9 +6,9 @@ import '../../../public/api_gateway.dart';
 
 class AnalyticsRepository extends GetConnect {
   final BaseRepository baseRepository;
-  AnalyticsRepository({
-    required this.baseRepository,
-  });
+  AnalyticsRepository(
+      this.baseRepository,
+  );
 
   Future<diox.Response> fetchEarnings() async {
     return await baseRepository.getRoute(ApiGateway.GET_EARNINGS);

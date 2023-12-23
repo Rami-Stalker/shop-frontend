@@ -11,29 +11,26 @@ import '../../../public/constants.dart';
 class CategoryController extends GetxController implements GetxService {
   final CategoryRepository categoryRepository;
   final NetworkInfo networkInfo;
-  CategoryController({
-    required this.categoryRepository,
-    required this.networkInfo,
-  });
+  CategoryController(this.categoryRepository, this.networkInfo);
 
   Future<List<ProductModel>?> fetchCategoryProduct({
     required String category,
   }) async {
     try {
       List<ProductModel>? productCategory = [];
-    
-    diox.Response response =
-        await categoryRepository.fetchCategoryProduct(category: category);
 
-    AppConstants.handleApi(
-      response: response,
-      onSuccess: () {
-        List rawData = response.data;
-            productCategory =
-                rawData.map((e) => ProductModel.fromMap(e)).toList();
-      },
-    );
-    return productCategory;
+      diox.Response response =
+          await categoryRepository.fetchCategoryProduct(category: category);
+
+      AppConstants.handleApi(
+        response: response,
+        onSuccess: () {
+          List rawData = response.data;
+          productCategory =
+              rawData.map((e) => ProductModel.fromMap(e)).toList();
+        },
+      );
+      return productCategory;
     } catch (e) {
       Components.showSnackBar(title: "Category", e.toString());
       return [];

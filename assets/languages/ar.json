@@ -1,15 +1,63 @@
 {
-    "select_language": "اختر لغة",
-    "save": "حفظ",
-    "you_can_change_language": "بامكانك تغيير اللغة",
-    "select_a_language": "اختر اللغة",
-    "home": "البيت",
-    "back_to_home": "العودة الى البيت",
-    
+    "login": "سجل الدخول",
+    "do_you_want_login": "ينبغي عليك تسجيل الدخول لتكمل \n هل تريد تسجيل الدخول ؟",
+
+    "top_rest": "أفضل المطاعم",
+    "ordered_by_nearby_first": "تم طلبه من مكان قريب",
+    "most_popular": "الأكثر شعبية",
+    "most_Recent": "الأحدث",
+    "be_first_do": "كن أول من يفعل ذلك",
+
+    "menu": "قائمة الطعام",
+    "drinks": "مشروبات",
+    "breakfast": "إفطار",
+    "wraps": "ملفوفات",
+    "brunch": "غداء",
+    "burgers": "البرغر",
+    "french_toast": "خبز محمص",
+    "sides": "حواضر",
+    "toasted_paninis": "البانيني المحمص",
+
+    "orders": "الطلبات",
+    "total": "المجموع:",
+    "details": "التفاصيل",
+    "completed": "مكتمل",
+    "orders_empty": "قائمة الطلبات فارغة !",
+
+    "cart_history": "السلات المأرشفة",
+    "items": "العناصر:",
+    "one_more": "زيادة واحد",
+    "cart_history_empty": "قائمة السلات المأرشفة فارغة !",
+
+    "introduce": "المقدمة",
+    "add_to_cart": "إضافة إلى السلة",
+    "show_more": "عرض المزيد",
+    "show_less": "عرض أقل",
+
+    "modi_info": "تعديل المعلومات الشخصية",
+    "delivery_address": "موقع الطلب",
+    "delivery_name": "اسم صاحب الطلب",
+    "delivery_phone": "هاتف صاحب الطلب",
+    "save_modi": "حفظ المتغيرات",
+
+    "settings": "الإعدادات",
+    "search_desired_food": "ابحث عن أكلك المفضل",
     "about": "حول",
     "edit": "تعديل",
     "full_name": "الإسم كامل",
     "email": "الإيميل",
     "phone": "رقم الهاتف",
-    "address": "العنوان"
+    "address": "العنوان",
+    "payments_settings": "إعدادات الدفع",
+    "settings_settings": "إعدادات عامة",
+    "language": "اللغة",
+    "lan": "العربية",
+    "theme": "السمة",
+
+    "select_language": "اختر لغة",
+    "save": "حفظ",
+    "you_can_change_language": "بامكانك تغيير اللغة",
+    "select_a_language": "اختر اللغة",
+    "home": "البيت",
+    "back_to_home": "العودة الى البيت"
 }

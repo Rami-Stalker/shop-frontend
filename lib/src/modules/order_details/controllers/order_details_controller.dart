@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as diox;
-import 'package:shop_app/src/modules/navigator/views/navigation_view.dart';
+import 'package:shop_app/src/routes/app_pages.dart';
 
-import '../repositories.dart/order_details_repository.dart';
+import '../repositories/order_details_repository.dart';
 import '../../../services/socket/socket_emit.dart';
 
 import '../../../models/order_model.dart';
@@ -11,9 +11,9 @@ import '../../../public/constants.dart';
 
 class OrderDetailsController extends GetxController {
   final OrderDetailsRepository orderDetailsRepository;
-  OrderDetailsController({
-    required this.orderDetailsRepository,
-  });
+  OrderDetailsController(
+    this.orderDetailsRepository
+  );
 
   int currentStep = 0;
 
@@ -39,7 +39,7 @@ class OrderDetailsController extends GetxController {
       AppConstants.handleApi(
         response: response,
         onSuccess: () {
-          Get.to(Navigation(initialIndex: 2));
+          AppNavigator.popUntil(AppRoutes.NAVIGATION);
           update();
         },
       );

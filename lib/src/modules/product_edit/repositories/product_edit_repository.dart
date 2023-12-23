@@ -8,9 +8,7 @@ import '../../../models/product_model.dart';
 
 class ProductEditRepository extends GetConnect {
   final BaseRepository baseRepository;
-  ProductEditRepository({
-    required this.baseRepository,
-  });
+  ProductEditRepository(this.baseRepository);
 
   Future<diox.Response> deleteProduct({
     required ProductModel product,

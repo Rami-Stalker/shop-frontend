@@ -14,41 +14,19 @@ import '../../../core/widgets/custom_loader.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
 
-class LoginView extends StatefulWidget {
-  final VoidCallback? toggleView;
-
-  LoginView({this.toggleView});
-
-  @override
-  State<LoginView> createState() => _LoginViewState();
-}
-
-class _LoginViewState extends State<LoginView> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+class LoginView extends GetView<AuthController> {
+  const LoginView();
 
   @override
   Widget build(BuildContext context) {
     void _login(AuthController authController) async {
-      String email = _emailController.text.trim();
-      String password = _passwordController.text.trim();
+      String phone = controller.phoneLC.text.trim();
+      String password = controller.passwordLC.text.trim();
 
-      if (email.isEmpty) {
+      if (phone.isEmpty) {
         Components.showSnackBar(
-          'Type in your email address',
-          title: 'Email address',
-        );
-      } else if (!GetUtils.isEmail(email)) {
-        Components.showSnackBar(
-          'Type in a valid email address',
-          title: 'Valid email address',
+          'Type in your phone',
+          title: 'Phone',
         );
       } else if (password.isEmpty) {
         Components.showSnackBar(
@@ -61,7 +39,7 @@ class _LoginViewState extends State<LoginView> {
           title: 'password',
         );
       } else {
-        authController.login(email, password);
+        authController.login(phone, password);
       }
     }
 
@@ -94,29 +72,31 @@ class _LoginViewState extends State<LoginView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Text(
-                          //   loginHello.i18n,
-                          //   style: Theme.of(context).textTheme.displayMedium,
-                          // ),
-                          // Text(
-                          //   loginDis.i18n,
-                          //   style: Theme.of(context)
-                          //       .textTheme
-                          //       .titleLarge!
-                          //       .copyWith(color: fCL),
-                          // ),
+                          Text(
+                            "Hello",
+                            // loginHello.i18n,
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
+                          Text(
+                            "Welcom we are happy to have you back",
+                            // loginDis.i18n,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(color: fCL),
+                          ),
                         ],
                       ),
                     ),
                     SizedBox(height: 40.sp),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                      child: //email
+                      child: //phone
                           AppTextField(
-                        keyboardType: TextInputType.emailAddress,
-                        textController: _emailController,
-                        hintText: 'email',
-                        icon: Icons.email,
+                        keyboardType: TextInputType.number,
+                        textController: controller.phoneLC,
+                        hintText: 'phone',
+                        icon: Icons.phone,
                       ),
                     ),
                     SizedBox(height: 10.sp),
@@ -126,7 +106,7 @@ class _LoginViewState extends State<LoginView> {
                       child: GetBuilder<AuthController>(
                           builder: (loginController) {
                         return AppTextField(
-                          textController: _passwordController,
+                          textController: controller.passwordLC,
                           hintText: 'password',
                           icon: Icons.password,
                           isObscure: loginController.isObscure,
@@ -186,7 +166,8 @@ class _LoginViewState extends State<LoginView> {
                         children: [
                           TextSpan(
                             recognizer: TapGestureRecognizer()
-                              ..onTap = () => AppNavigator.replaceWith(AppRoutes.REGISTER),
+                              ..onTap = () =>
+                                  AppNavigator.push(AppRoutes.REGISTER),
                             text: 'Register',
                             style: Theme.of(context)
                                 .textTheme

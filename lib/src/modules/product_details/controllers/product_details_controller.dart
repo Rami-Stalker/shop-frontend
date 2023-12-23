@@ -15,9 +15,7 @@ import '../../../models/product_model.dart';
 
 class ProductDetailsController extends GetxController implements GetxService {
   final ProductDetailsRepository productDetailsRepository;
-  ProductDetailsController({
-    required this.productDetailsRepository,
-  });
+  ProductDetailsController(this.productDetailsRepository);
 
   final _getStorage = GetStorage();
   final myRatingKey = 'myRating';
@@ -31,8 +29,8 @@ class ProductDetailsController extends GetxController implements GetxService {
     _getStorage.write(myRatingKey, myRating);
 
     for (int i = 0; i < ratings.length; i++) {
-        if (ratings[i].userId == UserLocal().getUserId()) {
-          ratings[i].rating = myRating;
+      if (ratings[i].userId == UserLocal().getUserId()) {
+        ratings[i].rating = myRating;
       }
     }
     update();
@@ -45,11 +43,6 @@ class ProductDetailsController extends GetxController implements GetxService {
   void clearMyRating() {
     _getStorage.remove(myRatingKey);
   }
-
-  
-  // Rx<double> myRating = 0.0.obs;
-  
-
 
   final Rx<int> _quantity = 0.obs;
   Rx<int> get quantity => _quantity;
@@ -118,14 +111,15 @@ class ProductDetailsController extends GetxController implements GetxService {
     return _cart.totalItems;
   }
 
-    setFavorite() {
+  setFavorite() {
     isFavorite.value = !isFavorite.value;
     update();
   }
 
   void changeMealFavorite(String mealId) async {
     try {
-      diox.Response response = await Get.find<HomeRepository>().changeMealFavorite(mealId);
+      diox.Response response =
+          await Get.find<HomeRepository>().changeMealFavorite(mealId);
 
       AppConstants.handleApi(
         response: response,

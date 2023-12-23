@@ -6,7 +6,7 @@ class HomeAdminBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<HomeAdminController>(
-      () => HomeAdminController(adminRepository: Get.find()),
+      () => HomeAdminController(Get.find()),
     );
   }
 }

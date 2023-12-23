@@ -1,6 +1,7 @@
+import 'dart:io';
 
 import 'package:shop_app/src/modules/auth/controllers/auth_controller.dart';
-import '../../../public/constants.dart';
+import 'package:shop_app/src/public/constants.dart';
 import '../../../routes/app_pages.dart';
 import '../../../themes/app_colors.dart';
 import '../../../utils/sizer_custom/sizer.dart';
@@ -13,105 +14,116 @@ import 'package:get/get.dart';
 
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/custom_loader.dart';
-import 'package:country_picker/country_picker.dart';
-import 'package:quiver/async.dart';
 
 import '../../../themes/app_decorations.dart';
 
-class RegisterView extends StatefulWidget {
-  final VoidCallback? toggleView;
+class RegisterView extends GetView<AuthController> {
+  const RegisterView();
 
-  RegisterView({this.toggleView});
+  buildBottomsheet(AuthController authController) => Get.bottomSheet(
+        SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(15.sp),
+              ),
+              color: Get.isDarkMode ? colorBlack : mCL,
+            ),
+            padding: const EdgeInsetsDirectional.only(
+              top: 4,
+            ),
+            width: SizerUtil.width,
+            height: 130.sp,
+            child: Column(
+              children: [
+                Flexible(
+                  child: Container(
+                    height: 6,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        20.sp,
+                      ),
+                      color:
+                          Get.isDarkMode ? Colors.grey[600] : Colors.grey[300],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10.sp),
+                Components.buildbottomsheet(
+                  icon: Icon(
+                    Icons.camera_alt,
+                    color: colorBlack,
+                  ),
+                  label: "Select Image From camera",
+                  ontap: () => authController.selectImageFromCamera(),
+                ),
+                Components.buildbottomsheet(
+                  icon: Icon(
+                    Icons.photo_library,
+                    color: colorBlack,
+                  ),
+                  label: "Select Image From Gallery",
+                  ontap: () => authController.selectImageFromGallery(),
+                ),
+              ],
+            ),
+          ),
+        ),
+        elevation: 0.4,
+      );
 
-  @override
-  State<RegisterView> createState() => _RegisterViewState();
-}
-
-class _RegisterViewState extends State<RegisterView> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _codeOtpController = TextEditingController();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _nameController.dispose();
-    _phoneController.dispose();
-    _codeOtpController.dispose();
-    super.dispose();
-  }
-
-  Country? countryCode;
-
-  void _pickCountry() {
-    showCountryPicker(
-      context: context,
-      showPhoneCode: true,
-      countryListTheme: CountryListThemeData(
-        bottomSheetHeight: SizerUtil.height - 300,
-      ),
-      onSelect: (Country _country) {
-        setState(() {
-          countryCode = _country;
-        });
-      },
-    );
-  }
-
-  int _start = 28;
-  int _current = 10;
-  bool isOnData = false;
-
-  void startTimer() {
-    CountdownTimer countDownTimer = new CountdownTimer(
-      new Duration(seconds: _start),
-      new Duration(seconds: 1),
-    );
-
-    var sub = countDownTimer.listen(null);
-    sub.onData((duration) {
-      setState(() {
-        _current = _start - duration.elapsed.inSeconds;
-        isOnData = true;
+  Widget buildProfileImage() =>
+      GetBuilder<AuthController>(builder: (authController) {
+        return GestureDetector(
+          onTap: () => buildBottomsheet(authController),
+          child: Stack(
+            children: [
+              CircleAvatar(
+                radius: 70.sp,
+                backgroundColor: mCL,
+                child: authController.photoFile != null
+                    ? CircleAvatar(
+                        radius: 68.sp,
+                        backgroundColor: fCD,
+                        backgroundImage: FileImage(
+                          authController.photoFile!,
+                        ),
+                      )
+                    : CircleAvatar(
+                        radius: 68.sp,
+                        backgroundColor: fCD,
+                        backgroundImage: NetworkImage(
+                          AppConstants.urlImageDefaultPreson,
+                        ),
+                      ),
+              ),
+              Positioned(
+                bottom: 0.0,
+                right: 0.0,
+                child: CircleAvatar(
+                  radius: 20.sp,
+                  backgroundColor: mCL,
+                  child: CircleAvatar(
+                    radius: 18.sp,
+                    backgroundColor: mCH,
+                    child: const Icon(Icons.camera_alt),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
       });
-    });
-
-    sub.onDone(() {
-      print("Done");
-      _current = 28;
-      isOnData = false;
-      sub.cancel();
-    });
-  }
-
-  void _sendCode(AuthController authController) {
-    String phoneNumber = _phoneController.text.trim();
-
-    if (!isOnData) {
-      if (phoneNumber.isNotEmpty) {
-        startTimer();
-        authController.sendOtP(
-          phoneCode: countryCode!.phoneCode,
-          phoneNumber: '${_phoneController.text.trim()}',
-        );
-      } else {
-        Components.showSnackBar(
-          'Type your number until sent to you code OTP',
-          title: 'Code OTP',
-        );
-      }
-    }
-  }
 
   void _registration(AuthController authController) {
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
-    String name = _nameController.text.trim();
-    String phoneNumber = _phoneController.text.trim();
-    String codeOTP = _codeOtpController.text.trim();
+    String email = controller.emailRC.text.trim();
+    String password = controller.passwordRC.text.trim();
+    String name = controller.nameRC.text.trim();
+    String phoneNumber = controller.phoneRC.text.trim();
+    String codeOTP = controller.codeOtpRC.text.trim();
+    String phoneCode = authController.countryCode!.phoneCode;
+    File? photo = authController.photoFile;
 
     if (email.isEmpty) {
       Components.showSnackBar(
@@ -150,10 +162,11 @@ class _RegisterViewState extends State<RegisterView> {
       );
     } else {
       authController.register(
+        photo: photo,
         name: name,
         email: email,
         password: password,
-        phoneCode: countryCode!.phoneCode,
+        phoneCode: phoneCode,
         phoneNumber: phoneNumber,
         codeOTP: codeOTP,
       );
@@ -164,280 +177,269 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GetBuilder<AuthController>(
-        builder: (authController) => !authController.isLoading
-            ? SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    SizedBox(height: 30.sp),
-                    //app logo
-                    SizedBox(
-                      height: 120.sp,
-                      width: 100.sp,
-                      child: Container(
-                        height: 95.sp,
-                        width: 95.sp,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(1000.sp),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: colorPrimary,
-                                width: 1.5.sp,
-                              ),
-                              image: DecorationImage(
-                                image: NetworkImage(AppConstants.urlImageDefault),
-                                fit: BoxFit.contain,
-                              ),
+        builder: (authController) {
+          return !authController.isLoading
+              ? SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 30.sp),
+                      buildProfileImage(),
+                      SizedBox(height: 30.sp),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                        child: Column(
+                          children: [
+                            //name
+                            AppTextField(
+                              textController: controller.nameRC,
+                              hintText: 'name',
+                              icon: Icons.person,
                             ),
-                          ),
+                            SizedBox(height: 10.sp),
+                            //email
+                            AppTextField(
+                              keyboardType: TextInputType.emailAddress,
+                              textController: controller.emailRC,
+                              hintText: 'email',
+                              icon: Icons.email,
+                            ),
+                            SizedBox(height: 10.sp),
+
+                            //password
+                            GetBuilder<AuthController>(
+                                builder: (authController) {
+                              return AppTextField(
+                                textController: controller.passwordRC,
+                                hintText: 'password',
+                                icon: Icons.password,
+                                isObscure: authController.isObscure,
+                                suffixIcon: InkWell(
+                                  onTap: () {
+                                    authController.changeObsure();
+                                  },
+                                  child: Icon(
+                                    authController.isObscure
+                                        ? Icons.visibility_outlined
+                                        : Icons.visibility_off_outlined,
+                                    color: colorPrimary,
+                                  ),
+                                ),
+                              );
+                            }),
+                            SizedBox(height: 10.sp),
+
+                            //phone
+                            Row(
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: GetBuilder<AuthController>(
+                                        builder: (authController) {
+                                      return _containerWidget(
+                                        context: context,
+                                        isRight: false,
+                                        isLeft: true,
+                                        child: TextField(
+                                          onTap: () => authController
+                                              .pickCountry(context),
+                                          readOnly: true,
+                                          cursorColor: colorPrimary,
+                                          decoration: InputDecoration(
+                                            hintText:
+                                                '+ ${authController.countryCode != null ? authController.countryCode!.phoneCode : "1"}',
+                                            hintStyle: TextStyle(fontSize: 12),
+                                            prefixIcon: Icon(
+                                              Icons.phone,
+                                              color: colorBranch,
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide.none,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    })),
+                                Expanded(
+                                  flex: 3,
+                                  child: _containerWidget(
+                                    context: context,
+                                    isRight: true,
+                                    isLeft: false,
+                                    child: TextField(
+                                      keyboardType: TextInputType.number,
+                                      controller: controller.phoneRC,
+                                      cursorColor: colorBranch,
+                                      decoration: InputDecoration(
+                                        hintText: "phone",
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10.sp),
+                            //verify phone number
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 4,
+                                  child: _containerWidget(
+                                    context: context,
+                                    isRight: false,
+                                    isLeft: true,
+                                    child: TextField(
+                                      keyboardType: TextInputType.number,
+                                      controller: controller.codeOtpRC,
+                                      cursorColor: colorBranch,
+                                      decoration: InputDecoration(
+                                        hintText: "verification code",
+                                        prefixIcon: Icon(
+                                          Icons.timer_sharp,
+                                          color: colorBranch,
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: GetBuilder<AuthController>(
+                                      builder: (authController) {
+                                    return _containerWidget(
+                                      context: context,
+                                      isRight: true,
+                                      isLeft: false,
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        readOnly: true,
+                                        onTap: () => authController.sendCode(),
+                                        decoration: InputDecoration(
+                                          prefixIcon: Padding(
+                                            padding: EdgeInsets.only(
+                                              left: 15.sp,
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                !authController.isOnData
+                                                    ? Expanded(
+                                                        child: Text(
+                                                          "send code",
+                                                          style: TextStyle(
+                                                            color: authController
+                                                                    .isOnData
+                                                                ? Colors.grey
+                                                                : Colors.red,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 13.sp,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Container(),
+                                                SizedBox(width: 10.sp),
+                                                authController.isOnData
+                                                    ? Text(
+                                                        "${authController.current} s",
+                                                        style: TextStyle(
+                                                          color: Colors.red,
+                                                          fontSize: 13,
+                                                        ),
+                                                      )
+                                                    : Container(),
+                                              ],
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide.none,
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide.none,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    SizedBox(height: 30.sp),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.sp),
-                      child: Column(
-                        children: [
-                          //name
-                          AppTextField(
-                            textController: _nameController,
-                            hintText: 'name',
-                            icon: Icons.person,
-                          ),
-                          SizedBox(height: 10.sp),
-                          //email
-                          AppTextField(
-                            keyboardType: TextInputType.emailAddress,
-                            textController: _emailController,
-                            hintText: 'email',
-                            icon: Icons.email,
-                          ),
-                          SizedBox(height: 10.sp),
+                      SizedBox(height: 20.sp),
 
-                          //password
-                          GetBuilder<AuthController>(builder: (authController) {
-                            return AppTextField(
-                              textController: _passwordController,
-                              hintText: 'password',
-                              icon: Icons.password,
-                              isObscure: authController.isObscure,
-                              suffixIcon: InkWell(
-                                onTap: () {
-                                  authController.changeObsure();
-                                },
-                                child: Icon(
-                                  authController.isObscure
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
-                                  color: colorPrimary,
-                                ),
-                              ),
-                            );
-                          }),
-                          SizedBox(height: 10.sp),
+                      GetBuilder<AuthController>(builder: (authController) {
+                        return AppTextButton(
+                          txt: 'register',
+                          onTap: () => _registration(authController),
+                        );
+                      }),
 
-                          //phone
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: _containerWidget(
-                                  isRight: false,
-                                  isLeft: true,
-                                  child: TextField(
-                                    onTap: _pickCountry,
-                                    readOnly: true,
-                                    cursorColor: colorPrimary,
-                                    decoration: InputDecoration(
-                                      hintText:
-                                          '+ ${countryCode != null ? countryCode!.phoneCode : "1"}',
-                                      hintStyle: TextStyle(fontSize: 12),
-                                      prefixIcon: Icon(
-                                        Icons.phone,
-                                        color: colorBranch,
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: _containerWidget(
-                                  isRight: true,
-                                  isLeft: false,
-                                  child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    controller: _phoneController,
-                                    cursorColor: colorBranch,
-                                    decoration: InputDecoration(
-                                      hintText: "phone",
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10.sp),
-
-                          //verify phone number
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: _containerWidget(
-                                  isRight: false,
-                                  isLeft: true,
-                                  child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    controller: _codeOtpController,
-                                    cursorColor: colorBranch,
-                                    decoration: InputDecoration(
-                                      hintText: "verification code",
-                                      prefixIcon: Icon(
-                                        Icons.timer_sharp,
-                                        color: colorBranch,
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: _containerWidget(
-                                  isRight: true,
-                                  isLeft: false,
-                                  child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    readOnly: true,
-                                    onTap: () => _sendCode(authController),
-                                    decoration: InputDecoration(
-                                      prefixIcon: Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 15.sp,
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            !isOnData
-                                                ? Expanded(
-                                                    child: Text(
-                                                      "send code",
-                                                      style: TextStyle(
-                                                        color: isOnData
-                                                            ? Colors.grey
-                                                            : Colors.red,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 13.sp,
-                                                      ),
-                                                    ),
-                                                  )
-                                                : Container(),
-                                            SizedBox(width: 10.sp),
-                                            isOnData
-                                                ? Text(
-                                                    "$_current s",
-                                                    style: TextStyle(
-                                                      color: Colors.red,
-                                                      fontSize: 13,
-                                                    ),
-                                                  )
-                                                : Container(),
-                                          ],
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                      SizedBox(
+                        height: 10.sp,
                       ),
-                    ),
-                    SizedBox(height: 20.sp),
-
-                    AppTextButton(
-                      txt: 'register',
-                      onTap: () => _registration(authController),
-                    ),
-
-                    SizedBox(
-                      height: 10.sp,
-                    ),
-                    //tag line
-                    RichText(
-                      text: TextSpan(
-                        text: 'Have an account already ',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(color: fCL),
-                        children: [
-                          TextSpan(
-                            recognizer: TapGestureRecognizer()
-                              ..onTap =
-                                  () => AppNavigator.replaceWith(AppRoutes.LOGIN),
-                            text: 'Login',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(color: colorPrimary),
-                          ),
-                        ],
+                      //tag line
+                      RichText(
+                        text: TextSpan(
+                          text: 'Have an account already ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(color: fCL),
+                          children: [
+                            TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () =>
+                                    AppNavigator.replaceWith(AppRoutes.LOGIN),
+                              text: 'Login',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(color: colorPrimary),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: SizerUtil.height * 0.05,
-                    ),
-                    //sign up options
-                    RichText(
-                      text: TextSpan(
-                        text: 'Sign up using one of the following methods',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(color: fCL),
+                      SizedBox(
+                        height: SizerUtil.height * 0.05,
                       ),
-                    ),
-                  ],
-                ),
-              )
-            : const CustomLoader(),
+                      //sign up options
+                      RichText(
+                        text: TextSpan(
+                          text: 'Sign up using one of the following methods',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(color: fCL),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : const CustomLoader();
+        },
       ),
     );
   }
 
   Container _containerWidget({
+    required BuildContext context,
     required bool isRight,
     required bool isLeft,
     required Widget child,

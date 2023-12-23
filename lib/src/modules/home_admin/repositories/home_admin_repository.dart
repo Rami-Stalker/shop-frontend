@@ -7,9 +7,9 @@ import '../../../models/product_model.dart';
 
 class HomeAdminRepository extends GetConnect {
   final BaseRepository baseRepository;
-  HomeAdminRepository({
-    required this.baseRepository,
-  });
+  HomeAdminRepository(
+    this.baseRepository,
+  );
 
   Future<diox.Response> fetchAllProducts() async {
     return await baseRepository.getRoute(ApiGateway.GET_PRODUCTS);

@@ -10,9 +10,9 @@ import '../repositories/analytics_repository.dart';
 
 class AnalyticsController extends GetxController implements GetxService {
   final AnalyticsRepository analyticsRepository;
-  AnalyticsController({
-    required this.analyticsRepository,
-  });
+  AnalyticsController(
+    this.analyticsRepository,
+  );
 
   Future<Map<String, dynamic>> fetchEarnings() async {
     List<Sales> sales = [];

@@ -7,9 +7,7 @@ import '../../../public/api_gateway.dart';
 
 class ProductAddRepository extends GetConnect {
   final BaseRepository baseRepository;
-  ProductAddRepository({
-    required this.baseRepository,
-  });
+  ProductAddRepository(this.baseRepository);
 
   Future<diox.Response> addProduct({
     required ProductModel product,

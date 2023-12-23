@@ -1,15 +1,63 @@
 {
-    "select_language": "Select Language",
-    "save": "Save",
-    "you_can_change_language": "You can change your language",
-    "select_a_language": "Select a language",
-    "home": "Home",
-    "back_to_home": "back to home",
-    
+    "login": "Login",
+    "do_you_want_login": "You should Sign in to complete \n do you want Sign in ?",
+
+    "top_rest": "Top Restaurants",
+    "ordered_by_nearby_first": "Ordered by nearby first",
+    "most_popular": "Most Popular",
+    "most_Recent": "Most Recent",
+    "be_first_do": "Be the first to do so",
+
+    "menu": "Menu",
+    "drinks": "Drinks",
+    "breakfast": "Breakfast",
+    "wraps": "Wraps",
+    "brunch": "Brunch",
+    "burgers": "Burgers",
+    "french_toast": "French Toast",
+    "sides": "Sides",
+    "toasted_paninis": "Toasted Paninis",
+
+    "orders": "Orders",
+    "total": "total:",
+    "details": "Details",
+    "completed": "Completed",
+    "orders_empty": "Orders List is empty !",
+
+    "cart_history": "Cart History",
+    "items": "items:",
+    "one_more": "one more",
+    "cart_history_empty": "Cart history List is empty !",
+
+    "introduce": "Introduce",
+    "add_to_cart": "add to cart",
+    "show_more": "show more",
+    "show_less": "show less",
+
+    "modi_info": "Modify Info",
+    "delivery_address": "Delivery Address",
+    "delivery_name": "Delivery Name",
+    "delivery_phone": "Delivery Phone",
+    "save_modi": "Save Modifications",
+
+    "settings": "Settings",
+    "search_desired_food": "Search your desired food",
     "about": "About",
     "edit": "Edit",
     "full_name": "Full name",
     "email": "Email",
     "phone": "Phone",
-    "address": "Address"
+    "address": "Address",
+    "payments_settings": "Payments Settings",
+    "settings_settings": "Settings Settings",
+    "language": "Language",
+    "lan": "English",
+    "theme": "Theme",
+
+    "select_language": "Select Language",
+    "save": "Save",
+    "you_can_change_language": "You can change your language",
+    "select_a_language": "Select a language",
+    "home": "Home",
+    "back_to_home": "back to home"
 }

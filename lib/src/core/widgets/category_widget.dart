@@ -1,4 +1,3 @@
-
 import '../../modules/home/controllers/home_controller.dart';
 import '../../routes/app_pages.dart';
 import '../../utils/sizer_custom/sizer.dart';
@@ -25,9 +24,7 @@ class CategoryWidget extends GetView<HomeController> {
           onTap: () {
             AppNavigator.push(
               AppRoutes.CATEGORY_PRODUCT,
-              arguments: {
-                'title': AppConstants.categoryImages[index]['title']!,
-              },
+              arguments: AppConstants.categoryImages[index]['title']!,
             );
           },
           child: Column(

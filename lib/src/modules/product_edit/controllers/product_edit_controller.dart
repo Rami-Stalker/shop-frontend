@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 
 import '../../../public/components.dart';
 import 'package:get/get.dart';
@@ -12,9 +13,47 @@ import '../repositories/product_edit_repository.dart';
 
 class ProductEditController extends GetxController implements GetxService {
   final ProductEditRepository editProductRepository;
-  ProductEditController({
-    required this.editProductRepository,
-  });
+  ProductEditController(this.editProductRepository);
+
+  late TextEditingController productNameController;
+  late TextEditingController descreptionController;
+  late TextEditingController priceController;
+  late TextEditingController discountController;
+  late TextEditingController quantityController;
+  late TextEditingController timeController;
+
+  double currPageValue = 0;
+  PageController pageController = PageController();
+  final double height = 340;
+  final double scaleFactor = 0.8;
+
+  ProductModel product = Get.arguments['product'];
+
+  @override
+  void onInit() {
+    productNameController = TextEditingController(text: product.name);
+    descreptionController = TextEditingController(text: product.description);
+    priceController = TextEditingController(text: product.price.toString());
+    discountController = TextEditingController(text: product.discount.toString());
+    quantityController = TextEditingController(text: product.quantity.toString());
+    timeController = TextEditingController(text: product.time.toString());
+
+    pageController.addListener(() {
+        currPageValue = pageController.page!;
+        update();
+    });
+    super.onInit();
+  }
+
+  @override
+  void dispose() {
+    productNameController.dispose();
+    descreptionController.dispose();
+    priceController.dispose();
+    discountController.dispose();
+    quantityController.dispose();
+    super.dispose();
+  }
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -23,12 +62,13 @@ class ProductEditController extends GetxController implements GetxService {
     required ProductModel product,
   }) async {
     try {
-      diox.Response response = await editProductRepository.deleteProduct(product: product);
+      diox.Response response =
+          await editProductRepository.deleteProduct(product: product);
 
       AppConstants.handleApi(
         response: response,
         onSuccess: () {
-          AppNavigator.popUntil(AppRoutes.NAVIGATION);
+          AppNavigator.replaceWith(AppRoutes.NAVIGATION);
           update();
         },
       );
@@ -62,7 +102,7 @@ class ProductEditController extends GetxController implements GetxService {
             title: 'Product Edited',
             color: colorPrimary,
           );
-          AppNavigator.popUntil(AppRoutes.NAVIGATION);
+          AppNavigator.replaceWith(AppRoutes.NAVIGATION);
           update();
         },
       );

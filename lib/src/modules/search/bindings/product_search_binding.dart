@@ -7,10 +7,10 @@ class ProductSearchBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ProductSearchRepository>(
-      () => ProductSearchRepository(baseRepository: Get.find()),
+      () => ProductSearchRepository(Get.find()),
     );
     Get.lazyPut<ProductSearchController>(
-      () => ProductSearchController(searchRepository: Get.find()),
+      () => ProductSearchController(Get.find()),
     );
   }
 }

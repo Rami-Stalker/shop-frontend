@@ -6,10 +6,10 @@ class NotificationBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<NotificationRepository>(
-      () => NotificationRepository(baseRepository: Get.find()),
+      () => NotificationRepository(Get.find()),
     );
     Get.lazyPut<NotificationController>(
-      () => NotificationController(notificationRepository: Get.find()),
+      () => NotificationController(Get.find()),
     );
   }
 }

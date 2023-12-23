@@ -6,10 +6,10 @@ class ProductEditBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ProductEditRepository>(
-      () => ProductEditRepository(baseRepository: Get.find()),
+      () => ProductEditRepository(Get.find()),
     );
     Get.lazyPut<ProductEditController>(
-      () => ProductEditController(editProductRepository: Get.find()),
+      () => ProductEditController(Get.find()),
     );
   }
 }

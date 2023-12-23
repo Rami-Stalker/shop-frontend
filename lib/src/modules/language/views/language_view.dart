@@ -7,12 +7,15 @@ import 'package:shop_app/src/public/constants.dart';
 import 'package:shop_app/src/themes/app_colors.dart';
 import 'package:shop_app/src/themes/font_family.dart';
 
+import '../../../public/components.dart';
+
 class LanguageView extends StatelessWidget {
   const LanguageView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: Components.customAppBar(context, "Language"),
       body: SafeArea(
         child: GetBuilder<LocalizationController>(
             builder: (localizationController) {

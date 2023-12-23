@@ -9,9 +9,9 @@ import '../repositories/home_admin_repository.dart';
 
 class HomeAdminController extends GetxController implements GetxService {
   final HomeAdminRepository adminRepository;
-  HomeAdminController({
-    required this.adminRepository,
-  });
+  HomeAdminController(
+    this.adminRepository,
+  );
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -21,14 +21,13 @@ class HomeAdminController extends GetxController implements GetxService {
     try {
       diox.Response response = await adminRepository.fetchAllProducts();
 
-    AppConstants.handleApi(
-      response: response,
-      onSuccess: () {
-        List rawData = response.data;
-            products =
-                rawData.map((e) => ProductModel.fromMap(e)).toList();
-      },
-    );
+      AppConstants.handleApi(
+        response: response,
+        onSuccess: () {
+          List rawData = response.data;
+          products = rawData.map((e) => ProductModel.fromMap(e)).toList();
+        },
+      );
     } catch (e) {
       Components.showSnackBar(e.toString());
     }

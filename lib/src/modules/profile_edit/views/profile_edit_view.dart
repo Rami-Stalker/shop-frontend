@@ -1,9 +1,6 @@
-import 'dart:async';
-
-import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/core/widgets/custom_button.dart';
-import 'package:shop_app/src/models/user_model.dart';
+import 'package:shop_app/src/core/widgets/custom_loader.dart';
 
 import '../../../routes/app_pages.dart';
 import '../controllers/profile_edit_controller.dart';
@@ -11,84 +8,47 @@ import '../../../utils/sizer_custom/sizer.dart';
 
 import '../../../public/components.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../core/widgets/app_text_field.dart';
 import '../../../themes/app_colors.dart';
-import '../../auth/controllers/auth_controller.dart';
 
-class EditInfoView extends StatefulWidget {
+class EditInfoView extends GetView<ProfileEditController> {
   const EditInfoView({super.key});
 
-  @override
-  State<EditInfoView> createState() => _EditInfoViewState();
-}
+//   @override
+//   State<EditInfoView> createState() => _EditInfoViewState();
+// }
 
-class _EditInfoViewState extends State<EditInfoView> {
-  AuthController authController = AppGet.authGet;
-  UserModel user = AppGet.authGet.userModel!;
-  ProfileEditController addressController = AppGet.updateProfileGet;
+// class _EditInfoViewState extends State<EditInfoView> {
 
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
 
-  late bool _isLogged;
-
-  bool _isPosition = false;
-  Future getPosition() async {
-    bool services;
-    LocationPermission per;
-
-    services = await Geolocator.isLocationServiceEnabled();
-
-    if (services == false) {
-      Components.showSnackBar("Services Not Enabled");
-    }
-
-    per = await Geolocator.checkPermission();
-
-    if (per == LocationPermission.denied) {
-      per = await Geolocator.requestPermission();
-    }
-
-    if (per != LocationPermission.denied) {
-      var position = await Geolocator.getCurrentPosition();
-
-      setState(() {
-        addressController.initPosition =
-            LatLng(position.latitude, position.longitude);
-        _isPosition = true;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    getPosition();
-    _isLogged = authController.onAuthCheck();
-    if (_isLogged && user.phone == "" || user.phone.isEmpty) {
-      authController.GetInfoUser();
-    }
-    if (user.name.isNotEmpty) {
-      addressController.nameC.text = user.name;
-    }
-    if (user.phone.isNotEmpty) {
-      addressController.phoneC.text = user.phone;
-    }
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   getPosition();
+  //   _isLogged = authController.onAuthCheck();
+  //   if (_isLogged && user.phone == "" || user.phone.isEmpty) {
+  //     authController.GetInfoUser();
+  //   }
+  //   if (user.name.isNotEmpty) {
+  //     addressController.nameC.text = user.name;
+  //   }
+  //   if (user.phone.isNotEmpty) {
+  //     addressController.phoneC.text = user.phone;
+  //   }
+  //   super.initState();
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Components.customAppBar(context, "Modify Info"),
+      appBar: Components.customAppBar(context, 'modi_info'.tr),
       body: GetBuilder<ProfileEditController>(
         builder: (updateProfileController) {
-          updateProfileController.addressC.text =
-              '${updateProfileController.placemark.value.administrativeArea ?? ''}${updateProfileController.placemark.value.locality ?? ''}${updateProfileController.placemark.value.street ?? ''}${updateProfileController.placemark.value.postalCode ?? ''}';
-          return Stack(
+          // updateProfileController.addressController.text =
+          //     '${updateProfileController.placemark.value.administrativeArea ?? ''}${updateProfileController.placemark.value.locality ?? ''}${updateProfileController.placemark.value.street ?? ''}${updateProfileController.placemark.value.postalCode ?? ''}';
+          return !updateProfileController.isLoading ?
+          Stack(
             children: [
               ListView(
                 physics: const BouncingScrollPhysics(),
@@ -109,7 +69,7 @@ class _EditInfoViewState extends State<EditInfoView> {
                               color: colorPrimary,
                             ),
                           ),
-                          child: _isPosition != false
+                          child: updateProfileController.isPosition != false
                               ? GoogleMap(
                                   mapType: MapType.hybrid,
                                   initialCameraPosition: CameraPosition(
@@ -200,32 +160,32 @@ class _EditInfoViewState extends State<EditInfoView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 20.sp),
-                        AppText('Delivery Address'),
+                        AppText('delivery_address'.tr),
                         SizedBox(
                           height: 10.sp,
                         ),
                         AppTextField(
-                          textController: _addressController,
-                          hintText: 'Your address',
+                          textController: controller.addressController,
+                          hintText: 'delivery_address'.tr,
                           icon: Icons.map,
                         ),
                         SizedBox(height: 20.sp),
-                        AppText('Delivery Name'),
+                        AppText('delivery_name'.tr),
                         SizedBox(
                           height: 10.sp,
                         ),
                         AppTextField(
-                          textController: _nameController,
-                          hintText: 'Your name',
+                          textController: controller.nameController,
+                          hintText: 'delivery_name'.tr,
                           icon: Icons.person,
                         ),
                         SizedBox(height: 20.sp),
-                        AppText('Delivery Phone'),
+                        AppText('delivery_phone'.tr),
                         SizedBox(height: 10.sp),
                         AppTextField(
                           keyboardType: TextInputType.phone,
-                          textController: _phoneController,
-                          hintText: 'Your Phone',
+                          textController: controller.phoneController,
+                          hintText: 'delivery_phone'.tr,
                           icon: Icons.phone,
                         ),
                         SizedBox(height: 10.sp)
@@ -243,56 +203,25 @@ class _EditInfoViewState extends State<EditInfoView> {
                     horizontal: 40.sp,
                   ),
                   child: CustomButton(
-                    buttomText: "Save Modifications",
-                    onPressed: _addressController.text.isEmpty ||
-                            _nameController.text.isEmpty ||
-                            _phoneController.text.isEmpty
+                    buttomText: 'save_modi'.tr,
+                    onPressed: controller.addressController.text.trim().isEmpty ||
+                            controller.nameController.text.trim().isEmpty ||
+                            controller.phoneController.text.trim().isEmpty
                         ? null
                         : () {
                             updateProfileController.modifyUserInfo(
-                              _addressController.text,
-                              _nameController.text,
-                              _phoneController.text,
+                              controller.addressController.text,
+                              controller.nameController.text,
+                              controller.phoneController.text,
                             );
-                            AppNavigator.pop();
                           },
                   ),
                 ),
               ),
             ],
-          );
+          ) : CustomLoader();
         },
       ),
-      // bottomNavigationBar: Container(
-      //   height: 80.sp,
-      //   padding: EdgeInsets.symmetric(
-      //     horizontal: 20.sp,
-      //     vertical: 20.sp,
-      //   ),
-      //   decoration: BoxDecoration(
-      //     color: Get.isDarkMode ? fCD : mCD,
-      //     borderRadius: BorderRadius.only(
-      //       topLeft: Radius.circular(45.sp),
-      //       topRight: Radius.circular(45.sp),
-      //     ),
-      //   ),
-      //   child: GetBuilder<ProfileEditController>(
-      //       builder: (updateProfileController) {
-      //     return CustomButton(
-      //       buttomText: 'Save Modifications',
-      //       onPressed: () {
-      //         if (_addressController.text.isNotEmpty) {
-      //           updateProfileController.modifyUserInfo(
-      //             _addressController.text,
-      //             _nameController.text,
-      //             _phoneController.text,
-      //           );
-      //           AppNavigator.pop();
-      //         }
-      //       },
-      //     );
-      //   }),
-      // ),
     );
   }
 }

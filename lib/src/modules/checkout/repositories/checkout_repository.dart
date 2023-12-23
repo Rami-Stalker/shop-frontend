@@ -3,12 +3,9 @@ import 'package:shop_app/src/resources/base_repository.dart';
 
 import '../../../public/api_gateway.dart';
 
-
 class CheckoutRepository {
   final BaseRepository baseRepository;
-  CheckoutRepository({
-    required this.baseRepository,
-  });
+  CheckoutRepository(this.baseRepository);
 
   Future<diox.Response> checkout({
     required List<String> productsId,

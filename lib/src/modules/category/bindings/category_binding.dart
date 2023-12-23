@@ -6,10 +6,10 @@ class CategoryBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<CategoryRepository>(
-      () => CategoryRepository(baseRepository: Get.find()),
+      () => CategoryRepository(Get.find()),
     );
     Get.lazyPut<CategoryController>(
-      () => CategoryController(categoryRepository: Get.find(), networkInfo: Get.find()),
+      () => CategoryController(Get.find(), Get.find()),
     );
   }
 }

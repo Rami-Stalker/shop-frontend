@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class UploadResponseModel {
   final String image;
-  final String blurHash;  
+  final String blurHash;
   UploadResponseModel({
     required this.image,
     required this.blurHash,

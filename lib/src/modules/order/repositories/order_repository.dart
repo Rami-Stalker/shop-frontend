@@ -5,9 +5,9 @@ import '../../../public/api_gateway.dart';
 
 class OrderRepository {
   final BaseRepository baseRepository;
-  OrderRepository({
-    required this.baseRepository,
-  });
+  OrderRepository(
+    this.baseRepository,
+  );
 
   Future<diox.Response> fetchAllOrders() async {
     return await baseRepository.getRoute(ApiGateway.GET_ORDERS);

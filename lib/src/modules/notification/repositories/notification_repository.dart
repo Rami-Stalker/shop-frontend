@@ -6,8 +6,7 @@ import '../../../public/api_gateway.dart';
 
 class NotificationRepository {
   final BaseRepository baseRepository;
-
-  NotificationRepository({required this.baseRepository});
+  NotificationRepository(this.baseRepository);
 
   Future<diox.Response> pushNotofication({
     required String userId,

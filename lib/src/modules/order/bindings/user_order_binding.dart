@@ -6,7 +6,7 @@ class UserOrderBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<OrderController>(
-      () => OrderController(orderRepository: Get.find()),
+      () => OrderController(Get.find()),
     );
   }
 }

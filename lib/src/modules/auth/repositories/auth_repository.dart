@@ -9,31 +9,35 @@ import '../../../resources/local/user_local.dart';
 
 class AuthRepository {
   final BaseRepository baseRepository;
-  AuthRepository({
-    required this.baseRepository,
-  });
+  AuthRepository(this.baseRepository);
+// 'image': await MultipartFile.fromFile(photo, filename: 'image.jpg'),
 
   Future<diox.Response> register({
+    required String photo,
     required String name,
     required String email,
     required String password,
     required String phone,
-    String? token,
+    required String fcmToken,
   }) async {
     var body = {
+      'photo': photo,
       'name': name.toLowerCase(),
       'email': email,
       'password': password,
       'phone': phone,
+      'fcmToken': fcmToken,
     };
-
-      return await baseRepository.postRoute(ApiGateway.REGISTER, body);
+    return await baseRepository.postRoute(
+      ApiGateway.REGISTER,
+      body,
+    );
   }
 
-  Future<diox.Response> login(String email, String password,
+  Future<diox.Response> login(String phone, String password,
       {String? token}) async {
     var body = {
-      "email": email.toLowerCase(),
+      "phone": phone,
       "password": password,
     };
     return await baseRepository.postRoute(

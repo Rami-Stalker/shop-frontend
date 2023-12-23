@@ -36,6 +36,7 @@ class AppTextField extends StatelessWidget {
         cursorColor: colorPrimary,
         decoration: InputDecoration(
           hintText: hintText,
+          hintStyle: Theme.of(context).textTheme.bodyLarge,
           prefixIcon: Icon(
             icon,
             color: colorPrimary,

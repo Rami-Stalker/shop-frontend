@@ -10,9 +10,9 @@ import '../../../public/constants.dart';
 
 class OrderController extends GetxController implements GetxService {
   final OrderRepository orderRepository;
-  OrderController({
-    required this.orderRepository,
-  });
+  OrderController(
+    this.orderRepository,
+  );
 
   Future<List<OrderModel>> fetchAllOrders() async {
       List<OrderModel> orders = [];

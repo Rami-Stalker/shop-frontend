@@ -11,17 +11,16 @@ import '../../../public/constants.dart';
 class HomeController extends GetxController implements GetxService {
   final HomeRepository homeRepository;
   final NetworkInfo networkInfo;
-  HomeController({
-    required this.homeRepository,
-    required this.networkInfo,
-  });
+  HomeController(
+    this.homeRepository,
+    this.networkInfo,
+  );
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
   Map<String?, int> isFavorite = {};
 
-  
   List<ProductModel> ProductsTopRest = [];
   List<ProductModel> ProductsMostPopular = [];
   List<ProductModel> ProductsMostRecent = [];
@@ -52,20 +51,19 @@ class HomeController extends GetxController implements GetxService {
 
   Future<void> fetchProductsMostPopular() async {
     try {
-        _isLoading = true;
-        update();
-        diox.Response response = await homeRepository.fetchProductsMostPopular();
-        AppConstants.handleApi(
-          response: response,
-          onSuccess: () {
-            List rawData = response.data;
-            ProductsMostPopular =
-                rawData.map((e) => ProductModel.fromMap(e)).toList();
-                print(ProductsMostPopular);
-          },
-        );
-        _isLoading = false;
-        update();
+      _isLoading = true;
+      update();
+      diox.Response response = await homeRepository.fetchProductsMostPopular();
+      AppConstants.handleApi(
+        response: response,
+        onSuccess: () {
+          List rawData = response.data;
+          ProductsMostPopular =
+              rawData.map((e) => ProductModel.fromMap(e)).toList();
+        },
+      );
+      _isLoading = false;
+      update();
     } catch (e) {
       Components.showSnackBar(e.toString(), title: "catch");
     }
@@ -73,30 +71,31 @@ class HomeController extends GetxController implements GetxService {
 
   Future<void> fetchProductsMostRecent() async {
     try {
-        _isLoading = true;
-        update();
-        diox.Response response = await homeRepository.fetchProductsMostRecent();
+      _isLoading = true;
+      update();
+      diox.Response response = await homeRepository.fetchProductsMostRecent();
 
-        AppConstants.handleApi(
-          response: response,
-          onSuccess: () {
-            List rawData = response.data;
-            ProductsMostRecent =
-                rawData.map((e) => ProductModel.fromMap(e)).toList();
-            for (var i = 0; i < ProductsMostRecent.length; i++) {
-              if (UserLocal()
-                  .getUser()!
-                  .favorites!
-                  .contains(ProductsMostRecent[i].id)) {
+      AppConstants.handleApi(
+        response: response,
+        onSuccess: () {
+          List rawData = response.data;
+          ProductsMostRecent =
+              rawData.map((e) => ProductModel.fromMap(e)).toList();
+          for (var i = 0; i < ProductsMostRecent.length; i++) {
+            if (UserLocal().getUser() != null) {
+              if (UserLocal().getUser()!.favorites!.contains(ProductsMostRecent[i].id)) {
                 isFavorite[ProductsMostRecent[i].id] = 1;
               } else {
                 isFavorite[ProductsMostRecent[i].id] = 0;
               }
+            } else {
+              isFavorite[ProductsMostRecent[i].id] = 0;
             }
-          },
-        );
-        _isLoading = false;
-        update();
+          }
+        },
+      );
+      _isLoading = false;
+      update();
     } catch (e) {
       Components.showSnackBar(e.toString());
     }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shop_app/src/models/language_model.dart';
 
@@ -13,6 +14,8 @@ class AppConstants {
 
   static String COUNTRY_CODE = 'country_code';
   static String LANGUAGE_CODE = 'language_code';
+
+  static const urlImageDefaultPreson = "https://thumbs.dreamstime.com/b/person-gray-photo-placeholder-man-silhouette-sign-white-background-139139332.jpg";
 
   static const urlImageDefault = 'assets/icons/logo32.png';
 
@@ -58,35 +61,35 @@ class AppConstants {
 
   static List<Map<String, String>> categoryImages = [
     {
-      'title': 'Drinks',
+      'title': 'drinks'.tr,
       'image': DRINKS_ASSET,
     },
     {
-      'title': 'Breakfast',
+      'title': 'breakfast'.tr,
       'image': BREAKFAST_ASSET,
     },
     {
-      'title': 'Wraps',
+      'title': 'wraps'.tr,
       'image': WRAPS_ASSET,
     },
     {
-      'title': 'Brunch',
+      'title': 'brunch'.tr,
       'image': BRUNCH_ASSET,
     },
     {
-      'title': 'Burgers',
+      'title': 'burgers'.tr,
       'image': BURGERS_ASSET,
     },
     {
-      'title': 'French Toast',
+      'title': 'french_toast'.tr,
       'image': FRUNCHTOAST_ASSET,
     },
     {
-      'title': 'Sides',
+      'title': 'sides'.tr,
       'image': SIDES_ASSET,
     },
     {
-      'title': 'Toasted Paninis',
+      'title': 'toasted_paninis'.tr,
       'image': TOASTEDPANINIS_ASSET,
     },
   ];

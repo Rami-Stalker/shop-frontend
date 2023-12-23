@@ -1,15 +1,29 @@
 import 'package:get/get.dart';
+import 'package:shop_app/src/modules/auth/bindings/auth_binding.dart';
 import 'package:shop_app/src/modules/auth/views/login_view.dart';
 import 'package:shop_app/src/modules/auth/views/register_view.dart';
+import 'package:shop_app/src/modules/cart/bindings/cart_binding.dart';
 import 'package:shop_app/src/modules/cart/views/cart_view.dart';
+import 'package:shop_app/src/modules/category/bindings/category_binding.dart';
+import 'package:shop_app/src/modules/checkout/bindings/checkout_binding.dart';
 import 'package:shop_app/src/modules/checkout/views/checkout_view.dart';
+import 'package:shop_app/src/modules/favorite/bindings/favorite_binding.dart';
 import 'package:shop_app/src/modules/favorite/views/favorite_view.dart';
 import 'package:shop_app/src/modules/language/views/language_view.dart';
+import 'package:shop_app/src/modules/navigator/bindings/navigation_binding.dart';
 import 'package:shop_app/src/modules/navigator/views/navigation_view.dart';
+import 'package:shop_app/src/modules/notification/bindings/notification_binding.dart';
 import 'package:shop_app/src/modules/notification/views/notification_view.dart';
+import 'package:shop_app/src/modules/order_details/bindings/order_details_binding.dart';
 import 'package:shop_app/src/modules/order_details/views/order_details_view.dart';
+import 'package:shop_app/src/modules/product_add/bindings/product_add_binding.dart';
+import 'package:shop_app/src/modules/product_details/bindings/product_details_binding.dart';
+import 'package:shop_app/src/modules/product_edit/bindings/product_edit_binding.dart';
+import 'package:shop_app/src/modules/profile_edit/bindings/profile_edit_binding.dart';
 import 'package:shop_app/src/modules/profile_edit/views/address_view.dart';
 import 'package:shop_app/src/modules/profile_edit/views/profile_edit_view.dart';
+import 'package:shop_app/src/modules/search/bindings/product_search_binding.dart';
+import 'package:shop_app/src/modules/settings/bindings/settings_binding.dart';
 import 'package:shop_app/src/modules/settings/views/settings_view.dart';
 import 'package:shop_app/src/modules/splash/views/splash_view.dart';
 
@@ -28,17 +42,16 @@ class AppNavigator {
   Map<String, dynamic>? arguments;
 
   static final List<GetPage> routes = [
-    // Splash
     GetPage(
       name: _Paths.SPLASH,
       page: () => SplashView(),
       transition: Transition.fadeIn,
     ),
 
-    // Navication
     GetPage(
       name: _Paths.NAVIGATION,
       page: () => Navigation(),
+      binding: NavigationBinding(),
       transition: Transition.fadeIn,
     ),
 
@@ -46,100 +59,115 @@ class AppNavigator {
     GetPage(
       name: _Paths.NOTIFICATION,
       page: () => NotificationView(),
+      binding: NotificationBinding(),
       transition: Transition.fadeIn,
     ),
 
-    // Authintication
     GetPage(
       name: _Paths.LOGIN,
       page: () => LoginView(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: _Paths.REGISTER,
-      page: () => RegisterView(),
+      binding: AuthBinding(),
       transition: Transition.fadeIn,
     ),
 
-    // Product
+    GetPage(
+      name: _Paths.REGISTER,
+      page: () => RegisterView(),
+      binding: AuthBinding(),
+      transition: Transition.fadeIn,
+    ),
+
     GetPage(
       name: _Paths.SEARCH_PRODUCT,
       page: () => ProductSearchView(),
+      binding: ProductSearchBinding(),
       transition: Transition.fadeIn,
     ),
+
     GetPage(
       name: _Paths.CATEGORY_PRODUCT,
       page: () => CatigoryView(),
+      binding: CategoryBinding(),
       transition: Transition.fadeIn,
     ),
+
     GetPage(
       name: _Paths.DETAILS_PRODUCT_RATING,
       page: () => ProductDetailsRatingView(),
+      binding: ProductDetailsBinding(),
       transition: Transition.fadeIn,
     ),
+
     GetPage(
       name: _Paths.DETAILS_PRODUCT_NEWEST,
       page: () => ProductDetailsNewestView(),
+      binding: ProductDetailsBinding(),
       transition: Transition.fadeIn,
     ),
+
     GetPage(
       name: _Paths.CREATE_PRODUCT,
       page: () => ProductAddView(),
+      binding: ProductAddBinding(),
       transition: Transition.fadeIn,
     ),
     GetPage(
       name: _Paths.EDIT_PRODUCT,
       page: () => ProductEditView(),
+      binding: ProductEditBinding(),
       transition: Transition.fadeIn,
     ),
 
-    // Cart
     GetPage(
       name: _Paths.CART,
       page: () => CartView(),
+      binding: CartBinding(),
       transition: Transition.fadeIn,
     ),
 
-    // Check out
     GetPage(
       name: _Paths.CHECKOUT,
       page: () => CheckoutView(),
+      binding: CheckoutBinding(),
       transition: Transition.fadeIn,
     ),
 
-    // Order
     GetPage(
       name: _Paths.DETAILS_ORDER,
       page: () => OrderDetailsView(),
       arguments: {},
+      binding: OrderDetailsBinding(),
       transition: Transition.fadeIn,
     ),
 
-    // User
     GetPage(
       name: _Paths.EDIT_INFO_USER,
       page: () => EditInfoView(),
+      binding: ProfileEditBinding(),
       transition: Transition.fadeIn,
     ),
+
     GetPage(
       name: _Paths.ADDRESS,
       page: () => AddressView(),
+      binding: ProfileEditBinding(),
       transition: Transition.fadeIn,
     ),
+
     GetPage(
       name: _Paths.FAVORITE,
       page: () => FavoriteView(),
+      binding: FavoriteBinding(),
       transition: Transition.fadeIn,
     ),
 
-    // Settings
     GetPage(
       name: _Paths.SETTINGS,
       page: () => SettingsView(),
+      binding: SettingsBinding(),
       transition: Transition.fadeIn,
     ),
 
-    // Language
     GetPage(
       name: _Paths.LANGUAGE,
       page: () => LanguageView(),

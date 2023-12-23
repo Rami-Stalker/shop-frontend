@@ -2,8 +2,9 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:shop_app/src/controller/app_controller.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
 import 'package:shop_app/src/core/widgets/icon_text_widget.dart';
-import 'package:shop_app/src/public/components.dart';
 import 'package:shop_app/src/themes/font_family.dart';
+import '../../../core/dialogs/dialog_confirm.dart';
+import '../../../core/dialogs/dialog_loading.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 import '../../../themes/app_decorations.dart';
@@ -15,6 +16,7 @@ import 'package:get/get.dart';
 import '../../../core/widgets/custom_loader.dart';
 import '../../../models/product_model.dart';
 import '../../../themes/app_colors.dart';
+import '../../../core/widgets/head_home_widget.dart';
 import '../widgets/product_details_home.dart';
 
 class HomeView extends StatefulWidget {
@@ -55,73 +57,66 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: Components.customAppBarHome(context),
-      body: GetBuilder<HomeController>(builder: (homeController) {
-        return homeController.ProductsTopRest.isNotEmpty
-            ? RefreshIndicator(
-                onRefresh: () async {
-                  await _loadResources();
-                },
-                color: colorPrimary,
+    return GetBuilder<HomeController>(builder: (homeController) {
+      return homeController.ProductsTopRest.isNotEmpty
+          ? RefreshIndicator(
+              onRefresh: () async {
+                await _loadResources();
+              },
+              color: colorPrimary,
+              child: SafeArea(
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      HeadHomeWidget(),
                       SizedBox(height: 10.sp),
                       Padding(
                         padding: EdgeInsets.only(
                           bottom: 5.sp,
                         ),
                         child: ListTile(
-                          title: AppText('Top Restaurants'),
+                          title: AppText('top_rest'.tr),
                           subtitle: AppText(
-                            'Ordered by Nearby first',
+                            'ordered_by_nearby_first'.tr,
                             type: TextType.small,
                           ),
                           leading: Icon(Icons.stars_rounded),
                         ),
                       ),
                       // slider section
-                      GetBuilder<HomeController>(
-                        builder: (homeController) {
-                          return SizedBox(
-                            height: SizerUtil.height / 2.64,
-                            child: PageView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              controller: pageController,
-                              itemCount: homeController.ProductsTopRest.length,
-                              itemBuilder: (context, position) {
-                                return _buildPageItem(
-                                  position,
-                                  homeController.ProductsTopRest[position],
-                                );
-                              },
-                            ),
-                          );
-                        },
+                      SizedBox(
+                        height: SizerUtil.height / 2.64,
+                        child: PageView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          controller: pageController,
+                          itemCount: homeController.ProductsTopRest.length,
+                          itemBuilder: (context, position) {
+                            return _buildPageItem(
+                              position,
+                              homeController.ProductsTopRest[position],
+                            );
+                          },
+                        ),
                       ),
                       //dots
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          GetBuilder<HomeController>(
-                              builder: (popularProducts) {
-                            return DotsIndicator(
-                              dotsCount: homeController.ProductsTopRest.isEmpty
-                                  ? 1
-                                  : homeController.ProductsTopRest.length,
-                              position: _currPageValue.toInt(),
-                              decorator: DotsDecorator(
-                                activeColor: colorPrimary,
-                                size: const Size.square(9.0),
-                                activeSize: const Size(18.0, 9.0),
-                                activeShape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0)),
-                              ),
-                            );
-                          }),
+                          DotsIndicator(
+                            dotsCount: homeController.ProductsTopRest.isEmpty
+                                ? 1
+                                : homeController.ProductsTopRest.length,
+                            position: _currPageValue.toInt(),
+                            decorator: DotsDecorator(
+                              activeColor: colorPrimary,
+                              size: const Size.square(9.0),
+                              activeSize: const Size(18.0, 9.0),
+                              activeShape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0)),
+                            ),
+                          ),
                         ],
                       ),
                       // Most Popular
@@ -132,9 +127,9 @@ class _HomeViewState extends State<HomeView> {
                           bottom: 5.sp,
                         ),
                         child: ListTile(
-                          title: AppText('Most Popular'),
+                          title: AppText('most_popular'.tr),
                           subtitle: AppText(
-                            'Ordered by Nearby first',
+                            'ordered_by_nearby_first'.tr,
                             type: TextType.small,
                           ),
                           leading: Icon(
@@ -205,17 +200,14 @@ class _HomeViewState extends State<HomeView> {
                                                               .spaceBetween,
                                                       children: [
                                                         AppText(product.name),
-                                                        GetBuilder<
-                                                                HomeController>(
-                                                            builder:
-                                                                (homeController) {
-                                                          return Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    right:
-                                                                        5.sp),
-                                                            child: InkWell(
-                                                              onTap: () {
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  right: 5.sp),
+                                                          child: InkWell(
+                                                            onTap: () {
+                                                              if (AppGet.authGet
+                                                                  .onAuthCheck()) {
                                                                 if (homeController
                                                                             .isFavorite[
                                                                         product
@@ -241,21 +233,41 @@ class _HomeViewState extends State<HomeView> {
                                                                           product
                                                                               .id!);
                                                                 }
-                                                              },
-                                                              child: Icon(
-                                                                homeController.isFavorite[product
-                                                                            .id] ==
-                                                                        1
-                                                                    ? Icons
-                                                                        .favorite_outlined
-                                                                    : Icons
-                                                                        .favorite_border_outlined,
-                                                                color:
-                                                                    Colors.red,
-                                                              ),
+                                                              } else {
+                                                                dialogAnimationWrapper(
+                                                                  context:
+                                                                      context,
+                                                                  slideFrom:
+                                                                      'right',
+                                                                  child:
+                                                                      DialogConfirm(
+                                                                    title:
+                                                                        'login'.tr,
+                                                                    subTitle:
+                                                                        'do_you_want_login'.tr,
+                                                                    handleConfirm:
+                                                                        () {
+                                                                      AppNavigator.replaceWith(
+                                                                          AppRoutes
+                                                                              .LOGIN);
+                                                                    },
+                                                                  ),
+                                                                );
+                                                              }
+                                                            },
+                                                            child: Icon(
+                                                              homeController.isFavorite[
+                                                                          product
+                                                                              .id] ==
+                                                                      1
+                                                                  ? Icons
+                                                                      .favorite_outlined
+                                                                  : Icons
+                                                                      .favorite_border_outlined,
+                                                              color: Colors.red,
                                                             ),
-                                                          );
-                                                        }),
+                                                          ),
+                                                        )
                                                       ],
                                                     ),
                                                     AppText(
@@ -281,7 +293,8 @@ class _HomeViewState extends State<HomeView> {
                                                               .access_time_rounded,
                                                           text:
                                                               '${product.time.toString()}min',
-                                                          iconColor: Colors.redAccent,
+                                                          iconColor:
+                                                              Colors.redAccent,
                                                         ),
                                                       ],
                                                     ),
@@ -336,9 +349,9 @@ class _HomeViewState extends State<HomeView> {
                           bottom: 5.sp,
                         ),
                         child: ListTile(
-                          title: AppText('Most Recent'),
+                          title: AppText('most_Recent'.tr),
                           subtitle: AppText(
-                            'Be the first to do so',
+                            'be_first_do'.tr,
                             type: TextType.small,
                           ),
                           leading: Icon(
@@ -406,10 +419,12 @@ class _HomeViewState extends State<HomeView> {
                     ],
                   ),
                 ),
-              )
-            : CustomLoader();
-      }),
-    );
+              ),
+            )
+          : CustomLoader();
+    }
+        // ),
+        );
   }
 
   Widget _buildPageItem(

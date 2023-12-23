@@ -13,7 +13,7 @@ Future<void> main() async {
   );
 
   await Application().initialAppLication();
-  // await AppGet.init();
+  Map<String, Map<String, String>> _languages = await AppGet.init();
   
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -21,7 +21,6 @@ Future<void> main() async {
     statusBarIconBrightness: Brightness.dark,
   ));
 
-  Map<String, Map<String, String>> _languages = await AppGet.init();
   runApp(MyApp(languages: _languages));
 }
 

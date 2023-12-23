@@ -6,9 +6,7 @@ import '../../../public/api_gateway.dart';
 
 class OrderDetailsRepository {
   final BaseRepository baseRepository;
-  OrderDetailsRepository({
-    required this.baseRepository,
-  });
+  OrderDetailsRepository(this.baseRepository);
 
   Future<diox.Response> changeOrderStatus({
     required int status,

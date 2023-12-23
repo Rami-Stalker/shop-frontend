@@ -10,9 +10,7 @@ import '../../../public/constants.dart';
 
 class ProductSearchController extends GetxController implements GetxService {
   final ProductSearchRepository searchRepository;
-  ProductSearchController({
-    required this.searchRepository,
-  });
+  ProductSearchController(this.searchRepository);
 
   RxList<ProductModel> products = <ProductModel>[].obs;
   RxString searchQuery = ''.obs;

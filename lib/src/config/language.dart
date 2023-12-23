@@ -1,31 +1,31 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-class AppLanguage {
-  ///Default Language
-  static Locale defaultLanguage = Locale("en");
+// class AppLanguage {
+//   ///Default Language
+//   static Locale defaultLanguage = Locale("en");
 
-  ///List Language support in Application
-  static List<Locale> supportLanguage = [
-    Locale("en"),
-    Locale("ar"),
-    Locale("da"),
-    Locale("de"),
-    Locale("el"),
-    Locale("fr"),
-    Locale("id"),
-    Locale("ja"),
-    Locale("ko"),
-    Locale("nl"),
-    Locale("zh"),
-    Locale("ru"),
-  ];
+//   ///List Language support in Application
+//   static List<Locale> supportLanguage = [
+//     Locale("en"),
+//     Locale("ar"),
+//     Locale("da"),
+//     Locale("de"),
+//     Locale("el"),
+//     Locale("fr"),
+//     Locale("id"),
+//     Locale("ja"),
+//     Locale("ko"),
+//     Locale("nl"),
+//     Locale("zh"),
+//     Locale("ru"),
+//   ];
 
-  ///Singleton factory
-  static final AppLanguage _instance = AppLanguage._internal();
+//   ///Singleton factory
+//   static final AppLanguage _instance = AppLanguage._internal();
 
-  factory AppLanguage() {
-    return _instance;
-  }
+//   factory AppLanguage() {
+//     return _instance;
+//   }
 
-  AppLanguage._internal();
-}
+//   AppLanguage._internal();
+// }

@@ -1,16 +1,15 @@
+import 'dart:math';
+
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/src/core/widgets/app_text.dart';
-import '../controller/app_controller.dart';
-import '../controller/theme_controller.dart';
-import '../models/notification_model.dart';
+import '../core/widgets/app_icon.dart';
 import '../routes/app_pages.dart';
 import '../themes/app_colors.dart';
 
 import '../themes/app_decorations.dart';
-import '../themes/font_family.dart';
-import '../themes/theme_service.dart';
 import '../utils/sizer_custom/sizer.dart';
 
 class Components {
@@ -28,26 +27,16 @@ class Components {
           },
           child: Container(
             decoration: BoxDecoration(
-              border: Border.all(
-                color: colorPrimary,
-              ),
-              shape: BoxShape.circle
-            ),
+                border: Border.all(
+                  color: colorPrimary,
+                ),
+                shape: BoxShape.circle),
             child: Icon(
               Icons.arrow_back,
               size: 15.sp,
               color: Get.isDarkMode ? mCL : colorBlack,
             ),
           ),
-          // Container(
-          //   padding: EdgeInsets.all(5.sp),
-          //   decoration: AppDecoration.appbarIcon(context, 5.sp).decoration,
-          //   child: Icon(
-          //     Icons.arrow_back,
-          //     size: 15.sp,
-          //     color: Get.isDarkMode ? mCL : colorBlack,
-          //   ),
-          // ),
         ),
       ),
       bottom: PreferredSize(
@@ -60,212 +49,62 @@ class Components {
     );
   }
 
-  static AppBar customAppBarHome(BuildContext context) {
-    return AppBar(
-      elevation: 0.0,
-      title: AppGet.authGet.userModel?.address == '' || AppGet.authGet.userModel?.address == null
-          ? RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Ramy',
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: FontFamily.dancing,
-                            color: colorPrimary,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'shop',
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: FontFamily.dancing,
-                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-          : Container(
-              width: 200.sp,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Ramy',
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: FontFamily.dancing,
-                            color: colorPrimary,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'shop',
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: FontFamily.dancing,
-                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  AppText(
-                    type: TextType.small,
-                    AppGet.authGet.userModel?.address ?? "",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                ],
-              ),
-            ),
-      actions: [
-        AppGet.authGet.onAuthCheck()
-            ? FutureBuilder<List<NotificationModel>>(
-                future: AppGet.notificationGet.getNotofications(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    int isSeen = 0;
-                    for (int i = 0; i < snapshot.data!.length; i++) {
-                      if (snapshot.data![i].isSeen == false) {
-                        isSeen += 1;
-                      }
-                    }
-                    return Container(
-                      padding: EdgeInsets.all(8.sp),
-                      child: GestureDetector(
-                        onTap: () {
-                          AppNavigator.push(
-                            AppRoutes.NOTIFICATION,
-                            arguments: snapshot.data,
-                          );
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(5.sp),
-                          decoration: AppDecoration.appbarIcon(context, 5.sp)
-                              .decoration,
-                          child: Stack(
-                            children: [
-                              Icon(
-                                Icons.notifications,
-                                size: 20.sp,
-                                color: colorPrimary,
-                              ),
-                              isSeen != 0
-                                  ? Positioned(
-                                      top: 0.0,
-                                      right: 0.0,
-                                      child: CircleAvatar(
-                                        radius: 5.sp,
-                                        backgroundColor: mCL,
-                                        child: CircleAvatar(
-                                          radius: 4.sp,
-                                          backgroundColor: Colors.red,
-                                        ),
-                                      ),
-                                    )
-                                  : Container(),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                  return Container(
-                    padding: EdgeInsets.all(8.sp),
-                    child: Container(
-                      padding: EdgeInsets.all(5.sp),
-                      decoration:
-                          AppDecoration.appbarIcon(context, 5.sp).decoration,
-                      child: Icon(
-                        Icons.notifications,
-                        size: 20.sp,
-                        color: colorPrimary,
-                      ),
-                    ),
-                  );
-                },
-              )
-            : Container(
-                padding: EdgeInsets.all(8.sp),
-                child: Container(
-                  padding: EdgeInsets.all(5.sp),
-                  decoration:
-                      AppDecoration.appbarIcon(context, 5.sp).decoration,
-                  child: Icon(
-                    Icons.notifications,
-                    size: 20.sp,
-                    color: colorPrimary,
-                  ),
-                ),
-              ),
-        GetBuilder<ThemeController>(
-          builder: (themeController) {
-            return Container(
-              padding: EdgeInsets.all(8.sp),
-              child: GestureDetector(
-                onTap: () {
-                  themeController.onChangeTheme(
-                    ThemeService.currentTheme == ThemeMode.dark
-                        ? ThemeMode.light
-                        : ThemeMode.dark,
-                  );
-                },
-                child: Container(
-                  padding: EdgeInsets.all(5.sp),
-                  decoration:
-                      AppDecoration.appbarIcon(context, 5.sp).decoration,
-                  child: Icon(
-                    Get.isDarkMode
-                        ? Icons.wb_sunny_outlined
-                        : Icons.nightlight_round_outlined,
-                    size: 20.sp,
-                    color: colorPrimary,
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-      bottom: PreferredSize(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5.sp),
-          child: InkWell(
-            onTap: () => AppNavigator.push(AppRoutes.SEARCH_PRODUCT),
-            child: Container(
-              width: SizerUtil.width,
-              padding: EdgeInsets.all(10.sp),
-              decoration: AppDecoration.productFavoriteCart(context, 6.sp).decoration,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                      Icons.search,
-                      color: colorPrimary,
-                    ),
-                    SizedBox(width: 10.sp),
-                    AppText(
-                      "Search your desired food",
-                      type: TextType.small,
-                    ),
-                ],
-              ),
+  static Container customHeadIconViews(
+    String title,
+    IconData icon,
+    Function() onTap,
+  ) {
+    return Container(
+      color: colorPrimary,
+      padding: EdgeInsets.all(10.sp),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: 20.sp,
+          ),
+          AppText(title),
+          Container(
+            child: AppIcon(
+              onTap: onTap,
+              icon: icon,
+              iconColor: Get.isDarkMode ? colorPrimary : colorBlack,
+              backgroundColor: colorBranch,
             ),
           ),
-        ),
-        preferredSize: Size(
-          SizerUtil.width,
-          50.sp,
-        ),
+        ],
       ),
+    );
+  }
+
+  static InkWell customSearch(BuildContext context)=> InkWell(
+          onTap: () => AppNavigator.push(AppRoutes.SEARCH_PRODUCT),
+          child: Container(
+            width: SizerUtil.width,
+            padding: EdgeInsets.all(10.sp),
+            decoration:
+                AppDecoration.productFavoriteCart(context, 6.sp).decoration,
+            child: Row(
+              children: [
+                Icon(
+                  Icons.search,
+                  color: colorPrimary,
+                ),
+                SizedBox(width: 10.sp),
+                AppText(
+                  'search_desired_food'.tr,
+                  type: TextType.small,
+                ),
+              ],
+            ),
+          ),
+        );
+
+  static Container customHeadViews(String title) {
+    return Container(
+      color: colorPrimary,
+      padding: EdgeInsets.all(10.sp),
+      child: Center(child: AppText(title)),
     );
   }
 
@@ -340,6 +179,31 @@ class Components {
             ));
   }
 
+  static InkWell buildbottomsheet({
+    required Icon icon,
+    required String label,
+    required Function() ontap,
+  }) {
+    return InkWell(
+      onTap: ontap,
+      child: Container(
+        padding: EdgeInsets.all(10.sp),
+        height: 45.sp,
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 25,
+              backgroundColor: mCM,
+              child: icon,
+            ),
+            SizedBox(width: 10.sp),
+            AppText(label),
+          ],
+        ),
+      ),
+    );
+  }
+
   static void showSnackBar(
     String message, {
     String title = 'Error',
@@ -373,5 +237,20 @@ class Components {
       textColor: mCL,
       fontSize: 16.0,
     );
+  }
+
+  static Future<String> cloudinaryPublic(String imgPath) async {
+    int random = Random().nextInt(1000);
+
+    final cloudinary = CloudinaryPublic('dvn9z2jmy', 'lkma7rx1');
+
+    CloudinaryResponse res = await cloudinary.uploadFile(
+      CloudinaryFile.fromFile(
+        imgPath,
+        folder: "$imgPath$random",
+      ),
+    );
+
+    return res.secureUrl;
   }
 }

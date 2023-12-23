@@ -8,8 +8,7 @@ import '../repositories/notification_repository.dart';
 
 class NotificationController extends GetxController implements GetxService {
   final NotificationRepository notificationRepository;
-
-  NotificationController({required this.notificationRepository});
+  NotificationController(this.notificationRepository);
 
   void pushNotofication({
     required String userId,

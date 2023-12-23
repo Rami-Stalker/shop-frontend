@@ -10,21 +10,10 @@ import 'package:shop_app/src/themes/app_decorations.dart';
 import 'package:shop_app/src/utils/sizer_custom/sizer.dart';
 
 import '../../../core/widgets/app_text.dart';
-import '../../../routes/app_pages.dart';
 import '../../../themes/app_colors.dart';
 
-class FavoriteView extends StatefulWidget {
+class FavoriteView extends GetView<FavoriteController> {
   const FavoriteView({super.key});
-
-  @override
-  State<FavoriteView> createState() => _FavoriteViewState();
-}
-
-class _FavoriteViewState extends State<FavoriteView> {
-
-  bool isSelectionMode = false;
-  Map<int, bool> selectedFlag = {};
-  List<ProductModel> carts = [];
 
   @override
   Widget build(BuildContext context) {
@@ -66,22 +55,32 @@ class _FavoriteViewState extends State<FavoriteView> {
                                       totalRating / product.ratings!.length;
                                 }
 
-                                selectedFlag[index] =
-                                    selectedFlag[index] ?? false;
-                                bool? isSelected = selectedFlag[index];
-
-                                favoriteController.initProduct(product);
+                                favoriteController.selectedFlag[index] =
+                                    favoriteController.selectedFlag[index] ??
+                                        false;
+                                bool? isSelected =
+                                    favoriteController.selectedFlag[index];
 
                                 return Stack(
                                   children: [
                                     GestureDetector(
-                                      onLongPress: () => onLongPress(
-                                          isSelected!, index, product),
-                                      onTap: () =>
-                                          onTap(isSelected!, index, product),
+                                      onLongPress: () =>
+                                          favoriteController.onLongPress(
+                                        isSelected!,
+                                        index,
+                                        product,
+                                      ),
+                                      onTap: () => favoriteController.onTap(
+                                        isSelected!,
+                                        index,
+                                        product,
+                                      ),
                                       child: Container(
                                         margin: EdgeInsets.all(8.sp),
-                                        decoration: AppDecoration.productFavoriteCart(context, 5.sp).decoration,
+                                        decoration:
+                                            AppDecoration.productFavoriteCart(
+                                                    context, 5.sp)
+                                                .decoration,
                                         child: Slidable(
                                           key: Key('$product'),
                                           closeOnScroll: true,
@@ -108,7 +107,6 @@ class _FavoriteViewState extends State<FavoriteView> {
                                           ],
                                           child: Row(
                                             children: [
-                                              // image
                                               Container(
                                                 width: 80.sp,
                                                 height: 80.sp,
@@ -208,12 +206,16 @@ class _FavoriteViewState extends State<FavoriteView> {
                                                   ],
                                                 ),
                                               ),
-                                              isSelectionMode
+                                              favoriteController.isSelectionMode
                                                   ? Padding(
                                                       padding: EdgeInsets.only(
                                                         right: 10.sp,
                                                       ),
-                                                      child: Column(
+                                                      child: GetBuilder<
+                                                              FavoriteController>(
+                                                          builder:
+                                                              (favoriteController) {
+                                                        return Column(
                                                           children: [
                                                             InkWell(
                                                               onTap: () {
@@ -251,7 +253,10 @@ class _FavoriteViewState extends State<FavoriteView> {
                                                               ),
                                                               child: AppText(
                                                                 favoriteController
-                                                                    .cartProducts[product.id].toString(),
+                                                                    .cartProducts[
+                                                                        product
+                                                                            .id]
+                                                                    .toString(),
                                                                 type: TextType
                                                                     .medium,
                                                               ),
@@ -273,7 +278,8 @@ class _FavoriteViewState extends State<FavoriteView> {
                                                               ),
                                                             ),
                                                           ],
-                                                        ),
+                                                        );
+                                                      }),
                                                     )
                                                   : Container(),
                                             ],
@@ -286,6 +292,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                                       right: 0.0,
                                       child: _buildSelectIcon(
                                         isSelected!,
+                                        favoriteController,
                                       ),
                                     ),
                                   ],
@@ -300,13 +307,16 @@ class _FavoriteViewState extends State<FavoriteView> {
                           left: 0.0,
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                              horizontal: isSelectionMode ? 60.sp : 40.sp,
+                              horizontal: favoriteController.isSelectionMode
+                                  ? 60.sp
+                                  : 40.sp,
                             ),
                             child: CustomButton(
                               buttomText: "Save To Cart",
-                              onPressed: isSelectionMode
+                              onPressed: favoriteController.isSelectionMode
                                   ? () {
-                                      favoriteController.addItems(carts);
+                                      favoriteController
+                                          .addItems(favoriteController.carts);
                                     }
                                   : null,
                             ),
@@ -318,70 +328,58 @@ class _FavoriteViewState extends State<FavoriteView> {
                 ],
               );
       }),
-      floatingActionButton: _buildSelectAllButton(),
+      floatingActionButton:
+          GetBuilder<FavoriteController>(builder: (favoriteController) {
+        bool isFalseAvailable =
+            favoriteController.selectedFlag.containsValue(false);
+        if (favoriteController.isSelectionMode) {
+          return FloatingActionButton(
+            backgroundColor: colorPrimary,
+            onPressed: () => _selectAll(favoriteController),
+            child: Icon(
+              isFalseAvailable ? Icons.done_all : Icons.remove_done,
+            ),
+          );
+        } else {
+          return SizedBox();
+        }
+      }),
     );
   }
 
-  void onTap(bool isSelected, int index, ProductModel product) {
-    if (isSelectionMode) {
-      setState(() {
-        selectedFlag[index] = !isSelected;
-        isSelectionMode = selectedFlag.containsValue(true);
-        carts.add(product);
-      });
-    } else {
-      AppNavigator.push(
-        AppRoutes.DETAILS_PRODUCT_RATING,
-        arguments: {
-          'product': product,
-          'ratings': product.ratings,
-        },
-      );
-    }
-  }
-
-  void onLongPress(bool isSelected, int index, ProductModel product) {
-    setState(() {
-      selectedFlag[index] = !isSelected;
-      isSelectionMode = selectedFlag.containsValue(true);
-      carts
-        ..clear()
-        ..add(product);
-    });
-  }
-
-  Widget _buildSelectIcon(bool isSelected) {
-    if (isSelectionMode) {
+  Widget _buildSelectIcon(
+      bool isSelected, FavoriteController favoriteController) {
+    if (favoriteController.isSelectionMode) {
       return Icon(
         isSelected ? Icons.check_box : Icons.indeterminate_check_box_rounded,
-        color: Theme.of(context).primaryColor,
+        color: colorPrimary,
       );
     } else {
       return Container();
     }
   }
 
-  Widget? _buildSelectAllButton() {
-    bool isFalseAvailable = selectedFlag.containsValue(false);
-    if (isSelectionMode) {
-      return FloatingActionButton(
-        backgroundColor: colorPrimary,
-        onPressed: _selectAll,
-        child: Icon(
-          isFalseAvailable ? Icons.done_all : Icons.remove_done,
-        ),
-      );
-    } else {
-      return null;
-    }
-  }
+  // Widget? _buildSelectAllButton() {
+  //   bool isFalseAvailable =
+  //       favoriteController.selectedFlag.containsValue(false);
+  //   if (favoriteController.isSelectionMode) {
+  //     return FloatingActionButton(
+  //       backgroundColor: colorPrimary,
+  //       onPressed: () => _selectAll(favoriteController),
+  //       child: Icon(
+  //         isFalseAvailable ? Icons.done_all : Icons.remove_done,
+  //       ),
+  //     );
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
-  void _selectAll() {
-    bool isFalseAvailable = selectedFlag.containsValue(false);
-    selectedFlag.updateAll((key, value) => isFalseAvailable);
-    setState(() {
-      isSelectionMode = selectedFlag.containsValue(true);
-    });
+  void _selectAll(FavoriteController favoriteController) {
+    bool isFalseAvailable =
+        favoriteController.selectedFlag.containsValue(false);
+    favoriteController.selectedFlag.updateAll((key, value) => isFalseAvailable);
+    favoriteController.changeIsSelectedMode();
   }
 
   //   Widget _actionPane(int index) {
